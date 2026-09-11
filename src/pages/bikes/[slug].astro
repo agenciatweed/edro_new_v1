@@ -1,0 +1,489 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { bikes, plataformas, brl, kg, medida, junto, wa, titulo } from '../../lib/edro.js';
+import { montarFaq } from '../../lib/faq.js';
+import programasConteudo from '../../content/programas.json';
+import ConstrucaoEdro from '../../components/ConstrucaoEdro.astro';
+
+import bikeSumma   from '../../assets/bicicletas/bicicleta-summa.png';
+import bikeRange   from '../../assets/bicicletas/bicicleta-range.png';
+import bikeImpetus from '../../assets/bicicletas/bicicleta-impetus.png';
+
+const renders = { summa: bikeSumma, range: bikeRange, impetus: bikeImpetus };
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'summa' } },
+    { params: { slug: 'range' } },
+    { params: { slug: 'impetus' } },
+  ];
+}
+
+const { slug } = Astro.params;
+const p = plataformas.find((x) => x.slug === slug);
+const outras = plataformas.filter((x) => x.slug !== slug);
+
+/* ---- Geometria, decisao 37.1.19 ----
+   So publica coluna de significado inequivoco, com nome por extenso.
+   Coluna marcada "nao publicar" na legenda fica de fora ate o
+   projetista nomea-la. Coluna sem legenda so entra se estiver no mapa
+   abaixo; codigo solto nunca vai para a tela. */
+const NOMES_EXTRA = {
+  REACH: 'Reach',
+  STACK: 'Stack',
+  WB: 'Entre-eixos',
+};
+
+const geo = p.geometria;
+const colunasVisiveis = geo.colunas
+  .map((c, i) => {
+    const daLegenda = geo.legenda?.[c];
+    if (daLegenda && daLegenda !== 'não publicar') {
+      return { indice: i, rotulo: daLegenda.charAt(0).toUpperCase() + daLegenda.slice(1) };
+    }
+    if (!daLegenda && NOMES_EXTRA[c]) return { indice: i, rotulo: NOMES_EXTRA[c] };
+    return null;
+  })
+  .filter(Boolean);
+
+const tamanhos = p.tamanhos.filter((t) => Array.isArray(geo[t]));
+
+/* ---- Ficha tecnica: so mostra grupo que a versao realmente tem ---- */
+const grupos = bikes.meta.grupos_ficha;
+const fichaDe = (v) =>
+  grupos.filter((g) => v[g.chave]).map((g) => ({ rotulo: g.rotulo, valor: junto(v[g.chave]) }));
+
+/* ---- Argumentos, bloco 4: os que tem numero abrem o bloco, sob o titulo
+   "Cada numero e uma decisao". A ordem entre eles e a do capitulo 14. ---- */
+const argumentos = [...p.argumentos].sort((a, b) => Number(Boolean(b.numero)) - Number(Boolean(a.numero)));
+
+const descricao = `${p.nome} ${p.pro.nome}: ${p.frase} Bicicleta de carbono EDRO 100% sob medida, a partir de ${brl(p.entrada.preco)}.`;
+
+const produto = {
+  '@type': 'ProductGroup',
+  name: `EDRO ${p.nome}`,
+  description: p.frase,
+  brand: { '@type': 'Brand', name: 'EDRO Performance Bikes' },
+  category: p.categoria,
+  hasVariant: p.versoes.map((v) => ({
+    '@type': 'Product',
+    name: `EDRO ${p.nome} ${v.nome}`,
+    description: v.descricao,
+    weight: { '@type': 'QuantitativeValue', value: v.peso_kg, unitCode: 'KGM' },
+    offers: {
+      '@type': 'Offer',
+      price: v.preco,
+      priceCurrency: 'BRL',
+      availability: 'https://schema.org/PreOrder',
+    },
+  })),
+};
+
+const faq = montarFaq(p);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    produto,
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({
+        '@type': 'Question',
+        name: f.pergunta,
+        acceptedAnswer: { '@type': 'Answer', text: f.resposta },
+      })),
+    },
+  ],
+};
+---
+
+<Base
+  titulo={`EDRO ${p.nome} · ${p.categoria} de carbono sob medida`}
+  descricao={descricao}
+  canonica={`https://edrobikes.com.br/bikes/${p.slug}`}
+  jsonLd={jsonLd}
+>
+
+<!-- 1 · HERO DA PLATAFORMA -->
+<section class="hero hero--plataforma">
+  <span class="hero__brilho" aria-hidden="true"></span>
+  <span class="marca-dagua" aria-hidden="true">EDRO</span>
+
+  <div class="hero__interno">
+    <div class="hero__texto">
+      <p class="eyebrow eyebrow--verde">{junto(p.uso_curto)}</p>
+      <h1 class="display hero__titulo"><i class="modelo">{p.nome}</i></h1>
+      <p class="lead hero__lead">{junto(p.frase)}</p>
+
+      <div class="hero__botoes" data-esconde-barra>
+        <a class="btn btn--primario"
+           href={wa(`Olá, EDRO. Quero montar a minha ${p.nome} sob medida. (origem: site-${p.slug})`)}
+           rel="noopener" data-wa={`hero-${p.slug}`}>
+          Monte a sua {titulo(p.nome)}
+          <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+        <a class="btn btn--secundario" href="#versoes">Ver versões</a>
+      </div>
+
+      <p class="hero__exclusividade">
+        <span class="hero__traco" aria-hidden="true"></span>
+        Tamanhos {p.tamanhos.join(' · ')}
+      </p>
+    </div>
+
+    <div class="hero__arte">
+      <Picture
+        pictureAttributes={{ class: 'hero__bike' }}
+        src={renders[p.slug]}
+        formats={['avif', 'webp']}
+        alt={`EDRO ${p.nome} ${p.pro.nome} de carbono, vista lateral esquerda`}
+        widths={[480, 960, 1440, 1920]}
+        sizes="(max-width: 1023px) 108vw, 62vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+
+      <div class="hero__peso">
+        <p class="metric-hero">{kg(p.pro.peso_kg)}<span class="unidade">&nbsp;kg</span></p>
+        <p class="caption hero__peso-nota">
+          <i class="modelo">{p.nome}</i> <span class="verde">{p.pro.nome}</span> completa, sem pedais<br />
+          A partir de {brl(p.entrada.preco)} na versão {p.entrada.nome}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · PARA QUEM É -->
+<section class="secao secao--sem-linha">
+  <div class="container para-quem">
+    <p class="para-quem__abre">{junto(p.para_quem[0])}</p>
+    <div class="para-quem__apoio">
+      {p.para_quem.slice(1).map((frase) => <p class="lead">{junto(frase)}</p>)}
+    </div>
+  </div>
+</section>
+
+<!-- 3 · SELETOR DE VERSÕES -->
+<section class="secao" id="versoes">
+  <div class="container">
+    <div class="cabecalho">
+      <h2 class="headline">Três versões.<br />O mesmo quadro.</h2>
+      <p class="lead">
+        Todas as versões da <i class="modelo">{p.nome}</i> partem do mesmo quadro em carbono,
+        da mesma pintura exclusiva e da mesma garantia vitalícia. O que muda são os componentes.
+      </p>
+    </div>
+
+    <div class="versoes">
+      <div class="versoes__tabs" role="tablist" aria-label={`Versões da ${p.nome}`}>
+        {p.versoes.map((v, i) => (
+          <button
+            class="versoes__tab"
+            role="tab"
+            id={`tab-${v.slug}`}
+            aria-controls={`painel-${v.slug}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            data-versao={v.slug}
+            type="button"
+          >{v.nome}</button>
+        ))}
+      </div>
+
+      {p.versoes.map((v, i) => (
+        <div
+          class="versoes__painel"
+          role="tabpanel"
+          id={`painel-${v.slug}`}
+          aria-labelledby={`tab-${v.slug}`}
+          hidden={i !== 0}
+        >
+          <div class="versoes__resumo">
+            <p class="lead">{junto(v.descricao)}</p>
+
+            <div class="versoes__numeros">
+              <div>
+                <p class="metric-stat">{kg(v.peso_kg)}<span class="unidade">&nbsp;kg</span></p>
+                <span class="caption">peso no tamanho M</span>
+              </div>
+              <div>
+                <p class="metric-stat">{brl(v.preco)}</p>
+                <span class="caption">preço de tabela</span>
+              </div>
+            </div>
+
+            <a class="btn btn--primario"
+               href={wa(`Olá, EDRO. Tenho interesse na ${p.nome} ${v.nome}. Minha bike atual é: ___ (origem: site-${p.slug}-${v.slug})`)}
+               rel="noopener" data-wa={`versao-${p.slug}-${v.slug}`}>
+              Quero a {titulo(p.nome)} {v.nome}
+              <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+          </div>
+
+          <dl class="versoes__chave">
+            {fichaDe(v).slice(0, 5).map((linha) => (
+              <div class="versoes__linha">
+                <dt>{linha.rotulo}</dt>
+                <dd>{linha.valor}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- 4 · ARGUMENTOS DE ENGENHARIA · número antes de adjetivo -->
+<section class="secao">
+  <div class="container">
+    <div class="cabecalho">
+      <h2 class="headline">Cada número<br />é uma <span class="verde">decisão.</span></h2>
+    </div>
+
+    <div class="argumentos__grade">
+      {argumentos.map((a) => (
+        <article class="argumento">
+          {a.numero && (
+            <p class="metric-stat argumento__numero">
+              {a.numero}{a.unidade && <span class="unidade">&nbsp;{a.unidade}</span>}
+            </p>
+          )}
+          <p class="caption argumento__rotulo">{junto(a.rotulo)}</p>
+          <h3 class="card-title">{junto(a.titulo)}</h3>
+          <p class="body-card">{junto(a.texto)}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- 5 · CONSTRUÇÃO EDRO · o mesmo componente nas três páginas -->
+<ConstrucaoEdro />
+
+<!-- 6 · FICHA TÉCNICA COMPLETA -->
+<section class="secao">
+  <div class="container">
+    <div class="cabecalho">
+      <h2 class="headline">Ficha técnica<br />completa.</h2>
+      <p class="lead">
+        Versão por versão, componente por componente, com o peso de cada uma
+        no tamanho M.
+      </p>
+    </div>
+
+    {p.versoes.map((v, i) => (
+      <details class="ficha" open={i === 0}>
+        <summary class="ficha__titulo">
+          <span class="ficha__cabeca">
+            <span class="ficha__nome"><i class="modelo">{p.nome}</i> <span class="verde">{v.nome}</span></span>
+            <span class="ficha__meta">{kg(v.peso_kg)}&nbsp;kg · {brl(v.preco)}</span>
+          </span>
+        </summary>
+
+        <table class="tabela">
+          <caption class="visualmente-oculto">Especificações da <i class="modelo">{p.nome}</i> <span class="verde">{v.nome}</span></caption>
+          <tbody>
+            <tr>
+              <th scope="row">Quadro</th>
+              <td>{junto(p.quadro.nome)}</td>
+            </tr>
+            <tr>
+              <th scope="row">Padrões do quadro</th>
+              <td>{junto(p.quadro.padroes.join(' · '))}</td>
+            </tr>
+            {fichaDe(v).map((linha) => (
+              <tr>
+                <th scope="row">{linha.rotulo}</th>
+                <td>{linha.valor}</td>
+              </tr>
+            ))}
+            <tr>
+              <th scope="row">Peso</th>
+              <td>{kg(v.peso_kg)}&nbsp;kg no tamanho M, sem pedais</td>
+            </tr>
+          </tbody>
+        </table>
+      </details>
+    ))}
+  </div>
+</section>
+
+<!-- 7 · GEOMETRIA · com a nota de variação de 5% no peso, capítulo 14 -->
+<section class="secao">
+  <div class="container">
+    <div class="cabecalho">
+      <h2 class="headline">Geometria.</h2>
+      <p class="lead">
+        Medidas em milímetros e graus, por tamanho. O FIT4U ajusta cockpit e
+        componentes às suas medidas dentro do tamanho de quadro certo para você.
+      </p>
+    </div>
+
+    {/* Legenda fora da rolagem: dentro dela, no celular, a legenda rolava junto
+        e anunciava tamanhos que a tabela escondia. */}
+    <p class="tabela__caption tabela__legenda" id={`geometria-${p.slug}`}>
+      Geometria da <i class="modelo">{p.nome}</i>, tamanhos {tamanhos.join(' · ')}
+    </p>
+    {tamanhos.length > 3 && <p class="caption tabela__dica">Deslize a tabela para ver todos os tamanhos.</p>}
+
+    <div class="tabela-rolagem">
+      <table class="tabela tabela--geometria" aria-labelledby={`geometria-${p.slug}`}>
+        <thead>
+          <tr>
+            <th scope="col">Medida</th>
+            {tamanhos.map((t) => <th scope="col">{t}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {colunasVisiveis.map((c) => (
+            <tr>
+              <th scope="row">{c.rotulo}</th>
+              {tamanhos.map((t) => <td>{medida(geo[t][c.indice])}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="caption plataformas__nota">{bikes.meta.nota_legal}</p>
+  </div>
+</section>
+
+<!-- 8 · FIT4U NESTA PLATAFORMA -->
+<section class="secao">
+  <div class="container fit4u__interno">
+    <div class="fit4u__texto">
+      <h2 class="headline">A sua <i class="modelo">{p.nome}</i><br />nasce <span class="verde">sua.</span></h2>
+      <p class="lead">
+        A bike chega com pré-fit ajustado às suas medidas, com o projeto de pintura
+        aprovado por você antes de ir para a cabine e com o seu nome no número de série.
+      </p>
+      <p class="chip-serie">Nº de série <b>EDRO·{p.nome.slice(0, 3)}·0417·SEU NOME</b></p>
+      <a class="link-acao" href="/fit4u">Como funciona o FIT4U</a>
+    </div>
+
+    <ul class="construcao__lista">
+      <li>Geometria e cockpit definidos pelas suas medidas, sem trocar componente depois.</li>
+      <li>Pintura exclusiva desenhada com você, aprovada por escrito antes da cabine.</li>
+      <li>Montada à mão e inspecionada ponto a ponto em Tubarão, SC.</li>
+      <li>Entrega em até 30 dias, com frete grátis e 10 dias de Compra Certa.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 9 · PROGRAMAS -->
+<section class="secao">
+  <div class="container">
+    <div class="cabecalho">
+      <h2 class="headline">O que só a<br />EDRO garante.</h2>
+      <p class="lead">
+        Os quatro programas valem para todas as plataformas, da <i class="modelo">{p.nome}</i> de
+        entrada à de topo.
+      </p>
+    </div>
+
+    {/* Capitulo 14: "os 4 programas em uma linha cada, com link". A linha de
+        programa e a mesma de /programas: nome, a pergunta que ele responde e
+        seta. O FIT4U tem bloco proprio acima (bloco 8). */}
+    <div class="outros outros--programas">
+      {programasConteudo.ordem.map((slug) => {
+        const prog = programasConteudo.programas[slug];
+        return (
+          <a class="outro" href={`/programas/${slug}`}>
+            <span class="outro__nome">{prog.nome}</span>
+            <span class="outro__pergunta">{prog.pergunta}</span>
+            <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<!-- 11 · FAQ DA PLATAFORMA · schema FAQPage no head -->
+<section class="secao">
+  <div class="container faq-bloco">
+    <h2 class="headline">Dúvidas<br />frequentes.</h2>
+
+    <div class="faq">
+      {faq.map((item, i) => (
+        <details class="faq__item" open={i === 0}>
+          <summary class="faq__pergunta"><span set:html={item.perguntaHtml} /></summary>
+          <p class="body faq__resposta" set:html={item.respostaHtml} />
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- 12 · FECHAMENTO -->
+<section class="secao fechamento">
+  <span class="fechamento__brilho" aria-hidden="true"></span>
+
+  <div class="container fechamento__interno">
+    <h2 class="closer">Fuja do<br /><span class="verde">comum.</span></h2>
+
+    <div class="fechamento__acao">
+      <p class="lead">
+        Conte como você pedala hoje. Em menos de 2 horas um especialista EDRO responde
+        com o primeiro desenho da sua <i class="modelo">{p.nome}</i>.
+      </p>
+      <a class="btn btn--primario btn--bloco"
+         href={wa(`Olá, EDRO. Quero montar a minha ${p.nome} sob medida. (origem: site-${p.slug}-fechamento)`)}
+         rel="noopener" data-wa={`fechamento-${p.slug}`}>
+        Começar minha {titulo(p.nome)} no WhatsApp
+        <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+
+      <p class="caption fechamento__outras">
+        Ou compare com as outras plataformas:
+        {outras.map((o, i) => (
+          <>{i > 0 ? ' · ' : ' '}<a class="fechamento__link" href={`/bikes/${o.slug}`}><i class="modelo">{o.nome}</i></a></>
+        ))}
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* ---- Tabs de versao, 12.4: teclado e ancora na URL ---- */
+  const tabs = [...document.querySelectorAll('.versoes__tab')];
+
+  if (tabs.length) {
+    const paineis = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')));
+
+    const mostrar = (i, focar = true) => {
+      tabs.forEach((t, j) => {
+        const ativo = i === j;
+        t.setAttribute('aria-selected', ativo ? 'true' : 'false');
+        t.tabIndex = ativo ? 0 : -1;
+        if (paineis[j]) paineis[j].hidden = !ativo;
+      });
+      if (focar) tabs[i].focus();
+      history.replaceState(null, '', '#' + tabs[i].dataset.versao);
+    };
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => mostrar(i, false));
+      t.addEventListener('keydown', (e) => {
+        const passo = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (passo) {
+          e.preventDefault();
+          mostrar((i + passo + tabs.length) % tabs.length);
+        }
+        if (e.key === 'Home') { e.preventDefault(); mostrar(0); }
+        if (e.key === 'End') { e.preventDefault(); mostrar(tabs.length - 1); }
+      });
+    });
+
+    /* Link direto de anuncio: /bikes/summa#xcr abre na XCR. */
+    const alvo = decodeURIComponent(location.hash.replace('#', ''));
+    const inicial = tabs.findIndex((t) => t.dataset.versao === alvo);
+    if (inicial > -1) mostrar(inicial, false);
+  }
+</script>
+
+</Base>

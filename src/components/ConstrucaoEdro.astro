@@ -1,0 +1,35 @@
+---
+/* =============================================================
+   Bloco 5 do capítulo 14: Construção EDRO.
+
+   Bloco padrão, o mesmo nas três plataformas: molde exclusivo,
+   monocoque, EPS, prepreg 40T/46T e pintura PU acrílica industrial.
+   Copy do capítulo 17.2. Nada aqui depende da plataforma; o que é
+   de cada quadro (padrões, peso) mora na ficha técnica.
+   ============================================================= */
+
+const itens = [
+  ['Molde exclusivo.', 'Geometria e perfis desenhados pela EDRO, nunca compartilhados com outra marca.'],
+  ['Monocoque.', 'Quadro em molde único, sem pontos de junção: menos peso, mais responsividade, nenhum ponto de fragilidade onde um tubo encontra o outro.'],
+  ['EPS.', 'Com o núcleo de EPS, cada fibra fica exatamente onde o projeto mandou, a parede interna fica homogênea e o quadro sai mais leve e mais confiável.'],
+  ['Prepreg 40T e 46T.', 'Fibras de módulo mais alto são mais rígidas por grama; a EDRO combina 40T e 46T conforme a função de cada região do quadro.'],
+  ['Pintura PU Acrílica Carbon Industrial.', 'Exclusividade EDRO no Brasil: durabilidade de padrão industrial com a mínima adição de peso, feita à mão por artistas brasileiros.'],
+];
+---
+
+<section class="secao">
+  <div class="container construcao">
+    <div>
+      <h2 class="headline">Nasce em<br />Tubarão.</h2>
+      <p class="lead">
+        Tudo o que define uma EDRO acontece dentro da nossa fábrica, em Tubarão,
+        Santa Catarina. Nada é terceirizado depois que o carbono chega.
+      </p>
+      <a class="link-acao construcao__link" href="/engenharia">Como uma EDRO nasce</a>
+    </div>
+
+    <ul class="construcao__lista">
+      {itens.map(([termo, texto]) => <li><b>{termo}</b> {texto}</li>)}
+    </ul>
+  </div>
+</section>

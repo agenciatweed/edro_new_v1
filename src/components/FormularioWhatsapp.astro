@@ -1,0 +1,199 @@
+---
+/* =============================================================
+   Formulário da fase 1 (decisão 37.2.9 e item 34.4, passo 5).
+
+   Enquanto /api/lead não existe, o formulário valida no navegador,
+   monta a mensagem com o código de origem e abre o WhatsApp pronto
+   para o visitante enviar. Nada é gravado em servidor, então a tela
+   de sucesso não diz "recebido": diz que a mensagem está pronta.
+
+   Microcopy de erro e consentimento: capítulo 17.9.
+   ============================================================= */
+
+const {
+  id,
+  campos,
+  numero,
+  cabecalho,
+  origem,
+  formulario,
+  rotulo = 'Enviar pelo WhatsApp',
+} = Astro.props;
+
+const idCampo = (nome) => `${id}-${nome}`;
+const idErro = (nome) => `${id}-${nome}-erro`;
+---
+
+<form
+  class="form"
+  id={id}
+  novalidate
+  data-form-wa
+  data-numero={numero}
+  data-cabecalho={cabecalho}
+  data-origem={origem}
+  data-formulario={formulario}
+>
+  <div class="form__isca" aria-hidden="true">
+    <label for={idCampo('empresa')}>Empresa</label>
+    <input id={idCampo('empresa')} name="empresa" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  {campos.map((c) => (
+    <div class="form__campo">
+      <label class="form__rotulo" for={idCampo(c.nome)}>
+        {c.rotulo}{!c.obrigatorio && <span class="form__opcional"> (opcional)</span>}
+      </label>
+
+      {c.tipo === 'textarea' ? (
+        <textarea
+          class="form__entrada form__entrada--area"
+          id={idCampo(c.nome)} name={c.nome} rows="3"
+          placeholder={c.placeholder}
+          required={c.obrigatorio}
+          aria-describedby={idErro(c.nome)}
+          data-rotulo={c.rotulo}
+        />
+      ) : c.tipo === 'select' ? (
+        <select
+          class="form__entrada"
+          id={idCampo(c.nome)} name={c.nome}
+          required={c.obrigatorio}
+          aria-describedby={idErro(c.nome)}
+          data-rotulo={c.rotulo}
+        >
+          <option value="">Selecione</option>
+          {c.opcoes.map((o) => <option value={o}>{o}</option>)}
+        </select>
+      ) : (
+        <input
+          class="form__entrada"
+          id={idCampo(c.nome)} name={c.nome} type={c.tipo}
+          inputmode={c.tipo === 'tel' ? 'tel' : c.tipo === 'number' ? 'decimal' : undefined}
+          placeholder={c.placeholder ?? (c.unidade ? `em ${c.unidade}` : undefined)}
+          autocomplete={c.autocomplete}
+          min={c.min} max={c.max}
+          data-unidade={c.unidade}
+          required={c.obrigatorio}
+          aria-describedby={idErro(c.nome)}
+          data-rotulo={c.rotulo}
+        />
+      )}
+
+      <p class="form__erro" id={idErro(c.nome)} hidden></p>
+    </div>
+  ))}
+
+  <div class="form__campo">
+    <label class="form__consentimento">
+      <input type="checkbox" name="consentimento" required aria-describedby={idErro('consentimento')} />
+      <span>
+        Autorizo a EDRO a entrar em contato pelo WhatsApp e e-mail. Você pode sair quando quiser.
+        <a href="/politicas#privacidade">Política de privacidade</a>
+      </span>
+    </label>
+    <p class="form__erro" id={idErro('consentimento')} hidden></p>
+  </div>
+
+  <button class="btn btn--primario btn--bloco" type="submit">
+    {rotulo}
+    <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+  </button>
+
+  <div class="form__sucesso" role="status" hidden>
+    <p class="body">A sua mensagem está pronta no WhatsApp. É só revisar e enviar para a equipe EDRO.</p>
+    <a class="link-acao form__link" href="#" target="_blank" rel="noopener">Abrir o WhatsApp de novo</a>
+  </div>
+</form>
+
+<script>
+  const MSG = {
+    vazio: 'Precisamos dessa informação para responder.',
+    whatsapp: 'Confira o número com DDD. É por ele que a gente responde.',
+    email: 'Esse e-mail não parece válido.',
+    consentimento: 'Marque a autorização para a gente poder responder.',
+  };
+
+  const whatsappValido = (v) => {
+    const d = v.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '');
+    return /^\d{10,11}$/.test(d);
+  };
+
+  document.querySelectorAll<HTMLFormElement>('form[data-form-wa]').forEach((form) => {
+    const mostrarErro = (el: HTMLElement, msg: string) => {
+      const alvo = document.getElementById(el.getAttribute('aria-describedby') || '');
+      el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      if (alvo) {
+        alvo.textContent = msg;
+        alvo.hidden = !msg;
+      }
+    };
+
+    const validar = () => {
+      let primeiro: HTMLElement | null = null;
+
+      form.querySelectorAll<HTMLInputElement>('.form__entrada, input[name="consentimento"]').forEach((el) => {
+        const v = (el.value || '').trim();
+        let msg = '';
+
+        if (el.type === 'checkbox') {
+          if (!el.checked) msg = MSG.consentimento;
+        } else if (el.required && !v) {
+          msg = MSG.vazio;
+        } else if (v && el.type === 'tel' && !whatsappValido(v)) {
+          msg = MSG.whatsapp;
+        } else if (v && el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+          msg = MSG.email;
+        }
+
+        mostrarErro(el, msg);
+        if (msg && !primeiro) primeiro = el;
+      });
+
+      return primeiro;
+    };
+
+    /* Corrige o erro assim que o campo fica certo, sem esperar outro envio. */
+    form.addEventListener('input', (e) => {
+      const el = e.target as HTMLElement;
+      if (el.getAttribute('aria-invalid') === 'true') validar();
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const isca = form.querySelector<HTMLInputElement>('input[name="empresa"]');
+      if (isca && isca.value) return;
+
+      const invalido = validar();
+      if (invalido) {
+        invalido.focus();
+        return;
+      }
+
+      const linhas = [form.dataset.cabecalho || ''];
+      form.querySelectorAll<HTMLInputElement>('.form__entrada').forEach((el) => {
+        const v = (el.value || '').trim();
+        if (v) linhas.push(`${el.dataset.rotulo}: ${v}${el.dataset.unidade ? ' ' + el.dataset.unidade : ''}`);
+      });
+      linhas.push(`(origem: ${form.dataset.origem})`);
+
+      const url = `https://wa.me/${form.dataset.numero}?text=${encodeURIComponent(linhas.join('\n'))}`;
+
+      const pagina = document.body.dataset.pagina || '';
+      const w = window as unknown as { dataLayer: object[] };
+      w.dataLayer = w.dataLayer || [];
+      w.dataLayer.push({ event: 'generate_lead', formulario: form.dataset.formulario, pagina });
+      w.dataLayer.push({ event: 'whatsapp_click', origem: form.dataset.origem, pagina, posicao: 'formulario' });
+
+      window.open(url, '_blank', 'noopener');
+
+      const sucesso = form.querySelector<HTMLElement>('.form__sucesso');
+      if (sucesso) {
+        const link = sucesso.querySelector('a');
+        if (link) link.href = url;
+        sucesso.hidden = false;
+      }
+    });
+  });
+</script>

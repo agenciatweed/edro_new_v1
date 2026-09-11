@@ -1,0 +1,137 @@
+---
+/* Template das páginas de programa (15.2 a 15.5, estrutura de 34.2).
+   Todo o texto vem de content/programas.json. */
+
+import Base from '../../layouts/Base.astro';
+import FormularioWhatsapp from '../../components/FormularioWhatsapp.astro';
+import conteudo from '../../content/programas.json';
+import { wa, comercial, suporte } from '../../lib/edro.js';
+
+export function getStaticPaths() {
+  return conteudo.ordem.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const pr = conteudo.programas[slug];
+const numero = pr.cta.numero === 'suporte' ? suporte : comercial;
+
+const outros = conteudo.ordem
+  .filter((s) => s !== slug)
+  .map((s) => ({ slug: s, ...conteudo.programas[s] }));
+---
+
+<Base
+  titulo={`${pr.nome} · Programas EDRO`}
+  descricao={pr.lead}
+  canonica={`https://edrobikes.com.br/programas/${slug}`}
+  pagina={`programa-${slug}`}
+>
+
+<!-- TOPO -->
+<section class="pagina-topo">
+  <div class="container">
+    <p class="eyebrow eyebrow--verde">Programa EDRO</p>
+    <h1 class="display pagina-topo__titulo">
+      {pr.titulo.map((linha) => <>{linha}<br /></>)}
+      <span class="verde">{pr.titulo_verde}</span>
+    </h1>
+    <p class="lead pagina-topo__lead">{pr.lead}</p>
+    <p class="pagina-topo__pergunta">{pr.pergunta}</p>
+  </div>
+</section>
+
+{pr.intro && (
+  <section class="secao">
+    <div class="container para-quem">
+      <p class="para-quem__abre">{pr.nome}</p>
+      <div class="para-quem__apoio">
+        <p class="lead">{pr.intro}</p>
+      </div>
+    </div>
+  </section>
+)}
+
+{pr.passos?.length > 0 && (
+  <section class="secao">
+    <div class="container">
+      <div class="cabecalho">
+        <h2 class="headline">Como<br />funciona.</h2>
+      </div>
+      <ol class="etapas">
+        {pr.passos.map((passo, i) => (
+          <li class="etapa">
+            <span class="etapa__num" aria-hidden="true">{i + 1}</span>
+            <p class="body-card">{passo}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}
+
+<!-- REGRAS -->
+<section class="secao">
+  <div class="container">
+    {pr.secoes.map((s) => (
+      <div class="regra">
+        <h2 class="card-title regra__titulo">{s.titulo}</h2>
+        <div class="regra__corpo">
+          {s.paragrafos?.map((t) => <p class="body">{t}</p>)}
+          {s.lista?.length > 0 && (
+            <ul class="construcao__lista">
+              {s.lista.map((t) => <li>{t}</li>)}
+            </ul>
+          )}
+          {s.link && <a class="link-acao" href={s.link.href}>{s.link.rotulo}</a>}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- ACIONAR -->
+<section class="secao" id="acionar">
+  <div class="container faq-bloco">
+    <div>
+      <h2 class="headline">{pr.cta.titulo}</h2>
+      <p class="lead acionar__texto">{pr.cta.texto}</p>
+    </div>
+
+    {pr.cta.tipo === 'formulario' ? (
+      <FormularioWhatsapp
+        id={`form-${slug}`}
+        campos={pr.cta.campos}
+        numero={numero}
+        cabecalho={pr.cta.mensagem}
+        origem={pr.cta.origem}
+        formulario={slug}
+        rotulo={pr.cta.rotulo}
+      />
+    ) : (
+      <div>
+        <a class="btn btn--primario" href={wa(pr.cta.mensagem, numero)} rel="noopener" data-wa={pr.cta.origem}>
+          {pr.cta.rotulo}
+          <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+      </div>
+    )}
+  </div>
+</section>
+
+<!-- OUTROS PROGRAMAS -->
+<section class="secao">
+  <div class="container">
+    <h2 class="card-title">Os outros programas</h2>
+    <div class="outros">
+      {outros.map((o) => (
+        <a class="outro" href={`/programas/${o.slug}`}>
+          <span class="outro__nome">{o.nome}</span>
+          <span class="outro__pergunta">{o.pergunta}</span>
+          <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+</Base>

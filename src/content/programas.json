@@ -1,0 +1,241 @@
+{
+  "_fonte": "Capítulos 13.8, 15.2 a 15.5 e 24.1 a 24.4 do EDRO Documento Master Novo Site. Texto do Ciclo EDRO preservado conforme 15.3, com uma única troca exigida pelo checklist 37.3.",
+  "ordem": ["compra-certa", "ciclo-edro", "carbon-assist", "garantia"],
+  "programas": {
+    "compra-certa": {
+      "nome": "Compra Certa",
+      "pergunta": "E se não me adaptar?",
+      "card": "10 dias para pedalar a sua EDRO. Se não for exatamente o que você esperava, devolução com 100% do valor.",
+      "titulo": ["Compra Certa.", "10 dias para ter"],
+      "titulo_verde": "certeza.",
+      "lead": "Você recebe a sua EDRO, pedala, testa e decide. Se por qualquer motivo ela não for o que você esperava, você tem 10 dias a partir do recebimento para devolver e receber 100% do valor pago.",
+      "passos": [
+        "Receba e pedale.",
+        "Se decidir devolver, avise pelo WhatsApp de suporte dentro do prazo.",
+        "A EDRO organiza a coleta.",
+        "Reembolso integral após a conferência."
+      ],
+      "secoes": [
+        {
+          "titulo": "Regras completas",
+          "lista": [
+            "O prazo de 10 dias conta a partir do recebimento da bicicleta.",
+            "A bicicleta deve estar em condição compatível com 10 dias de uso, sem dano estrutural e com os componentes originais.",
+            "A devolução vale para toda EDRO, inclusive com pintura exclusiva.",
+            "O proprietário avisa pelo WhatsApp de suporte dentro do prazo, e a EDRO organiza e custeia a coleta.",
+            "O reembolso integral é feito em até 10 dias úteis após a conferência na fábrica.",
+            "Em caso de troca por outra versão ou plataforma, a diferença é repassada, para mais ou para menos."
+          ]
+        }
+      ],
+      "cta": {
+        "tipo": "botao",
+        "titulo": "Fale com o suporte",
+        "texto": "Avise pelo WhatsApp de suporte dentro dos 10 dias. A EDRO organiza a coleta.",
+        "rotulo": "Usar o Compra Certa",
+        "numero": "suporte",
+        "mensagem": "Olá, suporte EDRO. Quero usar o Compra Certa. Número de série: ___ (origem: site-compra-certa)",
+        "origem": "site-compra-certa"
+      }
+    },
+
+    "ciclo-edro": {
+      "nome": "Ciclo EDRO",
+      "pergunta": "E quando eu quiser a próxima?",
+      "card": "Sua EDRO atual, com 18 a 24 meses, vira parte do valor de entrada da próxima EDRO, mediante avaliação. Você evolui sem precisar vender antes.",
+      "titulo": ["Ciclo EDRO.", "A sua próxima EDRO", "começa na"],
+      "titulo_verde": "atual.",
+      "lead": "Sua EDRO é um ativo de alto valor. Entre 18 e 24 meses após a compra, ela pode virar parte do valor de entrada da próxima EDRO, mediante avaliação técnica e comercial na fábrica.",
+      "intro": "Sua EDRO é mais do que uma bicicleta. É um ativo de alto valor, desenvolvido para entregar performance, durabilidade e longevidade. Pensando nisso, a EDRO criou o Ciclo EDRO: um programa exclusivo que permite utilizar sua EDRO atual como parte do valor de entrada na aquisição de uma nova bicicleta EDRO, dentro de critérios técnicos, comerciais e temporais previamente definidos. Um sistema inteligente que valoriza quem escolhe EDRO e fortalece todo o ecossistema da marca.",
+      "passos": [
+        "Você solicita a participação no Ciclo EDRO.",
+        "Envia informações e imagens da sua bicicleta.",
+        "A EDRO realiza a avaliação técnica e comercial.",
+        "Sendo aprovada, sua bicicleta atual passa a compor parte do valor de entrada na compra de uma nova EDRO."
+      ],
+      "secoes": [
+        {
+          "titulo": "Quem pode participar",
+          "lista": [
+            "Ser o comprador original da bicicleta, conforme nota fiscal.",
+            "Bicicletas adquiridas entre 18 e 24 meses da data da solicitação.",
+            "Bicicletas comercializadas oficialmente pela EDRO.",
+            "Identificação por número de série."
+          ]
+        },
+        {
+          "titulo": "Condições da bicicleta",
+          "lista": [
+            "Estar estruturalmente íntegra.",
+            "Não apresentar trincas, quebras, delaminações ou reparos estruturais.",
+            "Manter todos os componentes originalmente instalados de fábrica ou upgrades previamente autorizados pela EDRO.",
+            "Estar funcional e em condição compatível com uso normal.",
+            "Componentes de desgaste (corrente, cassete, pastilhas, pneus, rolamentos, cabos) são considerados na avaliação e podem impactar o valor atribuído."
+          ]
+        },
+        {
+          "titulo": "Avaliação técnica e comercial",
+          "paragrafos": [
+            "A avaliação considera: estado estrutural; condição estética; nível de desgaste dos componentes; modelo, ano e configuração; custos estimados de recondicionamento; liquidez do modelo no mercado.",
+            "A EDRO poderá solicitar o envio da bicicleta para inspeção presencial."
+          ]
+        },
+        {
+          "titulo": "Recebimento e conferência final",
+          "paragrafos": [
+            "No recebimento físico, a EDRO realiza conferência completa.",
+            "Se houver divergências (estado de desgaste, integridade estrutural, condição estética, componentes diferentes dos informados, não originais ou não autorizados), a EDRO poderá recalcular o valor atribuído, abatendo os custos de regularização, ou recusar o recebimento, cancelando a participação."
+          ]
+        },
+        {
+          "titulo": "Valor atribuído à bicicleta",
+          "paragrafos": [
+            "Definido exclusivamente pela EDRO, com base em critérios técnicos e comerciais."
+          ],
+          "lista": [
+            "É utilizado exclusivamente como parte do valor de entrada na aquisição de uma nova EDRO.",
+            "Não é convertido em dinheiro.",
+            "Não gera saldo ou crédito remanescente.",
+            "Deve ser utilizado na mesma operação de compra."
+          ]
+        },
+        {
+          "titulo": "Importante saber",
+          "paragrafos": [
+            "A participação no Ciclo EDRO não garante a aceitação automática da bicicleta.",
+            "A EDRO poderá recusar qualquer bicicleta que não atenda aos critérios do programa.",
+            "O programa pode ser alterado ou encerrado a qualquer momento, sem aviso prévio."
+          ]
+        }
+      ],
+      "cta": {
+        "tipo": "formulario",
+        "titulo": "Solicitar avaliação",
+        "texto": "Informe o número de série da sua EDRO. A mensagem abre pronta no WhatsApp de suporte, para você revisar e enviar.",
+        "rotulo": "Solicitar avaliação da minha EDRO",
+        "numero": "suporte",
+        "mensagem": "Olá, EDRO. Quero avaliar a minha EDRO no Ciclo EDRO.",
+        "origem": "site-ciclo",
+        "campos": [
+          { "nome": "nome", "rotulo": "Nome", "tipo": "text", "obrigatorio": true, "placeholder": "Seu nome", "autocomplete": "name" },
+          { "nome": "whatsapp", "rotulo": "WhatsApp", "tipo": "tel", "obrigatorio": true, "placeholder": "(48) 9 9999-9999", "autocomplete": "tel" },
+          { "nome": "serie", "rotulo": "Número de série", "tipo": "text", "obrigatorio": true, "placeholder": "EDRO·SUM·0000·NOME" },
+          { "nome": "modelo", "rotulo": "Plataforma e versão", "tipo": "text", "obrigatorio": false, "placeholder": "Ex.: SUMMA XCR" },
+          { "nome": "compra", "rotulo": "Mês e ano da compra", "tipo": "text", "obrigatorio": false, "placeholder": "MM/AAAA" }
+        ]
+      }
+    },
+
+    "carbon-assist": {
+      "nome": "Carbon Assist",
+      "pergunta": "E se eu cair?",
+      "card": "Reparo do quadro em carbono após acidente, feito pela própria EDRO, mantendo a garantia.",
+      "titulo": ["Carbon Assist.", "Acidente não encerra a"],
+      "titulo_verde": "história.",
+      "lead": "Caiu, bateu, trincou? A EDRO avalia e repara o quadro de carbono na própria fábrica, com o mesmo processo de laminação e pintura da bike nova, e a garantia do quadro continua valendo.",
+      "passos": [
+        "Envie fotos pelo WhatsApp de suporte.",
+        "Receba a avaliação preliminar.",
+        "Envie a bike ou o quadro para Tubarão.",
+        "Reparo, pintura e laudo."
+      ],
+      "secoes": [
+        {
+          "titulo": "Quando acionar",
+          "paragrafos": [
+            "Se você sofrer um acidente, um tombo significativo, colisão, queda durante transporte ou qualquer sinistro e identificar ruído anormal, fissura, deformação ou outro sinal de dano, fale imediatamente com o suporte EDRO."
+          ]
+        },
+        {
+          "titulo": "Prazos e custos",
+          "lista": [
+            "Avaliação preliminar em até 5 dias úteis.",
+            "Orçamento apresentado antes de qualquer serviço.",
+            "Reparo com repintura em até 30 dias, incluindo a cura de 15 dias da pintura.",
+            "O custo do reparo é orçado caso a caso. O frete de envio à fábrica é do proprietário; o de retorno é da EDRO."
+          ]
+        },
+        {
+          "titulo": "Requisitos",
+          "paragrafos": [
+            "Válido somente para consumidores finais e para a bicicleta adquirida originalmente.",
+            "Mesmo com o uso do Carbon Assist, a bicicleta permanece dentro do plano de garantia vitalícia EDRO."
+          ]
+        }
+      ],
+      "cta": {
+        "tipo": "botao",
+        "titulo": "Acionar o Carbon Assist",
+        "texto": "Envie fotos e o relato do ocorrido pelo WhatsApp de suporte. A avaliação preliminar sai em até 5 dias úteis.",
+        "rotulo": "Enviar fotos para a EDRO",
+        "numero": "suporte",
+        "mensagem": "Olá, suporte EDRO. Minha EDRO sofreu um acidente e quero acionar o Carbon Assist. Número de série: ___ (origem: site-carbon-assist)",
+        "origem": "site-carbon-assist"
+      }
+    },
+
+    "garantia": {
+      "nome": "Garantia Vitalícia",
+      "pergunta": "E daqui a dez anos?",
+      "card": "Quadro, garfo e componentes EDRO garantidos para sempre. Demais componentes com 2 anos e suporte no Brasil.",
+      "titulo": ["Garantia vitalícia.", "Investimento para a vida"],
+      "titulo_verde": "toda.",
+      "lead": "Quadro, garfo e componentes de marca EDRO: garantia vitalícia para o comprador original. Demais componentes: 2 anos, com assistência técnica no Brasil.",
+      "secoes": [
+        {
+          "titulo": "Cobertura",
+          "paragrafos": [
+            "A EDRO Performance Bikes oferece a cada adquirente consumidor final original da bicicleta uma garantia vitalícia limitada contra defeitos de materiais e mão de obra aos quadros, garfos e componentes da marca EDRO, e garantia de 2 anos para componentes de outras marcas originalmente instalados na bicicleta.",
+            "Esta garantia é válida a partir do dia da compra e apenas para o primeiro proprietário da bicicleta, identificado na nota fiscal de venda.",
+            "Reservamo-nos o direito de reparação de quadros, garfos ou componentes com defeito ou a sua substituição por um modelo igual, seguinte ou superior. Nos casos em que houver substituição por um modelo de valor superior ao originalmente adquirido, mediante aprovação prévia da EDRO, será realizada a atualização do produto através do pagamento da diferença de valor previamente acordada entre as partes.",
+            "As soluções previstas nesta garantia possuem caráter exclusivo de reparação ou substituição do produto, conforme avaliação técnica da EDRO, não contemplando restituição, conversão em crédito financeiro ou devolução do valor pago."
+          ]
+        },
+        {
+          "titulo": "O que anula a garantia",
+          "paragrafos": [
+            "Esta garantia é anulada caso seja feita qualquer alteração no quadro, garfo ou componente. Excluídos da garantia estão danos que provenham de uso inadequado, negligência (falta de cuidados e manutenção), queda, sobrecarga, alterações no quadro, garfo ou componentes, ou instalação de componentes adicionais.",
+            "Saltos ou outros tipos de sobrecarga anulam a garantia. A garantia é anulada se a bicicleta for usada em programa de aluguel ou bicicletas compartilhadas. Não é válida para danos decorrentes de desgaste normal."
+          ]
+        },
+        {
+          "titulo": "Itens de desgaste normal",
+          "paragrafos": [
+            "Ficam fora da garantia, por desgaste decorrente do uso:"
+          ],
+          "lista": [
+            "Pneus, rolamentos e buchas.",
+            "Pastilhas de freio, discos de freio e superfície de frenagem das rodas.",
+            "Manoplas ou fitas de guidão, cabos e conduítes.",
+            "Cassetes, coroas e correntes."
+          ]
+        },
+        {
+          "titulo": "Rodas VORZ e custos de envio",
+          "paragrafos": [
+            "Rodas VORZ e demais componentes têm garantia de 2 anos.",
+            "Quando a análise exigir envio do produto à EDRO, o frete até a sede é de responsabilidade do cliente. Se o defeito for coberto, o frete de retorno de produtos em carbono EDRO e de componentes VORZ é custeado pela EDRO; nas demais marcas e componentes, o frete de retorno é do cliente.",
+            "Se não houver defeito de fabricação ou o caso não se enquadrar na garantia, o frete de devolução é integralmente do cliente, independentemente da marca.",
+            "Válida para todas as bicicletas EDRO vendidas a partir de 1º de maio de 2018, desde que enquadradas nas condições acima."
+          ]
+        },
+        {
+          "titulo": "Quando o dano não é coberto",
+          "paragrafos": [
+            "Quando a análise indicar dano não coberto, você pode acionar o Carbon Assist, com condições especiais de reparo ou substituição de componentes em carbono, mantendo a compatibilidade com a garantia vitalícia."
+          ],
+          "link": { "href": "/programas/carbon-assist", "rotulo": "Ver o Carbon Assist" }
+        }
+      ],
+      "cta": {
+        "tipo": "botao",
+        "titulo": "Acionar a garantia",
+        "texto": "Envie as informações do produto e do ocorrido pelo WhatsApp de suporte. A equipe técnica retorna em até 5 dias úteis.",
+        "rotulo": "Acionar a garantia",
+        "numero": "suporte",
+        "mensagem": "Olá, suporte EDRO. Quero acionar a garantia da minha EDRO. Número de série: ___ (origem: site-garantia)",
+        "origem": "site-garantia"
+      }
+    }
+  }
+}

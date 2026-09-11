@@ -1,0 +1,30 @@
+---
+/* 404, copy do capítulo 17.9. */
+import Base from '../layouts/Base.astro';
+import { wa } from '../lib/edro.js';
+---
+
+<Base
+  titulo="Página não encontrada · EDRO Performance Bikes"
+  descricao="Essa página não existe. Mas a sua EDRO pode existir."
+  pagina="404"
+>
+  <meta slot="head" name="robots" content="noindex" />
+
+  <section class="pagina-topo pagina-topo--404">
+    <div class="container">
+      <h1 class="display pagina-topo__titulo">Essa página<br />não <span class="verde">existe.</span></h1>
+      <p class="lead pagina-topo__lead">Mas a sua EDRO pode existir.</p>
+
+      <div class="hero__botoes">
+        <a class="btn btn--primario" href="/bikes">
+          Ver plataformas
+          <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+        <a class="btn btn--secundario" href={wa('Olá, EDRO. Quero falar com um especialista. (origem: site-404)')} rel="noopener" data-wa="404">
+          Falar com a EDRO
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

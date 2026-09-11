@@ -1,0 +1,153 @@
+---
+/* /politicas, capítulos 24.1, 25 e 28.4. */
+
+import Base from '../layouts/Base.astro';
+import { bikes } from '../lib/edro.js';
+
+const ct = bikes.contato;
+const c = bikes.meta.condicoes;
+
+/* O CNPJ vem de variável de ambiente preenchida pela EDRO no painel de
+   hospedagem (37.2.15). No Astro o prefixo público é PUBLIC_, não o
+   NEXT_PUBLIC_ do documento. Sem ele, a cláusula sai sem o número em vez
+   de publicar um placeholder. */
+const cnpj = import.meta.env.PUBLIC_CNPJ;
+
+/* Data da última versão da política. Preencher quando o texto for
+   publicado ou alterado. Enquanto for null, a linha não aparece. */
+const ATUALIZADA_EM = null;
+
+if (!cnpj) console.warn('[politicas] PUBLIC_CNPJ ausente: a política sai sem o CNPJ.');
+if (!ATUALIZADA_EM) console.warn('[politicas] ATUALIZADA_EM vazia: a política sai sem a data da última atualização.');
+---
+
+<Base
+  titulo="Políticas · Trocas, frete e privacidade · EDRO"
+  descricao="Política de trocas, frete e privacidade e proteção de dados da EDRO Performance Bikes, conforme a LGPD."
+  canonica="https://edrobikes.com.br/politicas"
+  pagina="politicas"
+>
+
+<section class="pagina-topo">
+  <div class="container">
+    <h1 class="display pagina-topo__titulo">Políticas.</h1>
+    <p class="lead pagina-topo__lead">Trocas, frete e proteção de dados da EDRO Performance Bikes.</p>
+    <nav class="indice" aria-label="Nesta página">
+      <a class="link-acao" href="#trocas">Trocas</a>
+      <a class="link-acao" href="#frete">Frete</a>
+      <a class="link-acao" href="#privacidade">Privacidade e LGPD</a>
+    </nav>
+  </div>
+</section>
+
+<!-- TROCAS · 24.1 -->
+<section class="secao" id="trocas">
+  <div class="container politica">
+    <h2 class="headline">Trocas.</h2>
+    <div class="politica__corpo">
+      <p class="body">
+        De acordo com o Compra Certa EDRO, você recebe a bicicleta, faz os testes e tem
+        {c.compra_certa_dias} dias para devolução ou troca caso não goste por qualquer motivo, com prazo
+        contado a partir do recebimento. A devolução tem ressarcimento de 100% do valor pago; em caso de
+        troca, a diferença de valor é repassada ao cliente, seja para mais ou para menos.
+      </p>
+      <a class="link-acao" href="/programas/compra-certa">Regras completas do Compra Certa</a>
+    </div>
+  </div>
+</section>
+
+<!-- FRETE · 25 -->
+<section class="secao" id="frete">
+  <div class="container politica">
+    <h2 class="headline">Frete.</h2>
+    <div class="politica__corpo">
+      <p class="body">
+        Frete gratuito em todo o território brasileiro. Os prazos de transporte variam conforme o
+        endereço de entrega; consulte a equipe de vendas.
+      </p>
+      <p class="body">
+        A bicicleta pode ser retirada pessoalmente na sede, em Tubarão, SC, ou entregue em casa
+        parcialmente montada.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACIDADE · 28.4 -->
+<section class="secao" id="privacidade">
+  <div class="container politica">
+    <h2 class="headline">Privacidade<br />e proteção<br />de dados.</h2>
+    <div class="politica__corpo">
+      <h3>1. Quem somos.</h3>
+      <p class="body">
+        {ct.razao_social}{cnpj ? `, CNPJ ${cnpj}` : ''}, com sede na {ct.endereco}, é a controladora dos
+        dados pessoais tratados neste site. Encarregado pelo tratamento de dados (DPO): {ct.email}.
+      </p>
+
+      <h3>2. Quais dados coletamos.</h3>
+      <p class="body">
+        Dados que você informa em formulários e conversas: nome, WhatsApp, e-mail, cidade, modalidade que
+        pratica, bicicleta atual, medidas corporais (quando você envia para o FIT4U), número de série da sua
+        EDRO (garantia, Ciclo EDRO e Carbon Assist). Dados de navegação, mediante consentimento: endereço IP,
+        páginas visitadas, origem da visita (UTM), identificadores de cookies das ferramentas de análise e
+        publicidade.
+      </p>
+
+      <h3>3. Para que usamos.</h3>
+      <p class="body">
+        Atender ao seu pedido de contato e enviar propostas (execução de medidas preliminares ao contrato);
+        produzir a sua bicicleta sob medida e prestar garantia e assistência (execução de contrato); enviar
+        conteúdo e novidades por e-mail e WhatsApp (consentimento, que pode ser retirado a qualquer momento);
+        medir o desempenho do site e das campanhas (consentimento para cookies não essenciais); cumprir
+        obrigações fiscais e legais (obrigação legal).
+      </p>
+
+      <h3>4. Com quem compartilhamos.</h3>
+      <p class="body">
+        Somente com operadores que prestam serviço à EDRO e sob contrato: plataforma de atendimento por
+        WhatsApp e Instagram (Nextags), CRM comercial (Pipefy), e-mail marketing (RD Station), hospedagem e
+        infraestrutura do site, transportadoras (para entrega), ferramentas de análise e publicidade (Google e
+        Meta), quando você consente com cookies. Não vendemos dados pessoais.
+      </p>
+
+      <h3>5. Por quanto tempo guardamos.</h3>
+      <p class="body">
+        Dados de contato comercial: até 24 meses após a última interação, ou até você pedir a exclusão. Dados
+        de proprietários de bicicletas EDRO: pelo prazo da garantia vitalícia, por serem necessários ao seu
+        exercício. Dados fiscais: pelo prazo legal. Dados de navegação: conforme a configuração de cada
+        cookie, no máximo 13 meses.
+      </p>
+
+      <h3>6. Seus direitos.</h3>
+      <p class="body">
+        Confirmar a existência de tratamento, acessar, corrigir, anonimizar, portar e excluir seus dados,
+        revogar consentimentos e obter informação sobre compartilhamentos, conforme a Lei 13.709/2018. Para
+        exercer, escreva para {ct.email}. Respondemos em até 15 dias.
+      </p>
+
+      <h3 id="cookies">7. Cookies.</h3>
+      <p class="body">
+        Ao entrar no site você escolhe entre aceitar todos os cookies, só os necessários ou definir
+        preferências. Cookies necessários (segurança, consentimento) não dependem de autorização. Cookies de
+        análise (Google Analytics) e publicidade (Meta, Google Ads) só são ativados com o seu consentimento e
+        podem ser revogados em "Preferências de cookies", no rodapé.
+      </p>
+
+      <h3>8. Segurança.</h3>
+      <p class="body">
+        Conexão criptografada (HTTPS), acesso restrito por função, contratos com operadores e registro de
+        consentimentos.
+      </p>
+
+      <h3>9. Alterações.</h3>
+      <p class="body">
+        Esta política pode ser atualizada; a data da última versão aparece abaixo. Alterações relevantes serão
+        comunicadas no site.
+      </p>
+
+      {ATUALIZADA_EM && <p class="caption">Última atualização: {ATUALIZADA_EM}</p>}
+    </div>
+  </div>
+</section>
+
+</Base>

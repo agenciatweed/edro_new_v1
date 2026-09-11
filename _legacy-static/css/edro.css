@@ -1,0 +1,996 @@
+/* =============================================================
+   EDRO Performance Bikes · Sistema de estilo
+   Implementa DESIGN.md. Nenhum hex solto fora de :root.
+
+   Fontes: Gobold e Swiss721 BT são as oficiais. Enquanto a
+   licença web não é obtida, o site sobe com Anton e Poppins,
+   as substitutas aprovadas. Em produção, auto-hospedar em
+   WOFF2 com font-display: swap.
+   ============================================================= */
+
+:root {
+
+  /* ---- Cor ---- */
+  --edro-verde:            #38A936;
+  --edro-verde-hover:      #2F9430;
+  --edro-verde-papel:      #237A22;
+
+  --edro-fundo:            #0C0E0C;
+  --edro-painel:           #111411;
+  --edro-painel-2:         #151815;
+  --edro-linha:            #1F241F;
+  --edro-linha-forte:      #2A2F2A;
+
+  --edro-tinta:            #F2F4F0;
+  --edro-tinta-suave:      #B5BAB4;
+  --edro-tinta-tenue:      #7A807A;
+  --edro-tinta-sobre-verde:#071008;
+
+  --edro-papel:            #F2F4F0;
+  --edro-tinta-sobre-papel:#0B0D0B;
+
+  --edro-marca-dagua:      #101310;
+  --edro-zebra:            #151915;
+  --edro-nav-fundo:        rgba(12, 14, 12, .92);
+  --edro-erro:             #B4453C;
+
+  /* ---- Tipografia ---- */
+  --edro-display: Gobold, Anton, 'Arial Narrow', system-ui, sans-serif;
+  --edro-texto:   'Swiss721 BT', Poppins, 'Helvetica Neue', Arial, sans-serif;
+  --edro-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- Forma ---- */
+  --edro-raio:      2px;
+  --edro-raio-reto: 0;
+
+  /* ---- Espaço ---- */
+  --edro-container: 1320px;
+  --edro-gutter:    clamp(1.25rem, 4vw, 3.5rem);
+  --edro-secao:     clamp(3.5rem, 10vh, 7.5rem);
+  --edro-secao-alta:clamp(4.5rem, 14vh, 10rem);
+  --edro-card:      clamp(1.5rem, 2.6vw, 2.125rem);
+  --edro-grade:     clamp(1rem, 1.6vw, 1.5rem);
+  --edro-bloco:     clamp(1rem, 1.6vw, 1.5rem);
+
+  /* ---- Movimento ---- */
+  --edro-ease:  cubic-bezier(.22, .61, .36, 1);
+  --edro-rapido: 160ms;
+}
+
+/* =============================================================
+   RESET E BASE
+   ============================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--edro-fundo);
+  color: var(--edro-tinta);
+  font-family: var(--edro-texto);
+  font-size: clamp(.9375rem, 1.1vw, 1rem);
+  font-weight: 300;
+  line-height: 1.7;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+a { color: inherit; }
+
+/* ---- Superfícies do navegador ---- */
+
+::selection {
+  background: var(--edro-verde);
+  color: var(--edro-tinta-sobre-verde);
+}
+
+:focus-visible {
+  outline: 2px solid var(--edro-verde);
+  outline-offset: 2px;
+}
+
+body {
+  scrollbar-color: var(--edro-linha-forte) var(--edro-fundo);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--edro-fundo); }
+::-webkit-scrollbar-thumb {
+  background: var(--edro-linha-forte);
+  border: 2px solid var(--edro-fundo);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--edro-tinta-tenue); }
+
+/* Fica fora da tela por transform, não por deslocamento de
+   -9999px: nada de área rolável fantasma sob o overflow do body. */
+.pular {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 200;
+  transform: translateY(-130%);
+  background: var(--edro-verde);
+  color: var(--edro-tinta-sobre-verde);
+  padding: 14px 20px;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform var(--edro-rapido) ease;
+}
+.pular:focus { transform: translateY(0); }
+
+/* =============================================================
+   TIPOGRAFIA
+   ============================================================= */
+
+.closer, .display, .headline, .subhead,
+.metric-hero, .metric-stat {
+  font-family: var(--edro-display);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.closer   { font-size: clamp(3.75rem, 11.7vw, 9.375rem); line-height: .92; }
+.display  { font-size: clamp(3.25rem, 7.2vw, 5.75rem);   line-height: .98; }
+.headline { font-size: clamp(2.5rem, 5vw, 4rem);         line-height: .98; }
+.subhead  { font-size: clamp(1.25rem, 1.9vw, 1.5rem);    line-height: 1.05; }
+
+.metric-hero,
+.metric-stat {
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.metric-hero { font-size: clamp(2.5rem, 4.4vw, 3.5rem); }
+.metric-stat { font-size: clamp(2rem, 3vw, 2.5rem); }
+
+.lead {
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--edro-tinta-suave);
+  max-width: 62ch;
+}
+
+.body  { font-size: clamp(.9375rem, 1.1vw, 1rem); line-height: 1.7; color: var(--edro-tinta-suave); max-width: 68ch; }
+.small { font-size: .8125rem; line-height: 1.6; }
+.micro { font-size: .75rem;   line-height: 1.5; color: var(--edro-tinta-tenue); }
+
+.eyebrow {
+  font-size: .6875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--edro-tinta-tenue);
+}
+.eyebrow--verde { color: var(--edro-verde); }
+
+.verde        { color: var(--edro-verde); }
+.verde-papel  { color: var(--edro-verde-hover); }
+.unidade      { color: var(--edro-tinta-tenue); font-family: var(--edro-texto); font-size: .75rem; font-weight: 300; }
+
+/* A Regra do Itálico Real: a versão em verde é o marcador
+   obrigatório, o itálico da plataforma é o condicional. Com
+   Anton (sem face itálica) o nome sai reto e o verde carrega. */
+.modelo { font-style: italic; }
+
+/* =============================================================
+   LAYOUT
+   ============================================================= */
+
+.container {
+  width: 100%;
+  max-width: var(--edro-container);
+  margin-inline: auto;
+  padding-inline: var(--edro-gutter);
+}
+
+.secao {
+  padding-block: var(--edro-secao);
+  border-top: 1px solid var(--edro-linha);
+}
+.secao--alta { padding-block: var(--edro-secao-alta); }
+
+/* A linha some quando os blocos vizinhos não compartilham fundo. */
+.filtro,
+.manifesto + .secao { border-top: none; }
+
+.cabecalho {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: var(--edro-gutter);
+  align-items: end;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* =============================================================
+   BOTÕES E LINKS DE AÇÃO
+   ============================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 18px 26px;
+  border: none;
+  border-radius: var(--edro-raio);
+  font-family: var(--edro-texto);
+  font-size: .75rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--edro-rapido) ease,
+              border-color var(--edro-rapido) ease;
+}
+.btn--grande { padding: 22px 32px; }
+.btn--bloco  { width: 100%; }
+
+.btn--primario {
+  background: var(--edro-verde);
+  color: var(--edro-tinta-sobre-verde);
+}
+.btn--primario:hover { background: var(--edro-verde-hover); }
+
+.btn--secundario {
+  background: transparent;
+  color: var(--edro-tinta);
+  border: 1px solid var(--edro-linha-forte);
+}
+.btn--secundario:hover { border-color: var(--edro-tinta); }
+
+.seta {
+  width: 18px; height: 18px; flex: none;
+  fill: none; stroke: currentColor;
+  stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform var(--edro-rapido) ease;
+}
+.btn:hover .seta { transform: translateX(4px); }
+
+.link-acao {
+  display: inline-block;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--edro-verde);
+  color: var(--edro-tinta);
+  font-size: .75rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.link-acao:hover { border-bottom-width: 2px; padding-bottom: 7px; }
+.link-acao--papel { color: var(--edro-tinta-sobre-papel); border-bottom-color: var(--edro-verde-papel); }
+
+/* =============================================================
+   1 · NAVEGAÇÃO
+   ============================================================= */
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: 92px;
+  background: var(--edro-nav-fundo);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--edro-linha);
+}
+
+.nav__interno {
+  display: flex;
+  align-items: center;
+  gap: var(--edro-gutter);
+  height: 100%;
+  max-width: var(--edro-container);
+  margin-inline: auto;
+  padding-inline: var(--edro-gutter);
+}
+
+.nav__logo { flex: none; display: flex; align-items: center; }
+.nav__logo img { width: auto; height: 26px; }
+
+.nav__menu {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-inline: auto;
+}
+
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--edro-tinta-suave);
+  font-size: .8125rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--edro-rapido) ease, border-color var(--edro-rapido) ease;
+}
+.nav__link:hover { color: var(--edro-tinta); }
+.nav__link.ativo { color: var(--edro-tinta); border-bottom-color: var(--edro-verde); }
+
+.nav__acoes { display: flex; align-items: center; gap: 20px; flex: none; }
+
+.nav__falar {
+  color: var(--edro-tinta-suave);
+  font-size: .8125rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--edro-rapido) ease;
+}
+.nav__falar:hover { color: var(--edro-tinta); }
+.nav__btn { padding: 14px 22px; min-height: 44px; }
+
+.nav__hamburguer {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 44px; height: 44px;
+  margin-left: auto;
+  padding: 0;
+  background: none; border: none; cursor: pointer;
+}
+.nav__barra {
+  display: block; width: 22px; height: 1px;
+  background: var(--edro-tinta);
+  transition: transform var(--edro-rapido) ease, opacity var(--edro-rapido) ease;
+}
+.nav__hamburguer[aria-expanded="true"] .nav__barra:first-child { transform: translateY(3.5px) rotate(45deg); }
+.nav__hamburguer[aria-expanded="true"] .nav__barra:last-child  { transform: translateY(-3.5px) rotate(-45deg); }
+
+.menu-mobile {
+  position: fixed;
+  inset: 64px 0 0 0;
+  z-index: 99;
+  background: var(--edro-fundo);
+  padding: var(--edro-gutter);
+  overflow-y: auto;
+}
+.menu-mobile__lista { display: flex; flex-direction: column; }
+.menu-mobile__lista a {
+  padding: 14px 0;
+  font-family: var(--edro-display);
+  font-size: 2rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--edro-tinta);
+}
+.menu-mobile__divisor {
+  display: block; height: 1px; margin: 20px 0;
+  background: var(--edro-linha);
+}
+.menu-mobile__lista .menu-mobile__sec {
+  font-family: var(--edro-texto);
+  font-size: .8125rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  color: var(--edro-tinta-suave);
+  padding: 10px 0;
+}
+
+/* =============================================================
+   2 · HERO
+   ============================================================= */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: calc(92px + var(--edro-secao-alta));
+  padding-bottom: var(--edro-secao-alta);
+}
+
+.hero__spot {
+  position: absolute;
+  top: 22%; right: -6%;
+  width: 58vw; height: 58vw;
+  max-width: 900px; max-height: 900px;
+  background: radial-gradient(circle, rgba(56, 169, 54, .12) 0%, rgba(56, 169, 54, 0) 62%);
+  pointer-events: none;
+}
+
+.marca-dagua {
+  position: absolute;
+  top: 6%; right: -4%;
+  z-index: 0;
+  font-family: var(--edro-display);
+  font-size: clamp(11rem, 34vw, 32.5rem);
+  line-height: .8;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--edro-marca-dagua);
+  user-select: none;
+  pointer-events: none;
+}
+.marca-dagua--esquerda { right: auto; left: -4%; top: 12%; }
+
+.hero__interno {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  align-items: center;
+  gap: var(--edro-gutter);
+  width: 100%;
+  max-width: var(--edro-container);
+  margin-inline: auto;
+  padding-inline: var(--edro-gutter);
+}
+
+.hero__titulo { margin-bottom: 28px; }
+.hero__lead   { margin-bottom: 36px; max-width: 46ch; }
+
+.hero__botoes { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 40px; }
+
+.hero__exclusividade {
+  display: flex; align-items: center; gap: 14px;
+  font-size: .75rem; color: var(--edro-tinta-tenue);
+  letter-spacing: .04em;
+}
+.hero__traco { display: block; width: 40px; height: 1px; background: var(--edro-verde); flex: none; }
+
+/* A arte é a coluna direita inteira: bike em cima, peso embaixo
+   e alinhado à direita. Em fluxo, nunca sobreposto à roda. */
+.hero__arte {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.hero__bike {
+  width: 124%;
+  max-width: none;
+  margin-left: -4%;
+}
+
+.hero__peso {
+  align-self: flex-end;
+  margin-top: 4px;
+  max-width: 320px;
+  text-align: right;
+}
+.hero__peso-nota { margin-top: 8px; }
+
+/* =============================================================
+   3 · BARRA DE CONFIANÇA
+   ============================================================= */
+
+.confianca {
+  border-block: 1px solid var(--edro-linha);
+  padding-block: 22px;
+}
+.confianca__interno {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(.625rem, 1.3vw, 1.25rem);
+}
+.confianca p { color: var(--edro-tinta-suave); white-space: nowrap; }
+.confianca strong { color: var(--edro-tinta); font-weight: 500; }
+.confianca p + p {
+  padding-left: clamp(.625rem, 1.3vw, 1.25rem);
+  border-left: 1px solid var(--edro-linha);
+}
+.confianca__local { margin-left: auto; }
+.confianca__local strong,
+.confianca__local span { color: var(--edro-verde); }
+
+/* =============================================================
+   4 · FILTRO
+   ============================================================= */
+
+.filtro__lead { margin: 24px 0 clamp(2.5rem, 5vw, 3.5rem); }
+
+.filtro__caixas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--edro-grade);
+}
+
+.caixa {
+  background: var(--edro-painel);
+  border: 1px solid var(--edro-linha);
+  border-radius: var(--edro-raio);
+  padding: var(--edro-card);
+}
+.caixa--sim { border-color: rgba(56, 169, 54, .5); }
+.caixa h3 { margin-bottom: 20px; }
+
+.lista-sinal li {
+  position: relative;
+  padding-left: 28px;
+  color: var(--edro-tinta-suave);
+  font-size: .9375rem;
+  line-height: 1.7;
+}
+.lista-sinal li + li { margin-top: 14px; }
+.lista-sinal li::before {
+  position: absolute;
+  left: 0; top: 0;
+  font-family: var(--edro-texto);
+  font-weight: 500;
+}
+.lista-sinal--mais  li::before { content: "+"; color: var(--edro-verde); }
+.lista-sinal--menos li::before { content: "\2212"; color: var(--edro-tinta-tenue); }
+
+.filtro__conciliador { margin-top: 24px; color: var(--edro-tinta-tenue); }
+
+/* =============================================================
+   5 · TRÊS PLATAFORMAS
+   ============================================================= */
+
+.plataformas__grade {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--edro-grade);
+}
+
+.card-plataforma {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--edro-painel);
+  border: 1px solid var(--edro-linha);
+  border-radius: var(--edro-raio);
+  padding: var(--edro-card);
+  transition: border-color var(--edro-rapido) ease;
+}
+.card-plataforma:hover { border-color: var(--edro-linha-forte); }
+
+.card-plataforma__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.card-plataforma__link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* O wordmark IMPETUS é bem mais largo que SUMMA. O teto de
+   largura mais object-fit deixa cada nome caber no card sem
+   nunca transbordar. */
+.card-plataforma__nome {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 0;
+  min-height: 30px;
+}
+.card-plataforma__nome img {
+  width: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+.card-plataforma__wordmark { height: 22px; max-width: 60%; }
+.card-plataforma__selo     { height: 15px; max-width: 30%; flex: none; }
+
+.card-plataforma__render {
+  margin: clamp(1.5rem, 3vw, 2.25rem) 0;
+}
+
+.card-plataforma__rodape {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--edro-linha);
+}
+.card-plataforma__bloco { flex: 1; }
+.card-plataforma__rotulo { display: block; margin-top: 6px; }
+.card-plataforma__preco {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--edro-tinta);
+  line-height: 1.2;
+}
+.card-plataforma .seta { width: 22px; height: 22px; stroke: var(--edro-tinta); }
+.card-plataforma:hover .seta { transform: translateX(4px); }
+
+.plataformas__nota { margin-top: 24px; max-width: 80ch; }
+
+/* =============================================================
+   6 · ENGENHARIA
+   ============================================================= */
+
+.engenharia__interno {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.engenharia__texto .headline { margin: 16px 0 24px; }
+.engenharia__texto .lead     { margin-bottom: 32px; }
+
+.engenharia__grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--edro-grade);
+}
+
+.stat {
+  background: var(--edro-painel);
+  border: 1px solid var(--edro-linha);
+  border-radius: var(--edro-raio);
+  padding: var(--edro-bloco);
+}
+.stat--destaque { border-color: var(--edro-verde); }
+.stat--destaque .metric-stat { color: var(--edro-verde); }
+.stat__nota { margin-top: 12px; color: var(--edro-tinta-suave); font-size: .8125rem; line-height: 1.6; }
+
+/* =============================================================
+   7 · FIT4U
+   ============================================================= */
+
+.fit4u__interno {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+.fit4u__texto .headline { margin: 16px 0 24px; }
+.fit4u__texto .lead     { margin-bottom: 32px; }
+
+.chip-serie {
+  display: block;
+  width: fit-content;
+  border: 1px solid var(--edro-linha-forte);
+  border-radius: var(--edro-raio);
+  padding: 12px 16px;
+  margin-bottom: 32px;
+}
+.chip-serie__rotulo {
+  margin-bottom: 6px;
+  font-size: .6875rem; font-weight: 500;
+  letter-spacing: .24em; text-transform: uppercase;
+  color: var(--edro-tinta-tenue);
+}
+.chip-serie__valor {
+  font-family: var(--edro-mono);
+  font-size: 1rem;
+  letter-spacing: .04em;
+  line-height: 1.4;
+}
+
+.passo { display: flex; gap: 20px; }
+.passo + .passo { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--edro-linha); }
+.passo__num {
+  flex: none;
+  font-family: var(--edro-display);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--edro-verde);
+  font-variant-numeric: tabular-nums;
+}
+.passo .subhead { margin-bottom: 8px; }
+
+/* =============================================================
+   8 · PROGRAMAS
+   ============================================================= */
+
+.programas__grade {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--edro-grade);
+}
+.card-programa {
+  display: flex;
+  flex-direction: column;
+  background: var(--edro-painel);
+  border: 1px solid var(--edro-linha);
+  border-radius: var(--edro-raio);
+  padding: var(--edro-card);
+  transition: border-color var(--edro-rapido) ease;
+}
+.card-programa:hover { border-color: var(--edro-linha-forte); }
+.card-programa .body { margin: 14px 0 24px; }
+.card-programa__pergunta {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--edro-linha);
+  color: var(--edro-verde);
+  font-style: italic;
+  font-size: .8125rem;
+  line-height: 1.5;
+}
+
+/* =============================================================
+   9 · MANIFESTO · única inversão do site
+   ============================================================= */
+
+.manifesto {
+  background: var(--edro-papel);
+  color: var(--edro-tinta-sobre-papel);
+  padding-block: var(--edro-secao-alta);
+}
+.manifesto__interno {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.manifesto__assinatura {
+  font-family: var(--edro-display);
+  font-weight: 400;
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  line-height: .98;
+  text-transform: uppercase;
+}
+.manifesto__texto .lead { color: #3A403A; }
+.manifesto__tese {
+  margin: 24px 0;
+  font-size: clamp(1rem, 1.2vw, 1.0625rem);
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--edro-tinta-sobre-papel);
+}
+.manifesto__desde { color: #5A605A; margin-bottom: 24px; }
+
+/* =============================================================
+   10 · PROVA SOCIAL
+   ============================================================= */
+
+.prova__tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--edro-grade);
+}
+.tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--edro-raio);
+  background: var(--edro-painel-2);
+  aspect-ratio: 4 / 5;
+}
+/* Estado de homologação: enquanto não há fotografia de atleta
+   aprovada, o tile mostra o render inteiro. Um render de bike é
+   largo, e recortá-lo em 4:5 com `cover` deixaria só o quadro na
+   tela. Com fotografia real de pessoa, voltar para `cover`. */
+.tile img {
+  width: 100%; height: 100%;
+  padding: 9% 5% 20%;
+  box-sizing: border-box;
+  object-fit: contain;
+  filter: grayscale(.35) brightness(.78);
+  transition: filter var(--edro-rapido) ease;
+}
+.tile:hover img { filter: grayscale(.2) brightness(.82); }
+.tile__legenda {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--edro-bloco);
+  background: linear-gradient(to top, rgba(12, 14, 12, .92) 0%, rgba(12, 14, 12, 0) 100%);
+  font-size: .8125rem;
+  font-weight: 500;
+}
+.tile__local { display: block; margin-top: 4px; color: var(--edro-tinta-tenue); font-weight: 300; font-size: .75rem; }
+
+.prova__rodape {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 28px;
+  color: var(--edro-tinta-tenue);
+}
+.prova__perfil { color: var(--edro-verde); text-decoration: none; }
+
+/* =============================================================
+   11 · FECHAMENTO
+   ============================================================= */
+
+.fechamento { position: relative; overflow: hidden; }
+.fechamento__interno {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.fechamento__acao .lead { margin-bottom: 28px; }
+.fechamento__acao .btn + .btn { margin-top: 12px; }
+
+/* =============================================================
+   RODAPÉ
+   ============================================================= */
+
+.rodape {
+  border-top: 1px solid var(--edro-linha);
+  padding-block: clamp(2.5rem, 5vw, 4rem) 2rem;
+}
+.rodape__grade {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--edro-gutter);
+}
+.rodape__marca img { margin-bottom: 18px; }
+.rodape__marca p { color: var(--edro-tinta-tenue); }
+.rodape__endereco { margin-top: 6px; }
+
+.rodape__coluna { display: flex; flex-direction: column; align-items: flex-start; }
+.rodape__coluna h2 { margin-bottom: 16px; }
+.rodape__coluna a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  color: var(--edro-tinta-suave);
+  font-size: .8125rem;
+  text-decoration: none;
+  transition: color var(--edro-rapido) ease;
+}
+.rodape__coluna a:hover { color: var(--edro-tinta); }
+
+.rodape__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding-top: 24px;
+  border-top: 1px solid var(--edro-linha);
+}
+.rodape__legal a { color: var(--edro-tinta-tenue); text-decoration: none; margin-left: 18px; }
+.rodape__legal a:first-child { margin-left: 0; }
+.rodape__legal a:hover { color: var(--edro-tinta-suave); }
+
+/* =============================================================
+   BARRA FIXA DE WHATSAPP · abaixo de 900 px
+   ============================================================= */
+
+.whatsapp-fixo {
+  display: none;
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 98;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  background: var(--edro-verde);
+  color: var(--edro-tinta-sobre-verde);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.whatsapp-fixo:hover { background: var(--edro-verde-hover); }
+
+/* =============================================================
+   MOVIMENTO · uma entrada, orquestrada
+   ============================================================= */
+
+.revelar {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+.revelar.visivel { opacity: 1; transform: none; }
+
+/* A entrada da bike só existe quando o JavaScript assume.
+   Sem ele, a arte nasce visível. */
+.js-anim .hero__bike {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 600ms var(--edro-ease), transform 600ms var(--edro-ease);
+}
+.js-anim .hero__bike.visivel { opacity: 1; transform: none; }
+
+/* =============================================================
+   RESPONSIVO
+   ============================================================= */
+
+@media (max-width: 1200px) {
+  .hero__interno { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 1024px) {
+  .programas__grade { grid-template-columns: 1fr 1fr; }
+
+  .hero { padding-top: calc(92px + var(--edro-secao)); }
+  .hero__interno { grid-template-columns: 1fr; }
+  .hero__bike { width: 108%; margin-left: -4%; }
+  .hero__peso { align-self: flex-start; text-align: left; margin-top: 16px; max-width: none; }
+
+  .engenharia__interno,
+  .fit4u__interno,
+  .manifesto__interno,
+  .fechamento__interno { grid-template-columns: 1fr; }
+
+  .cabecalho { grid-template-columns: 1fr; align-items: start; }
+
+  .rodape__grade { grid-template-columns: 1fr 1fr; row-gap: 2.5rem; }
+}
+
+@media (max-width: 900px) {
+  .nav { height: 64px; }
+  .nav__menu,
+  .nav__acoes { display: none; }
+  .nav__hamburguer { display: flex; }
+
+  .hero { padding-top: calc(64px + var(--edro-secao)); }
+
+  body { padding-bottom: 56px; }
+  .whatsapp-fixo { display: flex; }
+
+  .confianca__interno { gap: 12px 20px; }
+  .confianca p + p { padding-left: 20px; }
+  .confianca__local { margin-left: 0; }
+}
+
+@media (max-width: 768px) {
+  .plataformas__grade,
+  .prova__tiles { grid-template-columns: 1fr; }
+
+  .filtro__caixas { grid-template-columns: 1fr; }
+  .engenharia__grade { grid-template-columns: 1fr 1fr; }
+
+  .marca-dagua { font-size: clamp(8rem, 40vw, 16rem); }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --edro-secao: clamp(2.5rem, 8vh, 4rem);
+    --edro-secao-alta: clamp(3rem, 10vh, 5rem);
+  }
+
+  .programas__grade { grid-template-columns: 1fr; }
+  .engenharia__grade { grid-template-columns: 1fr; }
+
+  .hero__botoes { flex-direction: column; align-items: stretch; }
+  .hero__botoes .btn { width: 100%; }
+
+  .confianca__interno { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .confianca p + p { padding-left: 0; border-left: none; }
+
+  .rodape__grade { grid-template-columns: 1fr; }
+
+  .marca-dagua { display: none; }
+}
+
+/* =============================================================
+   MOVIMENTO REDUZIDO
+   ============================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .revelar,
+  .hero__bike {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .seta,
+  .nav__barra { transition: none !important; }
+
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

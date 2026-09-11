@@ -1,0 +1,80 @@
+/* =============================================================
+   EDRO · Tokens
+   Capitulo 12.1 do EDRO Documento Master Novo Site.
+
+   Este e o unico arquivo que muda quando a EDRO licenciar
+   Gobold e Swiss721 BT. Nenhum hex solto fora daqui.
+   ============================================================= */
+
+:root {
+  /* ---- Cores ---- */
+  --edro-bg:         #0C0E0C;
+  --edro-bg-alt:     #0B0D0B;
+  --edro-panel:      #111411;
+  --edro-panel-2:    #151815;
+  --edro-line:       #1F241F;
+  --edro-line-2:     #2A2F2A;
+  --edro-ink:        #F2F4F0;
+  --edro-soft:       #B5BAB4;
+  --edro-mute:       #7A807A;
+  --edro-green:      #38A936;
+  --edro-green-hover:#2F9430;
+  --edro-green-ink:  #071008;
+  --edro-paper:      #F2F4F0;
+  --edro-paper-ink:  #0B0D0B;
+  --edro-paper-soft: #3A3F3A;
+  --edro-watermark:  #101310;
+  --edro-error:      #E0533A;
+  --edro-warn:       #E3B341;
+
+  /* Verde a 50%, unico uso de borda colorida do sistema */
+  --edro-green-50:   rgba(56, 169, 54, .5);
+
+  /* ---- Tipografia ---- */
+  --font-display: "Gobold", "Anton", Impact, sans-serif;
+  --font-body:    "Swiss721 BT", "Poppins", Helvetica, Arial, sans-serif;
+  --font-mono:    "IBM Plex Mono", "Courier New", monospace;
+
+  /* Escala fluida 390 -> 1440, ancorada nos px do capitulo 12.2 */
+  --t-closer:      clamp(4.5rem,   2.689rem + 7.43vw, 9.375rem);  /*  72 -> 150 */
+  --t-display:     clamp(3.25rem,  2.321rem + 3.81vw, 5.75rem);   /*  52 ->  92 */
+  --t-headline:    clamp(2.5rem,   1.943rem + 2.29vw, 4rem);      /*  40 ->  64 */
+  --t-manifesto:   clamp(3.5rem,   2.525rem + 4vw,    6.125rem);  /*  56 ->  98 */
+  --t-card-title:  clamp(1.75rem,  1.611rem + 0.57vw, 2.125rem);  /*  28 ->  34 */
+  --t-metric-hero: clamp(2.75rem,  2.471rem + 1.14vw, 3.5rem);    /*  44 ->  56 */
+  --t-metric-stat: clamp(2.25rem,  1.971rem + 1.14vw, 3rem);      /*  36 ->  48 */
+  --t-body:        clamp(0.9375rem,0.914rem + 0.1vw,  1rem);      /*  15 ->  16 */
+  --t-serial:      clamp(0.875rem, 0.829rem + 0.19vw, 1rem);      /*  14 ->  16 */
+  --t-body-card:   0.875rem;   /* 14 */
+  --t-caption:     0.75rem;    /* 12 */
+  --t-eyebrow:     0.6875rem;  /* 11 */
+  --t-button:      0.75rem;    /* 12 */
+  --t-nav:         0.75rem;    /* 12 */
+  --t-table:       0.8125rem;  /* 13 */
+
+  /* ---- Espacamento, base 4 ---- */
+  --s-1:  4px;  --s-2:  8px;  --s-3: 12px;  --s-4: 16px;
+  --s-5: 20px;  --s-6: 24px;  --s-8: 32px;  --s-10: 40px;
+  --s-12: 48px; --s-16: 64px; --s-20: 80px; --s-24: 96px;
+  --s-32: 128px; --s-40: 160px;
+
+  /* ---- Layout ---- */
+  --container:    1240px;
+  --gutter:       20px;
+  --radius:       2px;
+  --nav-h:        92px;
+  --nav-h-mobile: 64px;
+
+  /* Ritmo vertical: 96 no mobile, 150 no desktop */
+  --section: clamp(6rem, 4.746rem + 5.14vw, 9.375rem);
+
+  /* ---- Motion ---- */
+  --ease:     cubic-bezier(.2, .7, .2, 1);
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --dur-slow: 600ms;
+}
+
+@media (max-width: 767px) {
+  :root { --gutter: 16px; }
+}

@@ -1,0 +1,344 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { bikes, plataformas, porSlug, brl, kg, wa } from '../lib/edro.js';
+import CardPlataforma from '../components/CardPlataforma.astro';
+import programasConteudo from '../content/programas.json';
+
+import bikeSumma   from '../assets/bicicletas/bicicleta-summa.png';
+import bikeRange   from '../assets/bicicletas/bicicleta-range.png';
+import bikeImpetus from '../assets/bicicletas/bicicleta-impetus.png';
+
+const renders   = { summa: bikeSumma, range: bikeRange, impetus: bikeImpetus };
+
+const summa   = porSlug('summa');
+const impetus = porSlug('impetus');
+
+/* `conta` liga a contagem de 12.7. Um numero sem amplitude nao conta:
+   de 0 a 1 a curva imprimiria "0 por vez" por 165 ms, contradizendo a
+   propria copy do card. EPS ja fica de fora por nao ser numerico. */
+const engenharia = [
+  { valor: kg(impetus.pro.peso_kg), unidade: 'kg', nota: 'IMPETUS PRO completa, sem pedais.', destaque: true, conta: true },
+  { valor: '46T', unidade: '', nota: 'Prepreg de alto módulo, 40T e 46T, curado em molde exclusivo EDRO.', destaque: false, conta: true },
+  { valor: 'EPS', unidade: '', nota: 'Monocoque com núcleo expandido, sem juntas, sem peso morto.', destaque: false, conta: false },
+  { valor: '1', unidade: 'por vez', nota: 'Cada quadro é laminado, pintado, montado e inspecionado individualmente, com laudo técnico próprio.', destaque: false, conta: false },
+];
+
+const passos = [
+  { t: 'Medidas e bike fit', d: 'Você envia suas medidas ou faz o fit com um parceiro EDRO. O projetista define tamanho, reach e stack ideais.' },
+  { t: 'Geometria e componentes', d: 'Cockpit, rodas VORZ, transmissão SRAM e suspensão RockShox escolhidos pelo ganho real de performance, com suporte no Brasil.' },
+  { t: 'Pintura exclusiva', d: 'Projeto de pintura desenhado com você e aprovado antes de ir para a cabine, em Tubarão, SC.' },
+  { t: 'Montagem, inspeção e entrega', d: 'Montada à mão, inspecionada ponto a ponto e entregue em até 30 dias, com frete grátis e 10 dias de Compra Certa.' },
+];
+
+/* Copy dos programas vem de content/programas.json, a mesma fonte das paginas /programas. */
+const programas = programasConteudo.ordem.map((slug) => {
+  const x = programasConteudo.programas[slug];
+  return { t: x.nome, d: x.card, q: x.pergunta };
+});
+
+const prova = [
+  { slug: 'summa',   nome: 'Summa',   versao: 'XCR', alt: 'EDRO SUMMA XCR hardtail de carbono, vista lateral' },
+  { slug: 'range',   nome: 'Range',   versao: 'XCR', alt: 'EDRO RANGE XCR full suspension de carbono, vista lateral' },
+  { slug: 'impetus', nome: 'Impetus', versao: 'SSR', alt: 'EDRO IMPETUS SSR bicicleta de estrada de carbono, vista lateral' },
+];
+
+const descricao = 'Bicicletas de carbono de alta performance, 100% sob medida, projetadas e montadas em Tubarão, Santa Catarina, para quem já pedala e quer evoluir.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'EDRO Performance Bikes',
+  legalName: bikes.contato.razao_social,
+  url: 'https://edrobikes.com.br/',
+  description: descricao,
+  foundingDate: '2017',
+  email: bikes.contato.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Rua Rubens Faraco, 274',
+    postalCode: '88704-440',
+    addressLocality: 'Tubarão',
+    addressRegion: 'SC',
+    addressCountry: 'BR',
+  },
+  sameAs: ['https://www.instagram.com/edrobikes/'],
+};
+---
+
+<Base
+  titulo="EDRO Performance Bikes · Bicicletas de carbono 100% sob medida"
+  descricao={descricao}
+  jsonLd={jsonLd}
+>
+
+<!-- 2 · HERO -->
+<section class="hero">
+  <span class="marca-dagua" aria-hidden="true">EDRO</span>
+  <span class="hero__brilho" aria-hidden="true"></span>
+
+  <div class="hero__interno">
+    <div class="hero__texto">
+      <h1 class="display hero__titulo">
+        Não aceite<br />ser só<br /><span class="verde">mais um.</span>
+      </h1>
+
+      <p class="lead hero__lead">
+        Bicicletas de carbono de alta performance, 100% sob medida, projetadas e
+        montadas em Santa Catarina para quem já pedala e quer evoluir.
+      </p>
+
+      <div class="hero__botoes">
+        <a class="btn btn--primario" href={wa('Olá, EDRO. Quero montar a minha EDRO sob medida. (origem: site-home)')} rel="noopener" data-wa="hero">
+          Monte a sua EDRO
+          <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+        <a class="btn btn--secundario" href="#plataformas">Ver plataformas</a>
+      </div>
+
+      <p class="hero__exclusividade">
+        <span class="hero__traco" aria-hidden="true"></span>
+        Feita uma por vez. Poucas por mês.
+      </p>
+    </div>
+
+    <div class="hero__arte">
+      <Picture
+        pictureAttributes={{ class: 'hero__bike' }}
+        src={bikeSumma}
+        formats={['avif', 'webp']}
+        alt="EDRO SUMMA PRO hardtail de carbono, vista lateral esquerda"
+        widths={[480, 960, 1440, 1920]}
+        sizes="(max-width: 1023px) 108vw, 62vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+
+      <div class="hero__peso">
+        <p class="metric-hero">{kg(summa.pro.peso_kg)}<span class="unidade"> kg</span></p>
+        <p class="caption hero__peso-nota">
+          <i class="modelo">SUMMA</i> <span class="verde">PRO</span> completa, sem pedais<br />
+          Molde exclusivo, prepreg 46T, monocoque EPS
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · BARRA DE CONFIANÇA -->
+<section class="confianca" aria-label="Condições padrão EDRO">
+  <div class="container confianca__interno">
+    <p class="confianca__item"><b>Garantia vitalícia</b> no quadro</p>
+    <p class="confianca__item"><b>Frete grátis</b> para todo o Brasil</p>
+    <p class="confianca__item"><b>12x</b> sem juros ou 5% no Pix</p>
+    <p class="confianca__item"><b>30 dias</b> da medida à entrega</p>
+    <p class="confianca__item confianca__item--verde"><b>Tubarão, SC</b> #DeSCParaOMundo</p>
+  </div>
+</section>
+
+<!-- 4 · A EDRO NÃO É PARA QUALQUER UM -->
+<section class="secao secao--sem-linha" id="filtro">
+  <div class="container">
+    <p class="eyebrow eyebrow--verde">Para quem é</p>
+    <h2 class="headline">A EDRO não é<br />para <span class="verde">qualquer um.</span></h2>
+
+    <p class="lead filtro__lead">
+      Não fazemos bike de entrada, não fazemos volume e não vendemos por preço.
+      Fazemos poucas por mês, uma por vez, para quem sabe exatamente o que quer
+      sentir na próxima subida.
+    </p>
+
+    <div class="filtro__caixas">
+      <div class="caixa caixa--sim">
+        <h3 class="eyebrow eyebrow--verde">É para você se</h3>
+        <ul class="lista-sinal lista-sinal--mais">
+          <li>Você já pedala, amador ou atleta, e a próxima bike precisa ser um salto, não uma troca.</li>
+          <li>Você quer uma bike com a sua geometria, a sua pintura e o seu nome no número de série.</li>
+          <li>Você entende que peso, rigidez e componente certo são decisões de engenharia, não de catálogo.</li>
+        </ul>
+      </div>
+
+      <div class="caixa">
+        <h3 class="eyebrow">Provavelmente não é se</h3>
+        <ul class="lista-sinal lista-sinal--menos">
+          <li>Esta vai ser a sua primeira bike.</li>
+          <li>A decisão vai ser fechada na planilha, pelo menor preço.</li>
+          <li>Para você, uma bike de prateleira resolve.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="filtro__conciliador">Sem problema. Existem ótimas bikes para isso. A EDRO só não é uma delas.</p>
+  </div>
+</section>
+
+<!-- 5 · TRÊS PLATAFORMAS -->
+<section class="secao" id="plataformas">
+  <div class="container">
+    <div class="cabecalho">
+      <h2 class="headline">Três plataformas.<br />Nenhuma bike igual.</h2>
+      <p class="lead">
+        Cada plataforma nasce de um molde exclusivo EDRO em carbono monocoque,
+        modelagem EPS e prepreg de alto módulo. A partir daí, geometria, pintura
+        e cada componente são definidos por você.
+      </p>
+    </div>
+
+    <div class="plataformas__grade">
+      {plataformas.map((p) => <CardPlataforma p={p} />)}
+    </div>
+
+    <p class="caption plataformas__nota">{bikes.meta.nota_legal}</p>
+  </div>
+</section>
+
+<!-- 6 · ENGENHARIA DE CARBONO -->
+<section class="secao" id="engenharia">
+  <div class="container engenharia__interno">
+    <div class="engenharia__texto">
+      <p class="eyebrow eyebrow--verde">Engenharia de carbono</p>
+      <h2 class="headline">Leve porque foi<br /><span class="verde">decidido assim.</span></h2>
+      <p class="lead">
+        Um quadro EDRO não é leve por acaso. Cada lâmina de carbono tem orientação,
+        módulo e posição definidos em projeto, e o processo EPS elimina o que não
+        trabalha: resina em excesso, sobreposições, juntas.
+      </p>
+      <a class="link-acao" href="/engenharia">Ver como uma EDRO nasce</a>
+    </div>
+
+    <div class="engenharia__grade">
+      {engenharia.map((e) => (
+        <div class={e.destaque ? 'stat stat--destaque' : 'stat'}>
+          <p class="metric-stat"><span class="stat__valor" data-conta={e.conta ? e.valor : undefined}>{e.valor}</span>{e.unidade && <span class="unidade"> {e.unidade}</span>}</p>
+          <p class="stat__nota">{e.nota}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- 7 · FIT4U -->
+<section class="secao" id="fit4u">
+  <div class="container fit4u__interno">
+    <div class="fit4u__texto">
+      <p class="eyebrow eyebrow--verde">O sob medida</p>
+      <h2 class="headline">Nenhuma<br />EDRO<br />nasce <span class="verde">igual.</span></h2>
+      <p class="lead">
+        O programa FIT4U transforma as suas medidas, o seu jeito de pedalar e a sua
+        identidade em uma bike que só existe uma vez. Ela chega com o seu nome no
+        número de série.
+      </p>
+
+      <p class="chip-serie">Nº de série <b>EDRO·SUM·0417·EDUARDO</b></p>
+
+      <a class="link-acao" href="/fit4u">Como funciona o FIT4U</a>
+    </div>
+
+    <ol class="passos">
+      {passos.map((p, i) => (
+        <li class="passo">
+          <span class="passo__num" aria-hidden="true">{i + 1}</span>
+          <div>
+            <h3 class="card-title">{p.t}</h3>
+            <p class="body-card">{p.d}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- 8 · O QUE SÓ A EDRO GARANTE -->
+<section class="secao" id="programas">
+  <div class="container">
+    <div class="cabecalho">
+      <h2 class="headline">O que só a<br />EDRO garante.</h2>
+      <p class="lead">
+        Quatro programas que existem para tirar o risco da decisão. Cada um deles
+        responde a uma pergunta que você faria antes de investir em uma bike sob medida.
+      </p>
+    </div>
+
+    <div class="programas__grade">
+      {programas.map((p) => (
+        <article class="card-programa">
+          <h3 class="card-title">{p.t}</h3>
+          <p class="body-card">{p.d}</p>
+          <p class="card-programa__pergunta">{p.q}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- 9 · MANIFESTO · única inversão para fundo claro -->
+<section class="manifesto" id="manifesto">
+  <div class="container manifesto__interno">
+    <h2 class="manifesto-h2">Menos<br />marketing.<br /><span class="verde">Mais</span><br />performance.</h2>
+
+    <div class="manifesto__texto">
+      <p class="lead">
+        A EDRO não compete por preço nem por volume. Não coloca um componente na bike
+        sem ganho real de performance e sem assistência no Brasil.
+      </p>
+      <p class="manifesto__tese">
+        Cada real que a gente não gasta te convencendo, a gente gasta na tua bike.
+      </p>
+      <p class="manifesto__desde">EDRO Performance Bikes desde 2017</p>
+      <a class="link-acao link-acao--papel" href="/a-marca">Assista ao manifesto</a>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · FEITA PARA QUEM JÁ PEDALA -->
+<section class="secao secao--sem-linha" id="prova">
+  <div class="container">
+    <div class="cabecalho">
+      <h2 class="headline">Feita para quem<br />já pedala.</h2>
+      <p class="lead">
+        Atletas de XCO, XCM e estrada que escolheram evoluir em uma EDRO.
+        Performance para a EDRO é evolução e prazer, não só pódio.
+      </p>
+    </div>
+
+    <div class="prova__tiles">
+      {prova.map((t) => (
+        <figure class="tile">
+          <Picture src={renders[t.slug]} formats={['avif', 'webp']} alt={t.alt} widths={[400, 800]} sizes="(max-width: 767px) 90vw, 33vw" loading="lazy" />
+          <figcaption class="tile__legenda">
+            <span class="tile__modelo"><i class="modelo">{t.nome}</i> <span class="verde">{t.versao}</span></span>
+            <span class="tile__local">Fotografia em produção</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <div class="prova__rodape">
+      <a class="prova__perfil" href="https://www.instagram.com/edrobikes/" rel="noopener">@edrobikes</a>
+      <p>Mostre o seu lado campeão.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · FECHAMENTO -->
+<section class="secao fechamento">
+  <span class="fechamento__brilho" aria-hidden="true"></span>
+
+  <div class="container fechamento__interno">
+    <h2 class="closer">Fuja do<br /><span class="verde">comum.</span></h2>
+
+    <div class="fechamento__acao">
+      <p class="lead">
+        Conte para a gente como você pedala hoje. Em menos de 2 horas um especialista
+        EDRO responde com o primeiro desenho da sua bike.
+      </p>
+      <a class="btn btn--primario btn--bloco" href={wa('Olá, EDRO. Quero montar a minha EDRO sob medida. (origem: site-home-fechamento)')} rel="noopener" data-wa="fechamento">
+        Começar minha EDRO no WhatsApp
+        <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <a class="btn btn--secundario btn--bloco" href="/fit4u#guia">Baixar o guia FIT4U</a>
+    </div>
+  </div>
+</section>
+
+</Base>

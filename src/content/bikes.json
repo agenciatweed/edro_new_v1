@@ -1,0 +1,717 @@
+{
+  "meta": {
+    "fonte": "edrobikes.com.br (leitura de 08/09/2026) com as decisões do capítulo 37 aplicadas",
+    "nota_legal": "Pesos aproximados para quadro tamanho M, sem pedais, podendo variar até 5% conforme componentes, pintura e tamanho. A EDRO reserva-se o direito de alterar especificações sem aviso prévio.",
+    "condicoes": {
+      "frete": "Grátis para todo o Brasil",
+      "pagamento": "12x sem juros no cartão ou 5% de desconto no Pix",
+      "prazo_entrega_dias": 30,
+      "carga_maxima_kg": 135,
+      "compra_certa_dias": 10,
+      "cura_pintura_dias": 15
+    },
+    "grupos_ficha": [
+      {
+        "chave": "garfo",
+        "rotulo": "Garfo"
+      },
+      {
+        "chave": "amortecedor",
+        "rotulo": "Amortecedor"
+      },
+      {
+        "chave": "transmissao",
+        "rotulo": "Transmissão"
+      },
+      {
+        "chave": "cockpit",
+        "rotulo": "Cockpit"
+      },
+      {
+        "chave": "freios",
+        "rotulo": "Freios"
+      },
+      {
+        "chave": "rodas",
+        "rotulo": "Rodas"
+      },
+      {
+        "chave": "pneus",
+        "rotulo": "Pneus"
+      },
+      {
+        "chave": "selante",
+        "rotulo": "Selante"
+      }
+    ]
+  },
+  "plataformas": [
+    {
+      "slug": "summa",
+      "nome": "SUMMA",
+      "categoria": "Cross-Country 29er Hardtail",
+      "uso_curto": "Hardtail XC",
+      "tamanhos": [
+        "S",
+        "M",
+        "L"
+      ],
+      "quadro": {
+        "nome": "EDRO HT 29 High Modulus UD Carbon Fiber Monocoque Frame",
+        "tecnologia": [
+          "EPS Technology",
+          "Prepreg 40T e 46T alto módulo",
+          "Monocoque",
+          "Pintura PU Acrílica Carbon Industrial"
+        ],
+        "padroes": [
+          "Boost 12x148",
+          "UDH",
+          "Cabos internos integrados",
+          "BSA BB 73 mm"
+        ],
+        "peso_quadro_g_M": 860,
+        "curso_garfo_mm": 110,
+        "texto": "Projetado para o máximo desempenho em XC: subidas mais eficientes, descidas mais rápidas e seguras e sprints vigorosos. Na SUMMA, leveza é decisão de projeto, com quadro pesando aproximadamente 860 g no tamanho M."
+      },
+      "argumentos": [
+        {
+          "titulo": "Desça cada vez mais rápido",
+          "numero": "67°",
+          "rotulo": "Caixa de direção",
+          "texto": "Caixa de direção de 67°, proporcionando muito mais estabilidade e segurança em descidas técnicas e em alta velocidade."
+        },
+        {
+          "titulo": "A bike muito mais na sua mão",
+          "numero": "780",
+          "unidade": "mm",
+          "rotulo": "Largura máxima do guidão integrado · top tube longo, avanço curto",
+          "texto": "Dirigibilidade aprimorada. Top tube mais alongado, aliado a avanço de guidão mais curto e guidão de até 780 mm de largura, com guidão integrado que alia responsividade e ganhos aerodinâmicos."
+        },
+        {
+          "titulo": "Extraia o máximo da sua potência",
+          "numero": "77°",
+          "rotulo": "Tubo de selim",
+          "texto": "Seat tube com ângulo de 77°, que deixa o ciclista mais centralizado na bicicleta, distribuindo melhor o peso nas duas rodas e fazendo com que a bike empine menos em subidas muito íngremes."
+        },
+        {
+          "titulo": "Saia na frente no sprint",
+          "numero": "425",
+          "unidade": "mm",
+          "rotulo": "Chainstay · movimento central BSA",
+          "texto": "Triângulo traseiro curto e rígido, com chainstay de 425 mm, aliado ao movimento central BSA, proporciona rigidez torcional aprimorada, fazendo com que toda potência aplicada nos pedais seja transferida de forma mais eficiente para a roda traseira."
+        }
+      ],
+      "geometria": {
+        "colunas": [
+          "CF",
+          "L",
+          "I",
+          "A",
+          "B",
+          "F",
+          "P",
+          "T",
+          "D",
+          "R",
+          "G",
+          "REACH",
+          "STACK",
+          "WB"
+        ],
+        "legenda": {
+          "CF": "tubo de selim",
+          "L": "top tube efetivo",
+          "I": "não publicar",
+          "A": "ângulo do tubo de selim",
+          "B": "ângulo da caixa",
+          "F": "front center",
+          "P": "chainstay",
+          "T": "comprimento da caixa",
+          "D": "BB drop",
+          "R": "não publicar",
+          "G": "comprimento do garfo"
+        },
+        "S": [
+          410,
+          578.6,
+          137,
+          "77°",
+          "67°",
+          724.7,
+          425,
+          95,
+          64,
+          51,
+          506,
+          441.6,
+          598.4,
+          1143.8
+        ],
+        "M": [
+          440,
+          611.8,
+          140.2,
+          "77°",
+          "67°",
+          760.3,
+          425,
+          105,
+          64,
+          51,
+          506,
+          471.6,
+          607.4,
+          1177.8
+        ],
+        "L": [
+          490,
+          640.2,
+          143.6,
+          "77°",
+          "67°",
+          789.4,
+          425,
+          120,
+          64,
+          51,
+          506,
+          496.6,
+          621.7,
+          1208.8
+        ]
+      },
+      "versoes": [
+        {
+          "slug": "pro",
+          "nome": "PRO",
+          "preco": 69990,
+          "peso_kg": 8.47,
+          "garfo": "RockShox SID SL Ultimate Flight Attendant, 110 mm, offset 44 mm, 15x110 Boost",
+          "transmissao": "SRAM XX SL Eagle AXS T-Type, Pod Ultimate MMX, cassete 10-52T, pedivela XX SL 175 mm 34T com medidor de potência, DUB BSA 73",
+          "cockpit": "KFX SIC guidão integrado carbono 780 mm, avanço 65/85/105 mm, -12°; Supacaz Supalite; RockShox Reverb AXS 31.6 x 390 mm, drop 125 mm; Fizik Vento Argo R1",
+          "freios": "SRAM Motive Ultimate 4 pistões, rotores 160 mm",
+          "rodas": "VORZ SL PRO Carbon 29 Boost, cubos DT Swiss 240 MB XD, 28 mm interno, raios Sapim CX-Ray",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4 (M/L); XC RC Sport 29x2.2 (S)",
+          "selante": "Solifes 60 a 120 ml",
+          "descricao": "Ideal para quem quer estar no pódio e busca o máximo de sua performance, usufruindo das melhores configurações para uma EDRO, com a menor influência de peso possível."
+        },
+        {
+          "slug": "xcr",
+          "nome": "XCR",
+          "preco": 38990,
+          "peso_kg": 9.1,
+          "garfo": "RockShox SID SL 2P, Solo Air, 110 mm, OneLoc, Charger RL, 15x110 Boost",
+          "transmissao": "SRAM GX Eagle T-Type AXS, Pod MMX, cassete XS-1275 10-52T, pedivela GX 175 mm 34T, DUB BSA 73",
+          "cockpit": "KFX SIC guidão integrado carbono 780 mm; Supacaz Supalite; KS LEV SI 400 mm, drop 125 mm; Selle Royal SRX Open 145 mm",
+          "freios": "SRAM Motive Bronze 4 pistões, rotores 160 mm",
+          "rodas": "VORZ SL Carbon 29 Boost, cubos 051MB XD, 28 mm interno, raios Pillar",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4 (M/L); XC RC Sport 29x2.2 (S)",
+          "selante": "Solifes 60 a 120 ml",
+          "descricao": "Para quem treina com objetivo e concilia a rotina com a prova. Transmissão eletrônica, canote retrátil e rodas de carbono no mesmo quadro da PRO."
+        },
+        {
+          "slug": "ex",
+          "nome": "EX",
+          "preco": 23990,
+          "peso_kg": 9.48,
+          "garfo": "RockShox SID SL 2P, Solo Air, 110 mm, OneLoc, Charger RL, 15x110 Boost",
+          "transmissao": "SRAM Eagle 90, corrente GX T-Type 126, cassete XS-1275 10-52T, pedivela Eagle 90 175 mm 34T, DUB BSA 73",
+          "cockpit": "Vultro Journey guidão 31.8 x 760 mm e mesa 80 mm +/-7° alumínio forjado; Supacaz Supalite; canote Vultro Journey 31.6 x 400 mm; Selle Royal SRX Open 145 mm",
+          "freios": "SRAM Motive Bronze 4 pistões, rotores 160 mm",
+          "rodas": "VORZ Comp 29 Boost alumínio, 26 mm interno, rolamentos selados",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4 (M/L); XC RC Sport 29x2.2 (S)",
+          "selante": "Solifes 60 a 120 ml",
+          "descricao": "A porta de entrada para a plataforma, com o mesmo quadro, a mesma pintura exclusiva e a mesma garantia vitalícia das versões superiores."
+        }
+      ],
+      "frase": "Rigidez de sprint e leveza de subida. A escolha de quem cronometra cada volta em XCO e maratona.",
+      "para_quem": [
+        "Para o ciclista de XC que cronometra cada volta, em XCO ou maratona.",
+        "Entrega rigidez de sprint e leveza de subida, com quadro de aproximadamente 860 g no tamanho M.",
+        "É a única hardtail das três: sem curso traseiro entre a sua potência e o terreno."
+      ],
+      "comparativo": {
+        "categoria": "XC hardtail 29",
+        "eixos": "Boost 12x148",
+        "movimento_central": "BSA 73 mm",
+        "cambio": "UDH",
+        "pneus": "29x2.4 (2.2 no S)"
+      }
+    },
+    {
+      "slug": "range",
+      "nome": "RANGE",
+      "categoria": "Cross-Country 29er Full Suspension",
+      "uso_curto": "Full suspension XC, 100 mm",
+      "tamanhos": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quadro": {
+        "nome": "EDRO FS High Modulus UD Carbon Fiber Monocoque Frame",
+        "tecnologia": [
+          "EPS Technology",
+          "Prepreg 40T e 46T alto módulo",
+          "Monocoque",
+          "Pintura PU Acrílica Carbon Industrial"
+        ],
+        "padroes": [
+          "Boost 12x148",
+          "UDH",
+          "PressFit 92",
+          "Amortecedor vertical Trunnion 165x40",
+          "Cabos internos"
+        ],
+        "udh": true,
+        "curso_traseiro_mm": 100,
+        "curso_garfo_mm": 110,
+        "cinematica": "Pivô simples, triângulo traseiro em peça única, anti-squat aprox. 100%, suspensão em três fases (sensível, estável, progressiva)",
+        "texto": "Curso traseiro de 100 mm com amortecedor vertical de 165x40 mm em acoplamento Trunnion, garfo de 110 mm e movimento central PressFit 92. Suspensão em três fases: sensível no início do curso, estável no meio e progressiva no fim."
+      },
+      "argumentos": [
+        {
+          "titulo": "Cinemática para XC",
+          "numero": "100",
+          "unidade": "mm",
+          "rotulo": "Curso traseiro · garfo de 110 mm",
+          "texto": "Suspensão em três fases. No início do curso é sensível às pequenas irregularidades do terreno, para tração e conforto; no meio é estável, para firmeza e responsividade; no fim é progressiva, para absorver impactos maiores e manter a bike estável nos grandes obstáculos."
+        },
+        {
+          "titulo": "Eficiência de hardtail, tração de full",
+          "numero": "100%",
+          "rotulo": "Anti-squat aproximado · pedal bob quase nulo",
+          "texto": "Triângulo traseiro curto, em peça única, com pivô simples, resulta em anti-squat de aproximadamente 100%, anulando o pedal bob. Alta eficiência de pedalada com suspensão ativa para tração aprimorada."
+        },
+        {
+          "titulo": "Estabilidade",
+          "numero": "67°",
+          "rotulo": "Caixa de direção · top tube longo, mesa curta",
+          "texto": "Caixa de direção com 67° de inclinação deixa a bike mais estável em descidas e em alta velocidade. Com top tube mais alongado, foi possível adequar uma mesa mais curta, o que garante melhor dirigibilidade em trechos de alta exigência técnica."
+        },
+        {
+          "titulo": "Flight Attendant na PRO",
+          "rotulo": "Garfo e amortecedor RockShox Ultimate · Ride Dynamics de 3 posições",
+          "texto": "Na versão PRO, o garfo SID SL Ultimate e o amortecedor SIDLuxe Ultimate saem com Flight Attendant, damper Race Day e Ride Dynamics de 3 posições. XCR e EX usam trava no guidão OneLoc."
+        }
+      ],
+      "geometria": {
+        "colunas": [
+          "S",
+          "O",
+          "SC",
+          "HS",
+          "HC",
+          "F",
+          "WB",
+          "FC",
+          "RC",
+          "G",
+          "REACH",
+          "STACK"
+        ],
+        "legenda": {
+          "S": "tubo de selim",
+          "O": "top tube efetivo",
+          "SC": "ângulo do tubo de selim",
+          "HS": "comprimento da caixa",
+          "HC": "ângulo da caixa",
+          "F": "comprimento do garfo",
+          "WB": "entre-eixos",
+          "FC": "front center",
+          "RC": "chainstay",
+          "G": "não publicar"
+        },
+        "S": [
+          410,
+          578.6,
+          "77°",
+          95,
+          "67°",
+          506,
+          1159,
+          724.7,
+          438,
+          45,
+          445,
+          583
+        ],
+        "M": [
+          440,
+          611.8,
+          "77°",
+          105,
+          "67°",
+          506,
+          1193,
+          758.6,
+          438,
+          45,
+          475,
+          592
+        ],
+        "L": [
+          490,
+          640.2,
+          "77°",
+          120,
+          "67°",
+          506,
+          1224,
+          789.4,
+          438,
+          45,
+          500,
+          606.3
+        ],
+        "XL": [
+          540,
+          664.2,
+          "77°",
+          140,
+          "67°",
+          506,
+          1252,
+          817.2,
+          438,
+          45,
+          520,
+          624.4
+        ]
+      },
+      "versoes": [
+        {
+          "slug": "pro",
+          "nome": "PRO",
+          "preco": 79990,
+          "peso_kg": 9.89,
+          "garfo": "RockShox SID SL Ultimate Flight Attendant, 110 mm, offset 44 mm, 15x110 Boost",
+          "amortecedor": "RockShox SIDLuxe Ultimate Flight Attendant Custom, Solo Air, 165x40 mm, curso 100 mm",
+          "transmissao": "SRAM XX SL Eagle AXS T-Type, Pod Ultimate MMX, cassete 10-52T, pedivela XX SL 175 mm 34T com medidor de potência, DUB PF92",
+          "cockpit": "KFX SIC guidão integrado carbono 780 mm; Supacaz Supalite; RockShox Reverb AXS 31.6 x 390 mm, drop 125 mm; Fizik Vento Argo R1",
+          "freios": "SRAM Motive Ultimate 4 pistões, rotores 160 mm",
+          "rodas": "VORZ SL PRO Carbon 29 Boost, cubos DT Swiss 240 MB XD, 28 mm interno, raios Sapim CX-Ray",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite tubeless 29x2.4, 120 TPI, SmartGrip, 650 g",
+          "selante": "Solifes 60 a 120 ml",
+          "descricao": "Ideal para quem quer estar no pódio e busca o máximo de sua performance, usufruindo das melhores configurações para uma EDRO, com a menor influência de peso possível."
+        },
+        {
+          "slug": "xcr",
+          "nome": "XCR",
+          "preco": 43990,
+          "peso_kg": 10.58,
+          "garfo": "RockShox SID SL 2P, Solo Air, 110 mm, OneLoc, Charger RL, 15x110 Boost",
+          "amortecedor": "RockShox SIDLuxe Select+, 100 mm, trava OneLoc, DebonAir",
+          "transmissao": "SRAM GX Eagle T-Type AXS, Pod MMX, cassete XS-1275 10-52T, pedivela GX 175 mm 34T, DUB PF92",
+          "cockpit": "KFX SIC guidão integrado carbono 780 mm; Supacaz Supalite; KS LEV SI 400 mm, drop 125 mm; Selle Royal SRX Open 145 mm",
+          "freios": "SRAM Motive Bronze 4 pistões, rotores 160 mm",
+          "rodas": "VORZ SL Carbon 29 Boost, cubos 051MB XD, 28 mm interno, raios Pillar",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite tubeless 29x2.4",
+          "selante": "Solifes 60 a 120 ml",
+          "descricao": "Para quem treina com objetivo e concilia a rotina com a prova. Transmissão eletrônica, canote retrátil e rodas de carbono no mesmo quadro da PRO."
+        },
+        {
+          "slug": "ex",
+          "nome": "EX",
+          "preco": 29990,
+          "peso_kg": 10.78,
+          "garfo": "RockShox SID SL 2P, Solo Air, 110 mm, OneLoc, Charger RL, 15x110 Boost",
+          "amortecedor": "RockShox SIDLuxe Select+, 100 mm, trava OneLoc, DebonAir",
+          "transmissao": "SRAM Eagle 90, corrente GX T-Type 126, cassete XS-1275 10-52T, pedivela Eagle 90 175 mm 34T, DUB PF92",
+          "cockpit": "Vultro Journey guidão 31.8 x 760 mm e mesa 80 mm; Supacaz Supalite; canote Vultro Journey 31.6 x 400 mm; Selle Royal SRX Open 145 mm",
+          "freios": "SRAM Motive Bronze 4 pistões, rotores 160 mm",
+          "rodas": "VORZ Comp 29 Boost alumínio, 26 mm interno",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite tubeless 29x2.4",
+          "selante": "Solifes 60 a 120 ml",
+          "descricao": "A porta de entrada para a plataforma, com o mesmo quadro, a mesma pintura exclusiva e a mesma garantia vitalícia das versões superiores."
+        }
+      ],
+      "frase": "100 mm atrás, 110 mm à frente. Tração e controle em trilhas técnicas sem entregar eficiência.",
+      "para_quem": [
+        "Para quem encara trilha técnica e não quer abrir mão de eficiência de pedalada.",
+        "Entrega 100 mm atrás e 110 mm à frente, com anti-squat de aproximadamente 100% que anula o pedal bob.",
+        "É a escolha quando o terreno cobra tração e controle que uma hardtail não entrega."
+      ],
+      "comparativo": {
+        "categoria": "XC full suspension 29",
+        "eixos": "Boost 12x148",
+        "movimento_central": "PressFit 92",
+        "cambio": "UDH",
+        "pneus": "29x2.4"
+      }
+    },
+    {
+      "slug": "impetus",
+      "nome": "IMPETUS",
+      "categoria": "Aero Road Bike",
+      "uso_curto": "Road disc, 3 em 1",
+      "tamanhos": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "quadro": {
+        "nome": "EDRO RD Disc High Modulus UD Carbon Fiber Monocoque Frame, geração 3.1",
+        "garfo": "EDRO RDF Disc High Modulus UD Carbon Monocoque, thru-axle 12x100, flat mount",
+        "tecnologia": [
+          "EPS Technology",
+          "Alto módulo, nova laminação geração 3.1",
+          "Monocoque",
+          "Design aero",
+          "Pintura PU Acrílica Carbon Industrial"
+        ],
+        "padroes": [
+          "Thru-axle 12x142",
+          "Flat mount",
+          "Cabos totalmente internos (ACR)",
+          "Braze-on"
+        ],
+        "clearance_pneu": "700x35",
+        "geracao": "3.1",
+        "geracao_texto": "Nesta nova versão do quadro, a EDRO apresenta uma nova laminação e redistribuição das fibras de carbono, resultando em uma estrutura ainda mais leve, rígida e eficiente, reforçando o desempenho sem comprometer o conforto característico da linha IMPETUS. A geometria é a mesma.",
+        "texto": "Geração 3.1: nova laminação e redistribuição das fibras de carbono, resultando em uma estrutura ainda mais leve, rígida e eficiente, reforçando o desempenho sem comprometer o conforto característico da linha. A geometria é a mesma.",
+        "folga_pneu": "700x35 mm"
+      },
+      "argumentos": [
+        {
+          "titulo": "Sem fios à vista",
+          "rotulo": "Caixa de direção ACR · cabeamento totalmente interno",
+          "texto": "A caixa de direção ACR traz um cabeamento totalmente interno. Bicicleta mais estética e em um novo nível de desempenho e performance."
+        },
+        {
+          "titulo": "Cockpit integrado",
+          "rotulo": "Guidão e mesa em peça única de carbono Vultro Proton R-SL · menos arrasto e menos peso",
+          "texto": "Guidão e mesa em peça única de carbono favorecem a performance em várias frentes: conforto, aerodinâmica, controle e redução de peso, com menos arrasto que guidão e mesa separados."
+        },
+        {
+          "titulo": "Movimento central baixo",
+          "numero": "72",
+          "unidade": "mm",
+          "rotulo": "BB drop, igual em todos os tamanhos",
+          "texto": "Com o movimento central mais baixo, o centro de gravidade desce e a bike ganha segurança nas curvas em alta velocidade. Quadro mais leve, mais rígido e mais responsivo, para altas velocidades, longas distâncias e as escaladas mais desafiadoras."
+        },
+        {
+          "titulo": "Seat stay de conforto",
+          "rotulo": "Triângulo traseiro para longas distâncias",
+          "texto": "Triângulo traseiro com seat stay mais confortável, que favorece o desempenho em longas distâncias. Caixa de direção mais aberta, de 71,2° a 72° conforme o tamanho, para ampliar o bem-estar e a segurança em altas velocidades."
+        },
+        {
+          "titulo": "Pneus até 35 mm",
+          "numero": "35",
+          "unidade": "mm",
+          "rotulo": "Largura máxima de pneu no quadro e no garfo",
+          "texto": "Quadro e garfo aceitam pneus até 700x35 mm, o que aumenta a versatilidade. De fábrica, a bike sai com Hutchinson Blackbird Race 700x28c."
+        }
+      ],
+      "geometria": {
+        "colunas": [
+          "S",
+          "O",
+          "SC",
+          "HS",
+          "HC",
+          "F",
+          "OT",
+          "WB",
+          "FC",
+          "RC",
+          "G",
+          "REACH",
+          "STACK"
+        ],
+        "legenda": {
+          "S": "tubo de selim",
+          "O": "top tube efetivo",
+          "SC": "ângulo do tubo de selim",
+          "HS": "comprimento da caixa",
+          "HC": "ângulo da caixa",
+          "F": "comprimento do garfo",
+          "OT": "offset do garfo",
+          "WB": "entre-eixos",
+          "FC": "front center",
+          "RC": "chainstay",
+          "G": "BB drop"
+        },
+        "XS": [
+          443,
+          517.8,
+          "73,5°",
+          115,
+          "71,2°",
+          375,
+          45,
+          973,
+          568.9,
+          415,
+          72,
+          363.5,
+          521.2
+        ],
+        "S": [
+          464,
+          531.2,
+          "73,5°",
+          130,
+          "71,5°",
+          375,
+          45,
+          983.9,
+          579.7,
+          415,
+          72,
+          372,
+          537.7
+        ],
+        "M": [
+          492,
+          548,
+          "73,5°",
+          156.2,
+          "72°",
+          375,
+          45,
+          996.8,
+          592.5,
+          415,
+          72,
+          381,
+          564.3
+        ],
+        "L": [
+          512,
+          570,
+          "73,5°",
+          170,
+          "72°",
+          375,
+          45,
+          1019.2,
+          614.8,
+          415,
+          72,
+          399,
+          577.4
+        ],
+        "XL": [
+          534,
+          585,
+          "73,5°",
+          190,
+          "72°",
+          375,
+          45,
+          1034.8,
+          630.2,
+          415,
+          72,
+          408.4,
+          596.4
+        ]
+      },
+      "versoes": [
+        {
+          "slug": "pro",
+          "nome": "PRO",
+          "preco": 79990,
+          "peso_kg": 6.67,
+          "peso_site_obsoleto": 7.09,
+          "transmissao": "SRAM RED E1 AXS 2x12, câmbio traseiro máx. 36T, cassete 10-36T, pedivela RED E1 48/35T 172,5 mm com medidor de potência",
+          "freios": "SRAM RED E1 AXS, rotores 160 mm",
+          "cockpit": "Vultro Proton R-SL carbono integrado; canote EDRO RDSP UD Carbon 350 mm; fita Supacaz; Fizik Vento Argo R1",
+          "rodas": "VORZ SLR PRO Carbon Disc 45 mm, cubos 106DB Star Ratchet SP, 23 mm interno, raios Carbon Aero 3.4, 1180 g o par",
+          "pneus": "Hutchinson Blackbird Race TLR 700x28",
+          "selante": "Solifes 30 a 60 ml",
+          "descricao": "A tradução da perfeição para quem busca o pódio. Uma bicicleta de estrada que acompanha os mais elevados níveis de performance, sem limitar a sua evolução em nenhum aspecto."
+        },
+        {
+          "slug": "ssr",
+          "nome": "SSR",
+          "preco": 32990,
+          "peso_kg": 7.36,
+          "peso_site_obsoleto": 7.88,
+          "transmissao": "SRAM Rival E1 AXS 2x12, câmbio traseiro máx. 36T, cassete 10-36T, pedivela Rival E1 48/35T 172,5 mm",
+          "freios": "SRAM Rival E1 AXS, rotores 160 mm",
+          "cockpit": "Vultro Proton R-SL carbono integrado; canote EDRO RDSP UD Carbon 350 mm; fita Supacaz; Selle Royal SRX Open 145 mm",
+          "rodas": "VORZ SLR Carbon Disc 45 mm, cubos 037DB Star Ratchet SP, 23 mm interno, raios Pillar Wing 20, 1463 g o par",
+          "pneus": "Hutchinson Blackbird Race TLR 700x28",
+          "selante": "Solifes 30 a 60 ml",
+          "descricao": "Indicada na mesma medida para entusiastas e atletas. Entrega conforto e capacidade de desempenho para aproveitar aventuras e desafios de alto nível."
+        },
+        {
+          "slug": "ss",
+          "nome": "SS",
+          "preco": 23990,
+          "peso_kg": 7.66,
+          "publicado_no_site_atual": false,
+          "transmissao": "Shimano 105 mecânico 2x12, pedivela 50/34T 172,5 mm, cassete 11-34T",
+          "freios": "Shimano 105 hidráulico, rotores 160 mm",
+          "cockpit": "Guidão integrado Vultro carbono, cabos totalmente internos; canote EDRO carbono; fita Supacaz; Selle Royal SRX Open 145 mm",
+          "rodas": "VORZ Comp R, perfil 30 mm, 1650 g o par",
+          "pneus": "Hutchinson Blackbird Race TLR 700x28",
+          "selante": "Solifes 30 a 60 ml",
+          "descricao": "A porta de entrada para a plataforma: o mesmo quadro geração 3.1, a mesma pintura exclusiva e a mesma garantia vitalícia, com transmissão Shimano 105 mecânica."
+        }
+      ],
+      "frase": "Aero, escalada e conforto no mesmo quadro. Cockpit integrado, cabos internos, menos de 7 kg na versão PRO.",
+      "para_quem": [
+        "Para quem tem a estrada como lugar, do treino intenso à longa distância.",
+        "Entrega aerodinâmica, escalada e conforto no mesmo quadro, com cockpit integrado e cabeamento totalmente interno.",
+        "É a mais leve das três e a única que aceita pneus até 700x35 mm."
+      ],
+      "comparativo": {
+        "categoria": "Road disc aero, 3 em 1",
+        "eixos": "12x142 traseiro, 12x100 dianteiro",
+        "movimento_central": "não publicado",
+        "cambio": "Braze-on",
+        "pneus": "700x28, com folga até 700x35"
+      }
+    }
+  ],
+  "programas": [
+    {
+      "slug": "fit4u",
+      "nome": "FIT4U",
+      "resumo": "Projeto sob medida, pintura exclusiva sem custo adicional, pré-fit de fábrica, número de série individual. Segunda pintura por R$ 1.299,00, valor exclusivo para clientes FIT4U.",
+      "repintura_brl": 1299
+    },
+    {
+      "slug": "compra-certa",
+      "nome": "Compra Certa",
+      "resumo": "10 dias a partir do recebimento para devolução com 100% do valor, ou troca com repasse da diferença."
+    },
+    {
+      "slug": "ciclo-edro",
+      "nome": "Ciclo EDRO",
+      "resumo": "EDRO atual com 18 a 24 meses como parte do valor de entrada de uma nova EDRO, mediante avaliação. A participação não garante aceite automático, o valor não vira dinheiro e só vale para bicicletas EDRO.",
+      "janela_meses": [
+        18,
+        24
+      ]
+    },
+    {
+      "slug": "carbon-assist",
+      "nome": "Carbon Assist",
+      "resumo": "Reparo ou substituição de componentes em carbono EDRO após sinistro, mantendo a garantia vitalícia. Consumidor final e bicicleta original."
+    },
+    {
+      "slug": "garantia",
+      "nome": "Garantia Vitalícia",
+      "resumo": "Quadros, garfos e componentes EDRO: vitalícia para o primeiro proprietário. Outras marcas: 2 anos. Válida para bikes vendidas a partir de 01/05/2018. Frete de retorno por conta da EDRO para carbono EDRO e VORZ quando coberto."
+    }
+  ],
+  "contato": {
+    "razao_social": "EDRO Indústria e Comércio de Bicicletas Importação e Exportação LTDA",
+    "endereco": "Rua Rubens Faraco, 274, CEP 88704-440, Tubarão, SC",
+    "email": "contato@edrobikes.com.br",
+    "horario": "Segunda a sexta, 8h às 18h",
+    "cnpj": "lido da variável NEXT_PUBLIC_CNPJ",
+    "whatsapp_comercial": "+55 48 99110-2017",
+    "whatsapp_comercial_secundario": "+55 48 99191-0017 (não publicado; transbordo no Nextags)",
+    "whatsapp_suporte": "+55 48 99110-8117",
+    "instagram": "@edrobikes"
+  }
+}

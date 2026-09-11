@@ -1,0 +1,129 @@
+---
+/* /contato, capítulos 16, 17.6 e 27. Números reais da decisão 37.1.13. */
+
+import Base from '../layouts/Base.astro';
+import FormularioWhatsapp from '../components/FormularioWhatsapp.astro';
+import { bikes, wa, comercial, suporte, telefoneBr } from '../lib/edro.js';
+
+const ct = bikes.contato;
+
+/* Link para o Google Maps em vez de mapa embutido: o iframe do Maps
+   grava cookies de terceiros antes de qualquer consentimento (LGPD). */
+const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ct.endereco)}`;
+
+const telefone = (s) => s.replace(/\s+/g, '-');
+
+const camposContato = [
+  { nome: 'nome', rotulo: 'Nome', tipo: 'text', obrigatorio: true, placeholder: 'Seu nome', autocomplete: 'name' },
+  { nome: 'whatsapp', rotulo: 'WhatsApp', tipo: 'tel', obrigatorio: true, placeholder: '(48) 9 9999-9999', autocomplete: 'tel' },
+  { nome: 'email', rotulo: 'E-mail', tipo: 'email', obrigatorio: false, placeholder: 'voce@email.com', autocomplete: 'email' },
+  { nome: 'assunto', rotulo: 'Assunto', tipo: 'select', obrigatorio: true, opcoes: ['Quero a minha EDRO', 'Já tenho uma EDRO', 'Parcerias, atletas, treinadores e lojistas'] },
+  { nome: 'mensagem', rotulo: 'Mensagem', tipo: 'textarea', obrigatorio: false },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'EDRO Performance Bikes',
+    email: ct.email,
+    contactPoint: [
+      { '@type': 'ContactPoint', telephone: telefone(ct.whatsapp_comercial), contactType: 'sales', areaServed: 'BR', availableLanguage: 'Portuguese' },
+      { '@type': 'ContactPoint', telephone: telefone(ct.whatsapp_suporte), contactType: 'customer support', areaServed: 'BR', availableLanguage: 'Portuguese' },
+    ],
+  },
+};
+---
+
+<Base
+  titulo="Contato · EDRO Performance Bikes"
+  descricao="Fale com quem faz. WhatsApp comercial e de suporte da EDRO, e-mail e endereço da fábrica em Tubarão, SC."
+  canonica="https://edrobikes.com.br/contato"
+  pagina="contato"
+  jsonLd={jsonLd}
+>
+
+<!-- TOPO -->
+<section class="pagina-topo">
+  <div class="container">
+    <h1 class="display pagina-topo__titulo">Fale com<br />quem <span class="verde">faz.</span></h1>
+    <p class="lead pagina-topo__lead">Sem call center. Quem responde é a equipe da fábrica, em Tubarão.</p>
+  </div>
+</section>
+
+<!-- TRÊS CAMINHOS · um CTA primário por seção (12.11) -->
+<section class="secao secao--sem-linha secao--colada">
+  <div class="container caminhos">
+    <article class="caminho caminho--principal">
+      <h2 class="card-title">Quero a minha EDRO.</h2>
+      <p class="body-card">Especialista comercial, resposta em menos de 2 horas em horário comercial.</p>
+      <p class="caption caminho__numero">{telefoneBr(ct.whatsapp_comercial)}</p>
+      <a class="btn btn--primario" href={wa('Olá, EDRO. Quero montar a minha EDRO sob medida. (origem: site-contato-comercial)', comercial)} rel="noopener" data-wa="contato-comercial">
+        Falar com um especialista
+        <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </article>
+
+    <article class="caminho">
+      <h2 class="card-title">Já tenho uma EDRO.</h2>
+      <p class="body-card">Suporte, revisões, garantia, Carbon Assist e Ciclo EDRO.</p>
+      <p class="caption caminho__numero">{telefoneBr(ct.whatsapp_suporte)}</p>
+      <a class="link-acao" href={wa('Olá, suporte EDRO. Já tenho uma EDRO e preciso de ajuda com: ___ (origem: site-suporte)', suporte)} rel="noopener" data-wa="contato-suporte">Falar com o suporte</a>
+    </article>
+
+    <article class="caminho">
+      <h2 class="card-title">Parcerias, atletas, treinadores e lojistas.</h2>
+      <p class="body-card">Programas de embaixadores, treinadores parceiros e lojistas.</p>
+      <p class="caption caminho__numero">{telefoneBr(ct.whatsapp_comercial)}</p>
+      <a class="link-acao" href={wa('Olá, EDRO. Quero falar sobre parceria: ___ (origem: site-contato-parcerias)', comercial)} rel="noopener" data-wa="contato-parcerias">Falar sobre parceria</a>
+    </article>
+  </div>
+</section>
+
+<!-- DADOS -->
+<section class="secao">
+  <div class="container">
+    <dl class="contato-dados">
+      <div>
+        <dt class="eyebrow">E-mail</dt>
+        <dd><a href={`mailto:${ct.email}`}>{ct.email}</a></dd>
+      </div>
+      <div>
+        <dt class="eyebrow">Fábrica</dt>
+        <dd>
+          {ct.endereco}
+          <a class="link-acao contato-dados__mapa" href={mapa} target="_blank" rel="noopener">Ver no Google Maps</a>
+        </dd>
+      </div>
+      <div>
+        <dt class="eyebrow">Horário</dt>
+        <dd>{ct.horario}<br /><a href="https://www.instagram.com/edrobikes/" rel="noopener">{ct.instagram}</a></dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- FORMULÁRIO ALTERNATIVO -->
+<section class="secao">
+  <div class="container faq-bloco">
+    <div>
+      <h2 class="headline">Prefere<br />escrever?</h2>
+      <p class="lead acionar__texto">
+        Preencha e a mensagem abre pronta no WhatsApp, para você revisar e enviar.
+      </p>
+    </div>
+
+    <FormularioWhatsapp
+      id="form-contato"
+      campos={camposContato}
+      numero={comercial}
+      cabecalho="Olá, EDRO. Mensagem enviada pela página de contato."
+      origem="site-contato-formulario"
+      formulario="contato"
+      rotulo="Enviar pelo WhatsApp"
+    />
+  </div>
+</section>
+
+</Base>
