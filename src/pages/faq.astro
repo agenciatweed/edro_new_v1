@@ -1,0 +1,63 @@
+---
+/* /faq v3.1 · tela site_v3/20-faq.png. Sem promessa de tempo de resposta. FAQPage em JSON-LD. */
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Fechamento from '../components/Fechamento.astro';
+import { wa, suporte } from '../lib/edro.js';
+
+const grupos = [
+  { titulo: 'Compra e entrega', itens: [
+    ['Onde compro uma EDRO?', 'Diretamente com a EDRO, pelo WhatsApp, e-mail ou Instagram, ou em uma loja parceira. A bike pode ser retirada na fábrica em Tubarão ou entregue em casa.'],
+    ['Quais são as formas de pagamento?', '12x sem juros no cartão ou 5% de desconto no Pix, válido também para pagamentos parciais.'],
+    ['Qual o prazo de entrega?', '30 dias após a confirmação do pedido e a aprovação do projeto de pintura, incluindo 15 dias de cura.'],
+    ['A bike chega montada?', 'Parcialmente: roda dianteira e avanço vêm desmontados; na IMPETUS, canote e selim também. Instale com chave de torque conforme o manual do proprietário.'],
+    ['Quanto custa o frete?', 'Grátis para todo o Brasil.'],
+  ] },
+  { titulo: 'Produto e programas', itens: [
+    ['Vocês vendem só o quadro?', 'Não. Apenas bicicletas completas: os componentes são calculados para trabalhar em sincronia.'],
+    ['Vocês fazem bikes de entrada ou de alumínio?', 'Não. Nosso foco é alta performance em carbono, com garantia vitalícia de quadro.'],
+    ['O peso anunciado é o peso real?', 'Pesos sem pedais, aferidos no tamanho M, podendo variar até 5% conforme o tamanho, os componentes e a pintura.'],
+    ['E se eu não gostar?', 'Compra Certa: 10 dias a partir do recebimento para devolver com 100% do valor.'],
+    ['A HORIZON precisa de habilitação?', 'Não. É bicicleta elétrica nos termos da CONTRAN 996/2023: pedal assistido, sem acelerador, limitada a 32 km/h de fábrica.'],
+  ] },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: grupos.flatMap((g) => g.itens.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))),
+};
+---
+
+<Base
+  titulo="Dúvidas frequentes · Compra, entrega, garantia e HORIZON · EDRO"
+  descricao="Onde comprar, formas de pagamento, prazo de entrega, peso real, Compra Certa, frete grátis e HORIZON: as respostas diretas de quem faz a bike EDRO."
+  canonica="https://edrobikes.com.br/faq"
+  pagina="faq"
+  jsonLd={jsonLd}
+>
+
+<Hero curto eyebrow="Dúvidas frequentes" linhas={['O que você', 'perguntaria']} verde=" antes." marcaDagua="EDRO"
+  lead="Respostas diretas de quem faz a bike. Se a sua dúvida não estiver aqui, fale com um dos nossos especialistas." />
+
+<section class="secao secao--sem-linha">
+  <div class="container faq2">
+    {grupos.map((g) => (
+      <div>
+        <h2 class="eyebrow eyebrow--verde">{g.titulo}</h2>
+        <dl class="qa">
+          {g.itens.map(([q, a]) => (<div><dt>{q}</dt><dd>{a}</dd></div>))}
+        </dl>
+      </div>
+    ))}
+  </div>
+</section>
+
+<Fechamento linhas={['Ainda com']} verde="dúvida?"
+  texto="Fale com quem faz. Sem call center, sem script."
+  botoes={[
+    { rotulo: 'Falar com um especialista', href: wa('Olá, EDRO. Tenho uma dúvida. (origem: site-faq)'), primario: true, wa: 'faq-especialista' },
+    { rotulo: 'Falar com o suporte', href: wa('Olá, suporte EDRO. Tenho uma dúvida. (origem: site-faq-suporte)', suporte), wa: 'faq-suporte' },
+  ]} />
+
+</Base>

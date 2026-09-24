@@ -1,0 +1,20 @@
+---
+/* "Cada número é uma decisão": o benefício na pedalada no título, o número como prova.
+   A headline tem entrelinha própria para acento e cedilha não sobreporem (v3.1, SUMMA). */
+import Cabecalho from './Cabecalho.astro';
+const { itens, lead = 'O que muda na sua pedalada vem primeiro. O número é a prova.' } = Astro.props;
+---
+<section class="secao">
+  <div class="container">
+    <Cabecalho linhas={['Cada número', 'é uma decisão.']} lead={lead} />
+    <div class="numeros4">
+      {itens.map((n) => (
+        <article class="numero-card">
+          <p class="numero-card__topo"><span class="numero-card__num">{n.numero}</span><span class="numero-card__leg">{n.legenda}</span></p>
+          <h3 class="card-title">{n.titulo}</h3>
+          <p>{n.texto}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

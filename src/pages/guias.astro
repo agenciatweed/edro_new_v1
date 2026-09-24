@@ -1,0 +1,117 @@
+---
+/* /guias v3.1 · tela site_v3/21-guias.png. A captação acontece ao clicar em cada guia (sem formulário no fim). */
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Midia from '../components/Midia.astro';
+import { wa } from '../lib/edro.js';
+
+const guias = [
+  { id: 'fit4u', eyebrow: 'Guia FIT4U', titulo: 'Não erre na próxima bike', texto: 'O que a tabela de tamanhos não conta sobre o seu corpo, as medidas que decidem uma bike e como o FIT4U funciona.',
+    capa: null, brief: ['Capa do Guia FIT4U', 'Capa do PDF "Não erre na próxima bike", em fundo escuro.'],
+    arquivo: null, pedido: wa('Olá, EDRO. Quero receber o Guia FIT4U "Não erre na próxima bike". (origem: site-guias-fit4u)'), primario: true },
+  { id: 'treino', eyebrow: 'Treino', titulo: 'Técnicas de MTB XC', texto: 'Planilhas de treino, controle de subidas e técnica de pilotagem para XC e maratona.',
+    capa: 'ebooks/EDRO_Tecnicas_MTB_XC.jpg', arquivo: '/ebooks/EDRO_Tecnicas_MTB_XC.pdf' },
+  { id: 'nutricao', eyebrow: 'Nutrição', titulo: 'Nutrição no ciclismo', texto: 'O que comer antes, durante e depois do treino para adiar a fadiga e ganhar resistência.',
+    capa: 'ebooks/EDRO_Nutricao_Ciclismo_v4.jpg', arquivo: '/ebooks/EDRO_Nutricao_Ciclismo.pdf' },
+];
+---
+
+<Base
+  titulo="Guias EDRO · FIT4U, técnicas de MTB XC e nutrição no ciclismo"
+  descricao="Três guias gratuitos escritos pela equipe da EDRO para quem já pedala: como escolher o tamanho certo com o FIT4U, técnicas de MTB XC e nutrição no ciclismo."
+  canonica="https://edrobikes.com.br/guias"
+  pagina="guias"
+>
+
+<Hero curto eyebrow="Guias EDRO" linhas={['Conteúdo de quem', 'faz bike, não de', 'quem']} verde=" vende." marcaDagua="EDRO"
+  lead="Três guias escritos pela equipe da EDRO para quem já pedala e quer decidir melhor. Clique no guia para receber." />
+
+<section class="secao secao--sem-linha">
+  <div class="container guias">
+    {guias.map((g) => (
+      <article class="guia" id={g.id}>
+        {g.capa
+          ? <Midia src={g.capa} proporcao="4x3" alt={`Capa do e-book EDRO ${g.titulo}`} posicao="center 20%" />
+          : <Midia tipo="IMAGEM" titulo={g.brief[0]} descricao={g.brief[1]} proporcao="4x3" />}
+        <p class="eyebrow eyebrow--verde">{g.eyebrow}</p>
+        <h2 class="card-title">{g.titulo}</h2>
+        <p>{g.texto}</p>
+        <button class:list={['btn', g.primario ? 'btn--primario' : 'btn--secundario']} type="button"
+          data-guia={g.id} data-arquivo={g.arquivo ?? ''} data-pedido={g.pedido ?? ''} data-titulo={g.titulo}>Quero o guia</button>
+      </article>
+    ))}
+  </div>
+</section>
+
+<dialog class="ficha-modal" id="captacao" aria-labelledby="captacao-t">
+  <div class="ficha-modal__topo">
+    <h2 class="card-title" id="captacao-t">Receber o guia</h2>
+    <button class="ficha-modal__fechar" type="button" data-fecha aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg></button>
+  </div>
+  <form class="ficha-modal__corpo form" novalidate>
+    <p class="lead" data-guia-nome></p>
+    <div class="form__isca" aria-hidden="true"><label>Empresa <input name="empresa" tabindex="-1" autocomplete="off" /></label></div>
+    <div class="form__campo">
+      <label class="form__rotulo" for="g-nome">Nome</label>
+      <input class="form__entrada" id="g-nome" name="nome" autocomplete="name" required placeholder="Seu nome" />
+    </div>
+    <div class="form__campo">
+      <label class="form__rotulo" for="g-wa">WhatsApp</label>
+      <input class="form__entrada" id="g-wa" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(48) 9 9999-9999" />
+    </div>
+    <label class="form__consentimento"><input type="checkbox" name="consentimento" required />
+      <span>Autorizo a EDRO a entrar em contato pelo WhatsApp e e-mail. Você pode sair quando quiser. <a href="/politicas#privacidade">Política de privacidade</a></span></label>
+    <p class="form__erro" data-erro hidden></p>
+    <button class="btn btn--primario btn--bloco" type="submit">Receber o guia</button>
+    <div class="form__sucesso" data-sucesso hidden></div>
+  </form>
+</dialog>
+
+<script>
+  const d = document.getElementById('captacao') as HTMLDialogElement | null;
+  const form = d?.querySelector('form');
+  let atual: HTMLElement | null = null;
+
+  document.querySelectorAll<HTMLElement>('[data-guia]').forEach((b) => {
+    b.addEventListener('click', () => {
+      if (!d || !form) return;
+      atual = b;
+      form.reset();
+      (form.querySelector('[data-sucesso]') as HTMLElement).hidden = true;
+      (form.querySelector('[data-erro]') as HTMLElement).hidden = true;
+      (form.querySelector('[data-guia-nome]') as HTMLElement).textContent = `Guia: ${b.dataset.titulo}. Informe nome e WhatsApp para receber.`;
+      d.showModal();
+    });
+  });
+  d?.querySelector('[data-fecha]')?.addEventListener('click', () => d.close());
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!atual) return;
+    const dados = new FormData(form);
+    if (dados.get('empresa')) return;
+    const nome = String(dados.get('nome') || '').trim();
+    const tel = String(dados.get('whatsapp') || '').replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '');
+    const erro = form.querySelector('[data-erro]') as HTMLElement;
+    const msg = !nome ? 'Precisamos do seu nome para enviar o guia.'
+      : !/^\d{10,11}$/.test(tel) ? 'Confira o número com DDD. É por ele que a gente responde.'
+      : !dados.get('consentimento') ? 'Marque a autorização para a gente poder enviar.' : '';
+    erro.textContent = msg; erro.hidden = !msg;
+    if (msg) return;
+
+    const w = window as unknown as { dataLayer: object[] };
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ event: 'generate_lead', formulario: 'guia', guia: atual.dataset.guia, pagina: 'guias' });
+
+    const ok = form.querySelector('[data-sucesso]') as HTMLElement;
+    if (atual.dataset.arquivo) {
+      ok.innerHTML = `<p class="body">Pronto, ${nome.split(' ')[0]}. O guia é seu.</p><a class="link-acao form__link" href="${atual.dataset.arquivo}" target="_blank" rel="noopener">Abrir o guia em PDF</a>`;
+    } else {
+      window.open(`${atual.dataset.pedido}${encodeURIComponent(`\nNome: ${nome}\nWhatsApp: ${tel}`)}`, '_blank', 'noopener');
+      ok.innerHTML = '<p class="body">A sua mensagem está pronta no WhatsApp. É só enviar para receber o guia.</p>';
+    }
+    ok.hidden = false;
+  });
+</script>
+
+</Base>

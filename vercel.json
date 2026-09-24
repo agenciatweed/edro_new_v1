@@ -1,0 +1,79 @@
+{
+  "redirects": [
+    {
+      "source": "/assistencia",
+      "destination": "/contato",
+      "permanent": true
+    },
+    {
+      "source": "/comeca-aqui",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/atletas",
+      "destination": "/parcerias",
+      "permanent": true
+    },
+    {
+      "source": "/lojistas",
+      "destination": "/parcerias",
+      "permanent": true
+    },
+    {
+      "source": "/bicicletas",
+      "destination": "/bikes",
+      "permanent": true
+    },
+    {
+      "source": "/summa",
+      "destination": "/bikes/summa",
+      "permanent": true
+    },
+    {
+      "source": "/range",
+      "destination": "/bikes/range",
+      "permanent": true
+    },
+    {
+      "source": "/impetus",
+      "destination": "/bikes/impetus",
+      "permanent": true
+    },
+    {
+      "source": "/sobre-a-edro",
+      "destination": "/a-marca",
+      "permanent": true
+    },
+    {
+      "source": "/duvidas-frequentes",
+      "destination": "/faq",
+      "permanent": true
+    },
+    {
+      "source": "/compra-certa",
+      "destination": "/programas/compra-certa",
+      "permanent": true
+    },
+    {
+      "source": "/ciclo-edro",
+      "destination": "/programas/ciclo-edro",
+      "permanent": true
+    },
+    {
+      "source": "/edro-carbon-assist",
+      "destination": "/programas/carbon-assist",
+      "permanent": true
+    },
+    {
+      "source": "/garantia",
+      "destination": "/programas/garantia",
+      "permanent": true
+    },
+    {
+      "source": "/minha-conta",
+      "destination": "/contato",
+      "permanent": true
+    }
+  ]
+}

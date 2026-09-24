@@ -1,0 +1,44 @@
+---
+/* Card de linha de bikes (home e /bikes). Nome da linha sempre em wordmark,
+   benefício ao ciclista antes do dado técnico, peso da PRO e faixa de preço. */
+import { Picture, Image } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import { brl, kg } from '../lib/edro.js';
+
+const { p, larga = false } = Astro.props;
+const render = img(`bicicletas/bicicleta-${p.slug}.png`);
+const precos = p.versoes.map((v) => v.preco);
+const nomesVersoes = [...p.versoes].reverse().map((v) => v.nome);
+const lista = nomesVersoes.length > 1
+  ? `${nomesVersoes.slice(0, -1).join(', ')} e ${nomesVersoes.at(-1)}`
+  : nomesVersoes[0];
+---
+<article class:list={['card-linha', { 'card-linha--larga': larga }]}>
+  <p class="eyebrow">{p.uso_curto}</p>
+  <h3 class="card-linha__wordmark">
+    <a class="card-linha__link" href={`/bikes/${p.slug}`}>
+      <Image src={img(`brand/${p.slug}.png`)} alt={p.nome} height={60} />
+    </a>
+  </h3>
+  <span class="card-linha__canto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
+  <span class="card-linha__render">
+    <Picture src={render} formats={['avif', 'webp']} alt={`EDRO ${p.nome} ${p.pro.nome} de carbono, vista lateral`}
+      widths={[480, 960]} sizes={larga ? '(max-width: 767px) 100vw, 440px' : '(max-width: 767px) 100vw, 33vw'} loading="lazy" />
+  </span>
+  <p class="card-linha__beneficio"><b>{p.beneficio_titulo}</b> {larga ? p.beneficio_bikes : p.beneficio}</p>
+  <div class="card-linha__numeros">
+    <div>
+      <p class="card-linha__valor">{kg(p.pro.peso_kg)}&nbsp;<small>kg</small></p>
+      <span class="caption">{p.pro.nome}, sem pedais</span>
+    </div>
+    <div>
+      <p class="card-linha__valor">{brl(Math.min(...precos))} a {new Intl.NumberFormat('pt-BR').format(Math.max(...precos))}</p>
+      <span class="caption">{larga ? lista : `versões ${lista}`}</span>
+    </div>
+  </div>
+  {larga && (
+    <dl class="card-linha__macro">
+      {p.macro_specs.map(([rot, val]) => (<div><dt>{rot}</dt><dd>{val}</dd></div>))}
+    </dl>
+  )}
+</article>

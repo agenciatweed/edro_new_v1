@@ -1,0 +1,101 @@
+---
+/* /parcerias v3.1 · tela site_v3/14-parcerias.png. Substitui /atletas e /lojistas. */
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Cabecalho from '../components/Cabecalho.astro';
+import Midia from '../components/Midia.astro';
+import Fechamento from '../components/Fechamento.astro';
+import atletas from '../content/athletes.json';
+import { wa } from '../lib/edro.js';
+import { videos } from '../lib/imagens.js';
+
+const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
+const falar = (motivo, origem) => wa(`Olá, EDRO. ${motivo} (origem: site-parcerias-${origem})`);
+---
+
+<Base
+  titulo="Parcerias EDRO · Atletas, embaixadores, treinadores e lojistas"
+  descricao="Atletas patrocinados, embaixadores, treinadores e lojas parceiras que escolheram evoluir com a EDRO. Conheça os programas de parceria e candidate-se."
+  canonica="https://edrobikes.com.br/parcerias"
+  pagina="parcerias"
+>
+
+<Hero
+  eyebrow="Parcerias"
+  linhas={['Feita para quem']}
+  verde="já pedala."
+  lead="Atletas, embaixadores, treinadores e lojistas que escolheram evoluir com a EDRO. Performance para a EDRO é evolução e prazer, não só pódio."
+  botoes={[{ rotulo: 'Quero ser parceiro', href: falar('Quero ser parceiro da EDRO.', 'hero'), primario: true, wa: 'parcerias-hero' }, { rotulo: 'Ver as bikes', href: '/bikes' }]}
+  fundo={{ src: 'lp/customer-13.jpg', alt: 'Atleta EDRO em prova de mountain bike, curva em terra', posicao: 'center 35%' }}
+/>
+
+<section class="secao secao--sem-linha">
+  <div class="container">
+    <Cabecalho linhas={['Atletas']} verde="patrocinados." lead="Quem compete de EDRO e ajuda a EDRO a evoluir. O feedback deles entra no projeto da próxima bike." />
+    <div class="atletas">
+      {atletas.atletas.map((a) => (
+        <article class="atleta">
+          <Midia titulo={a.nome} descricao={a.foto_brief} proporcao="16x9" />
+          <h3 class="card-title">{a.nome}</h3>
+          <p>{a.resumo}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container bloco2 bloco2--topo">
+    <div class="parceria">
+      <p class="eyebrow eyebrow--verde">Programa</p>
+      <h2 class="headline">Embaixadores<br /><span class="verde">EDRO.</span></h2>
+      <p class="lead">Para quem representa a marca no pedal e nas redes, com o Selo Atleta EDRO. Um programa aspiracional para ciclistas que vivem o que a EDRO acredita: evolução, prazer de pedalar e qualidade de ponta a ponta.</p>
+      <a class="btn btn--primario" href={falar('Quero ser embaixador EDRO.', 'embaixador')} rel="noopener" data-wa="parcerias-embaixador">Quero ser embaixador<Fragment set:html={seta} /></a>
+    </div>
+    <div class="parceria">
+      <p class="eyebrow eyebrow--verde">Programa</p>
+      <h2 class="headline">Treinadores<br /><span class="verde">EDRO.</span></h2>
+      <p class="lead">Treinadores parceiros que orientam os seus atletas na escolha e no fit da EDRO, com condições e suporte exclusivos. Detalhes direto com a EDRO pelo WhatsApp, com a palavra TREINADOR.</p>
+      <a class="btn btn--primario" href={falar('TREINADOR. Quero ser treinador EDRO.', 'treinador')} rel="noopener" data-wa="parcerias-treinador">Quero ser treinador EDRO<Fragment set:html={seta} /></a>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container bloco2">
+    <div class="parceria">
+      <p class="eyebrow eyebrow--verde">Lojistas</p>
+      <h2 class="headline">Venda EDRO<br />na sua <span class="verde">loja.</span></h2>
+      <p class="lead">Parceria para lojas de bike de alta performance que querem ter a única marca brasileira 100% dedicada ao segmento no showroom. Bikes de demonstração, treinamento técnico da equipe, material de apoio e suporte direto da fábrica. Condições comerciais em conversa direta com a EDRO.</p>
+      <a class="btn btn--primario" href={falar('Quero ser lojista parceiro EDRO.', 'lojista')} rel="noopener" data-wa="parcerias-lojista">Quero ser lojista parceiro<Fragment set:html={seta} /></a>
+    </div>
+    <Midia titulo="EDRO em loja parceira" descricao="Bike EDRO em destaque no showroom de uma loja parceira, luz de loja, ambiente premium." proporcao="16x9" />
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
+    <Cabecalho linhas={['#DeSCParaOMundo']} lead="Mostre o seu lado campeão. Marque @edrobikes e a sua EDRO pode aparecer aqui." />
+    <div class="galeria3">
+      <Midia src="lp/customer-2.webp" alt="Ciclista EDRO em prova de mountain bike, com placa de competição" />
+      <Midia src="lp/customer-20.jpg" alt="Ciclista com a EDRO SUMMA diante de uma cachoeira" />
+      <Midia src="lp/customer-19.jpg" alt="Ciclista de camisa de equipe pedalando a sua EDRO em trilha" posicao="center 30%" />
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container bloco2">
+    <div>
+      <h2 class="headline">Matheus Miranda<br />sobre a <span class="verde">SUMMA.</span></h2>
+      <p class="lead">O review do atleta patrocinado pela EDRO, já publicado no YouTube.</p>
+    </div>
+    <Midia video={videos.review} proporcao="16x9" sizes="(max-width: 1023px) 100vw, 50vw" />
+  </div>
+</section>
+
+<Fechamento linhas={['Mostre o seu']} verde="lado<br />campeão."
+  texto="Fale com a EDRO sobre a parceria certa para você."
+  botoes={[{ rotulo: 'Falar com a EDRO', href: falar('Quero conversar sobre parceria.', 'fechamento'), primario: true, wa: 'parcerias-fechamento' }, { rotulo: 'Ver as bikes', href: '/bikes' }]} />
+
+</Base>

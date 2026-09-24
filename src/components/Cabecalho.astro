@@ -1,0 +1,13 @@
+---
+/* Cabeçalho de seção: headline à esquerda (linhas + palavra verde), lead à direita. */
+const { eyebrow, linhas = [], verde, lead, h = 'h2', centro = false, id } = Astro.props;
+const Tag = h;
+const html = linhas.join('<br />') + (verde ? `${linhas.length ? (verde.startsWith(' ') ? ' ' : '<br />') : ''}<span class="verde">${verde.trim()}</span>` : '');
+---
+<div class:list={['cabecalho', { 'cabecalho--centro': centro }]}>
+  <div>
+    {eyebrow && <p class="eyebrow eyebrow--verde cabecalho__eyebrow">{eyebrow}</p>}
+    <Tag class="headline" id={id} set:html={html} />
+  </div>
+  {lead && <p class="lead" set:html={lead} />}
+</div>

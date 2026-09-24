@@ -1,0 +1,165 @@
+---
+/* /horizon v3.1 · tela site_v3/16-horizon.png.
+   1.200 W sempre com a potência nominal de 600 W; 45 km/h sempre com circuito fechado e legislação;
+   sem acelerador e arrasto zero só nos detalhes técnicos; sem menção às células da bateria. */
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Cabecalho from '../../components/Cabecalho.astro';
+import Midia from '../../components/Midia.astro';
+import AutonomiaReal from '../../components/AutonomiaReal.astro';
+import Fechamento from '../../components/Fechamento.astro';
+import { Image, Picture } from 'astro:assets';
+import hz from '../../content/horizon.json';
+import { brl, kg, wa } from '../../lib/edro.js';
+import { img } from '../../lib/imagens.js';
+
+const falar = wa('Olá, EDRO. Quero montar a minha HORIZON. (origem: site-horizon)');
+const detalhes = [
+  ['Quadro', 'Linhas SUMMA e RANGE, carbono de alto módulo, molde exclusivo'],
+  ['Sob medida', 'Cada HORIZON é feita sob medida e personalizada pelo FIT4U, como toda EDRO'],
+  ['Motor', 'CYC Photon Gen 2 central, 1.200 W de pico, 600 W nominais, 135 N·m, sensor de torque'],
+  ['Bateria', 'EDRO Power Pack 540 Wh, 36 V 15 Ah, integrada, recarga na bike, serviço técnico EDRO'],
+  ['Tecnologia', 'Display 2,1" IP65, app Ride Control, Apple Find My integrado'],
+  ['Velocidade', 'Assistência limitada a 32 km/h de fábrica; ajustável pela EDRO para 45 km/h, para uso em circuitos fechados, respeitando a legislação brasileira'],
+  ['Assistência', 'Exclusivamente ao pedal, sem acelerador. Motor desligado: arrasto zero'],
+];
+const summaH = hz.linhas.find((l) => l.slug === 'summa-horizon');
+---
+
+<Base
+  titulo="HORIZON · Mountain bike elétrica EDRO de carbono, SUMMA e RANGE"
+  descricao="HORIZON: cara, peso e dinâmica de MTB normal com potência e autonomia de e-bike full power. 1.200 W de pico, potência nominal limitada a 600 W, 540 Wh, a partir de 14,5 kg."
+  canonica="https://edrobikes.com.br/horizon"
+  pagina="horizon"
+>
+
+<Hero
+  eyebrow="Bikes elétricas EDRO"
+  wordmark="brand/horizon.png"
+  wordmarkAlt="HORIZON"
+  wordmarkClasse="hero3__wordmark--horizon"
+  linhas={['Você, além do']}
+  verde="horizonte."
+  lead="Cara de bike normal. Peso de bike normal. Dinâmica de bike normal. E potência e autonomia de uma e-bike full power. Leveza e dinâmica sempre que quiser, potência de sobra quando precisar."
+  botoes={[{ rotulo: 'Montar a minha HORIZON', href: falar, primario: true, wa: 'horizon-hero' }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }]}
+  peso={{ valor: summaH.versoes[0].peso_kg.toFixed(1).replace('.', ','), rotulo: '<i class="modelo">SUMMA</i> HORIZON <span class="verde">PRO</span>, sem pedais' }}
+  brief={{ tipo: 'VÍDEO', titulo: 'HORIZON em ação', descricao: 'Ciclista subindo serra íngreme em ritmo alto, depois descendo trilha rápida com a bike leve. Corte para o ciclista carregando a bike em um trecho. 15 s, sem som.' }}
+/>
+
+<div class="container">
+  <div class="faixa-specs">
+    <div><b>1.200 W</b> de pico · potência nominal limitada a 600 W</div>
+    <div><b>135 N·m</b> torque no motor central</div>
+    <div><b>540 Wh</b> EDRO Power Pack</div>
+    <div><b>Full power</b> com peso e dinâmica de MTB</div>
+    <div><b>32 km/h</b> de fábrica; ajustável a 45 km/h em circuitos fechados, respeitando a legislação</div>
+  </div>
+</div>
+
+<section class="secao secao--sem-linha">
+  <div class="container">
+    <Cabecalho linhas={['Assistência quando', 'você']} verde=" pede."
+      lead="A HORIZON pedala como uma MTB normal. Quando a subida, a distância ou o grupo pedem mais, você liga a assistência no nível que quiser: Eco, Ride, Turbo ou Modo automático." />
+    <div class="modo-auto">
+      <div>
+        <h3 class="card-title">Modo automático</h3>
+        <p>Defina a zona de treino no seu monitor de frequência cardíaca e a HORIZON ajusta a assistência sozinha para você ficar dentro dela. Subiu a frequência, o motor entra; caiu, o motor sai. Você pedala no seu ritmo e a bike cuida do resto.</p>
+      </div>
+      <div class="modo-auto__barras" aria-hidden="true">
+        <span style="height:18%"></span><span style="height:30%"></span><span style="height:42%"></span>
+        <span class="zona" style="height:62%"></span><span class="zona" style="height:70%"></span><span class="zona" style="height:66%"></span>
+        <span style="height:82%"></span><span style="height:92%"></span>
+      </div>
+    </div>
+    <div class="galeria3">
+      <Midia titulo="Display e app" descricao='Close no display de 2,1" com o modo selecionado, mão no guidão.' />
+      <Midia titulo="Motor central" descricao="Macro do motor CYC Photon Gen 2 integrado ao quadro, luz lateral." />
+      <Midia titulo="Recarga na bike" descricao="Bateria integrada sendo recarregada na própria bike, na garagem." />
+    </div>
+  </div>
+</section>
+
+<AutonomiaReal />
+
+<section class="secao">
+  <div class="container bloco2 bloco2--topo">
+    <div>
+      <p class="eyebrow eyebrow--verde">Integração</p>
+      <h2 class="headline" style="margin-top:var(--s-4)">Discreta.<br />Não <span class="verde">invisível.</span></h2>
+      <p class="lead">A HORIZON não esconde que é elétrica, e não precisa. O motor central mantém o centro de gravidade onde uma MTB precisa e a bateria fica integrada ao quadro. Você carrega sozinho, pilota com a leveza de sempre e liga a assistência só quando quer.</p>
+      <dl class="detalhes-tec">
+        {detalhes.map(([t, d]) => (<div><dt>{t}</dt><dd>{d}</dd></div>))}
+      </dl>
+    </div>
+    <div class="tec4">
+      <div class="tec tec--destaque"><p class="numero-card__topo"><span class="numero-card__num">1.200</span><span class="numero-card__leg">W</span></p><p>De pico, quando a subida pede. Potência nominal limitada a 600 W.</p></div>
+      <div class="tec"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">135</span><span class="numero-card__leg">N·m</span></p><p>Torque cheio a partir de cadência baixa.</p></div>
+      <div class="tec"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">540</span><span class="numero-card__leg">Wh</span></p><p>Bateria integrada, recarga direto na bike.</p></div>
+      <div class="tec"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">0</span><span class="numero-card__leg">arrasto</span></p><p>Motor desligado, pedal livre. A sensação de uma bike normal.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
+    <Cabecalho linhas={['Duas linhas.', 'Seis']} verde=" HORIZON."
+      lead="Escolha a linha pelo terreno e a versão pelos componentes. Motor e bateria são os mesmos em todas. Quadro, pintura e ajustes são feitos para você." />
+    <div class="linhas__grade" style="grid-template-columns:1fr 1fr">
+      {hz.linhas.map((l) => (
+        <article class="card-linha card-horizon-linha">
+          <p class="eyebrow">{l.uso}</p>
+          <h3 class="card-linha__wordmark">
+            <a class="card-linha__link" href={`/horizon/${l.slug}`}>
+              <span class="visualmente-oculto">{l.nome} HORIZON</span>
+              <Image src={img(`brand/${l.base}.png`)} alt="" height={60} />
+              <Image src={img('brand/horizon.png')} alt="" height={40} />
+            </a>
+          </h3>
+          <span class="card-linha__canto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
+          <span class="card-linha__render">
+            <Picture src={img(`bicicletas/bicicleta-${l.base}.png`)} formats={['avif', 'webp']} alt={`EDRO ${l.nome} HORIZON, mountain bike elétrica de carbono`} widths={[480, 960]} sizes="(max-width: 767px) 100vw, 50vw" loading="lazy" />
+          </span>
+          <p class="card-linha__beneficio">{l.frase}</p>
+          <dl class="versoes-lista">
+            {l.versoes.map((v) => (<div><dt>{v.nome} · {v.peso_kg.toFixed(1).replace('.', ',')}&nbsp;kg</dt><dd><b>{brl(v.preco)}</b> · {v.macro}</dd></div>))}
+          </dl>
+        </article>
+      ))}
+    </div>
+    <p class="nota-peso">{hz.nota_peso}</p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
+    <p class="eyebrow eyebrow--verde">Para quem é</p>
+    <h2 class="headline" style="margin:var(--s-4) 0 var(--s-6)">Uma eMTB para quem<br /><span class="verde">já pedala.</span></h2>
+    <p class="lead">A HORIZON é para quem quer uma eMTB para subir mais alto e ir mais longe, sem a sensação de estar montado em um elefante. As bikes normais são como cavalos: leves, ágeis, respondem ao corpo. A HORIZON é um cavalo com potência de sobra.</p>
+    <div class="filtro__caixas--duas">
+      <div class="caixa caixa--sim">
+        <span class="eyebrow eyebrow--verde">É para você se</span>
+        <ul class="lista-sinal lista-sinal--mais">
+          <li>Você quer subir mais alto e ir mais longe, sentindo que está em uma MTB normal, com o motor entrando só quando você pede.</li>
+          <li>Você está fora de forma, ou ficou um tempo parado, e o grupo ficou mais forte que você.</li>
+          <li>Você quer uma bike com comportamento, cara e peso de bike normal, mas com assistência full power quando precisar.</li>
+          <li>Você quer uma bike sob medida e personalizada, como toda EDRO.</li>
+        </ul>
+      </div>
+      <div class="caixa">
+        <span class="eyebrow">Provavelmente não é se</span>
+        <ul class="lista-sinal lista-sinal--menos">
+          <li>Você procura uma e-bike de enduro ou downhill, com curso longo e peso de moto.</li>
+          <li>Você quer uma e-bike de passeio ou para o dia a dia na cidade.</li>
+          <li>Você aceita uma e-bike que pareça uma moto, que precise de ajuda para carregar ou que não tenha a leveza de uma bike normal na pilotagem.</li>
+        </ul>
+        <p class="filtro__conciliador">Existem ótimas e-bikes para isso. A HORIZON foi feita para outra coisa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<Fechamento linhas={['Mais longe.', 'Mais alto.']} verde="Mais rápido."
+  texto="Conte como você pedala hoje e onde quer chegar. Um dos nossos especialistas responde com a simulação de autonomia do seu treino."
+  botoes={[{ rotulo: 'Falar sobre a minha HORIZON', href: wa('Olá, EDRO. Quero falar sobre a minha HORIZON. (origem: site-horizon-fechamento)'), primario: true, wa: 'horizon-fechamento' }, { rotulo: 'Enviar meu pedal para simulação', href: '/horizon/simulador' }]} />
+
+</Base>

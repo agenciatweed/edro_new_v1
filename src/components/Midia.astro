@@ -1,0 +1,57 @@
+---
+/* =============================================================
+   Mídia de seção (v3.1, exigência 1: toda seção com imagem real).
+
+   Três estados:
+   - src: foto real do acervo, em AVIF/WebP com srcset.
+   - video: lite embed do YouTube (miniatura própria, player só no clique).
+   - nenhum dos dois: placeholder com a orientação de produção das telas
+     site_v3 (FOTO, VÍDEO, IMAGEM). data-midia-pendente permite ao
+     verificar.mjs listar o que falta produzir antes do lançamento.
+   ============================================================= */
+import { Picture } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+
+const {
+  tipo = 'FOTO',
+  titulo,
+  descricao,
+  src,
+  alt = '',
+  video,
+  proporcao = '4x3',
+  legenda,
+  sizes = '(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw',
+  posicao = 'center',
+  classe = '',
+  eager = false,
+} = Astro.props;
+
+const foto = src ? img(src) : null;
+const poster = video ? img(`youtube/${video.id}.jpg`) : null;
+---
+
+{foto ? (
+  <figure class:list={['midia', `midia--${proporcao}`, classe]}>
+    <Picture src={foto} formats={['avif', 'webp']} alt={alt} widths={[480, 960, 1440]} sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'} style={`object-position:${posicao}`} />
+    {legenda && <figcaption class="midia__legenda" set:html={legenda} />}
+  </figure>
+) : poster ? (
+  <div class:list={['midia', 'yt', `midia--${proporcao}`, classe]} data-yt={video.id} data-yt-titulo={video.titulo}>
+    <button class="yt__botao" type="button" aria-label={`Assistir: ${video.titulo}`}>
+      <Picture src={poster} formats={['avif', 'webp']} alt="" widths={[480, 960, 1280]} sizes={sizes} loading="lazy" />
+      <span class="yt__icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
+      <span class="yt__titulo">{video.titulo}{legenda && <span>{legenda}</span>}</span>
+    </button>
+  </div>
+) : (
+  <div class:list={['midia', 'midia--pendente', `midia--${proporcao}`, classe]} data-midia-pendente={titulo} role="img" aria-label={titulo}>
+    <span class="midia__tag">{tipo}</span>
+    {tipo.startsWith('VÍDEO') && <span class="midia__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>}
+    <div class="midia__brief">
+      <strong>{titulo}</strong>
+      {descricao && <span>{descricao}</span>}
+    </div>
+  </div>
+)}

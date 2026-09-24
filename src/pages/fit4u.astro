@@ -1,283 +1,104 @@
 ---
-/* /fit4u, capítulos 15.1, 23 e 13.7. Prazos e preço saem do bikes.json. */
-
+/* /fit4u v3.1 · tela site_v3/06-fit4u.png. Sem número de série, sem formulário, sem bloco de perguntas. */
 import Base from '../layouts/Base.astro';
-import FormularioWhatsapp from '../components/FormularioWhatsapp.astro';
-import { bikes, wa, comercial, brl } from '../lib/edro.js';
+import Hero from '../components/Hero.astro';
+import Cabecalho from '../components/Cabecalho.astro';
+import Midia from '../components/Midia.astro';
+import Fechamento from '../components/Fechamento.astro';
+import { wa } from '../lib/edro.js';
 
-const c = bikes.meta.condicoes;
-const fit = bikes.programas.find((p) => p.slug === 'fit4u');
-if (!fit?.repintura_brl) throw new Error('/fit4u: programa fit4u sem repintura_brl no bikes.json.');
+const iniciar = wa('Olá, EDRO. Quero iniciar o meu projeto FIT4U. (origem: site-fit4u)');
 
-/* 15.1 pede, por etapa, o que o cliente entrega, o que a EDRO entrega
-   e o prazo. Só há prazo documentado nas etapas 3 e 4. */
-const etapas = [
-  {
-    titulo: 'Medidas e bike fit',
-    voce: 'Suas medidas ou o relatório do seu bike fit.',
-    edro: 'O projetista define o tamanho do quadro, o reach e o stack.',
-  },
-  {
-    titulo: 'Geometria e componentes',
-    voce: 'A escolha da plataforma e da versão.',
-    edro: 'Cockpit e componentes ajustados às suas medidas, com pré-fit de fábrica.',
-  },
-  {
-    titulo: 'Pintura exclusiva',
-    voce: 'Cores do quadro, logos, grafismos e acabamento fosco ou brilhante, com aprovação por escrito.',
-    edro: 'Projeto de pintura e pintura à mão por artistas brasileiros, em PU Acrílica Carbon Industrial.',
-    prazo: `${c.cura_pintura_dias} dias de cura em ambiente controlado.`,
-  },
-  {
-    titulo: 'Montagem, inspeção e entrega',
-    voce: `Recebe, pedala e tem ${c.compra_certa_dias} dias de Compra Certa.`,
-    edro: 'Montagem à mão, inspeção ponto a ponto, número de série com o seu nome e laudo técnico.',
-    prazo: `Até ${c.prazo_entrega_dias} dias após a confirmação do pedido e a aprovação da pintura, com frete grátis.`,
-  },
+const passos = [
+  ['Você escolhe a bike', 'Linha e versão, com um especialista EDRO ao lado para orientar.'],
+  ['Projeto de pintura exclusivo', 'Desenhado junto com você, aprovado antes de qualquer tinta encostar no carbono.'],
+  ['Bike fit ou medidas', 'Você envia o relatório do seu bike fit ou as suas medidas, conforme o manual da EDRO.'],
+  ['Pintura exclusiva à mão', 'Feita por artistas brasileiros, em PU Acrílica Carbon Industrial, com cura em ambiente controlado.'],
+  ['Montagem, inspeção e entrega', 'Montada à mão, inspecionada ponto a ponto e entregue com a sua pintura exclusiva, em até 30 dias.'],
 ];
-
-const faq = [
-  {
-    p: 'Posso comprar sem bike fit?',
-    r: 'Sim. A EDRO faz o pré-fit com as suas medidas. O bike fit profissional é recomendado, mas não é obrigatório.',
-  },
-  {
-    p: 'Quanto tempo leva?',
-    r: `${c.prazo_entrega_dias} dias após a confirmação do pedido e a aprovação do projeto de pintura, incluindo ${c.cura_pintura_dias} dias de cura.`,
-  },
-  {
-    p: 'A pintura tem custo extra?',
-    r: 'Não. A pintura exclusiva está inclusa no preço da bike.',
-  },
-  {
-    p: 'Posso repintar depois?',
-    r: `Sim. A repintura total do quadro custa ${brl(fit.repintura_brl)}, valor exclusivo para clientes FIT4U.`,
-  },
+const fit = [
+  ['Tamanho do quadro', 'O tamanho certo para as suas proporções, não para a sua altura.'],
+  ['Avanço do guidão', 'Comprimento definido para o seu alcance e a sua posição de pedalada.'],
+  ['Largura do guidão', 'Para o seu ombro e o seu controle, na trilha ou na estrada.'],
+  ['Alturas de cada parte', 'Ajustes finos de selim, guidão e cockpit, já regulados de fábrica.'],
 ];
-
-const modalidades = ['MTB XC', 'Estrada', 'Os dois', 'Ainda não pedalo'];
-
-const camposPrefit = [
-  { nome: 'nome', rotulo: 'Nome', tipo: 'text', obrigatorio: true, placeholder: 'Seu nome', autocomplete: 'name' },
-  { nome: 'whatsapp', rotulo: 'WhatsApp', tipo: 'tel', obrigatorio: true, placeholder: '(48) 9 9999-9999', autocomplete: 'tel' },
-  { nome: 'modalidade', rotulo: 'Modalidade', tipo: 'select', obrigatorio: true, opcoes: modalidades },
-  { nome: 'altura', rotulo: 'Altura', tipo: 'number', obrigatorio: true, unidade: 'cm' },
-  { nome: 'entreperna', rotulo: 'Entreperna', tipo: 'number', obrigatorio: true, unidade: 'cm' },
-  { nome: 'tronco', rotulo: 'Tronco', tipo: 'number', obrigatorio: false, unidade: 'cm' },
-  { nome: 'braco', rotulo: 'Braço', tipo: 'number', obrigatorio: false, unidade: 'cm' },
-  { nome: 'flexibilidade', rotulo: 'Flexibilidade', tipo: 'select', obrigatorio: false, opcoes: ['1, pouca', '2', '3', '4', '5, muita'] },
-  { nome: 'bike', rotulo: 'Bike atual e tamanho', tipo: 'text', obrigatorio: false, placeholder: 'Marca e modelo da sua bike de hoje' },
-  { nome: 'dores', rotulo: 'Dores ou incômodos atuais', tipo: 'textarea', obrigatorio: false },
+const pintura = [
+  ['Cores do quadro', 'Uma, duas ou mais, com degradês e transições.'],
+  ['Cores das logos', 'Logos EDRO e do modelo na cor que combina com o seu projeto.'],
+  ['Personalização', 'Grafismos, nome, bandeira, frase: o que faz a bike ser sua.'],
+  ['Acabamento', 'Acetinado ou brilhoso.'],
 ];
-
-const camposGuia = [
-  { nome: 'nome', rotulo: 'Nome', tipo: 'text', obrigatorio: true, placeholder: 'Seu nome', autocomplete: 'name' },
-  { nome: 'whatsapp', rotulo: 'WhatsApp', tipo: 'tel', obrigatorio: true, placeholder: '(48) 9 9999-9999', autocomplete: 'tel' },
-  { nome: 'email', rotulo: 'E-mail', tipo: 'email', obrigatorio: false, placeholder: 'voce@email.com', autocomplete: 'email' },
-  { nome: 'modalidade', rotulo: 'Modalidade', tipo: 'select', obrigatorio: false, opcoes: modalidades },
-  { nome: 'bike', rotulo: 'Bike atual', tipo: 'text', obrigatorio: false, placeholder: 'Marca e modelo da sua bike de hoje' },
-];
-
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faq.map((f) => ({
-    '@type': 'Question',
-    name: f.p,
-    acceptedAnswer: { '@type': 'Answer', text: f.r },
-  })),
-};
 ---
 
 <Base
-  titulo="FIT4U · Bike de carbono feita para o seu corpo · EDRO"
-  descricao="FIT4U é o processo EDRO de personalização: geometria pelas suas medidas, pintura exclusiva sem custo adicional e número de série com o seu nome."
+  titulo="FIT4U · Bike sob medida com pintura exclusiva · EDRO"
+  descricao="FIT4U é o processo EDRO de personalização: tamanho, avanço, largura de guidão e alturas definidos pelas suas medidas, e pintura exclusiva feita à mão, sem custo adicional."
   canonica="https://edrobikes.com.br/fit4u"
   pagina="fit4u"
-  jsonLd={jsonLd}
 >
 
-<!-- TOPO -->
-<section class="pagina-topo">
-  <div class="container topo-duplo">
-    <div>
-      <p class="eyebrow eyebrow--verde">FIT4U</p>
-      <h1 class="display pagina-topo__titulo">Feita para o<br />seu corpo.<br />Pintada do seu <span class="verde">jeito.</span></h1>
-      <p class="lead pagina-topo__lead">
-        FIT4U é o processo EDRO de personalização. Nenhuma bike sai da fábrica sem passar por ele.
-      </p>
-      <div class="hero__botoes pagina-topo__botoes">
-        <a class="btn btn--primario" href="#medidas">
-          Iniciar o meu projeto
-          <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-        </a>
-        <a class="btn btn--secundario" href="#guia">Baixar o guia FIT4U</a>
-      </div>
-    </div>
+<Hero
+  eyebrow="FIT4U"
+  linhas={['Feita para o', 'seu corpo.']}
+  verde="Pintada do seu<br />jeito."
+  lead="FIT4U é o processo EDRO de personalização. Nenhuma bike sai da fábrica sem passar por ele, e nenhuma sai igual a outra."
+  botoes={[{ rotulo: 'Iniciar o meu projeto', href: iniciar, primario: true, wa: 'fit4u-hero' }, { rotulo: 'Baixar o guia FIT4U', href: '/guias#fit4u' }]}
+  fundo={{ src: 'lp/fit4u-bg.jpg', alt: 'Quadros EDRO com pinturas exclusivas FIT4U na fábrica', posicao: 'center 35%' }}
+/>
 
-    <!-- Ficha de proprietário, 12.4. Dados ilustrativos, rotulados como tal. -->
-    <figure class="ficha-dono">
-      <p class="eyebrow">Nº de série</p>
-      <p class="ficha-dono__serie">EDRO·SUM·0417·SEU NOME</p>
-      <dl class="ficha-dono__lista">
-        <div class="ficha-dono__linha"><dt>Proprietário</dt><dd>Seu nome</dd></div>
-        <div class="ficha-dono__linha"><dt>Plataforma</dt><dd><i class="modelo">SUMMA</i> <span class="verde">XCR</span></dd></div>
-        <div class="ficha-dono__linha"><dt>Quadro</dt><dd>Tamanho M, pré-fit de fábrica</dd></div>
-        <div class="ficha-dono__linha"><dt>Pintura</dt><dd><span class="ficha-dono__swatch" aria-hidden="true"></span>Projeto exclusivo</dd></div>
-        <div class="ficha-dono__linha"><dt>Projeto de pintura</dt><dd class="ficha-dono__status">Aprovado</dd></div>
-        <div class="ficha-dono__linha"><dt>Entrega</dt><dd>{c.prazo_entrega_dias} dias após a aprovação</dd></div>
-      </dl>
-      <figcaption class="caption ficha-dono__rodape">Exemplo ilustrativo</figcaption>
-    </figure>
+<section class="secao secao--sem-linha">
+  <div class="container bloco2 bloco2--topo">
+    <div>
+      <h2 class="visualmente-oculto">Como funciona o FIT4U</h2>
+      <ol class="passos3">
+        {passos.map(([t, d], i) => (<li><span class="passos3__num">{i + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
+      </ol>
+    </div>
+    <Midia src="lp/customer-9.jpg" proporcao="4x5" alt="EDRO preta com pintura exclusiva no cavalete da fábrica, pronta para entrega"
+      sizes="(max-width: 1023px) 100vw, 50vw" />
   </div>
 </section>
 
-<!-- COMO FUNCIONA -->
+<section class="secao">
+  <div class="container bloco2">
+    <div>
+      <p class="eyebrow eyebrow--verde">Os 4 do fit</p>
+      <h2 class="headline" style="margin-top:var(--s-4)">Quatro definições.<br />Um só <span class="verde">corpo.</span></h2>
+      <p class="lead">Se você já tem um bike fit, envie o relatório. Se não tem, envie as suas medidas conforme o manual que a EDRO manda para você. A partir daí, definimos juntos:</p>
+    </div>
+    <div class="numeros4 numeros4--quatro">
+      {fit.map(([t, d], i) => (
+        <div class="numero-card"><p class="numero-card__num">{i + 1}</p><h3 style="font:600 .9375rem/1.35 var(--font-body);text-transform:none;margin:var(--s-3) 0 var(--s-2)">{t}</h3><p>{d}</p></div>
+      ))}
+    </div>
+  </div>
+</section>
+
 <section class="secao">
   <div class="container">
-    <div class="cabecalho">
-      <h2 class="headline">Nenhuma<br />EDRO nasce <span class="verde">igual.</span></h2>
-      <p class="lead">
-        O FIT4U transforma as suas medidas, o seu jeito de pedalar e a sua identidade em uma
-        bike que só existe uma vez.
-      </p>
+    <div class="bloco2" style="margin-bottom:var(--s-12)">
+      <div>
+        <p class="eyebrow eyebrow--verde">Os 4 da pintura</p>
+        <h2 class="headline" style="margin-top:var(--s-4)">Quatro escolhas.<br />Uma bike <span class="verde">única.</span></h2>
+        <p class="lead">Sem custo adicional. Cada detalhe do projeto é desenvolvido junto com você e aprovado antes de ir para a cabine.</p>
+      </div>
+      <div class="numeros4 numeros4--quatro">
+        {pintura.map(([t, d], i) => (
+          <div class="numero-card"><p class="numero-card__num">{i + 1}</p><h3 style="font:600 .9375rem/1.35 var(--font-body);text-transform:none;margin:var(--s-3) 0 var(--s-2)">{t}</h3><p>{d}</p></div>
+        ))}
+      </div>
     </div>
-
-    <ol class="etapas etapas--detalhe">
-      {etapas.map((e, i) => (
-        <li class="etapa">
-          <span class="etapa__num" aria-hidden="true">{i + 1}</span>
-          <h3 class="card-title etapa__titulo">{e.titulo}</h3>
-          <dl class="etapa__dl">
-            <div><dt>Você entrega</dt><dd>{e.voce}</dd></div>
-            <div><dt>A EDRO entrega</dt><dd>{e.edro}</dd></div>
-            {e.prazo && <div class="etapa__prazo"><dt>Prazo</dt><dd>{e.prazo}</dd></div>}
-          </dl>
-        </li>
-      ))}
-    </ol>
-
-    <p class="caption nota">Avanço de guidão e componentes sujeitos a disponibilidade no momento do pedido.</p>
+    <div class="galeria3">
+      <Midia src="lp/customer-7.jpg" alt="Projeto de pintura FIT4U amarelo em duas EDRO full suspension, close no quadro" legenda="<strong>Projeto de pintura 1</strong>Amarelo com logos em preto." />
+      <Midia src="lp/customer-15.webp" alt="EDRO IMPETUS com pintura exclusiva vermelha em estrada de serra" legenda="<strong>Projeto de pintura 2</strong>IMPETUS vermelha, acabamento brilhoso." posicao="center 40%" />
+      <Midia src="lp/customer-14.jpg" alt="EDRO IMPETUS com pintura exclusiva azul e amarela com a família do dono" legenda="<strong>Projeto de pintura 3</strong>IMPETUS azul com detalhes em amarelo." posicao="center 70%" />
+    </div>
+    <p class="lead" style="margin-top:var(--s-6);max-width:none">Enjoou da cor? Repintura total do quadro por R$&nbsp;1.299, valor exclusivo para clientes FIT4U.</p>
   </div>
 </section>
 
-<!-- MEDIDAS -->
-<section class="secao" id="medidas">
-  <div class="container faq-bloco">
-    <div>
-      <h2 class="headline">As suas<br />medidas.</h2>
-      <p class="lead acionar__texto">
-        Com elas o projetista define o tamanho do quadro e o pré-fit. Recomendamos sempre fazer
-        um bike fit profissional para a sua melhor performance e conforto.
-      </p>
-      <p class="caption nota">
-        Já tem relatório de bike fit?
-        <a class="link-acao nota__link" href={wa('Olá, EDRO. Tenho um relatório de bike fit e quero iniciar o meu projeto FIT4U. (origem: site-fit4u-relatorio)', comercial)} rel="noopener" data-wa="fit4u-relatorio">Enviar o PDF pelo WhatsApp</a>
-      </p>
-    </div>
-
-    <div>
-      <FormularioWhatsapp
-        id="form-fit4u"
-        campos={camposPrefit}
-        numero={comercial}
-        cabecalho="Olá, EDRO. Quero iniciar o meu projeto FIT4U. Seguem as minhas medidas."
-        origem="site-fit4u"
-        formulario="fit4u-prefit"
-        rotulo="Iniciar o meu projeto"
-      />
-      <p class="caption nota" data-nota-iniciante hidden>
-        Sem problema. Existem ótimas bikes para isso. A EDRO só não é uma delas.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- PINTURA -->
-<section class="secao">
-  <div class="container duas-colunas">
-    <div>
-      <p class="eyebrow eyebrow--verde">Pintura exclusiva</p>
-      <h2 class="headline pintura__titulo">Sem pagar<br />nada a <span class="verde">mais.</span></h2>
-      <p class="lead">
-        Cada detalhe do projeto é desenvolvido junto com você, resultando em uma pintura que não
-        existe em nenhuma outra bike.
-      </p>
-    </div>
-    <ul class="construcao__lista">
-      <li>Cores do quadro, das logos e dos grafismos, com acabamento fosco ou brilhante.</li>
-      <li>Projeto aprovado por escrito antes de ir para a cabine.</li>
-      <li>Pintura à mão por artistas brasileiros, em PU Acrílica Carbon Industrial, exclusividade EDRO no Brasil.</li>
-      <li>{c.cura_pintura_dias} dias de cura em ambiente controlado.</li>
-      <li>Repintura total do quadro por {brl(fit.repintura_brl)}, valor exclusivo para clientes FIT4U.</li>
-    </ul>
-  </div>
-</section>
-
-<!-- NÚMERO DE SÉRIE -->
-<section class="secao">
-  <div class="container duas-colunas">
-    <div>
-      <h2 class="headline">Cada EDRO tem<br />um dono antes<br />de <span class="verde">existir.</span></h2>
-    </div>
-    <div>
-      <p class="lead">
-        Cada EDRO recebe um número de série gravado com o nome do proprietário e um laudo técnico
-        individual. É por ele que a sua bike é identificada na garantia, no Carbon Assist e no Ciclo EDRO.
-      </p>
-      <p class="chip-serie serie__chip">Nº de série <b>EDRO·SUM·0417·SEU NOME</b></p>
-    </div>
-  </div>
-</section>
-
-<!-- GUIA -->
-<section class="secao" id="guia">
-  <div class="container faq-bloco">
-    <div>
-      <p class="eyebrow eyebrow--verde">Guia</p>
-      <h2 class="headline">Não erre na<br />próxima <span class="verde">bike.</span></h2>
-      <p class="lead acionar__texto">
-        O que a tabela de tamanhos não conta sobre o seu corpo, as sete medidas que decidem uma bike
-        e como o pré-fit da EDRO funciona.
-      </p>
-    </div>
-
-    <FormularioWhatsapp
-      id="form-guia"
-      campos={camposGuia}
-      numero={comercial}
-      cabecalho="Olá, EDRO. Quero receber o Guia FIT4U: não erre na próxima bike."
-      origem="site-fit4u-guia"
-      formulario="guia-fit4u"
-      rotulo="Quero o guia FIT4U"
-    />
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="secao">
-  <div class="container faq-bloco">
-    <h2 class="headline">Dúvidas<br />frequentes.</h2>
-    <div class="faq">
-      {faq.map((item, i) => (
-        <details class="faq__item" open={i === 0}>
-          <summary class="faq__pergunta"><span>{item.p}</span></summary>
-          <p class="body faq__resposta">{item.r}</p>
-        </details>
-      ))}
-    </div>
-  </div>
-</section>
-
-<script>
-  /* 17.9: "Ainda não pedalo" redireciona com gentileza. */
-  const seletor = document.querySelector<HTMLSelectElement>('#form-fit4u-modalidade');
-  const nota = document.querySelector<HTMLElement>('[data-nota-iniciante]');
-  if (seletor && nota) {
-    seletor.addEventListener('change', () => {
-      nota.hidden = seletor.value !== 'Ainda não pedalo';
-    });
-  }
-</script>
+<Fechamento linhas={['Exclusividade', 'em', 'todos os']} verde="detalhes."
+  texto="Fale com um dos nossos especialistas e comece o seu projeto FIT4U."
+  botoes={[{ rotulo: 'Iniciar o meu projeto', href: iniciar, primario: true, wa: 'fit4u-fechamento' }, { rotulo: 'Baixar o guia FIT4U', href: '/guias#fit4u' }]} />
 
 </Base>

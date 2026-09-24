@@ -1,0 +1,132 @@
+---
+/* =============================================================
+   Seletor de versões v3.1. Tab com wordmark da linha + versão em
+   verde, resumo, peso e preço, especificações-chave e o botão
+   "Ver especificações completas", que abre a ficha minuciosa
+   (quadro, garfo, câmbios... selante) num <dialog>.
+   Tabs com ARIA, teclado e âncora na URL (#pro, #xcr, #ex).
+   ============================================================= */
+import { Image } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import { brl, kg, wa, junto } from '../lib/edro.js';
+import Cabecalho from './Cabecalho.astro';
+
+const { linha, wordmark, horizon = false, notaPeso, rotuloGrupos, lead } = Astro.props;
+/* HORIZON publica peso com uma casa (14,5 kg); as linhas, com duas (8,47 kg). */
+const peso = (n) => (horizon ? n.toFixed(1).replace('.', ',') : kg(n));
+const nomeCompleto = horizon ? `${linha.nome} HORIZON` : linha.nome;
+const idBase = horizon ? `${linha.slug}` : linha.slug;
+const rotulos = Object.fromEntries(rotuloGrupos.map((g) => [g.chave, g.rotulo]));
+rotulos.sistema = 'Sistema';
+const specs = (v) => linha.specs_chave.filter((k) => v[k]).map((k) => [rotulos[k] ?? k, junto(v[k])]);
+const rotuloFicha = (r) => (r.item === 'Dianteiro / traseiro' ? 'Freios' : r.item === r.grupo || r.grupo === 'Quadro' ? r.item : r.item);
+---
+<section class="secao" id="versoes">
+  <div class="container">
+    <Cabecalho linhas={['Três versões.', 'O mesmo quadro.']} lead={lead ?? `Todas as versões da ${nomeCompleto} partem do mesmo quadro em carbono, da mesma pintura exclusiva e da mesma garantia vitalícia. O que muda são os componentes.`} />
+
+    <div class="versoes__tabs" role="tablist" aria-label={`Versões da ${nomeCompleto}`}>
+      {linha.versoes.map((v, i) => (
+        <button class="versoes__tab" role="tab" type="button" id={`tab-${idBase}-${v.slug}`} aria-controls={`painel-${idBase}-${v.slug}`}
+          aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-versao={v.slug}>{v.nome}</button>
+      ))}
+    </div>
+
+    {linha.versoes.map((v, i) => (
+      <div class="versao" role="tabpanel" id={`painel-${idBase}-${v.slug}`} aria-labelledby={`tab-${idBase}-${v.slug}`} hidden={i !== 0}>
+        <div>
+          <h3 class="versao__nome">
+            <span class="visualmente-oculto">{nomeCompleto} {v.nome}</span>
+            <Image src={img(`brand/${wordmark}.png`)} alt="" height={52} />
+            {horizon && <Image src={img('brand/horizon.png')} alt="" height={40} />}
+            <Image src={img(`brand/${v.slug}.png`)} alt="" height={46} />
+          </h3>
+          <p class="lead versao__resumo">{junto(v.resumo)}</p>
+          <div class="versao__stats">
+            <div>
+              <p class="metric-stat">{peso(v.peso_kg)}<span class="unidade">&nbsp;kg</span></p>
+              <span class="caption">sem pedais, tamanho M</span>
+            </div>
+            <div>
+              <p class="metric-stat">{brl(v.preco)}</p>
+              <span class="caption">preço de tabela · 12x sem juros ou 5% no Pix</span>
+            </div>
+          </div>
+          <div class="versao__botoes">
+            <a class="btn btn--primario" rel="noopener" data-wa={`versao-${idBase}-${v.slug}`}
+               href={wa(`Olá, EDRO. Tenho interesse na ${nomeCompleto} ${v.nome}. Minha bike atual é: ___ (origem: site-${idBase}-${v.slug})`)}>
+              Quero a {nomeCompleto} {v.nome}
+              <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+            <button class="btn btn--secundario" type="button" data-abre-ficha={`ficha-${idBase}-${v.slug}`}>Ver especificações completas</button>
+          </div>
+        </div>
+        <dl class="versao__specs">
+          {specs(v).map(([r, val]) => (<div><dt>{r}</dt><dd>{val}</dd></div>))}
+        </dl>
+
+        <dialog class="ficha-modal" id={`ficha-${idBase}-${v.slug}`} aria-labelledby={`ficha-${idBase}-${v.slug}-t`}>
+          <div class="ficha-modal__topo">
+            <h2 class="card-title" id={`ficha-${idBase}-${v.slug}-t`}><i class="modelo">{nomeCompleto}</i> <span class="verde">{v.nome}</span></h2>
+            <button class="ficha-modal__fechar" type="button" data-fecha-ficha aria-label="Fechar especificações">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+            </button>
+          </div>
+          <div class="ficha-modal__corpo">
+            <table class="tabela">
+              <caption class="visualmente-oculto">Especificações completas da {nomeCompleto} {v.nome}</caption>
+              <tbody>
+                {v.ficha.map((r) => (<tr><th scope="row">{rotuloFicha(r)}</th><td>{junto(r.valor)}</td></tr>))}
+                <tr><th scope="row">Peso</th><td>{peso(v.peso_kg)}&nbsp;kg, sem pedais, tamanho M</td></tr>
+              </tbody>
+            </table>
+            <p class="nota-peso">{notaPeso}</p>
+          </div>
+        </dialog>
+      </div>
+    ))}
+
+    <p class="nota-peso">{notaPeso}</p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[role="tablist"]').forEach((lista) => {
+    const tabs = [...lista.querySelectorAll('[role="tab"]')];
+    const paineis = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls') || ''));
+    const mostrar = (i, focar = true, url = true) => {
+      tabs.forEach((t, j) => {
+        const ativo = i === j;
+        t.setAttribute('aria-selected', ativo ? 'true' : 'false');
+        t.tabIndex = ativo ? 0 : -1;
+        if (paineis[j]) paineis[j].hidden = !ativo;
+      });
+      if (focar) tabs[i].focus();
+      if (url && tabs[i].dataset.versao) history.replaceState(null, '', '#' + tabs[i].dataset.versao);
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => mostrar(i, false));
+      t.addEventListener('keydown', (e) => {
+        const passo = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (passo) { e.preventDefault(); mostrar((i + passo + tabs.length) % tabs.length); }
+        if (e.key === 'Home') { e.preventDefault(); mostrar(0); }
+        if (e.key === 'End') { e.preventDefault(); mostrar(tabs.length - 1); }
+      });
+    });
+    /* Link direto de anúncio: /bikes/summa#xcr abre na XCR. */
+    const alvo = decodeURIComponent(location.hash.replace('#', ''));
+    const k = tabs.findIndex((t) => t.dataset.versao === alvo);
+    if (k > 0) mostrar(k, false, false);
+  });
+
+  document.querySelectorAll('[data-abre-ficha]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const d = document.getElementById(b.getAttribute('data-abre-ficha') || '');
+      if (d instanceof HTMLDialogElement) d.showModal();
+    });
+  });
+  document.querySelectorAll('dialog.ficha-modal').forEach((d) => {
+    d.querySelector('[data-fecha-ficha]')?.addEventListener('click', () => d.close());
+    d.addEventListener('click', (e) => { if (e.target === d) d.close(); });
+  });
+</script>

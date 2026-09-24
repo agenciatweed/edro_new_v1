@@ -1,0 +1,876 @@
+{
+  "nota_peso": "Pesos sem pedais, aferidos no tamanho M, podendo variar até 5% conforme o tamanho da bicicleta, os componentes e a pintura escolhida. 12x sem juros ou 5% no Pix.",
+  "sistema": {
+    "potencia_pico_w": 1200,
+    "potencia_nominal_w": 600,
+    "torque_nm": 135,
+    "bateria_wh": 540,
+    "bateria": "EDRO Power Pack 540 Wh, 36 V 15 Ah, integrada",
+    "motor": "CYC Photon Gen 2",
+    "velocidade": "32 km/h de fábrica; ajustável pela EDRO a 45 km/h para circuitos fechados, conforme a legislação",
+    "simulador": {
+      "erro_pct": 2,
+      "pedais_instrumentados": "mais de 15"
+    }
+  },
+  "linhas": [
+    {
+      "slug": "summa-horizon",
+      "base": "summa",
+      "nome": "SUMMA",
+      "uso": "Hardtail XC elétrica",
+      "frase": "Para maratona, trilha rápida e quem quer treinar mais longe com a eficiência de uma hardtail.",
+      "tamanhos": [
+        "S",
+        "M",
+        "L"
+      ],
+      "specs_chave": [
+        "garfo",
+        "transmissao",
+        "cockpit",
+        "freios",
+        "rodas",
+        "pneus",
+        "sistema"
+      ],
+      "versoes": [
+        {
+          "slug": "pro",
+          "nome": "PRO",
+          "peso_kg": 14.5,
+          "preco": 94990,
+          "macro": "XX SL Transmission, SID Ultimate FA, VORZ SL PRO carbon, Reverb AXS",
+          "resumo": "O topo da linha: Flight Attendant ajustando a suspensão sozinho, XX SL Transmission sem fio, rodas de carbono com DT Swiss 240 e o menor peso de uma eMTB full power.",
+          "garfo": "RockShox SID SL Ultimate Flight Attendant, 110 mm, offset 44 mm, 15x110 Boost",
+          "transmissao": "SRAM XX SL Eagle AXS T-Type, Pod Ultimate MMX, pedivela CYC integrado ao motor",
+          "cockpit": "KFX SIC guidão integrado carbono 780 mm, avanço 65/85/105 mm, -12°; Supacaz Supalite; RockShox Reverb AXS 31.6 x 390 mm, drop 125 mm; Fizik Vento Argo R1",
+          "freios": "SRAM Motive Ultimate 4 pistões, rotores 160 mm",
+          "rodas": "VORZ SL PRO Carbon 29 Boost, cubos DT Swiss 240 MB XD, 28 mm interno, raios Sapim CX-Ray",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4",
+          "sistema": "CYC Photon Gen 2, EDRO Power Pack 540 Wh, display 2,1\", app Ride Control, Find My",
+          "ficha": [
+            {
+              "grupo": "Quadro",
+              "item": "Quadro",
+              "valor": "EDRO HT 29 High Modulus UD Carbon Fiber Monocoque Frame, EPS Technology, geometria Cross-Country, 12x148 mm BOOST, UDH, cabos internos integrados, BSA BB"
+            },
+            {
+              "grupo": "Suspensão",
+              "item": "Garfo",
+              "valor": "RockShox SID SL Ultimate Flight Attendant, mola DebonAir, damper Flight Attendant Race Day, mola Stealth DebonAir, Ride Dynamics developed 3 position, tubo de direção cônico, deslocamento (offset) 44 mm, eixo Maxle Stealth 15x110 mm Boost, curso 110 mm"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Câmbio traseiro",
+              "valor": "SRAM XX SL Eagle AXS T-Type"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Trocadores",
+              "valor": "SRAM AXS Pod Ultimate MMX"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Corrente",
+              "valor": "SRAM XX SL T-Type"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Cassete",
+              "valor": "SRAM XX SL T-Type 10-52T"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Pedivela",
+              "valor": "CYC, integrado ao motor"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Guidão / mesa",
+              "valor": "KFX SIC Integrated Handlebar, compósito de fibra de carbono, back sweep 9°, up sweep 5°, 780 mm de largura, avanço efetivo 65, 85 ou 105 mm (conforme disponibilidade), ângulo de avanço -12°"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Manoplas",
+              "valor": "Supacaz Supalite, 18 g o par, diâmetro externo 32 mm, resistente a UV"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Canote",
+              "valor": "RockShox Reverb AXS retrátil, 31.6 mm, 390 mm, 125 mm de drop"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Selim",
+              "valor": "Fizik Vento Argo R1, canal de alívio central, trilhos em fibra de carbono, estrutura em nylon com reforço em carbono"
+            },
+            {
+              "grupo": "Freios",
+              "item": "Dianteiro / traseiro",
+              "valor": "SRAM Motive Ultimate, 4 pistões, rotores 160 mm"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Rodas",
+              "valor": "VORZ SL PRO Carbon, aro 29, Boost, cubos DT Swiss 240 MB XD, tubeless ready, aros em fibra de carbono, 28 mm de largura interna, engate 6 pawls, raios Sapim CX-Ray"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Pneus",
+              "valor": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Selante",
+              "valor": "Solifes, 60 a 120 ml"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Motor",
+              "valor": "CYC Photon Gen 2 central, 1.200 W de pico, potência nominal limitada a 600 W, 135 N·m, sensor de torque"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Bateria",
+              "valor": "EDRO Power Pack 540 Wh, 36 V 15 Ah, integrada ao quadro, recarga direto na bike"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Display e app",
+              "valor": "Display 2,1\" IP65, app Ride Control, Apple Find My integrado"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Modos",
+              "valor": "Livre (arrasto zero), Eco, Ride, Turbo e Modo automático por frequência cardíaca"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Velocidade",
+              "valor": "Assistência limitada a 32 km/h de fábrica; ajustável pela EDRO a 45 km/h para uso em circuitos fechados, respeitando a legislação"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Assistência",
+              "valor": "Exclusivamente ao pedal, sem acelerador"
+            }
+          ]
+        },
+        {
+          "slug": "xcr",
+          "nome": "XCR",
+          "peso_kg": 15.0,
+          "preco": 62990,
+          "macro": "GX Transmission AXS, SID SL, VORZ SL carbon, KS LEV",
+          "resumo": "GX Transmission AXS sem fio, SID SL com trava OneLoc, rodas VORZ SL Carbon e canote retrátil KS LEV, com o mesmo sistema elétrico da PRO.",
+          "garfo": "RockShox SID SL 2P, Solo Air, 110 mm, OneLoc, Charger RL, 15x110 Boost",
+          "transmissao": "SRAM GX Eagle T-Type AXS, Pod MMX, pedivela CYC integrado ao motor",
+          "cockpit": "KFX SIC guidão integrado carbono 780 mm; Supacaz Supalite; KS LEV SI 400 mm, drop 125 mm; Selle Royal SRX Open 145 mm",
+          "freios": "SRAM Motive Bronze 4 pistões, rotores 160 mm",
+          "rodas": "VORZ SL Carbon 29 Boost, cubos 051MB XD, 28 mm interno, raios Pillar",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4",
+          "sistema": "CYC Photon Gen 2, EDRO Power Pack 540 Wh, display 2,1\", app Ride Control, Find My",
+          "ficha": [
+            {
+              "grupo": "Quadro",
+              "item": "Quadro",
+              "valor": "EDRO HT 29 High Modulus UD Carbon Fiber Monocoque Frame, EPS Technology, geometria Cross-Country, 12x148 mm BOOST, UDH, cabos internos integrados, BSA BB"
+            },
+            {
+              "grupo": "Suspensão",
+              "item": "Garfo",
+              "valor": "RockShox SID SL 2P, Solo Air, 110 mm de curso, trava no guidão OneLoc, damper Charger RL, DebonAir e fluidos Maxima Plush, 15x110 mm Boost"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Câmbio traseiro",
+              "valor": "SRAM GX Eagle T-Type"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Trocadores",
+              "valor": "SRAM AXS Pod MMX"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Corrente",
+              "valor": "SRAM GX Eagle T-Type"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Cassete",
+              "valor": "SRAM GX Eagle T-Type XS-1275 10-52T"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Pedivela",
+              "valor": "CYC, integrado ao motor"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Guidão / mesa",
+              "valor": "KFX SIC Integrated Handlebar (mesma especificação)"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Manoplas",
+              "valor": "Supacaz Supalite, 18 g o par, diâmetro externo 32 mm, resistente a UV"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Canote",
+              "valor": "KS LEV SI retrátil, 400 mm, 125 mm de drop, cabeamento interno e controle remoto no guidão"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Selim",
+              "valor": "Selle Royal SRX Open 145 mm, tecnologia Havac, recorte ergonômico, sistema Royal Vacuum 100% à prova d'água"
+            },
+            {
+              "grupo": "Freios",
+              "item": "Dianteiro / traseiro",
+              "valor": "SRAM Motive Bronze, 4 pistões, rotores 160 mm"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Rodas",
+              "valor": "VORZ SL Carbon, aro 29, Boost, cubos 051MB XD, tubeless ready, aros em carbono, 28 mm de largura interna, engate 6 pawls, raios Pillar"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Pneus",
+              "valor": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Selante",
+              "valor": "Solifes, 60 a 120 ml"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Motor",
+              "valor": "CYC Photon Gen 2 central, 1.200 W de pico, potência nominal limitada a 600 W, 135 N·m, sensor de torque"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Bateria",
+              "valor": "EDRO Power Pack 540 Wh, 36 V 15 Ah, integrada ao quadro, recarga direto na bike"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Display e app",
+              "valor": "Display 2,1\" IP65, app Ride Control, Apple Find My integrado"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Modos",
+              "valor": "Livre (arrasto zero), Eco, Ride, Turbo e Modo automático por frequência cardíaca"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Velocidade",
+              "valor": "Assistência limitada a 32 km/h de fábrica; ajustável pela EDRO a 45 km/h para uso em circuitos fechados, respeitando a legislação"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Assistência",
+              "valor": "Exclusivamente ao pedal, sem acelerador"
+            }
+          ]
+        },
+        {
+          "slug": "ex",
+          "nome": "EX",
+          "peso_kg": 15.3,
+          "preco": 47990,
+          "macro": "Eagle 90, SID SL, VORZ Comp, Vultro Journey",
+          "resumo": "A porta de entrada para a SUMMA HORIZON: o mesmo quadro, a mesma pintura exclusiva, a mesma garantia vitalícia e o mesmo sistema elétrico, com Eagle 90 e rodas VORZ Comp.",
+          "garfo": "RockShox SID SL 2P, Solo Air, 110 mm, OneLoc, Charger RL, 15x110 Boost",
+          "transmissao": "SRAM Eagle 90, corrente GX T-Type 126, pedivela CYC integrado ao motor",
+          "cockpit": "Vultro Journey guidão 31.8 x 760 mm e mesa 80 mm +/-7° alumínio forjado; Supacaz Supalite; canote Vultro Journey 31.6 x 400 mm; Selle Royal SRX Open 145 mm",
+          "freios": "SRAM Motive Bronze 4 pistões, rotores 160 mm",
+          "rodas": "VORZ Comp 29 Boost alumínio, 26 mm interno, rolamentos selados",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4",
+          "sistema": "CYC Photon Gen 2, EDRO Power Pack 540 Wh, display 2,1\", app Ride Control, Find My",
+          "ficha": [
+            {
+              "grupo": "Quadro",
+              "item": "Quadro",
+              "valor": "EDRO HT 29 High Modulus UD Carbon Fiber Monocoque Frame, EPS Technology, geometria Cross-Country, 12x148 mm BOOST, UDH, cabos internos integrados, BSA BB"
+            },
+            {
+              "grupo": "Suspensão",
+              "item": "Garfo",
+              "valor": "RockShox SID SL 2P, Solo Air, 110 mm de curso, trava no guidão OneLoc, damper Charger RL, DebonAir e fluidos Maxima Plush, 15x110 mm Boost"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Câmbio traseiro",
+              "valor": "SRAM Eagle 90"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Trocadores",
+              "valor": "SRAM Eagle 90"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Corrente",
+              "valor": "SRAM GX T-Type 126"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Cassete",
+              "valor": "SRAM XS-1275 T-Type 10-52T"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Pedivela",
+              "valor": "CYC, integrado ao motor"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Guidão / mesa",
+              "valor": "Guidão Vultro Journey 31.8, 760 mm; mesa Vultro Journey 80 mm, +/- 7°, alumínio forjado"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Manoplas",
+              "valor": "Supacaz Supalite, 18 g o par, diâmetro externo 32 mm, resistente a UV"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Canote",
+              "valor": "Vultro Journey 31.6, 400 mm, microajuste 3D (fixo)"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Selim",
+              "valor": "Selle Royal SRX Open 145 mm"
+            },
+            {
+              "grupo": "Freios",
+              "item": "Dianteiro / traseiro",
+              "valor": "SRAM Motive Bronze, 4 pistões, rotores 160 mm"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Rodas",
+              "valor": "VORZ Comp, aro 29, Boost, tubeless ready, cubos com rolamentos selados, aros em alumínio de alta resistência, 26 mm de largura interna"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Pneus",
+              "valor": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Selante",
+              "valor": "Solifes, 60 a 120 ml"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Motor",
+              "valor": "CYC Photon Gen 2 central, 1.200 W de pico, potência nominal limitada a 600 W, 135 N·m, sensor de torque"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Bateria",
+              "valor": "EDRO Power Pack 540 Wh, 36 V 15 Ah, integrada ao quadro, recarga direto na bike"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Display e app",
+              "valor": "Display 2,1\" IP65, app Ride Control, Apple Find My integrado"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Modos",
+              "valor": "Livre (arrasto zero), Eco, Ride, Turbo e Modo automático por frequência cardíaca"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Velocidade",
+              "valor": "Assistência limitada a 32 km/h de fábrica; ajustável pela EDRO a 45 km/h para uso em circuitos fechados, respeitando a legislação"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Assistência",
+              "valor": "Exclusivamente ao pedal, sem acelerador"
+            }
+          ]
+        }
+      ],
+      "numeros": [
+        {
+          "numero": "135",
+          "legenda": "N·m",
+          "titulo": "Suba o que antes ficava para depois",
+          "texto": "Motor central com torque cheio a partir de cadência baixa e centro de gravidade baixo. A subida técnica vira treino, não sofrimento."
+        },
+        {
+          "numero": "0",
+          "legenda": "arrasto",
+          "titulo": "Desligou, virou a sua SUMMA",
+          "texto": "Com o motor desligado o pedal gira livre. Você sente uma hardtail de carbono de 14,5 kg sem pedais, não um peso morto."
+        },
+        {
+          "numero": "67°",
+          "legenda": "e 77°",
+          "titulo": "A mesma geometria de XC",
+          "texto": "Caixa aberta para descer com segurança, tubo de selim fechado para subir centralizado. Pilota como a SUMMA, porque é uma."
+        },
+        {
+          "numero": "540",
+          "legenda": "Wh integrados",
+          "titulo": "Um dia inteiro, uma carga",
+          "texto": "Bateria integrada ao quadro, recarga na própria bike. A autonomia da sua rota você calcula no simulador."
+        }
+      ],
+      "banner": [
+        "SUMMA HORIZON em ação",
+        "SUMMA HORIZON em subida longa de estradão, ciclista em cadência alta, grupo atrás. 12 s."
+      ]
+    },
+    {
+      "slug": "range-horizon",
+      "base": "range",
+      "nome": "RANGE",
+      "uso": "Full suspension XC elétrica, 100 mm",
+      "frase": "Para trilha técnica, descida longa e quem quer subir com o grupo e descer com controle.",
+      "tamanhos": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "specs_chave": [
+        "garfo",
+        "amortecedor",
+        "transmissao",
+        "cockpit",
+        "freios",
+        "rodas",
+        "pneus",
+        "sistema"
+      ],
+      "versoes": [
+        {
+          "slug": "pro",
+          "nome": "PRO",
+          "peso_kg": 15.9,
+          "preco": 104990,
+          "macro": "XX SL Transmission, SID e SIDLuxe Ultimate FA, VORZ SL PRO Carbon",
+          "resumo": "Full suspension elétrica de topo: SID SL Ultimate e SIDLuxe Ultimate Flight Attendant, XX SL Transmission sem fio, rodas VORZ SL PRO carbon e Reverb AXS.",
+          "garfo": "RockShox SID SL Ultimate Flight Attendant, 110 mm, offset 44 mm, 15x110 Boost",
+          "amortecedor": "RockShox SIDLuxe Ultimate Flight Attendant Custom, Solo Air, 165x40 mm, curso 100 mm",
+          "transmissao": "SRAM XX SL Eagle AXS T-Type, Pod Ultimate MMX, pedivela CYC integrado ao motor",
+          "cockpit": "KFX SIC guidão integrado carbono 780 mm; Supacaz Supalite; RockShox Reverb AXS 31.6 x 390 mm, drop 125 mm; Fizik Vento Argo R1",
+          "freios": "SRAM Motive Ultimate 4 pistões, rotores 160 mm",
+          "rodas": "VORZ SL PRO Carbon 29 Boost, cubos DT Swiss 240 MB XD, 28 mm interno, raios Sapim CX-Ray",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4",
+          "sistema": "CYC Photon Gen 2, EDRO Power Pack 540 Wh, display 2,1\", app Ride Control, Find My",
+          "ficha": [
+            {
+              "grupo": "Quadro",
+              "item": "Quadro",
+              "valor": "EDRO FS High Modulus UD Carbon Fiber Monocoque Frame, EPS Technology, geometria Cross-Country, 12x148 mm BOOST, UDH Interface, Integrated Internal Cable Routing"
+            },
+            {
+              "grupo": "Suspensão",
+              "item": "Garfo",
+              "valor": "RockShox SID SL Ultimate Flight Attendant, mola DebonAir, damper Flight Attendant Race Day, Ride Dynamics 3 position, tubo cônico, offset 44 mm, Maxle Stealth 15x110 mm Boost, curso 110 mm"
+            },
+            {
+              "grupo": "Suspensão",
+              "item": "Amortecedor",
+              "valor": "RockShox SIDLuxe Ultimate Flight Attendant Custom, Ride Dynamics 3 position, Solo Air, 165x40 mm, curso 100 mm"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Câmbio traseiro",
+              "valor": "SRAM XX SL Eagle AXS T-Type"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Trocadores",
+              "valor": "SRAM AXS Pod Ultimate MMX"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Corrente",
+              "valor": "SRAM XX SL T-Type"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Cassete",
+              "valor": "SRAM XX SL T-Type 10-52T"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Pedivela",
+              "valor": "CYC, integrado ao motor"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Guidão / mesa",
+              "valor": "KFX SIC Integrated Handlebar, carbono, back sweep 9°, up sweep 5°, 780 mm, avanço efetivo 65, 85 ou 105 mm (conforme disponibilidade), ângulo -12°"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Manoplas",
+              "valor": "Supacaz Supalite, 18 g o par, 32 mm, resistente a UV"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Canote",
+              "valor": "RockShox Reverb AXS, 31.6 mm, 390 mm, 125 mm de drop"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Selim",
+              "valor": "Fizik Vento Argo R1"
+            },
+            {
+              "grupo": "Freios",
+              "item": "Dianteiro / traseiro",
+              "valor": "SRAM Motive Ultimate, 4 pistões, rotores 160 mm"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Rodas",
+              "valor": "VORZ SL PRO Carbon, aro 29, Boost, DT Swiss 240 MB XD, tubeless ready, aros em carbono, 28 mm interno, engate 6 pawls, raios Sapim CX-Ray"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Pneus",
+              "valor": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Selante",
+              "valor": "Solifes, 60 a 120 ml"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Motor",
+              "valor": "CYC Photon Gen 2 central, 1.200 W de pico, potência nominal limitada a 600 W, 135 N·m, sensor de torque"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Bateria",
+              "valor": "EDRO Power Pack 540 Wh, 36 V 15 Ah, integrada ao quadro, recarga direto na bike"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Display e app",
+              "valor": "Display 2,1\" IP65, app Ride Control, Apple Find My integrado"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Modos",
+              "valor": "Livre (arrasto zero), Eco, Ride, Turbo e Modo automático por frequência cardíaca"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Velocidade",
+              "valor": "Assistência limitada a 32 km/h de fábrica; ajustável pela EDRO a 45 km/h para uso em circuitos fechados, respeitando a legislação"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Assistência",
+              "valor": "Exclusivamente ao pedal, sem acelerador"
+            }
+          ]
+        },
+        {
+          "slug": "xcr",
+          "nome": "XCR",
+          "peso_kg": 16.4,
+          "preco": 66990,
+          "macro": "GX Transmission AXS, SID SL e SIDLuxe Select+, VORZ SL Carbon",
+          "resumo": "GX Transmission AXS sem fio, SID SL e SIDLuxe Select+ com trava OneLoc, rodas VORZ SL Carbon e canote retrátil KS LEV, com o mesmo sistema elétrico da PRO.",
+          "garfo": "RockShox SID SL 2P, Solo Air, 110 mm, OneLoc, Charger RL, 15x110 Boost",
+          "amortecedor": "RockShox SIDLuxe Select+, 100 mm, trava OneLoc, DebonAir",
+          "transmissao": "SRAM GX Eagle T-Type AXS, Pod MMX, pedivela CYC integrado ao motor",
+          "cockpit": "KFX SIC guidão integrado carbono 780 mm; Supacaz Supalite; KS LEV SI 400 mm, drop 125 mm; Selle Royal SRX Open 145 mm",
+          "freios": "SRAM Motive Bronze 4 pistões, rotores 160 mm",
+          "rodas": "VORZ SL Carbon 29 Boost, cubos 051MB XD, 28 mm interno, raios Pillar",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4",
+          "sistema": "CYC Photon Gen 2, EDRO Power Pack 540 Wh, display 2,1\", app Ride Control, Find My",
+          "ficha": [
+            {
+              "grupo": "Quadro",
+              "item": "Quadro",
+              "valor": "EDRO FS High Modulus UD Carbon Fiber Monocoque Frame, EPS Technology, geometria Cross-Country, 12x148 mm BOOST, UDH Interface, Integrated Internal Cable Routing"
+            },
+            {
+              "grupo": "Suspensão",
+              "item": "Garfo",
+              "valor": "RockShox SID SL 2P, Solo Air, 110 mm, trava OneLoc, damper Charger RL, DebonAir, Maxima Plush, 15x110 mm Boost"
+            },
+            {
+              "grupo": "Suspensão",
+              "item": "Amortecedor",
+              "valor": "RockShox SIDLuxe Select+, 100 mm de curso, trava no guidão OneLoc, DebonAir, Maxima Plush"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Câmbio traseiro",
+              "valor": "SRAM GX Eagle T-Type"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Trocadores",
+              "valor": "SRAM AXS Pod MMX"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Corrente",
+              "valor": "SRAM GX Eagle T-Type"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Cassete",
+              "valor": "SRAM GX Eagle T-Type XS-1275 10-52T"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Pedivela",
+              "valor": "CYC, integrado ao motor"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Guidão / mesa",
+              "valor": "KFX SIC Integrated Handlebar (mesma especificação)"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Manoplas",
+              "valor": "Supacaz Supalite, 18 g o par, 32 mm, resistente a UV"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Canote",
+              "valor": "KS LEV SI, 400 mm, 125 mm de drop, cabeamento interno, controle remoto"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Selim",
+              "valor": "Selle Royal SRX Open 145 mm"
+            },
+            {
+              "grupo": "Freios",
+              "item": "Dianteiro / traseiro",
+              "valor": "SRAM Motive Bronze, 4 pistões, 160 mm"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Rodas",
+              "valor": "VORZ SL Carbon, aro 29, Boost, cubos 051MB XD, tubeless ready, aros em carbono, 28 mm interno, engate 6 pawls, raios Pillar"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Pneus",
+              "valor": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Selante",
+              "valor": "Solifes, 60 a 120 ml"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Motor",
+              "valor": "CYC Photon Gen 2 central, 1.200 W de pico, potência nominal limitada a 600 W, 135 N·m, sensor de torque"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Bateria",
+              "valor": "EDRO Power Pack 540 Wh, 36 V 15 Ah, integrada ao quadro, recarga direto na bike"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Display e app",
+              "valor": "Display 2,1\" IP65, app Ride Control, Apple Find My integrado"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Modos",
+              "valor": "Livre (arrasto zero), Eco, Ride, Turbo e Modo automático por frequência cardíaca"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Velocidade",
+              "valor": "Assistência limitada a 32 km/h de fábrica; ajustável pela EDRO a 45 km/h para uso em circuitos fechados, respeitando a legislação"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Assistência",
+              "valor": "Exclusivamente ao pedal, sem acelerador"
+            }
+          ]
+        },
+        {
+          "slug": "ex",
+          "nome": "EX",
+          "peso_kg": 16.6,
+          "preco": 52990,
+          "macro": "Eagle 90, SID SL e SIDLuxe Select+, VORZ Comp",
+          "resumo": "A porta de entrada para a RANGE HORIZON: o mesmo quadro, a mesma pintura exclusiva, a mesma garantia vitalícia e o mesmo sistema elétrico, com Eagle 90 e rodas VORZ Comp.",
+          "garfo": "RockShox SID SL 2P, Solo Air, 110 mm, OneLoc, Charger RL, 15x110 Boost",
+          "amortecedor": "RockShox SIDLuxe Select+, 100 mm, trava OneLoc, DebonAir",
+          "transmissao": "SRAM Eagle 90, corrente GX T-Type 126, pedivela CYC integrado ao motor",
+          "cockpit": "Vultro Journey guidão 31.8 x 760 mm e mesa 80 mm; Supacaz Supalite; canote Vultro Journey 31.6 x 400 mm; Selle Royal SRX Open 145 mm",
+          "freios": "SRAM Motive Bronze 4 pistões, rotores 160 mm",
+          "rodas": "VORZ Comp 29 Boost alumínio, 26 mm interno",
+          "pneus": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4",
+          "sistema": "CYC Photon Gen 2, EDRO Power Pack 540 Wh, display 2,1\", app Ride Control, Find My",
+          "ficha": [
+            {
+              "grupo": "Quadro",
+              "item": "Quadro",
+              "valor": "EDRO FS High Modulus UD Carbon Fiber Monocoque Frame, EPS Technology, geometria Cross-Country, 12x148 mm BOOST, UDH Interface, Integrated Internal Cable Routing"
+            },
+            {
+              "grupo": "Suspensão",
+              "item": "Garfo",
+              "valor": "RockShox SID SL 2P, Solo Air, 110 mm, trava OneLoc, damper Charger RL, DebonAir, Maxima Plush, 15x110 mm Boost"
+            },
+            {
+              "grupo": "Suspensão",
+              "item": "Amortecedor",
+              "valor": "RockShox SIDLuxe Select+, 100 mm, trava OneLoc, DebonAir, Maxima Plush"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Câmbio traseiro",
+              "valor": "SRAM Eagle 90"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Trocadores",
+              "valor": "SRAM Eagle 90"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Corrente",
+              "valor": "SRAM GX T-Type 126"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Cassete",
+              "valor": "SRAM XS-1275 T-Type 10-52T"
+            },
+            {
+              "grupo": "Relação",
+              "item": "Pedivela",
+              "valor": "CYC, integrado ao motor"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Guidão / mesa",
+              "valor": "Guidão Vultro Journey 31.8, 760 mm; mesa Vultro Journey 80 mm, +/- 7°, alumínio forjado"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Manoplas",
+              "valor": "Supacaz Supalite, 18 g o par, 32 mm, resistente a UV"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Canote",
+              "valor": "Vultro Journey 31.6, 400 mm, microajuste 3D (fixo)"
+            },
+            {
+              "grupo": "Cockpit",
+              "item": "Selim",
+              "valor": "Selle Royal SRX Open 145 mm"
+            },
+            {
+              "grupo": "Freios",
+              "item": "Dianteiro / traseiro",
+              "valor": "SRAM Motive Bronze, 4 pistões, 160 mm"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Rodas",
+              "valor": "VORZ Comp, aro 29, Boost, tubeless ready, cubos com rolamentos selados, aros em alumínio, 26 mm interno"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Pneus",
+              "valor": "Pirelli Scorpion XC RH Team Edition Lite 29x2.4"
+            },
+            {
+              "grupo": "Rodas",
+              "item": "Selante",
+              "valor": "Solifes, 60 a 120 ml"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Motor",
+              "valor": "CYC Photon Gen 2 central, 1.200 W de pico, potência nominal limitada a 600 W, 135 N·m, sensor de torque"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Bateria",
+              "valor": "EDRO Power Pack 540 Wh, 36 V 15 Ah, integrada ao quadro, recarga direto na bike"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Display e app",
+              "valor": "Display 2,1\" IP65, app Ride Control, Apple Find My integrado"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Modos",
+              "valor": "Livre (arrasto zero), Eco, Ride, Turbo e Modo automático por frequência cardíaca"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Velocidade",
+              "valor": "Assistência limitada a 32 km/h de fábrica; ajustável pela EDRO a 45 km/h para uso em circuitos fechados, respeitando a legislação"
+            },
+            {
+              "grupo": "Sistema",
+              "item": "Assistência",
+              "valor": "Exclusivamente ao pedal, sem acelerador"
+            }
+          ]
+        }
+      ],
+      "numeros": [
+        {
+          "numero": "135",
+          "legenda": "N·m",
+          "titulo": "Suba a trilha técnica com tração",
+          "texto": "Torque cheio com a suspensão trabalhando: a roda traseira encontra aderência onde a hardtail patina."
+        },
+        {
+          "numero": "100%",
+          "legenda": "anti-squat",
+          "titulo": "Pedale forte sem a suspensão roubar energia",
+          "texto": "A cinemática da RANGE não afunda quando você aplica força, com ou sem motor."
+        },
+        {
+          "numero": "0",
+          "legenda": "arrasto",
+          "titulo": "Desligou, virou a sua RANGE",
+          "texto": "Motor desligado, pedal livre: uma full de carbono de 15,9 kg sem pedais, com a dinâmica de sempre."
+        },
+        {
+          "numero": "540",
+          "legenda": "Wh integrados",
+          "titulo": "Um dia inteiro, uma carga",
+          "texto": "Bateria integrada, recarga na bike. A autonomia da sua rota você calcula no simulador."
+        }
+      ],
+      "banner": [
+        "RANGE HORIZON em ação",
+        "RANGE HORIZON em trilha técnica com raízes e pedras, subida sinuosa em ritmo alto. 12 s."
+      ]
+    }
+  ]
+}

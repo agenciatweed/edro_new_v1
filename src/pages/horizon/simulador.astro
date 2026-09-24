@@ -1,0 +1,108 @@
+---
+/* /horizon/simulador v3.1 · tela site_v3/19-horizon-simulador.png.
+   EDRO_Simulador_Site.html servido de /public/simulador, em iframe, sem restilizar. */
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Cabecalho from '../../components/Cabecalho.astro';
+import FormularioWhatsapp from '../../components/FormularioWhatsapp.astro';
+import { comercial } from '../../lib/edro.js';
+
+const passos = [
+  ['Abra a atividade ou a rota no Strava', 'No app ou em strava.com, em "Minhas rotas" ou em uma atividade sua.'],
+  ['Menu de três pontos, "Exportar GPX"', 'Ou use o arquivo .fit gravado direto no seu Garmin ou Wahoo.'],
+  ['Solte o arquivo no simulador', 'Ele lê a rota, busca a elevação e a previsão de vento e temperatura para a data que você escolher.'],
+];
+const campos = [
+  { nome: 'nome', rotulo: 'Nome', tipo: 'text', obrigatorio: true, placeholder: 'Seu nome', autocomplete: 'name' },
+  { nome: 'whatsapp', rotulo: 'WhatsApp', tipo: 'tel', obrigatorio: true, placeholder: '(48) 9 9999-9999', autocomplete: 'tel' },
+  { nome: 'simulacao', rotulo: 'Simulação', tipo: 'hidden', obrigatorio: false },
+];
+---
+
+<Base
+  titulo="Simulador de autonomia HORIZON · EDRO"
+  descricao="Calcule a autonomia da HORIZON com o seu treino: envie o GPX, TCX ou FIT do seu pedal e o simulador considera peso, relevo, vento e ritmo, com margem de erro de 2%."
+  canonica="https://edrobikes.com.br/horizon/simulador"
+  pagina="simulador"
+>
+
+<Hero curto eyebrow="Simulador HORIZON" linhas={['Autonomia', 'calculada', 'com o']} verde=" seu treino." marcaDagua="HORIZON"
+  lead="Nenhum número de catálogo. Você envia um arquivo do seu pedal e o simulador calcula, com o seu peso, o seu relevo, o vento previsto e o seu ritmo, quanto cada modo entrega. Calibrado com mais de 15 pedais instrumentados, margem de erro de 2%. O seu arquivo não sai do seu navegador." />
+
+<section class="secao secao--sem-linha">
+  <div class="container">
+    <Cabecalho linhas={['Antes de simular:', 'pegue a sua']} verde=" rota."
+      lead="Três passos, no celular ou no computador. Aceita .gpx e .tcx (Strava, Garmin Connect) e .fit direto do Garmin ou Wahoo." />
+    <div class="passos-cartao">
+      {passos.map(([t, d], i) => (<div class="passo-cartao"><span class="passo-cartao__num">{i + 1}</span><h3>{t}</h3><p>{d}</p></div>))}
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
+    <h2 class="visualmente-oculto">Simulador de autonomia</h2>
+    <div class="simulador-quadro">
+      <iframe id="simulador" src="/simulador/" title="Simulador de autonomia EDRO HORIZON" loading="lazy"></iframe>
+    </div>
+    <p class="simulador-nota">O peso usado na simulação inclui pedais, garrafas e acessórios; o peso de catálogo é aferido sem pedais. A velocidade de assistência sai limitada a 32 km/h de fábrica; a opção de 45 km/h vale só para circuitos fechados, respeitando a legislação.</p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container bloco2 bloco2--topo">
+    <div>
+      <h2 class="headline">Quero uma HORIZON<br />com esses <span class="verde">números.</span></h2>
+      <p class="lead">Um dos nossos especialistas recebe a sua simulação e responde com o primeiro desenho da sua HORIZON.</p>
+    </div>
+    <div class="painel-form">
+      <FormularioWhatsapp id="form-simulador" campos={campos} numero={comercial}
+        cabecalho="Olá, EDRO. Quero uma HORIZON com estes números." origem="site-simulador" formulario="simulador" rotulo="Falar sobre a minha HORIZON" />
+      <p class="caption" style="margin-top:var(--s-4)">A mensagem abre no WhatsApp com o resumo da sua simulação (modo, distância, autonomia).</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const f = document.getElementById('simulador') as HTMLIFrameElement | null;
+  const campo = document.querySelector<HTMLInputElement>('#form-simulador [name="simulacao"]');
+  const limpar = (s: string) => s.replace(/\s+/g, ' ').trim();
+
+  /* Mesma origem: a altura acompanha o conteúdo do simulador, sem barra de rolagem dupla. */
+  const ajustar = () => {
+    try {
+      const d = f?.contentDocument;
+      /* Mede o conteúdo, não a janela: o simulador usa min-height 100vh, e medir
+         scrollHeight faria o iframe crescer a cada ajuste. */
+      if (f && d) {
+        const fim = Math.max(...[...d.body.children].map((el) => el.getBoundingClientRect().bottom + (d.defaultView?.scrollY ?? 0)));
+        f.style.height = `${Math.max(700, Math.ceil(fim) + 24)}px`;
+      }
+    } catch { /* sem acesso: fica a altura do CSS */ }
+  };
+
+  /* Resumo para a mensagem: modelo escolhido e o que o simulador mostra nos modos ou na rota. */
+  const resumir = () => {
+    try {
+      const d = f?.contentDocument;
+      if (!d || !campo) return;
+      const sel = d.querySelector<HTMLSelectElement>('#gs-modelo, #s-modelo');
+      const modelo = sel?.selectedOptions?.[0]?.textContent ?? '';
+      const rota = d.getElementById('resumo');
+      const modos = d.getElementById('modos');
+      const alvo = rota && rota.offsetParent ? rota : modos;
+      campo.value = limpar(`${modelo}. ${alvo?.innerText ?? ''}`).slice(0, 600);
+    } catch { /* ignora */ }
+  };
+
+  f?.addEventListener('load', () => {
+    ajustar(); resumir();
+    const d = f.contentDocument;
+    if (d && 'ResizeObserver' in window) new ResizeObserver(ajustar).observe(d.documentElement);
+    d?.addEventListener('input', () => setTimeout(resumir, 300));
+    d?.addEventListener('change', () => setTimeout(resumir, 300));
+    d?.addEventListener('click', () => setTimeout(() => { resumir(); ajustar(); }, 400));
+  });
+</script>
+
+</Base>

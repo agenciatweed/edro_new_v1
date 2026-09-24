@@ -11,7 +11,8 @@ const c = bikes.meta.condicoes;
    hospedagem (37.2.15). No Astro o prefixo público é PUBLIC_, não o
    NEXT_PUBLIC_ do documento. Sem ele, a cláusula sai sem o número em vez
    de publicar um placeholder. */
-const cnpj = import.meta.env.PUBLIC_CNPJ;
+/* CNPJ publicado na v3.1 (capítulo 2); a variável de ambiente, se existir, prevalece. */
+const cnpj = import.meta.env.PUBLIC_CNPJ || bikes.contato.cnpj;
 
 /* Data da última versão da política. Preencher quando o texto for
    publicado ou alterado. Enquanto for null, a linha não aparece. */
@@ -104,7 +105,7 @@ if (!ATUALIZADA_EM) console.warn('[politicas] ATUALIZADA_EM vazia: a política s
 
       <h3>4. Com quem compartilhamos.</h3>
       <p class="body">
-        Somente com operadores que prestam serviço à EDRO e sob contrato: plataforma de atendimento por
+        Somente com operadores que prestam serviço à EDRO e sob contrato: ferramenta de atendimento por
         WhatsApp e Instagram (Nextags), CRM comercial (Pipefy), e-mail marketing (RD Station), hospedagem e
         infraestrutura do site, transportadoras (para entrega), ferramentas de análise e publicidade (Google e
         Meta), quando você consente com cookies. Não vendemos dados pessoais.

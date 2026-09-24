@@ -1,0 +1,83 @@
+---
+/* /a-marca v3.1 · tela site_v3/13-a-marca.png. Manifesto sem Tour de France; sem "Quem faz". */
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Midia from '../components/Midia.astro';
+import Fechamento from '../components/Fechamento.astro';
+import { wa } from '../lib/edro.js';
+import { videos } from '../lib/imagens.js';
+
+const especialista = wa('Olá, EDRO. Quero falar com um dos especialistas. (origem: site-a-marca)');
+---
+
+<Base
+  titulo="A marca EDRO · Bicicletas de alta performance feitas em Tubarão desde 2017"
+  descricao="A EDRO nasceu de dois ciclistas que resolveram fabricar a bike que acreditavam ser a certa. Desde 2017, bicicletas de alta performance em carbono feitas em Tubarão, SC."
+  canonica="https://edrobikes.com.br/a-marca"
+  pagina="a-marca"
+>
+
+<Hero
+  eyebrow="A marca"
+  linhas={['Não aceite', 'ser só']}
+  verde="mais um."
+  lead="Isso começou como uma regra dentro da fábrica. Nenhuma bike sai igual a outra. Nenhum componente entra sem ganho real. Nenhum cliente é atendido por script. Só depois virou convite."
+  botoes={[{ rotulo: 'Falar com um especialista', href: especialista, primario: true, wa: 'a-marca-hero' }, { rotulo: 'Ver as bikes', href: '/bikes' }]}
+  brief={{ tipo: 'FOTO', titulo: 'Fundadores na fábrica', descricao: 'Eduardo e Robson na fábrica, entre quadros pintados, luz natural da janela. Foto ampla, sem pose.' }}
+/>
+
+<section class="secao secao--sem-linha">
+  <div class="container">
+    <h2 class="visualmente-oculto">A história da EDRO em vídeo</h2>
+    <Midia video={videos.historia} proporcao="21x9" legenda="Vídeo institucional da EDRO." sizes="(max-width: 1240px) 100vw, 1240px" />
+  </div>
+</section>
+
+<section class="manifesto">
+  <div class="container manifesto__interno">
+    <h2 class="manifesto-h2">Menos<br />marketing.<br /><span class="verde">Mais</span><br />performance.</h2>
+    <div class="manifesto__texto">
+      <p class="lead">A EDRO não compete por preço nem por volume. Não coloca um componente na bike sem ganho real de performance e sem assistência no Brasil. Não tem loja em shopping e não faz Black Friday.</p>
+      <p class="manifesto__tese">Cada real que a gente não gasta te convencendo, a gente gasta na tua bike.</p>
+      <p class="manifesto__desde">EDRO Performance Bikes <span class="verde">desde 2017</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="secao secao--sem-linha">
+  <div class="container bloco2 bloco2--topo">
+    <div>
+      <h2 class="headline">Desde 2017,<br />em <span class="verde">Tubarão.</span></h2>
+      <p class="lead">A EDRO nasceu de dois ciclistas apaixonados por desempenho que não encontravam, nas marcas importadas, o que acreditavam ser o certo: uma bike projetada para o corpo de quem pedala, montada com componentes escolhidos pelo ganho real, pintada do jeito do dono e com assistência de verdade no Brasil. Em vez de aceitar a bike de prateleira, resolvemos fabricar a nossa. Desde então, projetamos, laminamos, pintamos e montamos bicicletas de alta performance em Tubarão, para quem já pedala e quer evoluir. Somos a única marca brasileira que faz só isso.</p>
+    </div>
+    <div class="mvv">
+      <div><h3 class="card-title">Missão</h3><p>Fabricar bicicletas de alta performance para ciclistas profissionais e amadores.</p></div>
+      <div><h3 class="card-title">Visão</h3><p>Ser a melhor marca de bicicletas de alta performance do Brasil.</p></div>
+      <div><h3 class="card-title">Valores</h3><p>Ética. Transparência. Alta Performance. Respeito. Responsabilidade Social.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container bloco2">
+    <div>
+      <h2 class="headline">A sensação de andar<br />com uma <span class="verde">EDRO.</span></h2>
+      <p class="lead">Quem pedala uma EDRO conta o que sente. Vídeo real, já publicado.</p>
+    </div>
+    <Midia video={videos.sensacao} proporcao="16x9" sizes="(max-width: 1023px) 100vw, 50vw" />
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container galeria3">
+    <Midia titulo="Fachada da fábrica" descricao="Prédio da EDRO em Tubarão ao entardecer, logo visível." />
+    <Midia titulo="Primeiro quadro" descricao="Foto histórica: primeiro quadro EDRO, 2017, se existir no acervo." />
+    <Midia titulo="Equipe" descricao="Equipe reunida na fábrica, foto espontânea, sem uniforme forçado." />
+  </div>
+</section>
+
+<Fechamento linhas={['De SC para']} verde="o mundo."
+  texto="Fale com um dos nossos especialistas."
+  botoes={[{ rotulo: 'Falar com um especialista', href: especialista, primario: true, wa: 'a-marca-fechamento' }, { rotulo: 'Ver as bikes', href: '/bikes' }]} />
+
+</Base>

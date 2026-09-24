@@ -1,0 +1,11 @@
+---
+/* +2.000 · 0 · 22, da LP. A v3.1 exige confirmação com o CRM antes de publicar:
+   a nota fica visível até a EDRO confirmar e apagar PROVA_CONFIRMADA=false. */
+import conteudo from '../content/programas.json';
+const { apenas } = Astro.props;
+const itens = apenas ? conteudo.prova_social.filter(([n]) => apenas.includes(n)) : conteudo.prova_social;
+---
+<div class="prova-num" style={itens.length === 1 ? 'grid-template-columns:1fr' : undefined} data-prova-social>
+  {itens.map(([n, t]) => (<div><strong>{n}</strong><span>{t}</span></div>))}
+</div>
+<p class="prova-num__nota">{conteudo.prova_social_nota}</p>

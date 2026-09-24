@@ -1,18 +1,18 @@
 ---
 /* =============================================================
-   EDRO · Layout base
-   Navegacao, rodape, barra fixa de WhatsApp e o comportamento
-   compartilhado. Toda pagina do site herda daqui.
+   EDRO · Layout base v3.1
+   Menu de 7 itens, logo horizontal oficial (brand/), rodapé com
+   CNPJ e CEP 88708-270, botão flutuante "Falar no WhatsApp" em
+   todas as telas (desktop) e barra fixa no celular.
    ============================================================= */
 
 import { Image } from 'astro:assets';
-import { bikes, plataformas, wa, comercial, digitos, telefoneBr } from '../lib/edro.js';
+import { bikes, wa, comercial, digitos, telefoneBr } from '../lib/edro.js';
+import { img } from '../lib/imagens.js';
 
 import '../styles/tokens.css';
 import '../styles/edro.css';
-
-import logoBranco from '../assets/logo/logo-branco.png';
-import seloBranco from '../assets/logo/selo-branco.png';
+import '../styles/v3.css';
 
 const {
   titulo: tituloPagina,
@@ -20,31 +20,58 @@ const {
   canonica = 'https://edrobikes.com.br/',
   jsonLd,
   pagina = 'home',
-  /* enxuto: sem navegacao, rodape e barra fixa (landing da bio, 16) */
-  enxuto = false,
+  noindex = false,
 } = Astro.props;
 
 const rota = Astro.url.pathname;
-const naHome = rota === '/' || rota === '';
-
-/* Item ativo por rota nas paginas internas (12.4: sublinhado verde de 2 px).
-   Na home o destaque vem do scroll, pelas ancoras. */
 const rotaLimpa = rota.replace(/\/$/, '') || '/';
-const ativoEm = (href) =>
-  !naHome && href.startsWith('/') && (rotaLimpa === href || rotaLimpa.startsWith(href + '/'));
-
-/* Na home os itens do menu sao ancoras; nas demais paginas viram
-   links reais para a home ou para a rota propria. */
-const item = (ancora, href) => (naHome ? ancora : href);
+const ativoEm = (href) => rotaLimpa === href || rotaLimpa.startsWith(href + '/');
 
 const menu = [
-  { rotulo: 'Bikes',      href: item('#plataformas', '/bikes') },
-  { rotulo: 'FIT4U',      href: item('#fit4u', '/fit4u') },
-  { rotulo: 'Programas',  href: item('#programas', '/programas') },
-  { rotulo: 'Engenharia', href: item('#engenharia', '/engenharia') },
-  { rotulo: 'Atletas',    href: item('#prova', '/atletas') },
-  { rotulo: 'A marca',    href: item('#manifesto', '/a-marca') },
+  { rotulo: 'Bikes',           href: '/bikes' },
+  { rotulo: 'Bikes elétricas', href: '/horizon' },
+  { rotulo: 'FIT4U',           href: '/fit4u' },
+  { rotulo: 'Programas',       href: '/programas' },
+  { rotulo: 'Engenharia',      href: '/engenharia' },
+  { rotulo: 'Parcerias',       href: '/parcerias' },
+  { rotulo: 'A marca',         href: '/a-marca' },
 ];
+
+const rodape = [
+  { titulo: 'Bikes', links: [['SUMMA', '/bikes/summa'], ['RANGE', '/bikes/range'], ['IMPETUS', '/bikes/impetus']] },
+  { titulo: 'Bikes elétricas', links: [['HORIZON', '/horizon'], ['SUMMA HORIZON', '/horizon/summa-horizon'], ['RANGE HORIZON', '/horizon/range-horizon'], ['Simulador de autonomia', '/horizon/simulador']] },
+  { titulo: 'Programas', links: [['FIT4U', '/fit4u'], ['Compra Certa', '/programas/compra-certa'], ['Ciclo EDRO', '/programas/ciclo-edro'], ['Carbon Assist', '/programas/carbon-assist'], ['Garantia Vitalícia', '/programas/garantia']] },
+  { titulo: 'EDRO', links: [['A marca', '/a-marca'], ['Engenharia', '/engenharia'], ['Parcerias', '/parcerias'], ['Guias', '/guias'], ['Dúvidas frequentes', '/faq'], ['Contato', '/contato']] },
+];
+
+const ct = bikes.contato;
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'EDRO Performance Bikes',
+  legalName: ct.razao_social,
+  taxID: ct.cnpj,
+  url: 'https://edrobikes.com.br',
+  logo: 'https://edrobikes.com.br/logo-edro.png',
+  email: ct.email,
+  address: { '@type': 'PostalAddress', streetAddress: 'Rua Rubens Faraco, 274', postalCode: '88708-270', addressLocality: 'Tubarão', addressRegion: 'SC', addressCountry: 'BR' },
+  sameAs: ['https://www.instagram.com/edrobikes/', 'https://www.youtube.com/@edrobikes'],
+};
+
+/* BreadcrumbList a partir da rota */
+const NOMES = { bikes: 'Bikes', horizon: 'Bikes elétricas', programas: 'Programas', summa: 'SUMMA', range: 'RANGE', impetus: 'IMPETUS',
+  'summa-horizon': 'SUMMA HORIZON', 'range-horizon': 'RANGE HORIZON', simulador: 'Simulador de autonomia', 'compra-certa': 'Compra Certa',
+  'ciclo-edro': 'Ciclo EDRO', 'carbon-assist': 'Carbon Assist', garantia: 'Garantia Vitalícia', fit4u: 'FIT4U', engenharia: 'Engenharia',
+  'a-marca': 'A marca', parcerias: 'Parcerias', contato: 'Contato', faq: 'Dúvidas frequentes', guias: 'Guias', politicas: 'Políticas' };
+const partes = rotaLimpa.split('/').filter(Boolean);
+const trilha = partes.length ? {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://edrobikes.com.br/' },
+    ...partes.map((s, i) => ({ '@type': 'ListItem', position: i + 2, name: NOMES[s] ?? s, item: `https://edrobikes.com.br/${partes.slice(0, i + 1).join('/')}` }))],
+} : null;
+
+const whatsSvg = 'M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.17c-.25.69-1.44 1.32-1.99 1.36-.53.04-1.02.22-3.44-.72-2.9-1.14-4.73-4.1-4.87-4.29-.14-.19-1.16-1.55-1.16-2.95 0-1.4.73-2.09.99-2.37.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.64.49.25.6.83 2.07.9 2.22.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.72 1.19 1.55 1.93 1.07.95 1.97 1.25 2.25 1.39.28.14.44.12.6-.07.16-.19.69-.81.88-1.08.19-.28.37-.23.63-.14.25.09 1.61.76 1.89.9.28.14.46.21.53.32.07.12.07.67-.18 1.36Z';
+const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: site-flutuante)';
 ---
 
 <!doctype html>
@@ -55,30 +82,34 @@ const menu = [
   <title>{tituloPagina}</title>
   <meta name="description" content={descricao} />
   <link rel="canonical" href={canonica} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <link rel="icon" type="image/png" href="/favicon.png" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="EDRO Performance Bikes" />
   <meta property="og:title" content={tituloPagina} />
   <meta property="og:description" content={descricao} />
   <meta property="og:locale" content="pt_BR" />
+  <meta property="og:image" content="https://edrobikes.com.br/og-edro.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@700&family=Poppins:ital,wght@0,300;0,400;0,500;0,700;1,300;1,500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,500&display=swap" />
 
+  <script type="application/ld+json" set:html={JSON.stringify(org)} />
+  {trilha && <script type="application/ld+json" set:html={JSON.stringify(trilha)} />}
   {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   <slot name="head" />
 </head>
 
-<body data-pagina={pagina} data-enxuto={enxuto ? 'sim' : undefined}>
+<body data-pagina={pagina}>
 
 <a class="pular" href="#conteudo">Pular para o conteúdo</a>
 
-{!enxuto && (<>
 <header class="nav">
   <div class="nav__interno">
     <a class="nav__logo" href="/" aria-label="EDRO Performance Bikes, página inicial">
-      <Image src={logoBranco} alt="EDRO Performance Bikes" height={26} densities={[1, 2]} loading="eager" />
+      <Image src={img('brand/logo-horizontal-branco.png')} alt="EDRO Performance Bikes" height={46} densities={[1, 2]} loading="eager" />
     </a>
 
     <nav class="nav__menu" aria-label="Navegação principal">
@@ -88,11 +119,8 @@ const menu = [
     </nav>
 
     <div class="nav__acoes">
-      <a class="nav__falar" href={wa('Olá, EDRO. Quero falar com um especialista. (origem: site-nav)')} rel="noopener" data-wa="nav">Falar com a EDRO</a>
-      <a class="btn btn--primario nav__btn" href={wa('Olá, EDRO. Quero montar a minha EDRO sob medida. (origem: site-nav)')} rel="noopener" data-wa="nav">
-        Monte a sua
-        <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-      </a>
+      <a class="nav__falar" href="/contato">Falar com a EDRO</a>
+      <a class="btn btn--primario nav__btn" href={wa('Olá, EDRO. Quero montar a minha EDRO. (origem: site-nav)')} rel="noopener" data-wa="nav">Monte a sua</a>
     </div>
 
     <button class="nav__hamburguer" type="button" aria-expanded="false" aria-controls="menu-mobile" aria-label="Abrir menu">
@@ -107,250 +135,111 @@ const menu = [
     {menu.map((m) => <a href={m.href}>{m.rotulo}</a>)}
     <span class="menu-mobile__divisor" aria-hidden="true"></span>
     <div class="menu-mobile__rodape">
-      <a href={`https://wa.me/${comercial}`} rel="noopener">Comercial {telefoneBr(bikes.contato.whatsapp_comercial)}</a>
-      <a href={`https://wa.me/${digitos(bikes.contato.whatsapp_suporte)}`} rel="noopener">Suporte {telefoneBr(bikes.contato.whatsapp_suporte)}</a>
-      <a href={`mailto:${bikes.contato.email}`}>{bikes.contato.email}</a>
-      <p>{bikes.contato.horario}</p>
+      <a href={`https://wa.me/${comercial}`} rel="noopener">Comercial {telefoneBr(ct.whatsapp_comercial)}</a>
+      <a href={`https://wa.me/${digitos(ct.whatsapp_suporte)}`} rel="noopener">Suporte {telefoneBr(ct.whatsapp_suporte)}</a>
+      <a href={`mailto:${ct.email}`}>{ct.email}</a>
+      <p>{ct.horario}</p>
     </div>
   </nav>
 </div>
-</>)}
 
 <main id="conteudo">
   <slot />
 </main>
 
-{!enxuto && (<>
 <footer class="rodape">
   <div class="container">
     <div class="rodape__grade">
       <div class="rodape__marca">
-        <Image src={seloBranco} alt="" width={48} height={48} loading="lazy" />
-        <p>{bikes.contato.razao_social}</p>
-        <p>{bikes.contato.endereco}</p>
-        <p>{bikes.contato.horario}</p>
+        <Image src={img('brand/logo-vertical-branco.png')} alt="EDRO Performance Bikes" height={56} densities={[1, 2]} loading="lazy" />
+        <p>{ct.razao_social}</p>
+        <p>CNPJ {ct.cnpj}</p>
+        <p>{ct.endereco}</p>
+        <p>{ct.horario}</p>
       </div>
-
-      <nav class="rodape__coluna" aria-label="Bikes">
-        <h2 class="eyebrow">Bikes</h2>
-        {plataformas.map((p) => <a href={`/bikes/${p.slug}`}><i class="modelo">{p.nome}</i></a>)}
-      </nav>
-
-      <nav class="rodape__coluna" aria-label="Programas">
-        <h2 class="eyebrow">Programas</h2>
-        {bikes.programas.map((p) => <a href={p.slug === 'fit4u' ? '/fit4u' : `/programas/${p.slug}`}>{p.nome}</a>)}
-      </nav>
-
-      <nav class="rodape__coluna" aria-label="EDRO">
-        <h2 class="eyebrow">EDRO</h2>
-        <a href="/a-marca">A marca</a>
-        <a href="/atletas">Atletas e embaixadores</a>
-        <a href="/lojistas">Lojistas</a>
-        <a href="/assistencia">Assistência</a>
-        <a href="/contato">Contato</a>
-      </nav>
+      {rodape.map((c) => (
+        <nav class="rodape__coluna" aria-label={c.titulo}>
+          <h2 class="eyebrow">{c.titulo}</h2>
+          {c.links.map(([t, h]) => <a href={h}>{t}</a>)}
+        </nav>
+      ))}
     </div>
 
     <div class="rodape__legal">
-      <p>© 2026 EDRO Performance Bikes. Todos os direitos reservados.</p>
-      <p>
-        <a href="/politicas">Políticas</a>
-        <a href="/politicas#privacidade">Privacidade e LGPD</a>
-      </p>
+      <p>© 2026 EDRO Performance Bikes. <a href="/politicas">Políticas</a> · <a href="/politicas#privacidade">Privacidade e LGPD</a></p>
+      <p>edrobikes.com.br · <a href="https://www.instagram.com/edrobikes/" rel="noopener">@edrobikes</a> · #DeSCParaOMundo</p>
     </div>
   </div>
 </footer>
 
-<a class="whatsapp-fixo" href={wa('Olá, EDRO. Quero falar com um especialista. (origem: site-barra)')} rel="noopener" data-wa="barra">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.17c-.25.69-1.44 1.32-1.99 1.36-.53.04-1.02.22-3.44-.72-2.9-1.14-4.73-4.1-4.87-4.29-.14-.19-1.16-1.55-1.16-2.95 0-1.4.73-2.09.99-2.37.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.64.49.25.6.83 2.07.9 2.22.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.72 1.19 1.55 1.93 1.07.95 1.97 1.25 2.25 1.39.28.14.44.12.6-.07.16-.19.69-.81.88-1.08.19-.28.37-.23.63-.14.25.09 1.61.76 1.89.9.28.14.46.21.53.32.07.12.07.67-.18 1.36Z" /></svg>
-  Falar com um especialista
+<a class="whatsapp-flutuante" href={wa(msgPadrao)} rel="noopener" data-wa="flutuante">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d={whatsSvg} /></svg>
+  Falar no WhatsApp
 </a>
-</>)}
+<a class="whatsapp-fixo" href={wa(msgPadrao.replace('site-flutuante', 'site-barra'))} rel="noopener" data-wa="barra">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d={whatsSvg} /></svg>
+  Falar no WhatsApp
+</a>
 
 <script>
   const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const podeAnimar = 'IntersectionObserver' in window && !reduzir;
 
-  /* ---- Barra fixa recolhe enquanto o CTA do hero aparece ----
-     So em pagina que marca [data-esconde-barra]. Sem JS a barra fica visivel. */
+  /* Barra fixa do celular recolhe enquanto os botões do hero estão na tela. */
   const barra = document.querySelector('.whatsapp-fixo');
   const gatilho = document.querySelector('[data-esconde-barra]');
-
   if (barra && gatilho && 'IntersectionObserver' in window) {
     const recolher = (sim) => barra.classList.toggle('recolhida', sim);
     const r = gatilho.getBoundingClientRect();
     recolher(r.bottom > 0 && r.top < window.innerHeight);
-
-    new IntersectionObserver((entradas) => recolher(entradas[0].isIntersecting)).observe(gatilho);
+    new IntersectionObserver((e) => recolher(e[0].isIntersecting)).observe(gatilho);
   }
 
-  /* ---- Evento de analytics em todo botao de WhatsApp ---- */
+  /* Evento de analytics em todo botão de WhatsApp */
   document.querySelectorAll('[data-wa]').forEach((el) => {
     el.addEventListener('click', () => {
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'whatsapp_click',
-        origem: el.getAttribute('data-wa'),
-        pagina: document.body.dataset.pagina || 'home',
-        posicao: el.getAttribute('data-wa'),
-      });
+      window.dataLayer.push({ event: 'whatsapp_click', origem: el.getAttribute('data-wa'), pagina: document.body.dataset.pagina || 'home' });
     });
   });
 
-  /* ---- Menu mobile ---- */
+  /* Lite embed do YouTube: o player só existe depois do clique. */
+  document.querySelectorAll('[data-yt]').forEach((el) => {
+    el.querySelector('button')?.addEventListener('click', () => {
+      const id = el.getAttribute('data-yt');
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      f.title = el.getAttribute('data-yt-titulo') || 'Vídeo EDRO';
+      f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      f.allowFullscreen = true;
+      el.replaceChildren(f);
+    }, { once: true });
+  });
+
+  /* Menu mobile */
   const botao = document.querySelector('.nav__hamburguer');
   const painel = document.getElementById('menu-mobile');
-
   if (botao && painel) {
-    const fechar = () => {
-      botao.setAttribute('aria-expanded', 'false');
-      botao.setAttribute('aria-label', 'Abrir menu');
-      painel.hidden = true;
-      document.body.style.overflow = '';
-    };
-    const abrir = () => {
-      botao.setAttribute('aria-expanded', 'true');
-      botao.setAttribute('aria-label', 'Fechar menu');
-      painel.hidden = false;
-      document.body.style.overflow = 'hidden';
-    };
-
-    botao.addEventListener('click', () =>
-      botao.getAttribute('aria-expanded') === 'true' ? fechar() : abrir()
-    );
-    painel.addEventListener('click', (e) => {
-      if (e.target instanceof HTMLAnchorElement) fechar();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && botao.getAttribute('aria-expanded') === 'true') {
-        fechar();
-        botao.focus();
-      }
-    });
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 899 && botao.getAttribute('aria-expanded') === 'true') fechar();
-    });
+    const fechar = () => { botao.setAttribute('aria-expanded', 'false'); botao.setAttribute('aria-label', 'Abrir menu'); painel.hidden = true; document.body.style.overflow = ''; };
+    const abrir = () => { botao.setAttribute('aria-expanded', 'true'); botao.setAttribute('aria-label', 'Fechar menu'); painel.hidden = false; document.body.style.overflow = 'hidden'; };
+    botao.addEventListener('click', () => (botao.getAttribute('aria-expanded') === 'true' ? fechar() : abrir()));
+    painel.addEventListener('click', (e) => { if (e.target instanceof HTMLAnchorElement) fechar(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && botao.getAttribute('aria-expanded') === 'true') { fechar(); botao.focus(); } });
+    window.addEventListener('resize', () => { if (window.innerWidth > 899 && botao.getAttribute('aria-expanded') === 'true') fechar(); });
   }
 
-  /* ---- Entrada, com 60 ms de atraso entre filhos ---- */
+  /* Entrada das seções, 60 ms entre filhos, uma vez */
   if (podeAnimar) {
     document.documentElement.classList.add('js-anim');
-
-    const bike = document.querySelector('.hero__bike');
-    if (bike) {
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => bike.classList.add('visivel'))
-      );
-    }
-
-    const grupos = document.querySelectorAll(
-      '.cabecalho, .filtro__caixas, .plataformas__grade, .engenharia__grade, .passos, .programas__grade, .manifesto__interno, .prova__tiles, .fechamento__interno, .argumentos__grade, .versoes__painel'
-    );
-
-    const obs = new IntersectionObserver(
-      (entradas) => {
-        entradas.forEach((entrada) => {
-          if (!entrada.isIntersecting) return;
-          Array.from(entrada.target.children).forEach((f, i) =>
-            setTimeout(() => f.classList.add('visivel'), i * 60)
-          );
-          obs.unobserve(entrada.target);
-        });
-      },
-      { threshold: 0.2, rootMargin: '0px 0px -5% 0px' }
-    );
-
-    grupos.forEach((g) => {
-      Array.from(g.children).forEach((f) => f.classList.add('revelar'));
-      obs.observe(g);
-    });
-  }
-
-  /* ---- 12.7: contagem de 0 ao valor, 800 ms, so desktop, uma vez ---- */
-  const contadores = document.querySelectorAll('.stat__valor[data-conta]');
-
-  if (podeAnimar && window.innerWidth >= 1024 && contadores.length) {
-    const lerAlvo = (txt) => {
-      const m = txt.trim().match(/^(\d+(?:,\d+)?)(.*)$/);
-      if (!m) return null;
-      const casas = m[1].includes(',') ? m[1].split(',')[1].length : 0;
-      return { alvo: parseFloat(m[1].replace(',', '.')), casas, sufixo: m[2] };
-    };
-    const formatar = (n, casas, sufixo) => n.toFixed(casas).replace('.', ',') + sufixo;
-
-    const obsNum = new IntersectionObserver(
-      (entradas) => {
-        entradas.forEach((entrada) => {
-          if (!entrada.isIntersecting) return;
-          const el = entrada.target;
-          obsNum.unobserve(el);
-
-          const p = lerAlvo(el.dataset.conta || '');
-          if (!p) return;
-
-          const inicio = performance.now();
-          el.textContent = formatar(0, p.casas, p.sufixo);
-
-          const quadro = (agora) => {
-            const t = Math.min((agora - inicio) / 800, 1);
-            const eased = 1 - Math.pow(1 - t, 3);
-            if (t < 1) {
-              el.textContent = formatar(p.alvo * eased, p.casas, p.sufixo);
-              requestAnimationFrame(quadro);
-            } else {
-              el.textContent = el.dataset.conta;
-            }
-          };
-          requestAnimationFrame(quadro);
-        });
-      },
-      { threshold: 0.5 }
-    );
-    contadores.forEach((c) => obsNum.observe(c));
-  }
-
-  /* ---- 12.7: os passos acendem em sequencia, 100 ms cada ---- */
-  const listaPassos = document.querySelector('.passos');
-
-  if (podeAnimar && listaPassos) {
-    const obsPassos = new IntersectionObserver(
-      (entradas) => {
-        entradas.forEach((entrada) => {
-          if (!entrada.isIntersecting) return;
-          obsPassos.unobserve(entrada.target);
-          entrada.target.querySelectorAll('.passo__num').forEach((n, i) => {
-            setTimeout(() => n.classList.add('aceso'), i * 100);
-          });
-        });
-      },
-      { threshold: 0.25 }
-    );
-    obsPassos.observe(listaPassos);
-  }
-
-  /* ---- Item ativo do menu, so onde os itens sao ancoras ---- */
-  const links = document.querySelectorAll('.nav__link[href^="#"]');
-  const mapa = new Map();
-  links.forEach((l) => {
-    const id = (l.getAttribute('href') || '').replace('#', '');
-    if (id) mapa.set(id, l);
-  });
-
-  if ('IntersectionObserver' in window && mapa.size) {
-    const obsNav = new IntersectionObserver(
-      (entradas) => {
-        entradas.forEach((entrada) => {
-          if (!entrada.isIntersecting) return;
-          links.forEach((l) => l.classList.remove('ativo'));
-          mapa.get(entrada.target.id)?.classList.add('ativo');
-        });
-      },
-      { rootMargin: '-40% 0px -55% 0px' }
-    );
-    mapa.forEach((_, id) => {
-      const s = document.getElementById(id);
-      if (s) obsNav.observe(s);
-    });
+    const grupos = document.querySelectorAll('.cabecalho, .linhas__grade, .numeros4, .selos, .galeria3, .pilares, .tec4, .prova-num, .fechamento__interno, .guias, .caminhos3, .atletas');
+    const obs = new IntersectionObserver((entradas) => {
+      entradas.forEach((en) => {
+        if (!en.isIntersecting) return;
+        Array.from(en.target.children).forEach((f, i) => setTimeout(() => f.classList.add('visivel'), i * 60));
+        obs.unobserve(en.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+    grupos.forEach((g) => { Array.from(g.children).forEach((f) => f.classList.add('revelar')); obs.observe(g); });
   }
 </script>
 

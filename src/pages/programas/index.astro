@@ -1,0 +1,43 @@
+---
+/* /programas v3.1 · tela site_v3/07-programas.png: visão geral da Jornada EDRO. */
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Selos from '../../components/Selos.astro';
+import ProvaSocial from '../../components/ProvaSocial.astro';
+import { wa } from '../../lib/edro.js';
+---
+
+<Base
+  titulo="Jornada EDRO · Compra Certa, Ciclo EDRO, Carbon Assist e Garantia Vitalícia"
+  descricao="Mais do que uma bicicleta, uma experiência completa de suporte e valorização: Compra Certa de 10 dias, Ciclo EDRO, Carbon Assist e garantia vitalícia no quadro."
+  canonica="https://edrobikes.com.br/programas"
+  pagina="programas"
+>
+
+<Hero
+  eyebrow="Jornada EDRO"
+  linhas={['Um ecossistema']}
+  verde="de benefícios."
+  lead="Mais do que uma bicicleta, você adquire uma experiência completa de suporte e valorização. Cada programa EDRO responde a uma dúvida real de quem já pedala. Clique em cada um para ver as regras completas."
+  botoes={[
+    { rotulo: 'Falar com um especialista', href: wa('Olá, EDRO. Quero entender os programas da EDRO. (origem: site-programas)'), primario: true, wa: 'programas-hero' },
+    { rotulo: 'Ver as bikes', href: '/bikes' },
+  ]}
+  fundo={{ src: 'lp/customer-8.jpg', alt: 'Clientes recebendo as suas EDRO novas com pintura exclusiva', posicao: 'center 40%' }}
+/>
+
+<section class="secao secao--sem-linha">
+  <div class="container">
+    <h2 class="visualmente-oculto">Os quatro programas</h2>
+    <Selos />
+    <div class="condicoes">
+      <div><b>Frete grátis</b> para todo o Brasil</div>
+      <div><b>12x</b> sem juros ou 5% no Pix</div>
+      <div><b>30 dias</b> da confirmação do pedido à entrega</div>
+      <div><b>Suporte</b> direto com a fábrica</div>
+    </div>
+    <div style="margin-top:var(--s-10)"><ProvaSocial /></div>
+  </div>
+</section>
+
+</Base>

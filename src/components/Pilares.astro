@@ -1,0 +1,17 @@
+---
+/* "Escolhidos a dedo": sem lista de componentes, os três critérios (v3.1, capítulo 2). */
+import Cabecalho from './Cabecalho.astro';
+const pilares = [
+  ['Performance', 'Só entra o que faz diferença real na pedalada: troca de marcha sob carga, suspensão que responde ao terreno, roda rígida na curva.'],
+  ['Peso', 'Cada grama é decidido. Componentes leves onde a leveza se sente, robustos onde a confiabilidade importa mais.'],
+  ['Confiabilidade', 'Marcas com assistência técnica no Brasil, padrões abertos e peças disponíveis. Você compra para pedalar por anos, não por uma temporada.'],
+];
+---
+<section class="secao">
+  <div class="container">
+    <Cabecalho linhas={['Escolhidos', 'a']} verde=" dedo." lead="Nenhum componente entra na EDRO por catálogo. Cada peça é escolhida com três critérios, nesta ordem." />
+    <div class="pilares">
+      {pilares.map(([t, d]) => (<div class="pilar"><h3 class="card-title">{t}</h3><p>{d}</p></div>))}
+    </div>
+  </div>
+</section>

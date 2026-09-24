@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>EDRO HORIZON | Simulador de Autonomia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<style>
+:root{
+  --preto:#0b0d0b;
+  --carbon:#121512;
+  --card:#181c18;
+  --card2:#1d221d;
+  --linha:#262c26;
+  --verde:#38A936;
+  --verde-claro:#54c452;
+  --branco:#f2f5f1;
+  --cinza:#98a297;
+  --cinza2:#6b746a;
+  --amarelo:#e9b83a;
+  --vermelho:#e05a4e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--preto);
+  color:var(--branco);
+  font-family:'Barlow',system-ui,sans-serif;
+  min-height:100vh;
+  background-image:
+    radial-gradient(1200px 500px at 80% -10%, rgba(56,169,54,.10), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.012) 0 2px, transparent 2px 6px);
+}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 70px}
+
+/* ---------- Header ---------- */
+header{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;border-bottom:2px solid var(--linha);padding-bottom:20px;margin-bottom:26px}
+.logo-edro{height:104px;display:block}
+.titulo{text-align:right}
+.linha-ebike{font-family:'Saira Condensed';font-weight:700;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--cinza);margin-bottom:5px}
+.logo-horizon{height:30px;display:block;margin:0 0 8px auto}
+.titulo h1{font-family:'Saira Condensed';font-style:italic;font-weight:800;font-size:26px;text-transform:uppercase;letter-spacing:.5px}
+.titulo h1 span{color:var(--verde)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;justify-content:flex-end}
+@media(max-width:760px){.titulo{text-align:left}.logo-horizon{margin:0 0 8px 0}.chips{justify-content:flex-start}.logo-edro{height:84px}}
+.chip{font-size:12px;font-weight:600;color:var(--cinza);background:var(--card);border:1px solid var(--linha);border-radius:4px;padding:4px 10px;letter-spacing:.4px}
+.chip b{color:var(--verde-claro);font-weight:700}
+
+/* ---------- Tabs ---------- */
+.tabs{display:flex;gap:2px;margin-bottom:24px}
+.tab{flex:1;text-align:center;cursor:pointer;background:var(--card);border:1px solid var(--linha);padding:13px 10px;font-family:'Saira Condensed';font-style:italic;font-weight:700;font-size:19px;text-transform:uppercase;letter-spacing:1px;color:var(--cinza);user-select:none;transition:all .15s}
+.tab:first-child{border-radius:6px 0 0 6px}
+.tab:last-child{border-radius:0 6px 6px 0}
+.tab.on{background:var(--verde);color:#0a0f0a;border-color:var(--verde)}
+.tab:hover:not(.on){color:var(--branco)}
+
+/* ---------- Layout ---------- */
+.grid{display:grid;grid-template-columns:400px 1fr;gap:22px}
+@media(max-width:960px){.grid{grid-template-columns:1fr}}
+.painel{background:var(--card);border:1px solid var(--linha);border-radius:8px;padding:20px}
+.painel h2{font-family:'Saira Condensed';font-style:italic;font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;color:var(--branco)}
+.painel h2 em{color:var(--verde);font-style:italic}
+
+/* ---------- Controles ---------- */
+.ctrl{margin-bottom:20px}
+.ctrl label{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--cinza);margin-bottom:8px}
+.ctrl label .val{font-family:'Saira Condensed';font-weight:800;font-size:20px;color:var(--verde-claro);letter-spacing:.5px}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;background:linear-gradient(to right,var(--verde) var(--p,50%),var(--linha) var(--p,50%));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--branco);border:4px solid var(--verde);cursor:pointer;box-shadow:0 0 0 3px rgba(56,169,54,.18)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--branco);border:4px solid var(--verde);cursor:pointer}
+.hint{display:flex;justify-content:space-between;font-size:10.5px;color:var(--cinza2);margin-top:5px;letter-spacing:.3px}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.opt{background:var(--card2);border:1px solid var(--linha);border-radius:5px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .15s;user-select:none}
+.opt .ic{font-size:18px;line-height:1;margin-bottom:5px}
+.opt .nm{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--cinza)}
+.opt .ds{font-size:10px;color:var(--cinza2);margin-top:2px}
+.opt.on{border-color:var(--verde);background:rgba(56,169,54,.10)}
+.opt.on .nm{color:var(--verde-claro)}
+details.avancado{border-top:1px solid var(--linha);padding-top:14px;margin-top:4px}
+details.avancado summary{cursor:pointer;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--cinza);list-style:none}
+details.avancado summary::before{content:"+ "}
+details.avancado[open] summary::before{content:"– "}
+details.avancado .ctrl{margin-top:16px;margin-bottom:10px}
+
+/* ---------- Cards de modo ---------- */
+.modos{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:680px){.modos{grid-template-columns:1fr}}
+.modo{background:var(--card);border:1px solid var(--linha);border-radius:8px;padding:18px 16px 16px;position:relative;overflow:hidden;transition:transform .15s}
+.modo::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--mc,var(--verde))}
+.modo .mn{font-family:'Saira Condensed';font-style:italic;font-weight:800;font-size:24px;text-transform:uppercase;letter-spacing:1px}
+.modo .mw{font-size:12px;font-weight:600;color:var(--cinza);letter-spacing:.6px;margin-bottom:14px}
+.modo .km{font-family:'Saira Condensed';font-weight:800;font-size:56px;line-height:.95;color:var(--branco)}
+.modo .km small{font-size:20px;color:var(--cinza);font-weight:700;margin-left:3px}
+.modo .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--cinza2);margin-top:3px;margin-bottom:6px}
+.limtag{font-size:10.5px;color:var(--amarelo);letter-spacing:.3px;margin-bottom:12px;line-height:1.4}
+.mstats{border-top:1px solid var(--linha);padding-top:11px;display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
+.mstats div{font-size:11px;color:var(--cinza2);text-transform:uppercase;letter-spacing:.5px}
+.mstats div b{display:block;font-size:15px;color:var(--branco);font-family:'Saira Condensed';font-weight:700;letter-spacing:.4px;margin-top:1px}
+.batwrap{margin-top:12px}
+.bat{height:9px;background:var(--linha);border-radius:5px;overflow:hidden}
+.bat i{display:block;height:100%;background:linear-gradient(90deg,var(--mc,var(--verde)),var(--verde-claro));border-radius:5px;transition:width .4s}
+.batleg{font-size:10px;color:var(--cinza2);margin-top:4px;letter-spacing:.4px}
+
+.nota{background:var(--card);border:1px solid var(--linha);border-left:3px solid var(--verde);border-radius:6px;padding:13px 15px;font-size:12.5px;color:var(--cinza);line-height:1.55;margin-top:16px}
+.nota b{color:var(--branco)}
+
+/* ---------- GPX ---------- */
+.drop{border:2px dashed var(--linha);border-radius:8px;padding:34px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--card)}
+.drop:hover,.drop.over{border-color:var(--verde);background:rgba(56,169,54,.06)}
+.drop .di{font-size:34px;margin-bottom:8px}
+.drop .dt{font-family:'Saira Condensed';font-style:italic;font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:.8px}
+.drop .dd{font-size:12.5px;color:var(--cinza);margin-top:5px}
+.guia{margin-top:16px}
+.guia ol{margin:10px 0 0 18px;font-size:12.5px;color:var(--cinza);line-height:1.8}
+.guia a{color:var(--verde-claro);font-weight:600;text-decoration:none}
+.guia a:hover{text-decoration:underline}
+.resumo{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+@media(max-width:680px){.resumo{grid-template-columns:repeat(2,1fr)}}
+.rbox{background:var(--card);border:1px solid var(--linha);border-radius:6px;padding:12px 14px}
+.rbox .rl{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--cinza2)}
+.rbox .rv{font-family:'Saira Condensed';font-weight:800;font-size:26px;margin-top:2px}
+.rbox .rv small{font-size:14px;color:var(--cinza);font-weight:700}
+.gsel{display:flex;gap:6px;margin:6px 0 12px}
+.gbtn{flex:1;text-align:center;cursor:pointer;background:var(--card2);border:1px solid var(--linha);border-radius:5px;padding:9px;font-family:'Saira Condensed';font-style:italic;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.8px;color:var(--cinza);user-select:none}
+.gbtn.on{border-color:var(--gc);color:var(--branco);background:rgba(56,169,54,.08)}
+canvas{width:100%;background:var(--carbon);border:1px solid var(--linha);border-radius:6px}
+.gtab{width:100%;border-collapse:collapse;margin-top:16px;font-size:13px}
+.gtab th{font-family:'Saira Condensed';font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.8px;color:var(--cinza);text-align:left;padding:9px 10px;border-bottom:1px solid var(--linha)}
+.gtab td{padding:10px;border-bottom:1px solid var(--linha)}
+.gtab td:first-child{font-family:'Saira Condensed';font-style:italic;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.6px}
+.ok{color:var(--verde-claro);font-weight:700}
+.warn{color:var(--amarelo);font-weight:700}
+.bad{color:var(--vermelho);font-weight:700}
+.hide{display:none!important}
+.sel{width:100%;background:var(--card2);border:1px solid var(--linha);border-radius:5px;color:var(--branco);padding:9px 10px;font-family:'Saira Condensed';font-style:italic;font-weight:700;font-size:16px;letter-spacing:.5px;text-transform:uppercase}
+.sel option{color:#111}
+#mapa{height:320px;border:1px solid var(--linha);border-radius:6px;margin:0 0 12px;background:var(--carbon);cursor:crosshair}
+.leaflet-control-layers{background:rgba(24,28,24,.92)!important;color:var(--branco)!important;border:1px solid var(--linha)!important;border-radius:6px!important;font-size:12px}
+.leaflet-control-layers label{color:var(--branco)}
+.leaflet-control-zoom a{background:var(--card)!important;color:var(--branco)!important;border-color:var(--linha)!important}
+.tabwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.grid-gpx{display:grid;grid-template-columns:340px 1fr;gap:22px}
+@media(max-width:960px){.grid-gpx{grid-template-columns:1fr}}
+@media(max-width:600px){
+  #mapa{height:240px}
+  .wrap{padding:16px 12px 50px}
+  .tab{font-size:16px;padding:11px 6px}
+  .modo .km{font-size:48px}
+  .gsel{flex-wrap:wrap}.gbtn{flex:1 1 45%;font-size:14px;padding:8px}
+  .painel{padding:16px 14px}
+  .gtab{font-size:12px}.gtab th,.gtab td{padding:7px 6px}
+  .rbox .rv{font-size:22px}
+  header{gap:14px}.titulo h1{font-size:22px}.logo-horizon{height:24px}
+}
+html{-webkit-text-size-adjust:100%}
+.leaflet-container{font-family:'Barlow',sans-serif}
+.leaflet-control-attribution{background:rgba(11,13,11,.75)!important;color:#6b746a!important;font-size:9px!important}
+.leaflet-control-attribution a{color:#8a948a!important}
+.sTip{background:rgba(11,13,11,.9)!important;border:none!important;color:#fff!important;font-weight:700;font-size:10px;padding:1px 4px!important;box-shadow:none!important}
+.sTip::before{display:none}
+.rnome{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.rnome .rt{font-family:'Saira Condensed';font-style:italic;font-weight:800;font-size:22px;text-transform:uppercase;letter-spacing:.5px}
+.rnome .rd{font-size:12px;color:var(--cinza);letter-spacing:.4px}
+.switch{display:flex;align-items:center;gap:9px;cursor:pointer;margin-top:2px}
+.switch input{position:absolute;opacity:0}
+.switch .sl{width:38px;height:20px;border-radius:11px;background:var(--linha);position:relative;flex:none;transition:background .15s}
+.switch .sl::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--cinza);transition:all .15s}
+.switch input:checked + .sl{background:var(--verde)}
+.switch input:checked + .sl::after{left:21px;background:#fff}
+.switch .swt{font-size:12px;color:var(--cinza);line-height:1.35}
+footer{margin-top:46px;border-top:1px solid var(--linha);padding-top:16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11.5px;color:var(--cinza2);letter-spacing:.4px}
+footer .fx{font-family:'Saira Condensed';font-style:italic;font-weight:700;letter-spacing:1px;color:var(--cinza)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo">
+    <img class="logo-edro" src="data:image/png;base64,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" alt="EDRO Performance Bikes">
+  </div>
+  <div class="titulo">
+    <div class="linha-ebike">E-Bike EDRO</div>
+    <img class="logo-horizon" src="data:image/png;base64,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" alt="HORIZON">
+    <h1>Simulador de <span>Autonomia</span></h1>
+    <div class="chips">
+      <span class="chip">Motor <b>CYC Photon 2</b> · 135 N.m</span>
+      <span class="chip">Bateria <b>36V · 15Ah · 540Wh</b></span>
+      <span class="chip">Limitador <b>32 km/h</b> de fábrica (ajustável a 45)</span>
+    </div>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab on" data-tab="rapida">Simulação Rápida</div>
+  <div class="tab" data-tab="gpx">Rota Real (GPX do Strava)</div>
+</div>
+
+<!-- ================= SIMULACAO RAPIDA ================= -->
+<section id="tab-rapida">
+<div class="grid">
+
+  <div class="painel">
+    <h2>Parâmetros do <em>pedal</em></h2>
+
+    <div class="ctrl">
+      <label>Peso do ciclista <span class="val"><span id="v-pc">78</span> kg</span></label>
+      <input type="range" id="s-pc" min="45" max="130" value="78">
+    </div>
+
+    <div class="ctrl">
+      <label>Sua EDRO HORIZON</label>
+      <select id="s-modelo" class="sel"></select>
+      <div class="hint" style="justify-content:flex-start"><span>Peso da bicicleta + pedais + acessórios (~0,5 kg), quadro M. Escolha "Peso livre" para ajustar outro valor.</span></div>
+    </div>
+    <div class="ctrl" id="ctrl-pb">
+      <label>Peso da bike + equipamentos <span class="val"><span id="v-pb">16.3</span> kg</span></label>
+      <input type="range" id="s-pb" min="12" max="30" step="0.1" value="16.3">
+      <div class="hint"><span>e-bike leve</span><span>com bagagem</span></div>
+    </div>
+
+    <div class="ctrl">
+      <label>Sua potência de pedalada <span class="val"><span id="v-pw">100</span> W</span></label>
+      <input type="range" id="s-pw" min="40" max="300" step="10" value="100">
+      <div class="hint"><span>leve</span><span>moderado</span><span>forte</span></div>
+    </div>
+
+    <div class="ctrl">
+      <label>Cadência da pedalada <span class="val"><span id="v-cad">75</span> rpm</span></label>
+      <input type="range" id="s-cad" min="55" max="95" step="5" value="75">
+      <div class="hint"><span>marcha pesada (+assistência, +consumo)</span><span>marcha leve</span></div>
+    </div>
+
+    <div class="ctrl">
+      <label>Terreno</label>
+      <div class="opts" id="g-ter">
+        <div class="opt on" data-v="plano"><div class="ic">▬</div><div class="nm">Plano</div><div class="ds">até 2%</div></div>
+        <div class="opt" data-v="ondulado"><div class="ic">⌒</div><div class="nm">Ondulado</div><div class="ds">sobe e desce</div></div>
+        <div class="opt" data-v="montanha"><div class="ic">▲</div><div class="nm">Montanhoso</div><div class="ds">subidas longas</div></div>
+      </div>
+    </div>
+
+    <div class="ctrl">
+      <label>Limitador de assistência</label>
+      <div class="opts" id="g-vlim" style="grid-template-columns:repeat(2,1fr)">
+        <div class="opt on" data-v="32"><div class="nm">32 km/h</div><div class="ds">padrão de fábrica</div></div>
+        <div class="opt" data-v="45"><div class="nm">45 km/h</div><div class="ds">ajuste opcional</div></div>
+      </div>
+      <div class="hint" style="justify-content:flex-start;line-height:1.4"><span>De fábrica a bike sai limitada a 32 km/h. Pode ser ajustada para 45 km/h para uso em locais fechados, conforme a legislação.</span></div>
+    </div>
+
+    <div class="ctrl">
+      <label>Superfície</label>
+      <div class="opts" id="g-sup" style="grid-template-columns:repeat(2,1fr)">
+        <div class="opt" data-v="asfalto"><div class="ic">◎</div><div class="nm">Asfalto</div><div class="ds">pneu de MTB</div></div>
+        <div class="opt on" data-v="cascalho"><div class="ic">⁘</div><div class="nm">Estradão</div><div class="ds">cascalho solto</div></div>
+        <div class="opt" data-v="leve"><div class="ic">∿</div><div class="nm">Trilha leve</div><div class="ds">single XC</div></div>
+        <div class="opt" data-v="tecnica"><div class="ic">≋</div><div class="nm">Trilha técnica</div><div class="ds">raízes / pedras</div></div>
+        <div class="opt" data-v="barro"><div class="ic">≈</div><div class="nm">Barro / Lama</div><div class="ds">transmissão suja</div></div>
+      </div>
+    </div>
+
+    <div class="ctrl">
+      <label>Vento <span class="val"><span id="v-vt">0</span> km/h</span></label>
+      <input type="range" id="s-vt" min="-20" max="20" step="5" value="0">
+      <div class="hint"><span>a favor</span><span>sem vento</span><span>contra</span></div>
+    </div>
+
+    <div class="ctrl">
+      <label>Temperatura</label>
+      <div class="opts" id="g-temp">
+        <div class="opt" data-v="frio"><div class="ic">❄</div><div class="nm">Frio</div><div class="ds">abaixo de 12°C · -10%</div></div>
+        <div class="opt on" data-v="ameno"><div class="ic">☼</div><div class="nm">Ameno</div><div class="ds">15 a 28°C</div></div>
+        <div class="opt" data-v="calor"><div class="ic">☀</div><div class="nm">Calor</div><div class="ds">acima de 30°C · -2%</div></div>
+      </div>
+    </div>
+
+    <details class="avancado">
+      <summary>Ajustes avançados</summary>
+      <div class="ctrl">
+        <label>Fator de assistência do motor <span class="val"><span id="v-fa">1.80</span>x</span></label>
+        <input type="range" id="s-fa" min="100" max="300" step="10" value="180">
+        <div class="hint"><span>calibrado com teste real de 26/07 (Eco = 45% da pedalada)</span></div>
+      </div>
+      <div class="ctrl">
+        <label>Saúde da bateria <span class="val"><span id="v-cap">90</span>%</span></label>
+        <input type="range" id="s-cap" min="70" max="100" step="5" value="90">
+        <div class="hint"><span>2-3 anos de ciclos</span><span>bateria nova</span></div>
+      </div>
+      <div class="ctrl">
+        <label>Eficiência do sistema elétrico <span class="val"><span id="v-ef">85</span>%</span></label>
+        <input type="range" id="s-ef" min="75" max="92" value="85">
+      </div>
+      <div class="ctrl">
+        <label>Aerodinâmica (CdA) <span class="val"><span id="v-cda">0.52</span> m²</span></label>
+        <input type="range" id="s-cda" min="35" max="70" value="52">
+        <div class="hint"><span>road agressivo</span><span>MTB ereto</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div>
+    <div class="modos" id="modos"></div>
+        <div class="nota">
+      <b>Como funciona a estimativa:</b> o CYC Photon 2 usa sensor de torque: a assistência acompanha o <b>torque</b> da pedalada (na cadência de 75 rpm, <b>Eco 50%</b>, <b>Ride 75%</b> e <b>Turbo 180%</b> da sua potência), mas o firmware entrega um <b>piso do teto do modo</b> sempre que há pedalada (medido: Eco 53 W, Ride 150 W, Turbo 300 W) e nunca passa do teto nem do <b>limitador configurado</b> (32 km/h de fábrica). O modelo simula o comportamento real do ciclista (mais força e cadência menor na subida, alívio na descida), vento, temperatura (frio reduz ~10% da capacidade útil), perda interna da bateria e saúde do pacote. Calibrado com nove pedais reais, entre eles uma prova de 49 km com medidor de potência, testes de 40 km em Eco e Ride, um pedal de cliente de 90 kg em serra com frio e vento, pedais em estradão de cascalho e trilha com serra em Turbo e em Ride, e um teste de autonomia de 168 km em Eco com vento lateral e contra, todos medidos por tensão a cada parada.
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ================= GPX ================= -->
+<section id="tab-gpx" class="hide">
+
+<div id="gpx-inicio">
+  <div class="drop" id="drop">
+    <div class="di">⇪</div>
+    <div class="dt">Arraste o arquivo GPX ou FIT, ou clique aqui</div>
+    <div class="dd">Aceita .gpx e .tcx (Strava, Garmin Connect) e .fit direto do Garmin ou Wahoo</div>
+    <input type="file" id="file" accept=".gpx,.tcx,.fit" style="display:none">
+  </div>
+
+  <div class="painel guia" style="margin-top:16px">
+    <h2>Como exportar sua rota do <em>Strava</em></h2>
+    <ol>
+      <li>Acesse <a href="https://www.strava.com/athlete/routes" target="_blank" rel="noopener">strava.com/athlete/routes</a> e abra a rota desejada. Para uma atividade já pedalada, abra a atividade.</li>
+      <li>Clique no menu de três pontos e escolha <b style="color:var(--branco)">Exportar GPX</b>.</li>
+      <li>Volte aqui e solte o arquivo no campo acima. Também pode usar o arquivo .fit gravado direto no seu Garmin ou Wahoo. A simulação roda no seu navegador; só a previsão do tempo é consultada na internet.</li>
+    </ol>
+  </div>
+</div>
+
+<div id="gpx-res" class="hide">
+  <div class="resumo" id="resumo"></div>
+  <div class="grid-gpx">
+    <div class="painel">
+      <h2>Parâmetros da <em>simulação</em></h2>
+      <div class="ctrl">
+        <label>Peso do ciclista <span class="val"><span id="gv-pc">78</span> kg</span></label>
+        <input type="range" id="gs-pc" min="45" max="130" value="78">
+      </div>
+      <div class="ctrl">
+        <label>Sua EDRO HORIZON</label>
+        <select id="gs-modelo" class="sel"></select>
+        <div class="hint" style="justify-content:flex-start"><span>Peso da bicicleta + pedais + acessórios (~0,5 kg). "Peso livre" para ajustar.</span></div>
+      </div>
+      <div class="ctrl" id="ctrl-gpb">
+        <label>Peso da bike + equipamentos <span class="val"><span id="gv-pb">16.3</span> kg</span></label>
+        <input type="range" id="gs-pb" min="12" max="30" step="0.1" value="16.3">
+      </div>
+      <div class="ctrl hide" id="pw-real">
+        <label><span id="pw-real-lbl">Potência medida no arquivo</span> <span class="val" id="pw-real-val">— W</span></label>
+        <label class="switch"><input type="checkbox" id="pw-toggle" checked><span class="sl"></span><span class="swt" id="pw-real-txt">Usar a potência medida, trecho a trecho</span></label>
+      </div>
+      <div class="ctrl" id="ctrl-pw-fixa">
+        <label>Sua potência de pedalada (fixa) <span class="val"><span id="gv-pw">100</span> W</span></label>
+        <input type="range" id="gs-pw" min="40" max="300" step="10" value="100">
+      </div>
+      <div class="ctrl">
+        <label>Limitador de assistência</label>
+        <div class="opts" id="gg-vlim" style="grid-template-columns:repeat(2,1fr)">
+          <div class="opt on" data-v="32"><div class="nm">32 km/h</div><div class="ds">fábrica</div></div>
+          <div class="opt" data-v="45"><div class="nm">45 km/h</div><div class="ds">opcional</div></div>
+        </div>
+      </div>
+      <div class="ctrl">
+        <label>Superfície</label>
+        <div class="opts" id="gg-sup" style="grid-template-columns:repeat(2,1fr)">
+          <div class="opt" data-v="asfalto"><div class="ic">◎</div><div class="nm">Asfalto</div></div>
+          <div class="opt on" data-v="cascalho"><div class="ic">⁘</div><div class="nm">Estradão</div></div>
+          <div class="opt" data-v="leve"><div class="ic">∿</div><div class="nm">Trilha leve</div></div>
+          <div class="opt" data-v="tecnica"><div class="ic">≋</div><div class="nm">Trilha técnica</div></div>
+          <div class="opt" data-v="barro"><div class="ic">≈</div><div class="nm">Barro / Lama</div></div>
+        </div>
+      </div>
+      <div class="ctrl hide" id="cad-real">
+        <label>Cadência lida do arquivo <span class="val" id="cad-real-val">— rpm</span></label>
+        <label class="switch"><input type="checkbox" id="cad-toggle" checked><span class="sl"></span><span class="swt" id="cad-real-txt">Usar a cadência medida, trecho a trecho</span></label>
+      </div>
+      <div class="ctrl" id="ctrl-cad-fixa">
+        <label>Cadência média (fixa) <span class="val"><span id="gv-cad">75</span> rpm</span></label>
+        <input type="range" id="gs-cad" min="55" max="95" step="5" value="75">
+        <div class="hint"><span>marcha pesada</span><span>marcha leve</span></div>
+      </div>
+      <div class="ctrl">
+        <label>Data e hora de saída do pedal</label>
+        <div style="display:flex;gap:8px">
+          <input type="date" id="gs-data" style="flex:2;background:var(--card2);border:1px solid var(--linha);border-radius:5px;color:var(--branco);padding:8px 10px;font-family:'Barlow';font-size:13px">
+          <input type="time" id="gs-hora" value="08:00" step="900" style="flex:1;background:var(--card2);border:1px solid var(--linha);border-radius:5px;color:var(--branco);padding:8px 10px;font-family:'Barlow';font-size:13px">
+        </div>
+        <label class="switch" style="margin-top:8px"><input type="checkbox" id="prev-toggle" checked><span class="sl"></span><span class="swt">Usar a previsão do tempo do local da rota (vento por trecho e temperatura)</span></label>
+        <div id="clima-card" class="hide" style="margin-top:8px;font-size:12px;color:var(--cinza);line-height:1.5;background:var(--card2);border:1px solid var(--linha);border-radius:5px;padding:9px 11px"></div>
+      </div>
+      <div class="ctrl" id="ctrl-vento">
+        <label>Vento médio na rota (manual) <span class="val"><span id="gv-vt">0</span> km/h</span></label>
+        <input type="range" id="gs-vt" min="-20" max="20" step="5" value="0">
+        <div class="hint"><span>a favor</span><span>sem vento</span><span>contra</span></div>
+      </div>
+      <div class="ctrl">
+        <label>Temperatura</label>
+        <div class="opts" id="gg-temp">
+          <div class="opt" data-v="frio"><div class="ic">❄</div><div class="nm">Frio</div></div>
+          <div class="opt on" data-v="ameno"><div class="ic">☼</div><div class="nm">Ameno</div></div>
+          <div class="opt" data-v="calor"><div class="ic">☀</div><div class="nm">Calor</div></div>
+        </div>
+      </div>
+      <div class="ctrl">
+        <label>Saúde da bateria <span class="val"><span id="gv-cap">90</span>%</span></label>
+        <input type="range" id="gs-cap" min="70" max="100" step="5" value="90">
+      </div>
+      <details class="avancado">
+        <summary>Ajustes avançados</summary>
+        <div class="ctrl">
+          <label>Posição / aerodinâmica (CdA) <span class="val"><span id="gv-cda">0.52</span> m²</span></label>
+          <input type="range" id="gs-cda" min="35" max="70" value="52">
+          <div class="hint"><span>agressiva (road, drops)</span><span>ereta (MTB, camisa larga)</span></div>
+        </div>
+        <div class="ctrl">
+          <label>Eficiência do sistema elétrico <span class="val"><span id="gv-ef">85</span>%</span></label>
+          <input type="range" id="gs-ef" min="75" max="92" value="85">
+        </div>
+      </details>
+      <div style="text-align:center;margin-top:10px">
+        <a href="#" id="trocar" style="font-size:12px;color:var(--cinza);text-decoration:underline">carregar outra rota</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="painel">
+        <h2>Bateria ao longo da <em>rota</em></h2>
+        <div class="rnome hide" id="rota-nome"></div>
+        <div class="gsel" id="gsel"></div>
+        <div id="mapa" class="hide"></div>
+        <label class="switch" style="margin:0 0 10px"><input type="checkbox" id="bms-toggle"><span class="sl"></span><span class="swt">Mostrar também o % como aparece no display (curva calibrada com os testes reais: cai rápido no topo e trava na faixa dos 80)</span></label>
+        <canvas id="chart" height="300"></canvas>
+        <div class="tabwrap"><table class="gtab">
+          <thead><tr><th>Modo</th><th>Bateria usada</th><th>Restante no fim</th><th>Tempo estimado</th><th>Vel. média</th><th>Status</th></tr></thead>
+          <tbody id="gtbody"></tbody>
+        </table></div>
+      </div>
+      <div class="painel" style="margin-top:16px">
+        <h2>Subidas e descidas da <em>rota</em></h2>
+        <div style="font-size:12px;color:var(--cinza);margin:-6px 0 10px">Subidas com mais de 300 m e 25 m de ganho. Nas descidas e acima de 32 km/h a assistência corta e o consumo é zero.</div>
+        <div class="tabwrap"><table class="gtab">
+          <thead><tr><th>#</th><th>Trecho</th><th>Extensão</th><th>Inclinação</th><th>Modo sugerido</th><th>Eco (Wh)</th><th>Ride (Wh)</th><th>Turbo (Wh)</th></tr></thead>
+          <tbody id="stbody"></tbody>
+        </table></div>
+      </div>
+      <div class="nota" id="gnota"></div>
+      <div class="nota" style="border-left-color:var(--amarelo)">
+        <b>Otimização da pedalada (calibrada com seus testes):</b> na mesma rota de 40 km e com a mesma força, subir a cadência de ~55 para 90 rpm no Ride reduziria o consumo em cerca de um terço (de ~43% para ~29% da bateria). Marcha leve e giro alto fazem o sensor de torque ler menos força e a assistência cai junto com o consumo. Na subida acontece o inverso: a cadência despenca, o torque dispara e o gasto sobe, então reduza a marcha ANTES da rampa. Use marcha pesada de propósito só quando quiser o empurrão máximo. Perto dos 32 km/h os modos se igualam. Com o limitador em 45 km/h o motor trabalha em regime cheio no plano: reserve esse ajuste para locais fechados e conte com o triplo de consumo no Turbo.
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<footer>
+  <span class="fx">NÃO ACEITE SER SÓ MAIS UM</span>
+  <span>EDRO Performance Bikes · Linha HORIZON · Tubarão SC · edrobikes.com.br · valores estimados, a autonomia real varia com temperatura, calibragem e estilo de pilotagem</span>
+</footer>
+</div>
+
+<script>
+"use strict";
+/* ================= Estado global ================= */
+let gpxData=null, gModoSel="eco", usarPotenciaReal=true, usarPotenciaEst=true, usarCadReal=true, verDisplayBMS=false;
+const gstate={pc:78,pb:16.3,pw:100,sup:"cascalho",cap:90,vt:0,trechos:"",trechosList:[],
+  data:new Date().toISOString().slice(0,10), hora:8, usarPrevisao:true};
+
+/* ================= Modelos HORIZON (peso da bike, tamanho M) =================
+   Base do modelo mecanico (site EDRO) menos pedivela + coroa + movimento central (que o kit
+   substitui: EX 0,83 kg, XCR 0,78 kg, PRO 0,59 kg), mais o kit HORIZON de 7,15 kg (motor
+   CYC Photon 2 3,50, bracos e coroa 0,45, bateria 36 V 15 Ah 2,60, controlador/display/cabos
+   0,60), mais 0,5 kg de pedais e acessorios. */
+const KIT_HORIZON=7.15, ACESSORIOS=0.5;
+const MODELOS=[
+  {id:"summa-ex",  nome:"SUMMA EX HORIZON",  base:9.48,  rem:0.83, peso:16.3},
+  {id:"summa-xcr", nome:"SUMMA XCR HORIZON", base:9.10,  rem:0.78, peso:16.0},
+  {id:"summa-pro", nome:"SUMMA PRO HORIZON", base:8.47,  rem:0.59, peso:15.5},
+  {id:"range-ex",  nome:"RANGE EX HORIZON",  base:10.78, rem:0.83, peso:17.6},
+  {id:"range-xcr", nome:"RANGE XCR HORIZON", base:10.58, rem:0.78, peso:17.5},
+  {id:"range-pro", nome:"RANGE PRO HORIZON", base:9.89,  rem:0.59, peso:17.0}
+];
+function pesoModelo(id){ const m=MODELOS.find(x=>x.id===id); return m ? m.peso : null; }
+
+/* ================= Constantes ================= */
+const BAT_WH = 540;               // 36V x 15Ah
+let V_CUT = 32/3.6;               // limitador de assistencia (32 de fabrica, ajustavel a 45)
+const V_MAX_DESC = 50/3.6;        // velocidade maxima de descida (frenagem realista, calibrado)
+const G = 9.81, RHO = 1.20, DRIVE_EFF = 0.97;
+const TORQUE_MAX = 135;           // N.m (CYC Photon 2)
+const CADENCIA = 75*2*Math.PI/60; // rad/s, cadencia tipica de referencia
+/* Sensor de torque: assistencia proporcional ao TORQUE da pedalada.
+   Na mesma potencia, cadencia baixa (marcha pesada) = mais torque = mais assistencia.
+   assistencia mecanica = FATOR x (torque%/100) x potencia do ciclista x (75/cadencia)
+   Calibrado com 2 testes reais na mesma rota de 40 km:
+   - 26/07 Eco a ~75 rpm: previsto 18% x real 18% da bateria
+   - 27/07 Ride a ~52 rpm: previsto 41% x real 41% da bateria */
+const CAD_REF = 75;
+const MODOS = [
+  {id:"eco",   nome:"Eco",   w:150, tq:25,  cor:"#38A936"},
+  {id:"ride",  nome:"Ride",  w:300, tq:50,  cor:"#e9b83a"},
+  {id:"turbo", nome:"Turbo", w:600, tq:100, cor:"#e05a4e"}
+];
+const ESTRATEGIA = {id:"estrategia", nome:"Estratégia EDRO", cor:"#9fe09d"};
+const PERSONALIZADO = {id:"custom", nome:"Seu pedal", cor:"#f2f5f1"};
+/* "10.7-11.0:2; 21.5-25.8:3" -> trechos em km com modo 1/2/3 (base: Eco) */
+function parseTrechos(txt){
+  const out=[];
+  (txt||"").split(/[;,\n]+/).forEach(p=>{
+    const m=p.trim().match(/^([\d.,]+)\s*-\s*([\d.,]+)\s*:\s*([123])$/);
+    if(!m) return;
+    const k0=parseFloat(m[1].replace(",",".")), k1=parseFloat(m[2].replace(",","."));
+    if(isFinite(k0)&&isFinite(k1)&&k1>k0) out.push({k0,k1,modo:MODOS[+m[3]-1]});
+  });
+  return out;
+}
+function modoCustom(km){
+  for(const t of gstate.trechosList){ if(km>=t.k0 && km<t.k1) return t.modo; }
+  return MODOS[0];
+}
+/* Crr calibrado com prova real (Challenge Nova Trento 2026: erro < 2% no tempo).
+   Barro/lama calibrado com o pedal de 16/08 (trecho de barro em Eco/Ride a 87 W de dreno). */
+const CRR = {asfalto:0.010, cascalho:0.015, leve:0.018, tecnica:0.028, barro:0.024};  // pneus de MTB: asfalto calibrado em 26 e 27/07; cascalho em 09/09, 12/09 e 13/09
+/* Sujeira reduz a eficiencia da transmissao (corrente e engrenagens pesadas) */
+const SUJEIRA = {asfalto:1.0, cascalho:1.0, leve:1.0, tecnica:0.99, barro:0.955};
+/* Velocidade maxima de descida por superficie (frenagem real, km/h).
+   Calibrado no pedal de 09/09: descida de 520 m em cascalho a 26,8 km/h de media. */
+const VDESC = {asfalto:50, cascalho:35, leve:30, tecnica:25, barro:30};
+function vMaxDesc(sup){ return (VDESC[sup]||50)/3.6; }
+/* Perfis com rampas rasas e ingremes: nas rasas a assistencia segue ativa mesmo em descida */
+const TERRENOS = {
+  /* coast: trechos rodados sem pedalar (inercia, transito, alivio). No plano real
+     ~12% da distancia e assim (teste de 26/07: ~15% do tempo sem pedalada). */
+  plano:    [{g:0.00,f:0.58},{g:0.00,f:0.12,coast:true},{g:0.015,f:0.15},{g:-0.015,f:0.15}],
+  ondulado: [{g:0.00,f:0.30},{g:0.02,f:0.15},{g:0.04,f:0.20},{g:-0.02,f:0.15},{g:-0.04,f:0.20}],
+  montanha: [{g:0.00,f:0.20},{g:0.04,f:0.15},{g:0.07,f:0.25},{g:-0.04,f:0.15},{g:-0.07,f:0.25}]
+};
+/* Bateria 10s3p: resistencia interna do pacote (~0,10 ohm). Perda I2R cresce com o dreno:
+   150 W -> ~1%, 300 W -> ~2,3%, 600 W -> ~4,6% de energia extra convertida em calor. */
+const V_BAT=36, R_BAT=0.10;
+function drenoReal(pElec){ return pElec<=0 ? 0 : pElec*(1 + pElec*R_BAT/(V_BAT*V_BAT)); }
+/* Pedalada real varia com o terreno: mais forca na subida, alivio na descida */
+function modPedal(g){ return g>=0.02 ? 1.25 : (g<=-0.02 ? 0.35 : 1.0); }
+/* Na subida a cadencia cai (marcha nao acompanha), o sensor le mais torque e a
+   assistencia sobe - efeito observado no teste de 27/07 em marcha pesada. */
+function modCad(g){ return g>=0.02 ? Math.max(0.72, 1-3.5*g) : (g<=-0.02 ? 1.05 : 1.0); }
+/* Curva do display calibrada com os checkpoints reais dos testes de 27/07 e 16/08:
+   queda rapida perto de 100%, plato "grudento" na faixa dos 80, recuperacao abaixo de 70.
+   Mapeia carga REAL (linear em Wh) -> % mostrado no display. */
+const DISP=[[100,100],[95,92],[91,86],[89,81],[85,78],[80,75],[71,66],[63,59],[59,52],[56,51],[53,46],[30,25],[0,0]];
+function socDisplay(socReal){
+  const s=Math.max(0,Math.min(100,socReal));
+  for(let i=0;i<DISP.length-1;i++){
+    const [s1,v1]=DISP[i],[s2,v2]=DISP[i+1];
+    if(s<=s1&&s>=s2) return v2+(v1-v2)*(s-s2)/Math.max(1e-6,(s1-s2));
+  }
+  return s;
+}
+
+/* ================= Fisica base ================= */
+function pDemanda(v, grade, massa, crr, cda, vw){
+  const sin = grade/Math.sqrt(1+grade*grade), cos = 1/Math.sqrt(1+grade*grade);
+  const va = v + vw;
+  return (crr*massa*G*cos + massa*G*sin)*v + 0.5*RHO*cda*va*Math.abs(va)*v;
+}
+function solveV(pRoda, grade, massa, crr, cda, vw, vmax){
+  let lo=0.05, hi=vmax||V_MAX_DESC;
+  if(pDemanda(hi,grade,massa,crr,cda,vw) <= pRoda) return hi;
+  for(let i=0;i<48;i++){
+    const mid=(lo+hi)/2;
+    (pDemanda(mid,grade,massa,crr,cda,vw) < pRoda) ? lo=mid : hi=mid;
+  }
+  return (lo+hi)/2;
+}
+/* Piso de potencia do firmware: enquanto ha pedalada, o motor entrega no minimo
+   PISO x teto do modo (evidencia de 5 pedais: Eco 53-150 W, Ride 146 W, Turbo 310 W). */
+const PISO = {150:0.35, 300:0.50, 600:0.50};   // por teto do modo: Eco 53 W, Ride 150 W, Turbo 300 W
+/* Fator de assistencia a 75 rpm, por modo, calibrado: Eco 0,45 (26/07, 09/09), Ride 0,75 (27/07, 12/09, 13/09, com a modulacao pelo vento), Turbo 1,80 (16/08, 09/09).
+   A cadencia entra como (75/cad)^0,5: marcha pesada aumenta a assistencia, mas menos que o modelo linear anterior. */
+const FATOR_MODO = {150:0.50, 300:0.75, 600:1.80};   // Eco recalibrado no teste de 168 km (16/09); Ride reajustado com a modulacao pelo vento (12 e 13/09, 27/07)
+const CAD_EXPO = 0.5;
+function pisoModo(modeW){ return PISO[modeW]!==undefined ? PISO[modeW] : 0.45; }
+function assistMax(modeW, tqPct, eff, riderW, cad, de){
+  if(modeW<=0 || riderW<=0) return 0;
+  const c = Math.max(50, Math.min(100, cad||CAD_REF));
+  const capTorque = (tqPct/100)*TORQUE_MAX*(c*2*Math.PI/60); // torque maximo x cadencia REAL
+  const fator=(FATOR_MODO[modeW]||state.fa*(tqPct/100))*(state.fa/1.8);   // ajuste avancado escala todos os modos
+  let propor = fator*riderW*Math.pow(CAD_REF/c, CAD_EXPO);   // sensor de torque (W mec no pedivela)
+  propor = Math.max(propor, pisoModo(modeW)*modeW*eff);       // piso do firmware
+  return Math.min(propor, modeW*eff, capTorque)*(de||DRIVE_EFF); // W mecanicos na roda
+}
+/*
+ Trecho em regime permanente (aba de simulacao rapida).
+ Assistencia ate 32 km/h; acima disso ou sem bateria, consumo zero.
+*/
+function trecho(grade, riderW, modeW, tqPct, massa, crr, cda, vw, eff, cad, de, vmax){
+  de = de||DRIVE_EFF; vmax = vmax||V_MAX_DESC;
+  const pRider = riderW*de;
+  const vSolo = solveV(pRider, grade, massa, crr, cda, vw, vmax);
+  if(vSolo >= V_CUT || modeW<=0) return {v:Math.min(vSolo,vmax), pElec:0};
+  const aMax = assistMax(modeW, tqPct, eff, riderW, cad||state.cad, de);
+  if(aMax<=0) return {v:Math.min(vSolo,vmax), pElec:0};
+  const vFull = solveV(pRider+aMax, grade, massa, crr, cda, vw, vmax);
+  if(vFull <= V_CUT) return {v:vFull, pElec: aMax/(eff*de)};
+  const need = pDemanda(V_CUT, grade, massa, crr, cda, vw);
+  const aUso = Math.min(Math.max(0, need - pRider), aMax);
+  return {v:V_CUT, pElec: aUso/(eff*de)};
+}
+
+/* ================= Simulacao rapida ================= */
+const state = {pc:78, pb:16.3, pw:100, ter:"plano", sup:"cascalho", vt:0, cap:90, ef:85, cda:0.52, fa:1.8, cad:75, vlim:32, temp:"ameno"};
+/* Temperatura: ion-litio perde capacidade util no frio (resistencia interna sobe) */
+const TEMP_FATOR = {frio:0.90, ameno:1.00, calor:0.98};
+/* Reserva do fundo: BMS e controlador cortam entre 3,0 e 3,3 V por celula; os ultimos ~5%
+   do pacote nunca viram autonomia. Saude = degradacao por ciclos (100% = bateria nova). */
+const RESERVA = 0.05;
+function bateriaReal(capPct){ return BAT_WH*capPct/100*TEMP_FATOR[state.temp]; }        // Wh no pacote
+function bateriaUtil(capPct){ return bateriaReal(capPct)*(1-RESERVA); }                    // Wh que viram autonomia
+
+function calcRapida(modo){
+  const massa = state.pc + state.pb;
+  const crr = CRR[state.sup];
+  const vw = state.vt/3.6;
+  const eff = state.ef/100;
+  const mix = TERRENOS[state.ter];
+  let tempoKm=0, whKm=0, fCut=0;
+  const de = DRIVE_EFF*SUJEIRA[state.sup];
+  const vmax = vMaxDesc(state.sup);
+  for(const seg of mix){
+    const riderSeg = seg.coast ? 0 : state.pw * modPedal(seg.g);
+    const cadSeg = state.cad * modCad(seg.g);
+    let r;
+    if(seg.coast){
+      // rodando sem pedalar: sem assistencia, velocidade de inercia media do plano
+      const rp = trecho(seg.g, state.pw, modo.w, modo.tq, massa, crr, state.cda, vw, eff, cadSeg, de, vmax);
+      r = {v: Math.max(3, rp.v*0.85), pElec:0};
+    } else {
+      r = trecho(seg.g, riderSeg, modo.w, modo.tq, massa, crr, state.cda, vw, eff, cadSeg, de, vmax);
+    }
+    if(r.v >= V_CUT-0.03) fCut += seg.f;
+    const t = (seg.f*1000)/r.v;
+    tempoKm += t;
+    whKm += drenoReal(r.pElec)*t/3600;
+  }
+  const usable = bateriaUtil(state.cap);
+  const vMed = 1000/tempoKm*3.6;
+  let km, horas, inf=false;
+  if(whKm < 0.15){ km=999; inf=true; horas=999; }
+  else { km = usable/whKm; horas = km/vMed; }
+  return {km, vMed, whKm, horas, inf, fCut};
+}
+
+function fmtTempo(h){
+  if(h>=99) return "—";
+  const hh=Math.floor(h), mm=Math.round((h-hh)*60);
+  return hh>0 ? hh+"h"+String(mm).padStart(2,"0") : mm+" min";
+}
+
+function renderModos(){
+  const el = document.getElementById("modos");
+  el.innerHTML = MODOS.map(m=>{
+    const r = calcRapida(m);
+    const kmTxt = r.inf ? "250+" : Math.round(r.km);
+    const pct = r.inf ? 100 : Math.min(100, r.km/250*100);
+    return `<div class="modo" style="--mc:${m.cor}">
+      <div class="mn"><i>${m.nome}</i></div>
+      <div class="mw">assiste ${Math.round(FATOR_MODO[m.w]*(state.fa/1.8)*100*Math.pow(CAD_REF/state.cad,CAD_EXPO))}% da pedalada a ${state.cad} rpm · mín ${Math.round(pisoModo(m.w)*m.w)} W · máx ${m.w} W</div>
+      <div class="km">${kmTxt}<small>km</small></div>
+      <div class="lbl">Autonomia estimada</div>
+      ${r.fCut>0.25
+        ? `<div class="limtag">⌁ encostado no limitador de ${state.vlim} km/h em ${Math.round(r.fCut*100)}% do trajeto</div>`
+        : `<div class="limtag" style="color:var(--cinza2)">abaixo do limitador (a velocidade não alcança ${state.vlim} km/h)</div>`}
+      <div class="mstats">
+        <div>Tempo de pedal<b>${r.inf?"—":fmtTempo(r.horas)}</b></div>
+        <div>Vel. média<b>${r.vMed.toFixed(1)} km/h</b></div>
+        <div>Consumo<b>${r.inf?"< 0,2":r.whKm.toFixed(1)} Wh/km</b></div>
+        <div>Bateria útil<b>${Math.round(bateriaUtil(state.cap))} Wh</b></div>
+      </div>
+      <div class="batwrap"><div class="bat"><i style="width:${pct}%"></i></div>
+      <div class="batleg">${r.inf?"assistência quase não utilizada neste cenário":"alcance relativo (escala até 250 km)"}</div></div>
+    </div>`;
+  }).join("");
+}
+
+/* sliders da aba rapida */
+function bindSlider(id, key, out, fmt){
+  const s=document.getElementById(id), o=document.getElementById(out);
+  const upd=()=>{ s.style.setProperty("--p", ((s.value-s.min)/(s.max-s.min)*100)+"%");
+    state[key] = fmt? fmt(+s.value) : +s.value;
+    o.textContent = (key==="cda"||key==="fa") ? state[key].toFixed(2) : (key==="pb" ? (+s.value).toFixed(1) : (key==="vt" && s.value>0 ? "+"+s.value : s.value));
+    renderModos(); if(gpxData) renderGpx(); };
+  s.addEventListener("input",upd); upd();
+}
+function montaSelectModelo(selId, sliderId, outId, st, key, ctrlId){
+  const sel=document.getElementById(selId);
+  sel.innerHTML=MODELOS.map(m=>`<option value="${m.id}">${m.nome} · ${pesoModelo(m.id).toFixed(1)} kg</option>`).join("")+`<option value="livre">Peso livre</option>`;
+  sel.value="summa-ex";
+  const aplica=()=>{
+    const s=document.getElementById(sliderId), o=document.getElementById(outId);
+    const livre = sel.value==="livre";
+    document.getElementById(ctrlId).style.opacity = livre ? 1 : .45;
+    s.disabled = !livre;
+    if(!livre){ const w=pesoModelo(sel.value); s.value=w; st[key]=w; o.textContent=w.toFixed(1);
+      s.style.setProperty("--p", ((s.value-s.min)/(s.max-s.min)*100)+"%"); }
+    renderModos(); if(gpxData) renderGpx();
+  };
+  sel.addEventListener("change",aplica);
+  return aplica;
+}
+bindSlider("s-pc","pc","v-pc");
+bindSlider("s-pb","pb","v-pb");
+bindSlider("s-pw","pw","v-pw");
+bindSlider("s-vt","vt","v-vt");
+bindSlider("s-cap","cap","v-cap");
+bindSlider("s-ef","ef","v-ef");
+bindSlider("s-cda","cda","v-cda", v=>v/100);
+bindSlider("s-fa","fa","v-fa", v=>v/100);
+bindSlider("s-cad","cad","v-cad");
+const aplicaModeloRapida=montaSelectModelo("s-modelo","s-pb","v-pb",state,"pb","ctrl-pb"); aplicaModeloRapida();
+{ // cadencia da aba GPX compartilha o mesmo estado
+  const s=document.getElementById("gs-cad"), o=document.getElementById("gv-cad");
+  const upd=()=>{ s.style.setProperty("--p", ((s.value-s.min)/(s.max-s.min)*100)+"%");
+    state.cad=+s.value; o.textContent=s.value;
+    document.getElementById("s-cad").value=s.value;
+    document.getElementById("v-cad").textContent=s.value;
+    renderModos(); if(gpxData) renderGpx(); };
+  s.addEventListener("input",upd); upd();
+}
+
+document.getElementById("s-cad").addEventListener("input",e=>{
+  const g=document.getElementById("gs-cad");
+  g.value=e.target.value;
+  g.style.setProperty("--p", ((g.value-g.min)/(g.max-g.min)*100)+"%");
+  document.getElementById("gv-cad").textContent=e.target.value;
+});
+
+/* limitador de assistencia (sincronizado entre as abas) */
+function setVlim(v){
+  state.vlim=v; V_CUT=v/3.6;
+  ["g-vlim","gg-vlim"].forEach(id=>{
+    document.getElementById(id).querySelectorAll(".opt").forEach(b=>
+      b.classList.toggle("on", +b.dataset.v===v));
+  });
+  renderModos(); if(gpxData) renderGpx();
+}
+["g-vlim","gg-vlim"].forEach(id=>{
+  document.getElementById(id).querySelectorAll(".opt").forEach(b=>
+    b.addEventListener("click",()=>setVlim(+b.dataset.v)));
+});
+
+/* temperatura (sincronizada entre as abas) */
+function setTemp(v){
+  state.temp=v;
+  ["g-temp","gg-temp"].forEach(id=>{
+    document.getElementById(id).querySelectorAll(".opt").forEach(b=>
+      b.classList.toggle("on", b.dataset.v===v));
+  });
+  renderModos(); if(gpxData) renderGpx();
+}
+["g-temp","gg-temp"].forEach(id=>{
+  document.getElementById(id).querySelectorAll(".opt").forEach(b=>
+    b.addEventListener("click",()=>setTemp(b.dataset.v)));
+});
+
+function bindOpts(id,key,cb){
+  document.getElementById(id).querySelectorAll(".opt").forEach(b=>{
+    b.addEventListener("click",()=>{
+      b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("on"));
+      b.classList.add("on"); state[key]=b.dataset.v; cb&&cb();
+    });
+  });
+}
+bindOpts("g-ter","ter",renderModos);
+bindOpts("g-sup","sup",()=>{renderModos(); if(gpxData) renderGpx();});
+
+/* tabs */
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+    t.classList.add("on");
+    document.getElementById("tab-rapida").classList.toggle("hide", t.dataset.tab!=="rapida");
+    document.getElementById("tab-gpx").classList.toggle("hide", t.dataset.tab!=="gpx");
+    if(t.dataset.tab==="gpx" && mapa) setTimeout(()=>mapa.invalidateSize(),60);
+  });
+});
+
+/* ================= GPX: leitura ================= */
+function haversine(a,b){
+  const R=6371000, rad=Math.PI/180;
+  const dLat=(b.lat-a.lat)*rad, dLon=(b.lon-a.lon)*rad;
+  const x=Math.sin(dLat/2)**2 + Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(x));
+}
+
+/* ---------- leitura de pontos: GPX/TCX (texto) ou FIT (binario) ---------- */
+function parseRoute(text){
+  const doc = new DOMParser().parseFromString(text,"application/xml");
+  let pts=[];
+  // GPX (atividade ou rota)
+  doc.querySelectorAll("trkpt, rtept").forEach(p=>{
+    const lat=+p.getAttribute("lat"), lon=+p.getAttribute("lon");
+    if(!isFinite(lat)||!isFinite(lon)) return;
+    const eleEl=p.getElementsByTagName("ele")[0];
+    const tEl=p.getElementsByTagName("time")[0];
+    let pw=NaN, cad=NaN, temp=NaN;
+    const pwEl=p.getElementsByTagName("power")[0];
+    if(pwEl) pw=+pwEl.textContent;
+    const ext=p.getElementsByTagName("extensions")[0];
+    if(ext) for(const x of ext.getElementsByTagName("*")){
+      const tag=x.tagName.toLowerCase();
+      if(!isFinite(pw) && (tag.endsWith("power")||tag.endsWith("watts"))) pw=+x.textContent;
+      if(tag.endsWith("cad")||tag.endsWith("cadence")) cad=+x.textContent;
+      if(tag.endsWith("atemp")||tag.endsWith("temp")) temp=+x.textContent;
+    }
+    pts.push({lat,lon, ele: eleEl? +eleEl.textContent : NaN,
+              t: tEl? Date.parse(tEl.textContent)/1000 : NaN, pw, cad, temp});
+  });
+  // TCX
+  if(pts.length===0){
+    doc.querySelectorAll("Trackpoint").forEach(p=>{
+      const la=p.querySelector("LatitudeDegrees"), lo=p.querySelector("LongitudeDegrees");
+      if(!la||!lo) return;
+      const al=p.querySelector("AltitudeMeters"), tm=p.querySelector("Time");
+      let pw=NaN;
+      p.querySelectorAll("*").forEach(x=>{ if(x.tagName.toLowerCase().endsWith("watts")) pw=+x.textContent; });
+      pts.push({lat:+la.textContent, lon:+lo.textContent,
+                ele: al? +al.textContent : NaN,
+                t: tm? Date.parse(tm.textContent)/1000 : NaN, pw});
+    });
+  }
+  const nomeEl=doc.getElementsByTagName("name")[0];
+  return montaRota(pts, nomeEl? nomeEl.textContent.trim() : "");
+}
+
+/* Decodificador FIT minimo (Garmin/Wahoo), sem dependencias: le as mensagens "record" */
+function parseFit(buf, nomeArq){
+  const dv=new DataView(buf); const u8=new Uint8Array(buf);
+  const hdr=u8[0]; if(hdr<12 || u8[8]!==0x2E || u8[9]!==0x46 || u8[10]!==0x49 || u8[11]!==0x54) return null; // ".FIT"
+  const dataSize=dv.getUint32(4,true); const fim=Math.min(buf.byteLength, hdr+dataSize);
+  const defs={}; const pts=[]; let pos=hdr; let ultimoTs=0;
+  const SZ={0:1,1:1,2:1,131:2,132:2,133:4,134:4,7:1,136:4,137:8,10:1,139:2,140:4,13:1,142:8,143:8,144:8};
+  const INV={0:0xFF,1:0x7F,2:0xFF,131:0x7FFF,132:0xFFFF,133:0x7FFFFFFF,134:0xFFFFFFFF,10:0,139:0,140:0,13:0xFF};
+  function leVal(off,bt,le){
+    switch(bt){
+      case 0: case 2: case 10: case 13: return u8[off];
+      case 1: return dv.getInt8(off);
+      case 131: return dv.getInt16(off,le); case 132: case 139: return dv.getUint16(off,le);
+      case 133: return dv.getInt32(off,le); case 134: case 140: return dv.getUint32(off,le);
+      case 136: return dv.getFloat32(off,le); case 137: return dv.getFloat64(off,le);
+      default: return NaN;
+    }
+  }
+  try{
+    while(pos<fim){
+      const rh=u8[pos++];
+      if(rh & 0x80){ // cabecalho com timestamp comprimido
+        const local=(rh>>5)&0x03; const d=defs[local]; if(!d) break;
+        ultimoTs=(ultimoTs & ~0x1F) | (rh & 0x1F);
+        pos=leDados(d,pos,ultimoTs); continue;
+      }
+      const local=rh & 0x0F;
+      if(rh & 0x40){ // mensagem de definicao
+        const arch=u8[pos+1]; const le=(arch===0); const global=le? dv.getUint16(pos+2,true) : dv.getUint16(pos+2,false);
+        const nf=u8[pos+4]; let p=pos+5; const campos=[];
+        for(let i=0;i<nf;i++){ campos.push({num:u8[p],size:u8[p+1],bt:u8[p+2]}); p+=3; }
+        let devSize=0;
+        if(rh & 0x20){ const nd=u8[p]; p+=1; for(let i=0;i<nd;i++){ devSize+=u8[p+1]; p+=3; } }
+        defs[local]={global,le,campos,devSize,tam:campos.reduce((a,c)=>a+c.size,0)+devSize};
+        pos=p;
+      } else {
+        const d=defs[local]; if(!d) break;
+        pos=leDados(d,pos,null);
+      }
+    }
+  }catch(e){ /* arquivo truncado: usa o que leu */ }
+  function leDados(d,p,tsComp){
+    if(d.global===20){ // record
+      const r={t:NaN,lat:NaN,lon:NaN,ele:NaN,pw:NaN,cad:NaN,temp:NaN};
+      let q=p;
+      for(const c of d.campos){
+        const bt=c.bt & 0x9F; const inv=INV[bt];
+        let v=(SZ[bt]===c.size || bt===7) ? leVal(q,bt,d.le) : NaN;
+        if(v===inv) v=NaN;
+        switch(c.num){
+          case 253: if(isFinite(v)){ r.t=v+631065600; ultimoTs=v; } break;
+          case 0: if(isFinite(v)) r.lat=v*(180/2147483648); break;
+          case 1: if(isFinite(v)) r.lon=v*(180/2147483648); break;
+          case 2: if(isFinite(v) && !isFinite(r.ele)) r.ele=v/5-500; break;
+          case 78: if(isFinite(v)) r.ele=v/5-500; break;
+          case 7: if(isFinite(v)) r.pw=v; break;
+          case 4: if(isFinite(v)) r.cad=v; break;
+          case 13: if(isFinite(v)) r.temp=v; break;
+        }
+        q+=c.size;
+      }
+      if(tsComp!==null && !isFinite(r.t)) r.t=tsComp+631065600;
+      if(isFinite(r.lat) && isFinite(r.lon)) pts.push(r);
+    }
+    return p+d.tam;
+  }
+  if(pts.length<2) return null;
+  return montaRota(pts, (nomeArq||"").replace(/\.fit$/i,"").replace(/[_-]+/g," "));
+}
+
+/* ---------- montagem da rota a partir dos pontos (comum a GPX, TCX e FIT) ---------- */
+function montaRota(pts, nome){
+  if(pts.length<2) return null;
+  let last=0; pts.forEach(p=>{ if(!isFinite(p.ele)) p.ele=last; else last=p.ele; });
+
+  // distancia acumulada
+  let dist=[0];
+  for(let i=1;i<pts.length;i++) dist.push(dist[i-1]+haversine(pts[i-1],pts[i]));
+  const total=dist[dist.length-1];
+  if(total<200) return null;
+
+  // potencia media em movimento (exclui pausas: dt>10s ou v<1 m/s)
+  let temPotencia = pts.some(p=>isFinite(p.pw));
+  let pwMedia=0, tempoRealMov=0;
+  if(temPotencia && isFinite(pts[0].t)){
+    let sPw=0,sT=0;
+    for(let i=1;i<pts.length;i++){
+      const dt=pts[i].t-pts[i-1].t, dd=dist[i]-dist[i-1];
+      if(!(dt>0)) continue;
+      if(dt<=10 && dd/dt>1.0){ const p=isFinite(pts[i].pw)?pts[i].pw:0; sPw+=p*dt; sT+=dt; }
+    }
+    if(sT>0){ pwMedia=sPw/sT; tempoRealMov=sT; } else temPotencia=false;
+  } else if(temPotencia){
+    const v=pts.filter(p=>isFinite(p.pw)).map(p=>p.pw);
+    pwMedia=v.reduce((a,b)=>a+b,0)/v.length;
+  }
+
+  // reamostra em bins de 100 m com elevacao suavizada e potencia por bin
+  const BINLEN=100, n=Math.max(2, Math.round(total/BINLEN));
+  const len=total/n;
+  const eleAt=d=>{
+    let i=1; while(i<dist.length && dist[i]<d) i++;
+    if(i>=dist.length) return pts[pts.length-1].ele;
+    const f=(d-dist[i-1])/Math.max(1e-6,(dist[i]-dist[i-1]));
+    return pts[i-1].ele + f*(pts[i].ele-pts[i-1].ele);
+  };
+  let ele=[]; for(let i=0;i<=n;i++) ele.push(eleAt(len*i));
+  const sm=ele.map((_,i)=>{
+    let s=0,c=0; for(let k=-2;k<=2;k++){const j=i+k; if(j>=0&&j<=n){s+=ele[j];c++;}}
+    return s/c;
+  });
+  // potencia e cadencia por bin (media dos pontos dentro do bin)
+  let pwBin=new Array(n).fill(0), pwCnt=new Array(n).fill(0);
+  let cdBin=new Array(n).fill(0), cdCnt=new Array(n).fill(0);
+  let tBin=new Array(n).fill(0);
+  const temTempo = pts.filter(p=>isFinite(p.t)).length > pts.length*0.9;
+  for(let i=0;i<pts.length;i++){
+    const b=Math.min(n-1, Math.floor(dist[i]/len));
+    if(temPotencia && isFinite(pts[i].pw)){ pwBin[b]+=pts[i].pw; pwCnt[b]++; }
+    if(isFinite(pts[i].cad) && pts[i].cad>30){ cdBin[b]+=pts[i].cad; cdCnt[b]++; }
+  }
+  if(temTempo){
+    // tempo de cada trecho por interpolacao dos carimbos nas fronteiras (robusto ao
+    // "smart recording" do Garmin), descontando pausas (intervalos parados ou > 15 s)
+    const tAt=d=>{
+      let i=1; while(i<dist.length && dist[i]<d) i++;
+      if(i>=dist.length) return pts[pts.length-1].t;
+      const f=(d-dist[i-1])/Math.max(1e-6,(dist[i]-dist[i-1]));
+      return pts[i-1].t + f*(pts[i].t-pts[i-1].t);
+    };
+    let pausa=new Array(n).fill(0);
+    for(let i=1;i<pts.length;i++){
+      const dt=pts[i].t-pts[i-1].t, dd=dist[i]-dist[i-1];
+      if(dt>15 || (dt>0 && dd/dt<0.8)){
+        const b=Math.min(n-1, Math.floor(((dist[i]+dist[i-1])/2)/len));
+        pausa[b]+=dt;
+      }
+    }
+    for(let i=0;i<n;i++){
+      const t=tAt((i+1)*len)-tAt(i*len)-pausa[i];
+      tBin[i]=Math.max(0,t);
+    }
+  }
+  // ganho de elevacao por histerese de 3 m (padrao Garmin/Strava, filtra ruido barometrico)
+  let ganho=0, baseEle=pts[0].ele;
+  for(let i=1;i<pts.length;i++){
+    const de=pts[i].ele-baseEle;
+    if(de>=3){ ganho+=de; baseEle=pts[i].ele; }
+    else if(de<=-3){ baseEle=pts[i].ele; }
+  }
+
+  let segs=[];
+  for(let i=0;i<n;i++){
+    const dEle=sm[i+1]-sm[i];
+    let g=dEle/len; g=Math.max(-0.22,Math.min(0.22,g));
+    segs.push({len, g, pw: pwCnt[i]>0 ? pwBin[i]/pwCnt[i] : (temPotencia?0:NaN),
+               cad: cdCnt[i]>0 ? cdBin[i]/cdCnt[i] : 0,
+               tReal: temTempo ? tBin[i] : 0});
+  }
+  const subidas=detectaSubidas(segs);
+  // estatisticas de cadencia lida do arquivo
+  const comCad=segs.filter(s=>s.cad>30);
+  const temCadencia = comCad.length > segs.length*0.5;
+  const cadMedia = temCadencia ? comCad.reduce((a,s)=>a+s.cad,0)/comCad.length : 0;
+  const cadSub = comCad.filter(s=>s.g>=0.03);
+  const cadSubidas = cadSub.length ? cadSub.reduce((a,s)=>a+s.cad,0)/cadSub.length : cadMedia;
+  // tracado geografico alinhado a distancia (1 ponto por bin) para o mapa
+  let track=[], pi=0;
+  for(let i=0;i<=n;i++){
+    const alvo=i*len;
+    while(pi<dist.length-1 && dist[pi]<alvo) pi++;
+    track.push({lat:pts[pi].lat, lon:pts[pi].lon, d:alvo});
+  }
+  // rumo (graus, 0 = norte) de cada trecho, para o vento vetorial
+  for(let i=0;i<n;i++){
+    const a=track[i], b=track[Math.min(n,i+1)];
+    const rad=Math.PI/180, dLon=(b.lon-a.lon)*rad;
+    const y=Math.sin(dLon)*Math.cos(b.lat*rad);
+    const x=Math.cos(a.lat*rad)*Math.sin(b.lat*rad)-Math.sin(a.lat*rad)*Math.cos(b.lat*rad)*Math.cos(dLon);
+    const br=(Math.atan2(y,x)/rad+360)%360;
+    segs[i].bear = (a.lat===b.lat && a.lon===b.lon) ? (i>0?segs[i-1].bear:0) : br;
+  }
+  const temps=pts.map(p=>p.temp).filter(x=>isFinite(x));
+  const tempFile = temps.length>pts.length*0.5 ? {min:Math.min(...temps), max:Math.max(...temps), media:temps.reduce((a,b)=>a+b,0)/temps.length} : null;
+  const t0=pts.find(p=>isFinite(p.t));
+  const dataIni=t0? new Date(t0.t*1000) : null;
+  return {segs,total,ganho,temPotencia,pwMedia,tempoRealMov,subidas,track,nome,dataIni,temCadencia,cadMedia,cadSubidas,temTempo,tempFile};
+}
+
+/* ================= Deteccao de subidas ================= */
+function detectaSubidas(segs){
+  const out=[]; let cur=null, d=0;
+  const fecha=()=>{
+    if(!cur) return;
+    const L=cur.fim-cur.ini;
+    let e=0,gMax=0;
+    for(let j=cur.i0;j<=cur.i1;j++){ e+=segs[j].g*segs[j].len; gMax=Math.max(gMax,segs[j].g); }
+    if(e>=25 && L>=300){
+      const gAvg=e/L;
+      out.push({ini:cur.ini,fim:cur.fim,i0:cur.i0,i1:cur.i1,len:L,ganho:e,gAvg,gMax,
+                modo: gAvg>=0.065?MODOS[2] : gAvg>=0.03?MODOS[1] : MODOS[0]});
+    }
+    cur=null;
+  };
+  for(let i=0;i<segs.length;i++){
+    const g=segs[i].g;
+    if(g>=0.02){
+      if(!cur) cur={ini:d,fim:d+segs[i].len,i0:i,i1:i,gap:0};
+      else {cur.fim=d+segs[i].len; cur.i1=i; cur.gap=0;}
+    } else if(cur){
+      cur.gap+=segs[i].len;
+      if(cur.gap>400) fecha();
+    }
+    d+=segs[i].len;
+  }
+  fecha();
+  return out;
+}
+
+/* modo sugerido por inclinacao (usado na Estrategia EDRO) */
+function modoPorGrade(g){
+  if(g>=0.065) return MODOS[2];
+  if(g>=0.03)  return MODOS[1];
+  return MODOS[0];
+}
+
+/* ================= Simulacao dinamica da rota =================
+ Modelo com inercia (integracao a cada 10 m), calibrado com prova real:
+ tempo previsto vs tempo real da Challenge Nova Trento 2026 com erro < 2%.
+ - Assistencia do modo ate 32 km/h; taper para segurar o corte.
+ - Descidas limitadas a 50 km/h (frenagem realista em curvas).
+ - riderW: potencia fixa OU potencia real do arquivo por trecho.
+*/
+function simulaRota(modo, overrideP){
+  const massa=gstate.pc+gstate.pb, crr=CRR[gstate.sup], eff=state.ef/100, cda=state.cda;
+  const de=DRIVE_EFF*SUJEIRA[gstate.sup];
+  const vmax=vMaxDesc(gstate.sup);
+  const usable=bateriaUtil(gstate.cap), pack=bateriaReal(gstate.cap);
+  const estrategia = modo.id==="estrategia", custom = modo.id==="custom";
+  const usaReal = overrideP===undefined && usarPotenciaReal && gpxData.temPotencia;
+  const usaEst = overrideP===undefined && !gpxData.temPotencia && usarPotenciaEst && gpxData.temTempo;
+  const est = usaEst ? estimaPotencia((estrategia||custom)? MODOS[0] : modo) : null;
+  const baseP = overrideP!==undefined ? overrideP : (est ? est.P : gstate.pw);
+  const DS=10;
+  let v=2.0, wh=0, tempo=0, kmFim=null, d=0;
+  const curve=[{d:0,pct:100}], whB=[], tB=[];
+  for(let i=0;i<gpxData.segs.length;i++){
+    const s=gpxData.segs[i];
+    const m = estrategia ? modoPorGrade(s.g) : (custom ? modoCustom(d/1000) : modo);
+    const cad = (usarCadReal && gpxData.temCadencia && s.cad>30) ? s.cad : state.cad*modCad(s.g);
+    const w = ventoTrecho(s, tempo, d);   // {par: + contra, perp: lateral} em m/s (previsao por rumo, altura e abrigo, ou slider)
+    const sin=s.g/Math.sqrt(1+s.g*s.g), cos=1/Math.sqrt(1+s.g*s.g);
+    let whSeg=0, tSeg=0;
+    const passos=Math.max(1, Math.round(s.len/DS)), ds=s.len/passos;
+    for(let k=0;k<passos;k++){
+      // ciclista: potencia medida, ou base modulada por inclinacao e por vento aparente
+      const riderW = usaReal ? Math.min(500, Math.max(0, s.pw||0)) : baseP*modPedal(s.g)*modVento(v, w);
+      const pRider = riderW*de;
+      const semBat = wh>=usable;
+      const aMax = semBat ? 0 : assistMax(m.w, m.tq, eff, riderW, cad, de);
+      let aUso = (v < V_CUT) ? aMax : 0;
+      // integra com assistencia (arrasto com vento APARENTE: paralelo + lateral)
+      const vpar=v+w.par, va=Math.sqrt(vpar*vpar + w.perp*w.perp);
+      let F = crr*massa*G*cos + massa*G*sin + 0.5*RHO*cda*va*vpar;
+      let acc = ((pRider+aUso)/Math.max(v,0.5) - F)/massa;
+      let v2 = Math.sqrt(Math.max(0.36, v*v + 2*acc*ds));
+      if(aUso>0 && v2 > V_CUT){
+        // sem assistencia o ciclista passa do corte sozinho?
+        acc = (pRider/Math.max(v,0.5) - F)/massa;
+        const v2solo = Math.sqrt(Math.max(0.36, v*v + 2*acc*ds));
+        if(v2solo >= V_CUT){ v2=v2solo; aUso=0; }
+        else {
+          v2=V_CUT;
+          const vpc=V_CUT+w.par, vac=Math.sqrt(vpc*vpc + w.perp*w.perp);
+          const need=(crr*massa*G*cos + massa*G*sin)*V_CUT + 0.5*RHO*cda*vac*vpc*V_CUT;
+          aUso=Math.min(Math.max(0, need-pRider), aMax);
+        }
+      }
+      v = Math.min(v2, vmax);
+      const dt = ds/Math.max(v,0.6);
+      const dWh = drenoReal(aUso/(eff*de))*dt/3600;
+      if(!semBat){
+        wh += dWh; whSeg += dWh;
+        if(wh>=usable && kmFim===null) kmFim=(d+k*ds)/1000;
+      }
+      tempo += dt; tSeg += dt;
+    }
+    d += s.len;
+    whB.push(whSeg); tB.push(tSeg);
+    curve.push({d, pct:Math.max(RESERVA*100,(pack-wh)/pack*100)});
+  }
+  return {wh:Math.min(wh,usable), usable, pack, tempo, curve, kmFim, whB, tB,
+          vMed: gpxData.total/tempo*3.6,
+          restante: Math.max(RESERVA*100,(pack-wh)/pack*100)};
+}
+
+/* ================= Mapa da rota (Leaflet) ================= */
+let mapa=null, mapaMarker=null, mapaRotaDe=null, hoverD=null, lastR=null, lastCor=null, lastChart=null;
+
+function latlonAt(d){
+  const t=gpxData.track;
+  if(!t||t.length===0) return null;
+  let lo=0, hi=t.length-1;
+  while(lo<hi){ const mid=(lo+hi)>>1; (t[mid].d<d)? lo=mid+1 : hi=mid; }
+  return t[lo];
+}
+function setHover(d){
+  hoverD=Math.max(0,Math.min(gpxData.total,d));
+  if(lastR) drawChart(lastR,lastCor);
+  if(mapaMarker){
+    const p=latlonAt(hoverD);
+    if(p){ mapaMarker.setLatLng([p.lat,p.lon]); mapaMarker.setStyle({opacity:1,fillOpacity:1}); }
+  }
+}
+function clearHover(){
+  hoverD=null;
+  if(lastR) drawChart(lastR,lastCor);
+  if(mapaMarker) mapaMarker.setStyle({opacity:0,fillOpacity:0});
+}
+function montaMapa(){
+  const el=document.getElementById("mapa");
+  if(typeof L==="undefined" || !gpxData || !gpxData.track || gpxData.track.length<2){ el.classList.add("hide"); return; }
+  if(mapaRotaDe===gpxData && mapa) return;   // mesma rota, mapa ja montado
+  el.classList.remove("hide");
+  try{
+    if(mapa){ mapa.remove(); mapa=null; }
+    mapa=L.map("mapa",{zoomControl:true});
+    const ruas=L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+      {attribution:"Tiles &copy; Esri &mdash; Esri, HERE, Garmin, OpenStreetMap contributors", maxZoom:19});
+    const satelite=L.layerGroup([
+      L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {attribution:"Tiles &copy; Esri &mdash; Esri, Maxar, Earthstar Geographics", maxZoom:19}),
+      L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",{maxZoom:19})
+    ]);
+    const relevo=L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+      {attribution:"Tiles &copy; Esri &mdash; Esri, HERE, Garmin, USGS", maxZoom:19});
+    ruas.addTo(mapa);
+    L.control.layers({"Mapa":ruas,"Satélite":satelite,"Relevo":relevo},null,{position:"topright",collapsed:false}).addTo(mapa);
+    const latlngs=gpxData.track.map(p=>[p.lat,p.lon]);
+    const base=L.polyline(latlngs,{color:"#38A936",weight:4,opacity:.95}).addTo(mapa);
+    // subidas coloridas pelo modo sugerido + rotulo S#
+    gpxData.subidas.forEach((c,ix)=>{
+      const seg=gpxData.track.filter(p=>p.d>=c.ini && p.d<=c.fim).map(p=>[p.lat,p.lon]);
+      if(seg.length>1){
+        L.polyline(seg,{color:c.modo.cor,weight:6,opacity:.95}).addTo(mapa);
+        L.circleMarker(seg[Math.floor(seg.length/2)],{radius:9,color:c.modo.cor,weight:2,fillColor:"#0b0d0b",fillOpacity:.92})
+          .bindTooltip("S"+(ix+1),{permanent:true,direction:"center",className:"sTip"}).addTo(mapa);
+      }
+    });
+    L.circleMarker(latlngs[0],{radius:6,color:"#fff",weight:2,fillColor:"#38A936",fillOpacity:1}).bindTooltip("Início").addTo(mapa);
+    L.circleMarker(latlngs[latlngs.length-1],{radius:6,color:"#fff",weight:2,fillColor:"#e05a4e",fillOpacity:1}).bindTooltip("Fim").addTo(mapa);
+    mapaMarker=L.circleMarker(latlngs[0],{radius:8,color:"#ffffff",weight:3,fillColor:"#38A936",fillOpacity:0,opacity:0}).addTo(mapa);
+    mapa.fitBounds(base.getBounds(),{padding:[18,18]});
+    // hover no mapa -> cursor no grafico
+    mapa.on("mousemove",e=>{
+      let best=null,bd=Infinity;
+      const cosl=Math.cos(e.latlng.lat*Math.PI/180);
+      for(const p of gpxData.track){
+        const dx=p.lat-e.latlng.lat, dy=(p.lon-e.latlng.lng)*cosl;
+        const d2=dx*dx+dy*dy;
+        if(d2<bd){bd=d2;best=p;}
+      }
+      if(!best){ clearHover(); return; }
+      const pt=mapa.latLngToContainerPoint([best.lat,best.lon]);
+      const mp=mapa.latLngToContainerPoint(e.latlng);
+      (Math.hypot(pt.x-mp.x,pt.y-mp.y)<30) ? setHover(best.d) : clearHover();
+    });
+    mapa.on("mouseout",clearHover);
+    setTimeout(()=>mapa.invalidateSize(),80);
+    mapaRotaDe=gpxData;
+  }catch(err){ el.classList.add("hide"); }
+}
+/* hover no grafico -> ponto no mapa */
+(function(){
+  const cv=document.getElementById("chart");
+  cv.addEventListener("mousemove",e=>{
+    if(!gpxData||!lastChart) return;
+    const rect=cv.getBoundingClientRect();
+    const x=e.clientX-rect.left;
+    const d=(x-lastChart.padL)/lastChart.iw*gpxData.total;
+    (d>=0 && d<=gpxData.total) ? setHover(d) : clearHover();
+  });
+  cv.addEventListener("mouseleave",clearHover);
+})();
+
+/* ================= Previsao do tempo (Open-Meteo, sem chave) =================
+ Localiza a rota pelo centro do tracado e busca vento (velocidade, direcao, rajada),
+ temperatura e chuva, hora a hora, para a data escolhida. O vento e aplicado
+ trecho a trecho pelo rumo (contra, a favor ou de lado) na hora prevista de passagem. */
+let previsaoPedido=0;
+/* data e hora locais do pedal pelo fuso aproximado da rota (longitude/15), nao do navegador */
+function dataHoraLocal(gd){
+  const tr=gd.track, lon=tr.reduce((a,p)=>a+p.lon,0)/tr.length;
+  const off=Math.round(lon/15);                       // horas em relacao ao UTC
+  const t=new Date(gd.dataIni.getTime()+off*3600000);  // desloca e le como UTC
+  const pad=x=>String(x).padStart(2,"0");
+  return {data:`${t.getUTCFullYear()}-${pad(t.getUTCMonth()+1)}-${pad(t.getUTCDate())}`, hora:t.getUTCHours()+t.getUTCMinutes()/60};
+}
+const ALTURA_FATOR=0.75;   // vento a 1,5 m (ciclista) ~ 75% do vento a 10 m (previsao)
+function nomeDirecao(d){ const p=["N","NE","L","SE","S","SO","O","NO"]; return p[Math.round(((d%360)+360)%360/45)%8]; }
+function deslocaCoord(lat,lon,rumoDeg,metros){
+  const rad=Math.PI/180;
+  return {lat: lat + metros*Math.cos(rumoDeg*rad)/111320, lon: lon + metros*Math.sin(rumoDeg*rad)/(111320*Math.cos(lat*rad))};
+}
+async function buscaJson(url){ const r=await fetch(url); return await r.json(); }
+async function buscaPrevisao(){
+  if(!gpxData || !gpxData.track || gpxData.track.length<2 || typeof fetch!=="function"){ if(gpxData){gpxData.previsao=null; gpxData.expo=null;} return; }
+  const meu=++previsaoPedido;
+  const tr=gpxData.track, total=gpxData.total, d=gstate.data;
+  gpxData.previsao=null; gpxData.expo=null; gpxData.previsaoErro=null; gpxData.previsaoCarregando=true; renderGpx();
+  try{
+    // 1) previsao horaria em 1 ponto (rotas curtas) ou 3 pontos ao longo da rota (longas)
+    const fracs = total>60000 ? [0.15,0.5,0.85] : [0.5];
+    const pontos=[];
+    for(const f of fracs){
+      const p=tr[Math.min(tr.length-1,Math.floor(f*(tr.length-1)))];
+      // datas com mais de 6 dias no passado: base historica (ERA5); demais: previsao/analise recente
+      const antiga = (Date.now()-Date.parse(d+"T12:00:00"))/86400000 > 6;
+      const base = antiga ? "https://archive-api.open-meteo.com/v1/archive" : "https://api.open-meteo.com/v1/forecast";
+      const j=await buscaJson(`${base}?latitude=${p.lat.toFixed(4)}&longitude=${p.lon.toFixed(4)}&hourly=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation&start_date=${d}&end_date=${d}&timezone=auto&wind_speed_unit=kmh`);
+      if(meu!==previsaoPedido) return;
+      if(!j.hourly || !j.hourly.wind_speed_10m) throw new Error(j.reason||"sem dados");
+      pontos.push({frac:f,lat:p.lat,lon:p.lon,ws:j.hourly.wind_speed_10m,wd:j.hourly.wind_direction_10m,gust:j.hourly.wind_gusts_10m,temp:j.hourly.temperature_2m,prec:j.hourly.precipitation});
+    }
+    gpxData.previsao={pontos, data:d};
+    const pm=pontos[Math.floor(pontos.length/2)];
+    const h0=Math.max(0,Math.min(23,Math.round(gstate.hora))), tt=pm.temp.slice(h0,Math.min(24,h0+7));
+    const tm = gpxData.tempFile ? gpxData.tempFile.media : tt.reduce((a,b)=>a+b,0)/tt.length;  // aparelho tem prioridade
+    setTemp(tm<12?"frio":(tm>=30?"calor":"ameno"));
+    renderGpx();
+    // 2) exposicao do terreno: altitude do relevo a 300 e 800 m de cada lado, a cada 1 km (2 km em rotas longas)
+    const passo = total>100000 ? 2000 : 1000;
+    const amostras=[]; const coords=[];
+    for(let dd=0; dd<=total; dd+=passo){
+      const i=Math.min(gpxData.segs.length-1, Math.floor(dd/gpxData.segs[0].len));
+      const p=tr[Math.min(tr.length-1,i)], b=gpxData.segs[i].bear;
+      const L3=deslocaCoord(p.lat,p.lon,b-90,300), L8=deslocaCoord(p.lat,p.lon,b-90,800);
+      const R3=deslocaCoord(p.lat,p.lon,b+90,300), R8=deslocaCoord(p.lat,p.lon,b+90,800);
+      amostras.push({d:dd}); coords.push(p,L3,L8,R3,R8);
+    }
+    const eles=[];
+    for(let k=0;k<coords.length;k+=100){
+      const ch=coords.slice(k,k+100);
+      const j=await buscaJson(`https://api.open-meteo.com/v1/elevation?latitude=${ch.map(c=>c.lat.toFixed(5)).join(",")}&longitude=${ch.map(c=>c.lon.toFixed(5)).join(",")}`);
+      if(meu!==previsaoPedido) return;
+      if(!j.elevation) throw new Error("relevo indisponível");
+      eles.push(...j.elevation);
+    }
+    amostras.forEach((a,k)=>{ const e=eles.slice(k*5,k*5+5); a.rota=e[0]; a.L=Math.max(e[1],e[2]); a.R=Math.max(e[3],e[4]); });
+    gpxData.expo={amostras, passo};
+  }catch(e){ if(meu===previsaoPedido){ gpxData.previsaoErro=String(e.message||e); if(!gpxData.previsao) gpxData.expo=null; } }
+  if(meu===previsaoPedido){ gpxData.previsaoCarregando=false; renderGpx(); }
+}
+/* fator de abrigo (0,5 abrigado ... 1,0 exposto) de um trecho para um vento vindo de wdir */
+function fatorAbrigo(seg, dist, wdir){
+  const ex=gpxData.expo; if(!ex) return 1;
+  const a=ex.amostras[Math.min(ex.amostras.length-1, Math.round(dist/ex.passo))];
+  if(!a || !isFinite(a.rota)) return 1;
+  const rel=(wdir-seg.bear)*Math.PI/180, sn=Math.sin(rel);
+  // vento vindo da direita (sn>0) ou da esquerda; quase alinhado: vale o lado mais alto (efeito de vale)
+  const dh = Math.abs(sn)<0.3 ? Math.max(a.L,a.R)-a.rota : (sn>0 ? a.R : a.L)-a.rota;
+  if(dh<=0) return 1; if(dh>=40) return 0.5; return 1-0.5*dh/40;
+}
+/* vento relativo (m/s, + contra) num trecho, na hora prevista de passagem */
+/* Vento no trecho: componente paralela (+ contra) e lateral (m/s). O vento de lado tambem
+   aumenta o arrasto, pelo vento APARENTE (soma vetorial com a velocidade da bike). */
+function ventoTrecho(seg, tempoS, dist){
+  const pv=gpxData.previsao;
+  if(!(gstate.usarPrevisao && pv)) return {par:gstate.vt/3.6, perp:0};
+  const frac=(dist||0)/gpxData.total;
+  const pt=pv.pontos.reduce((m,p)=>Math.abs(p.frac-frac)<Math.abs(m.frac-frac)?p:m, pv.pontos[0]);
+  const hi=Math.max(0,Math.min(23,Math.floor(gstate.hora + tempoS/3600)));
+  const wdir=pt.wd[hi], ab=fatorAbrigo(seg,dist||0,wdir);
+  const wsp=pt.ws[hi]/3.6*ALTURA_FATOR*ab;
+  seg.abrigo=ab;
+  const rel=(wdir-seg.bear)*Math.PI/180;   // 0 = vento de frente
+  return {par: wsp*Math.cos(rel), perp: wsp*Math.sin(rel)};
+}
+/* Modulacao do ciclista pelo vento aparente: alivia com vento a favor, forca com vento contra
+   (esforco percebido ~ constante). Calibrado no teste de 168 km: 0,08 por m/s, entre 0,6x e 1,3x. */
+const KV_VENTO=0.08;
+function modVento(v, w){
+  const va=Math.sqrt((v+w.par)*(v+w.par)+w.perp*w.perp);
+  return Math.min(1.3, Math.max(0.6, 1+KV_VENTO*(va-v)));
+}
+
+/* ================= Potencia estimada pela fisica =================
+ Para atividades com tempo (sem medidor): a velocidade real de cada trecho,
+ com inclinacao, peso, superficie, vento e aerodinamica, define a potencia
+ total de propulsao. Assume pedal feito SEM motor (bike convencional). */
+function estimaPotencia(modoIn){
+  /* Potencia do ciclista pelo BALANCO DE TEMPO do pedal: acha a potencia-base P tal que a simulacao
+     completa (motor, limitador, vento, relevo, inercia) reproduz o tempo real em movimento, com a
+     pedalada modulada por inclinacao (1,25x subindo, 0,35x descendo). Robusto: nao atribui ao
+     ciclista os trechos acima do limitador nem depende da velocidade de cada trecho isolado. */
+  if(!gpxData || !gpxData.temTempo) { if(gpxData){ gpxData.pwEstMedia=0; gpxData.pwEstCache={}; } return null; }
+  const modo=(modoIn && MODOS.find(m=>m.id===modoIn.id)) || MODOS[0];
+  gpxData.pwEstCache = gpxData.pwEstCache || {};
+  if(gpxData.pwEstCache[modo.id]) return gpxData.pwEstCache[modo.id];
+  const tReal = gpxData.segs.reduce((a,s)=>a+(s.tReal>3?s.tReal:0),0);
+  if(tReal<120) return null;
+  let lo=40, hi=400, P=120;
+  for(let k=0;k<16;k++){
+    P=(lo+hi)/2;
+    const r=simulaRota(modo, P);
+    if(r.tempo>tReal) lo=P; else hi=P;
+  }
+  P=(lo+hi)/2;
+  // media ponderada pelo tempo real de cada trecho (com a modulacao por inclinacao)
+  let sPw=0,sT=0; gpxData.segs.forEach(s=>{ if(s.tReal>3){ sPw+=P*modPedal(s.g)*s.tReal; sT+=s.tReal; } });
+  const res={P, media: sT? sPw/sT : P};
+  gpxData.pwEstCache[modo.id]=res;
+  return res;
+}
+
+/* ================= Render GPX ================= */
+function renderGpx(){
+  if(!gpxData) return;
+  gpxData.pwEstCache={};
+  const estSel = estimaPotencia(MODOS.find(m=>m.id===gModoSel)||MODOS[0]);
+  gpxData.pwEstMedia = estSel ? estSel.media : 0;
+  const usable=bateriaUtil(gstate.cap);
+  const usaReal = usarPotenciaReal && gpxData.temPotencia;
+  const usaEst = !gpxData.temPotencia && usarPotenciaEst && gpxData.temTempo;
+
+  const rn=document.getElementById("rota-nome");
+  if(gpxData.nome || gpxData.dataIni){
+    rn.classList.remove("hide");
+    const dt=gpxData.dataIni? gpxData.dataIni.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"numeric"})+" · "+gpxData.dataIni.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}) : "";
+    rn.innerHTML=`<span class="rt">${gpxData.nome||"Rota GPX"}</span><span class="rd">${dt}${dt?" · ":""}${(gpxData.total/1000).toFixed(1)} km · ${Math.round(gpxData.ganho)} m ↑</span>`;
+  } else rn.classList.add("hide");
+  montaMapa();
+
+  document.getElementById("resumo").innerHTML = `
+    <div class="rbox"><div class="rl">Distância</div><div class="rv">${(gpxData.total/1000).toFixed(1)}<small> km</small></div></div>
+    <div class="rbox"><div class="rl">Ganho de elevação</div><div class="rv">${Math.round(gpxData.ganho)}<small> m</small></div></div>
+    <div class="rbox"><div class="rl">Bateria útil</div><div class="rv">${Math.round(usable)}<small> Wh (reserva de 5% descontada)</small></div></div>
+    <div class="rbox"><div class="rl">Potência do ciclista</div><div class="rv">${usaReal?Math.round(gpxData.pwMedia):(usaEst?Math.round(gpxData.pwEstMedia):gstate.pw)}<small> W ${usaReal?"médios (medidor)":(usaEst?"médios (estimada, e-bike)":"(fixa)")}</small></div></div>`;
+
+  // controle de potencia real
+  const boxPw=document.getElementById("pw-real");
+  if(gpxData.temPotencia){
+    boxPw.classList.remove("hide");
+    document.getElementById("pw-real-lbl").textContent="Potência medida no arquivo";
+    document.getElementById("pw-real-val").textContent=Math.round(gpxData.pwMedia)+" W";
+    document.getElementById("pw-real-txt").textContent="Usar a potência do medidor, trecho a trecho";
+    document.getElementById("pw-toggle").checked=usarPotenciaReal;
+    document.getElementById("ctrl-pw-fixa").style.opacity = usarPotenciaReal? .35 : 1;
+  } else if(gpxData.temTempo){
+    boxPw.classList.remove("hide");
+    document.getElementById("pw-real-lbl").textContent="Potência estimada do ciclista (pelo tempo do pedal)";
+    document.getElementById("pw-real-val").textContent=Math.round(gpxData.pwEstMedia)+" W";
+    const eM=MODOS.map(m=>{ const e=estimaPotencia(m); return `${m.nome} ${e?Math.round(e.media):0} W`; }).join(" · ");
+    document.getElementById("pw-real-txt").textContent=`Usar a potência estimada deste pedal de e-bike: a que faz a simulação (motor, limitador, vento e relevo) reproduzir o tempo real do pedal, com mais força na subida e alívio na descida. Depende do modo em que o pedal foi feito (cada cenário usa a própria hipótese): ${eM}.`;
+    document.getElementById("pw-toggle").checked=usarPotenciaEst;
+    document.getElementById("ctrl-pw-fixa").style.opacity = usarPotenciaEst? .35 : 1;
+  } else {
+    boxPw.classList.add("hide");
+    document.getElementById("ctrl-pw-fixa").style.opacity=1;
+  }
+
+
+  const boxCad=document.getElementById("cad-real");
+  if(gpxData.temCadencia){
+    boxCad.classList.remove("hide");
+    document.getElementById("cad-real-val").textContent=Math.round(gpxData.cadMedia)+" rpm";
+    document.getElementById("cad-real-txt").textContent=`Usar a cadência medida, trecho a trecho (média ${Math.round(gpxData.cadMedia)} rpm, ${Math.round(gpxData.cadSubidas)} nas subidas)`;
+    document.getElementById("cad-toggle").checked=usarCadReal;
+    document.getElementById("ctrl-cad-fixa").style.opacity = usarCadReal? .35 : 1;
+  } else {
+    boxCad.classList.add("hide");
+    document.getElementById("ctrl-cad-fixa").style.opacity=1;
+  }
+
+  const cenarios=[...MODOS, ESTRATEGIA];
+  if(gstate.trechosList.length) cenarios.push(PERSONALIZADO);
+  const res={}; cenarios.forEach(m=> res[m.id]=simulaRota(m));
+
+  const card=document.getElementById("clima-card"), pv=gpxData.previsao;
+  const usaPrev = gstate.usarPrevisao && !!pv;
+  if(gpxData.track && gpxData.track.length>1 && typeof fetch==="function"){
+    card.classList.remove("hide");
+    if(gpxData.previsaoCarregando) card.innerHTML="Buscando a previsão do tempo para o local da rota…";
+    else if(pv){
+      const pm=pv.pontos[Math.floor(pv.pontos.length/2)];
+      const h0=Math.max(0,Math.min(23,Math.floor(gstate.hora))), h1=Math.min(23,h0+8);
+      const ws=pm.ws.slice(h0,h1+1), wd=pm.wd.slice(h0,h1+1), tt=pm.temp.slice(h0,h1+1), gu=pm.gust.slice(h0,h1+1), pr=pm.prec.slice(h0,h1+1);
+      const sx=wd.reduce((a,dd)=>a+Math.sin(dd*Math.PI/180),0), sy=wd.reduce((a,dd)=>a+Math.cos(dd*Math.PI/180),0);
+      const dirMed=(Math.atan2(sx,sy)*180/Math.PI+360)%360;
+      const chuva=pr.reduce((a,b)=>a+b,0);
+      let abrigo="";
+      if(gpxData.expo){ const n=gpxData.segs.length, ab=gpxData.segs.filter(s=>isFinite(s.abrigo)&&s.abrigo<0.8).length; abrigo=` Relevo: ${Math.round(ab/n*100)}% do trajeto abrigado por morros a barlavento.`; }
+      const feito = !!gpxData.dataIni;
+      const hp=x=>String(x).padStart(2,"0");
+      const Lh = feito ? dataHoraLocal(gpxData) : null;
+      const titulo = feito ? `Condições no dia do pedal, ${pv.data.split("-").reverse().join("/")} às ${hp(Math.floor(Lh.hora))}:${hp(Math.round((Lh.hora%1)*60))}` : `Previsão para ${pv.data.split("-").reverse().join("/")}`;
+      const tf = gpxData.tempFile ? ` Temperatura medida pelo aparelho: ${gpxData.tempFile.min.toFixed(0)} a ${gpxData.tempFile.max.toFixed(0)} °C (média ${gpxData.tempFile.media.toFixed(0)}).` : "";
+      card.innerHTML=`<b style="color:var(--branco)">${titulo}</b> no local da rota${pv.pontos.length>1?" (3 pontos ao longo do trajeto)":""}, das ${h0}h às ${h1}h: vento de <b>${nomeDirecao(dirMed)}</b>, ${Math.min(...ws).toFixed(0)} a ${Math.max(...ws).toFixed(0)} km/h a 10 m (rajadas até ${Math.max(...gu).toFixed(0)}), ${Math.min(...tt).toFixed(0)} a ${Math.max(...tt).toFixed(0)} °C${chuva>0.5?`, chuva ${chuva.toFixed(1)} mm`:", sem chuva"}.${tf} ${usaPrev?"Aplicado trecho a trecho pelo rumo, corrigido para a altura do ciclista"+(gpxData.expo?" e pelo abrigo do relevo.":".")+abrigo:"Não aplicado (usando o vento manual)."}`;
+    } else card.innerHTML=`Previsão indisponível${gpxData.previsaoErro?` (${gpxData.previsaoErro})`:""}: usando o vento manual abaixo. Previsões cobrem até 16 dias à frente.`;
+  } else card.classList.add("hide");
+  document.getElementById("ctrl-vento").style.opacity = usaPrev ? .35 : 1;
+
+  document.getElementById("gsel").innerHTML = cenarios.map(m=>
+    `<div class="gbtn ${gModoSel===m.id?"on":""}" data-v="${m.id}" style="--gc:${m.cor}">${(m.id==="estrategia"||m.id==="custom")?m.nome:m.nome+" · "+m.w+"W"}</div>`).join("");
+  document.getElementById("gsel").querySelectorAll(".gbtn").forEach(b=>
+    b.addEventListener("click",()=>{gModoSel=b.dataset.v; renderGpx();}));
+
+  document.getElementById("gtbody").innerHTML = cenarios.map(m=>{
+    const r=res[m.id];
+    const st = r.kmFim===null
+      ? `<span class="ok">✔ completa a rota</span>`
+      : `<span class="bad">✖ bateria acaba no km ${r.kmFim.toFixed(1)}</span>`;
+    return `<tr>
+      <td style="color:${m.cor}"><i>${m.nome}</i></td>
+      <td>${Math.round(r.wh)} Wh (${Math.round(r.wh/r.pack*100)}%)</td>
+      <td class="${r.restante>25?"ok":r.restante>RESERVA*100?"warn":"bad"}">${Math.round(r.restante)}%${r.kmFim!==null?" (reserva)":""}</td>
+      <td>${fmtTempo(r.tempo/3600)}</td>
+      <td>${r.vMed.toFixed(1)} km/h</td>
+      <td>${st}</td></tr>`;
+  }).join("");
+
+  // tabela de subidas
+  const sub=gpxData.subidas;
+  const sBody=document.getElementById("stbody");
+  if(sub.length===0){
+    sBody.innerHTML=`<tr><td colspan="8" style="color:var(--cinza)">Nenhuma subida relevante detectada nesta rota (critério: mais de 300 m de extensão e 25 m de ganho).</td></tr>`;
+  } else {
+    const soma=(arr,i0,i1)=>{let s=0;for(let j=i0;j<=i1;j++)s+=arr[j];return s;};
+    sBody.innerHTML = sub.map((c,ix)=>{
+      const whE=soma(res.eco.whB,c.i0,c.i1), whR=soma(res.ride.whB,c.i0,c.i1), whT=soma(res.turbo.whB,c.i0,c.i1);
+      const tR=soma(res[c.modo.id].tB,c.i0,c.i1);
+      return `<tr>
+        <td>S${ix+1}</td>
+        <td>km ${(c.ini/1000).toFixed(1)} – ${(c.fim/1000).toFixed(1)}</td>
+        <td>${(c.len/1000).toFixed(1)} km · +${Math.round(c.ganho)} m</td>
+        <td>${(c.gAvg*100).toFixed(1)}% <span style="color:var(--cinza2)">(máx ${(c.gMax*100).toFixed(0)}%)</span></td>
+        <td style="color:${c.modo.cor};font-weight:700"><i>${c.modo.nome}</i></td>
+        <td>${whE.toFixed(1)}</td><td>${whR.toFixed(1)}</td><td>${whT.toFixed(1)}</td>
+      </tr>`;
+    }).join("") + `<tr><td colspan="8" style="color:var(--cinza2);font-size:11.5px">Wh por subida em cada modo. O tempo na subida mais dura (${sub.length?("S"+(sub.reduce((a,c,i)=>c.gAvg>sub[a].gAvg?i:a,0)+1)):""}) cai conforme o modo sobe. A coluna Modo indica a recomendação EDRO usada na Estratégia.</td></tr>`;
+  }
+
+  const selObj=cenarios.find(m=>m.id===gModoSel);
+  const rs=res[gModoSel];
+  const nomeSel=selObj.nome;
+  let nota;
+  if(rs.kmFim===null){
+    nota=`Em <b>${nomeSel}</b>, a rota termina com <b>${Math.round(rs.restante)}% de bateria</b> (${Math.round(rs.wh)} Wh usados) em ${fmtTempo(rs.tempo/3600)}. ${rs.restante>25?"Margem confortável para imprevistos.":"Margem apertada, considere um modo mais econômico nos trechos planos."}`;
+  } else {
+    nota=`Em <b>${nomeSel}</b>, a bateria chega à reserva de 5% (corte do controlador) no <b>km ${rs.kmFim.toFixed(1)}</b>. Dali em diante a simulação segue sem assistência, só com a pedalada. Use a Estratégia EDRO: Eco no plano, Ride de 3 a 6,5% e Turbo acima disso.`;
+  }
+  if(gModoSel==="custom") nota+=` "Seu pedal" usa Eco como base e os modos que você informou por trecho: ${gstate.trechosList.map(t=>"km "+t.k0+"-"+t.k1+" em "+t.modo.nome).join(", ")}.`;
+  if(gModoSel==="estrategia") nota+=` A Estratégia EDRO troca o modo automaticamente pela inclinação: <b style="color:#38A936">Eco</b> no plano e descidas, <b style="color:#e9b83a">Ride</b> de 3 a 6,5% e <b style="color:#e05a4e">Turbo</b> acima de 6,5%. É o melhor equilíbrio entre tempo e consumo.`;
+  if(res.ride.wh >= res.turbo.wh-2) nota+=` Nota técnica: quando os modos encostam no limitador de 32 km/h, o consumo deles se aproxima, porque acima do necessário para manter 32 km/h a potência extra do modo não é usada.`;
+  if(gpxData.tempoRealMov>0){
+    nota+=` Validação: o tempo real em movimento deste arquivo foi ${fmtTempo(gpxData.tempoRealMov/3600)} sem motor.`;
+  }
+  document.getElementById("gnota").innerHTML=nota;
+
+  drawChart(rs, selObj.cor);
+}
+
+function drawChart(r, cor){
+  lastR=r; lastCor=cor;
+  const cv=document.getElementById("chart");
+  const W=cv.clientWidth||800, H=300, dpr=window.devicePixelRatio||1;
+  cv.width=W*dpr; cv.height=H*dpr;
+  const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+  const padL=44,padR=14,padT=14,padB=30, iw=W-padL-padR, ih=H-padT-padB;
+  const totKm=gpxData.total/1000;
+  lastChart={padL,iw,padT,ih};
+
+  // perfil de elevacao
+  let d=0,e=0,eMin=Infinity,eMax=-Infinity;
+  let eleC=[{d:0,e:0}];
+  for(const s of gpxData.segs){ e+=s.g*s.len; d+=s.len; eleC.push({d,e}); }
+  eleC.forEach(p=>{eMin=Math.min(eMin,p.e); eMax=Math.max(eMax,p.e);});
+  const eSpan=Math.max(30,eMax-eMin);
+  const ex=p=>padL+p.d/gpxData.total*iw;
+  const ey=p=>padT+ih-((p.e-eMin)/eSpan)*(ih*0.55);
+  ctx.beginPath();
+  eleC.forEach((p,i)=> i===0?ctx.moveTo(ex(p),ey(p)):ctx.lineTo(ex(p),ey(p)));
+  ctx.lineTo(padL+iw,padT+ih); ctx.lineTo(padL,padT+ih); ctx.closePath();
+  ctx.fillStyle="rgba(255,255,255,0.055)"; ctx.fill();
+
+  // subidas sombreadas + rotulo
+  (gpxData.subidas||[]).forEach((c,ix)=>{
+    const x0=padL+c.ini/gpxData.total*iw, x1=padL+c.fim/gpxData.total*iw;
+    ctx.fillStyle="rgba(56,169,54,0.10)";
+    ctx.fillRect(x0,padT,x1-x0,ih);
+    ctx.fillStyle=c.modo.cor; ctx.font="bold 10px Barlow"; ctx.textAlign="center";
+    ctx.fillText("S"+(ix+1),(x0+x1)/2,padT+ih-4);
+  });
+
+  // grid
+  ctx.strokeStyle="rgba(255,255,255,0.07)"; ctx.fillStyle="#6b746a";
+  ctx.font="10px Barlow"; ctx.textAlign="right";
+  for(let p=0;p<=100;p+=25){
+    const y=padT+ih-(p/100)*ih;
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(padL+iw,y); ctx.stroke();
+    ctx.fillText(p+"%", padL-6, y+3);
+  }
+  ctx.textAlign="center";
+  const step=totKm>80?20:totKm>30?10:totKm>12?5:2;
+  for(let k=0;k<=totKm;k+=step) ctx.fillText(k+" km", padL+k/totKm*iw, H-10);
+
+  // curva da bateria (real, linear em Wh)
+  ctx.beginPath();
+  r.curve.forEach((p,i)=>{
+    const x=padL+p.d/gpxData.total*iw, y=padT+ih-(p.pct/100)*ih;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle=cor; ctx.lineWidth=2.5; ctx.stroke();
+  ctx.lineTo(padL+iw,padT+ih); ctx.lineTo(padL,padT+ih); ctx.closePath();
+  const grad=ctx.createLinearGradient(0,padT,0,padT+ih);
+  grad.addColorStop(0,cor+"33"); grad.addColorStop(1,cor+"05");
+  ctx.fillStyle=grad; ctx.fill();
+
+  // curva como o display mostraria (tensao do ion-litio)
+  if(verDisplayBMS){
+    ctx.beginPath();
+    r.curve.forEach((p,i)=>{
+      const x=padL+p.d/gpxData.total*iw, y=padT+ih-(socDisplay(p.pct)/100)*ih;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle="rgba(255,255,255,0.55)"; ctx.lineWidth=1.6; ctx.setLineDash([6,4]); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle="rgba(255,255,255,0.6)"; ctx.font="10px Barlow"; ctx.textAlign="left";
+    ctx.fillText("tracejada: % no display (queda rápida no topo, platô no meio)", padL+6, padT+12);
+  }
+
+  if(r.kmFim!==null){
+    const x=padL+(r.kmFim/totKm)*iw;
+    ctx.strokeStyle="#e05a4e"; ctx.setLineDash([5,4]); ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(x,padT); ctx.lineTo(x,padT+ih); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle="#e05a4e"; ctx.font="bold 11px Barlow";
+    ctx.fillText("reserva no km "+r.kmFim.toFixed(1), Math.min(x,padL+iw-50), padT+12);
+  }
+
+  // cursor sincronizado com o mapa
+  if(hoverD!==null){
+    const x=padL+hoverD/gpxData.total*iw;
+    ctx.strokeStyle="rgba(255,255,255,0.85)"; ctx.lineWidth=1.2; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(x,padT); ctx.lineTo(x,padT+ih); ctx.stroke(); ctx.setLineDash([]);
+    // interpola % da bateria no ponto
+    const len=gpxData.segs[0].len;
+    const fi=Math.min(gpxData.segs.length-1, hoverD/len);
+    const i0=Math.floor(fi), f=fi-i0;
+    const pct=r.curve[i0].pct + f*((r.curve[Math.min(i0+1,r.curve.length-1)].pct)-r.curve[i0].pct);
+    const y=padT+ih-(pct/100)*ih;
+    ctx.beginPath(); ctx.arc(x,y,5,0,7); ctx.fillStyle=cor; ctx.fill();
+    ctx.strokeStyle="#fff"; ctx.lineWidth=2; ctx.stroke();
+    // etiqueta: km, bateria, inclinacao e subida
+    const g=gpxData.segs[Math.min(gpxData.segs.length-1,i0)].g*100;
+    const sub=gpxData.subidas.findIndex(c=>hoverD>=c.ini && hoverD<=c.fim);
+    let tag=`km ${(hoverD/1000).toFixed(1)} · bateria ${pct.toFixed(0)}% · ${g>=0?"+":""}${g.toFixed(1)}%`;
+    if(sub>=0) tag+=` · S${sub+1}`;
+    ctx.font="bold 11px Barlow";
+    const tw=ctx.measureText(tag).width+12;
+    const bx=Math.max(padL, Math.min(x-tw/2, padL+iw-tw));
+    ctx.fillStyle="rgba(11,13,11,0.92)";
+    ctx.fillRect(bx, padT+2, tw, 18);
+    ctx.strokeStyle="rgba(255,255,255,0.25)"; ctx.lineWidth=1; ctx.strokeRect(bx, padT+2, tw, 18);
+    ctx.fillStyle="#fff"; ctx.textAlign="left";
+    ctx.fillText(tag, bx+6, padT+15);
+    ctx.textAlign="center";
+  }
+}
+
+/* upload */
+const drop=document.getElementById("drop"), file=document.getElementById("file");
+drop.addEventListener("click",()=>file.click());
+["dragover","dragenter"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over");}));
+["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over");}));
+drop.addEventListener("drop",e=>{ if(e.dataTransfer.files[0]) lerArquivo(e.dataTransfer.files[0]); });
+file.addEventListener("change",()=>{ if(file.files[0]) lerArquivo(file.files[0]); });
+
+function lerArquivo(f){
+  const rd=new FileReader();
+  const ehFit=/\.fit$/i.test(f.name);
+  rd.onload=()=>{
+    const data= ehFit ? parseFit(rd.result, f.name) : parseRoute(rd.result);
+    if(!data){ alert("Não foi possível ler a rota. Verifique se o arquivo é um GPX, TCX ou FIT válido com pontos de trajeto."); return; }
+    gpxData=data;
+    if(data.dataIni){  // atividade ja feita: usa a data e a hora reais de saida (fuso do local da rota)
+      const L=dataHoraLocal(data), pad=x=>String(x).padStart(2,"0");
+      gstate.data=L.data; gstate.hora=L.hora;
+      document.getElementById("gs-data").value=gstate.data;
+      document.getElementById("gs-hora").value=`${pad(Math.floor(L.hora))}:${pad(Math.round((L.hora%1)*60))}`;
+    }
+    document.getElementById("gpx-inicio").classList.add("hide");
+    document.getElementById("gpx-res").classList.remove("hide");
+    renderGpx();
+    buscaPrevisao();
+  };
+  if(ehFit) rd.readAsArrayBuffer(f); else rd.readAsText(f);
+}
+document.getElementById("trocar").addEventListener("click",e=>{
+  e.preventDefault(); gpxData=null; file.value="";
+  hoverD=null; lastR=null; lastChart=null;
+  if(mapa){ try{mapa.remove();}catch(_){} mapa=null; mapaMarker=null; mapaRotaDe=null; }
+  document.getElementById("mapa").classList.add("hide");
+  document.getElementById("gpx-res").classList.add("hide");
+  document.getElementById("gpx-inicio").classList.remove("hide");
+});
+
+/* sliders da aba GPX */
+function gBind(id,key,out){
+  const s=document.getElementById(id), o=document.getElementById(out);
+  const upd=()=>{ s.style.setProperty("--p", ((s.value-s.min)/(s.max-s.min)*100)+"%");
+    gstate[key]=+s.value; o.textContent=(key==="pb"?(+s.value).toFixed(1):s.value); if(gpxData) renderGpx(); };
+  s.addEventListener("input",upd); upd();
+}
+gBind("gs-pc","pc","gv-pc");
+gBind("gs-pb","pb","gv-pb");
+const aplicaModeloGpx=montaSelectModelo("gs-modelo","gs-pb","gv-pb",gstate,"pb","ctrl-gpb"); aplicaModeloGpx();
+gBind("gs-pw","pw","gv-pw");
+gBind("gs-cap","cap","gv-cap");
+{ // vento da rota (+ contra / - a favor)
+  const s=document.getElementById("gs-vt"), o=document.getElementById("gv-vt");
+  const upd=()=>{ s.style.setProperty("--p", ((s.value-s.min)/(s.max-s.min)*100)+"%");
+    gstate.vt=+s.value; o.textContent=(s.value>0?"+":"")+s.value; if(gpxData) renderGpx(); };
+  s.addEventListener("input",upd); upd();
+}
+document.getElementById("gg-sup").querySelectorAll(".opt").forEach(b=>{
+  b.addEventListener("click",()=>{
+    b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on"); gstate.sup=b.dataset.v; if(gpxData) renderGpx();
+  });
+});
+/* ajustes avancados da aba GPX espelham os da aba rapida (mesmo estado) */
+function espelha(idA,idB,outB,key,fmt,fmtTxt){
+  const a=document.getElementById(idA), b=document.getElementById(idB), o=document.getElementById(outB);
+  const upd=(src)=>{
+    const val=src.value; a.value=val; b.value=val;
+    [a,b].forEach(s=>s.style.setProperty("--p", ((s.value-s.min)/(s.max-s.min)*100)+"%"));
+    state[key]=fmt? fmt(+val) : +val;
+    o.textContent=fmtTxt? fmtTxt(state[key]) : val;
+    const oa=document.getElementById(idA.replace("s-","v-").replace("gs-","v-")); if(oa) oa.textContent=o.textContent;
+    renderModos(); if(gpxData) renderGpx();
+  };
+  b.addEventListener("input",()=>upd(b));
+  a.addEventListener("input",()=>upd(a));
+  b.style.setProperty("--p", ((b.value-b.min)/(b.max-b.min)*100)+"%");
+}
+espelha("s-cda","gs-cda","gv-cda","cda",v=>v/100,v=>v.toFixed(2));
+espelha("s-ef","gs-ef","gv-ef","ef",null,v=>String(v));
+{
+  const dEl=document.getElementById("gs-data"); dEl.value=gstate.data;
+  dEl.addEventListener("change",()=>{ if(dEl.value){ gstate.data=dEl.value; buscaPrevisao(); } });
+  const hEl=document.getElementById("gs-hora");
+  hEl.addEventListener("change",()=>{ const m=hEl.value.match(/^(\d+):(\d+)/); if(m){ gstate.hora=+m[1]+(+m[2])/60; if(gpxData) renderGpx(); } });
+  document.getElementById("prev-toggle").addEventListener("change",e=>{ gstate.usarPrevisao=e.target.checked; if(gpxData) renderGpx(); });
+}
+document.getElementById("cad-toggle").addEventListener("change",e=>{
+  usarCadReal=e.target.checked; if(gpxData) renderGpx();
+});
+document.getElementById("pw-toggle").addEventListener("change",e=>{
+  if(gpxData && gpxData.temPotencia) usarPotenciaReal=e.target.checked; else usarPotenciaEst=e.target.checked;
+  if(gpxData) renderGpx();
+});
+document.getElementById("bms-toggle").addEventListener("change",e=>{
+  verDisplayBMS=e.target.checked; if(gpxData) renderGpx();
+});
+
+window.addEventListener("resize",()=>{ if(gpxData) renderGpx(); });
+renderModos();
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+---
+/* SUMMA HORIZON e RANGE HORIZON v3.1 · telas site_v3/17 e 18. Sistema elétrico igual nas três versões. */
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Cabecalho from '../../components/Cabecalho.astro';
+import SeletorVersoes from '../../components/SeletorVersoes.astro';
+import Numeros from '../../components/Numeros.astro';
+import AutonomiaReal from '../../components/AutonomiaReal.astro';
+import Fechamento from '../../components/Fechamento.astro';
+import hz from '../../content/horizon.json';
+import { bikes, brl, wa } from '../../lib/edro.js';
+
+export function getStaticPaths() {
+  return hz.linhas.map((l) => ({ params: { slug: l.slug } }));
+}
+
+const { slug } = Astro.params;
+const l = hz.linhas.find((x) => x.slug === slug);
+const outra = hz.linhas.find((x) => x.slug !== slug);
+const peso1 = (n) => n.toFixed(1).replace('.', ',');
+const nome = `${l.nome} HORIZON`;
+const menor = Math.min(...l.versoes.map((v) => v.preco));
+
+/* O SeletorVersoes usa kg() com duas casas; na HORIZON o peso publicado tem uma. */
+const linha = { ...l, versoes: l.versoes.map((v) => ({ ...v })) };
+
+const produto = {
+  '@context': 'https://schema.org',
+  '@type': 'ProductGroup',
+  name: `EDRO ${nome}`,
+  description: l.frase,
+  brand: { '@type': 'Brand', name: 'EDRO Performance Bikes' },
+  category: 'Mountain bike elétrica',
+  productGroupID: `edro-${slug}`,
+  variesBy: 'https://schema.org/model',
+  hasVariant: l.versoes.map((v) => ({
+    '@type': 'Product', name: `EDRO ${nome} ${v.nome}`, description: v.resumo,
+    image: 'https://edrobikes.com.br/og-edro.png',
+    weight: { '@type': 'QuantitativeValue', value: v.peso_kg, unitCode: 'KGM' },
+    offers: { '@type': 'Offer', price: v.preco, priceCurrency: 'BRL', availability: 'https://schema.org/PreOrder', url: `https://edrobikes.com.br/horizon/${slug}#${v.slug}` },
+  })),
+};
+
+const s = hz.sistema;
+---
+
+<Base
+  titulo={`EDRO ${nome} · ${l.uso} de carbono`}
+  descricao={`${nome}: ${l.frase} 1.200 W de pico com potência nominal limitada a 600 W, 540 Wh, a partir de ${brl(menor)}.`}
+  canonica={`https://edrobikes.com.br/horizon/${slug}`}
+  pagina={slug}
+  jsonLd={produto}
+>
+
+<Hero
+  eyebrow={l.uso}
+  wordmark={`brand/${l.base}.png`}
+  wordmark2="brand/horizon.png"
+  h1Oculto={`EDRO ${nome}, ${l.uso.toLowerCase()} de carbono`}
+  lead={l.frase}
+  botoes={[{ rotulo: `Monte a sua ${nome}`, href: wa(`Olá, EDRO. Quero montar a minha ${nome}. (origem: site-${slug})`), primario: true, wa: `${slug}-hero` }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }]}
+  peso={{ valor: peso1(l.versoes[0].peso_kg), rotulo: `<i class="modelo">${l.nome}</i> HORIZON <span class="verde">PRO</span>, sem pedais<br />Versões a partir de ${brl(menor)}` }}
+  brief={{ tipo: 'VÍDEO', titulo: l.banner[0], descricao: l.banner[1] }}
+/>
+
+<section class="secao secao--sem-linha">
+  <div class="container">
+    <Cabecalho linhas={['Sistema elétrico.', 'Igual nas']} verde=" três."
+      lead="Ninguém compra versão reduzida do sistema. Motor, bateria, Modo automático e Find My são os mesmos da PRO à EX." />
+    <div class="numeros4 numeros4--quatro">
+      <div class="numero-card numero-card--destaque"><p class="numero-card__topo"><span class="numero-card__num">1.200</span><span class="numero-card__leg">W</span></p><p class="numero-card__rotulo-verde">De pico. Potência nominal limitada a 600 W.</p></div>
+      <div class="numero-card"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">{s.torque_nm}</span><span class="numero-card__leg">N·m</span></p><p>Torque no motor central CYC Photon Gen 2.</p></div>
+      <div class="numero-card"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">{s.bateria_wh}</span><span class="numero-card__leg">Wh</span></p><p>EDRO Power Pack, 36 V 15 Ah, integrada.</p></div>
+      <div class="numero-card"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">32</span><span class="numero-card__leg">km/h</span></p><p>De fábrica; ajustável a 45 km/h para circuitos fechados, respeitando a legislação.</p></div>
+    </div>
+    <dl class="detalhes-tec">
+      <div><dt>Modos</dt><dd>Livre (arrasto zero), Eco, Ride, Turbo e Modo automático por frequência cardíaca</dd></div>
+      <div><dt>Autonomia</dt><dd>Calculada para a sua rota no simulador EDRO, com margem de erro de {s.simulador.erro_pct}%</dd></div>
+      <div><dt>Tecnologia</dt><dd>Display 2,1" IP65, app Ride Control, Apple Find My integrado, recarga direto na bike</dd></div>
+    </dl>
+  </div>
+</section>
+
+<SeletorVersoes linha={linha} wordmark={l.base} horizon notaPeso={hz.nota_peso} rotuloGrupos={bikes.meta.grupos_ficha}
+  lead={`Todas partem do mesmo quadro ${l.nome} em carbono, da mesma pintura exclusiva e da mesma garantia vitalícia. O que muda são os componentes.`} />
+
+<Numeros itens={l.numeros} lead={`A geometria da ${l.nome}, agora com motor. O que muda na sua pedalada vem primeiro.`} />
+
+<AutonomiaReal />
+
+<Fechamento linhas={['Mais longe.', 'Mais alto.']} verde="Mais rápido."
+  texto="Conte como você pedala hoje e onde quer chegar. Um dos nossos especialistas responde com a simulação do seu treino."
+  botoes={[
+    { rotulo: `Falar sobre a minha ${nome}`, href: wa(`Olá, EDRO. Quero falar sobre a minha ${nome}. (origem: site-${slug}-fechamento)`), primario: true, wa: `${slug}-fechamento` },
+    { rotulo: 'Ver a outra linha HORIZON', href: `/horizon/${outra.slug}` },
+  ]} />
+
+</Base>

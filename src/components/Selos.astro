@@ -1,0 +1,22 @@
+---
+/* Quatro programas com os selos oficiais, frase e pergunta. Cada selo leva à página do programa. */
+import { Image } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import conteudo from '../content/programas.json';
+
+const { links = true } = Astro.props;
+const lista = conteudo.ordem.map((slug) => ({ slug, ...conteudo.programas[slug] }));
+---
+<div class="selos">
+  {lista.map((p) => {
+    const Tag = links ? 'a' : 'article';
+    return (
+      <Tag class="selo-card" href={links ? `/programas/${p.slug}` : undefined}>
+        <span class="selo-card__selo"><Image src={img(`brand/${p.selo}`)} alt={p.selo_alt} height={208} /></span>
+        <h3 class="card-title">{p.nome}</h3>
+        <p>{p.card}</p>
+        <p class="selo-card__pergunta">{p.pergunta}</p>
+      </Tag>
+    );
+  })}
+</div>

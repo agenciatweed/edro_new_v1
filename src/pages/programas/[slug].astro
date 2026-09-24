@@ -1,11 +1,13 @@
 ---
-/* Template das páginas de programa (15.2 a 15.5, estrutura de 34.2).
-   Todo o texto vem de content/programas.json. */
-
+/* Páginas de programa v3.1 · telas site_v3/08 a 11. Selo oficial, como funciona em 4 passos,
+   regras completas, o que não cobre e fechamento com o suporte. */
 import Base from '../../layouts/Base.astro';
-import FormularioWhatsapp from '../../components/FormularioWhatsapp.astro';
+import Hero from '../../components/Hero.astro';
+import Midia from '../../components/Midia.astro';
+import ProvaSocial from '../../components/ProvaSocial.astro';
+import Fechamento from '../../components/Fechamento.astro';
 import conteudo from '../../content/programas.json';
-import { wa, comercial, suporte } from '../../lib/edro.js';
+import { wa, suporte } from '../../lib/edro.js';
 
 export function getStaticPaths() {
   return conteudo.ordem.map((slug) => ({ params: { slug } }));
@@ -13,125 +15,91 @@ export function getStaticPaths() {
 
 const { slug } = Astro.params;
 const pr = conteudo.programas[slug];
-const numero = pr.cta.numero === 'suporte' ? suporte : comercial;
+const linhasTitulo = pr.titulo;
 
-const outros = conteudo.ordem
-  .filter((s) => s !== slug)
-  .map((s) => ({ slug: s, ...conteudo.programas[s] }));
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: pr.nao_cobre.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+
+const DESCRICOES = {
+  'compra-certa': 'Compra Certa EDRO: 10 dias a partir do recebimento para devolver a sua bike e receber 100% do valor, com coleta custeada pela EDRO.',
+  'ciclo-edro': 'Ciclo EDRO: entre 18 e 24 meses, a sua EDRO pode compor a entrada da próxima, mediante avaliação técnica e comercial na fábrica.',
+  'carbon-assist': 'Carbon Assist: assistência EDRO em caso de acidente não coberto pela garantia, com reparo do carbono na fábrica e garantia do quadro mantida.',
+  garantia: 'Garantia vitalícia EDRO em quadro, garfo e componentes EDRO para o primeiro proprietário. Demais componentes com 2 anos e assistência no Brasil.',
+};
 ---
 
 <Base
   titulo={`${pr.nome} · Programas EDRO`}
-  descricao={pr.lead}
+  descricao={DESCRICOES[slug]}
   canonica={`https://edrobikes.com.br/programas/${slug}`}
   pagina={`programa-${slug}`}
+  jsonLd={faq}
 >
 
-<!-- TOPO -->
-<section class="pagina-topo">
-  <div class="container">
-    <p class="eyebrow eyebrow--verde">Programa EDRO</p>
-    <h1 class="display pagina-topo__titulo">
-      {pr.titulo.map((linha) => <>{linha}<br /></>)}
-      <span class="verde">{pr.titulo_verde}</span>
-    </h1>
-    <p class="lead pagina-topo__lead">{pr.lead}</p>
-    <p class="pagina-topo__pergunta">{pr.pergunta}</p>
-  </div>
-</section>
+<Hero
+  curto
+  eyebrow="Programas EDRO"
+  linhas={linhasTitulo}
+  verde={' ' + pr.titulo_verde}
+  lead={pr.lead}
+  botoes={[{ rotulo: 'Falar com um especialista', href: wa(`Olá, EDRO. Tenho uma dúvida sobre o ${pr.nome}. (origem: site-${slug})`), primario: true, wa: `${slug}-hero` }]}
+  selo={{ src: `brand/${pr.selo}`, alt: pr.selo_alt }}
+  marcaDagua="EDRO"
+/>
 
-{pr.intro && (
-  <section class="secao">
-    <div class="container para-quem">
-      <p class="para-quem__abre">{pr.nome}</p>
-      <div class="para-quem__apoio">
-        <p class="lead">{pr.intro}</p>
-      </div>
-    </div>
-  </section>
-)}
-
-{pr.passos?.length > 0 && (
-  <section class="secao">
-    <div class="container">
-      <div class="cabecalho">
-        <h2 class="headline">Como<br />funciona.</h2>
-      </div>
-      <ol class="etapas">
-        {pr.passos.map((passo, i) => (
-          <li class="etapa">
-            <span class="etapa__num" aria-hidden="true">{i + 1}</span>
-            <p class="body-card">{passo}</p>
-          </li>
-        ))}
+<section class="secao secao--sem-linha">
+  <div class="container bloco2 bloco2--topo">
+    <div>
+      <h2 class="headline">Como <span class="verde">funciona.</span></h2>
+      <ol class="passos3">
+        {pr.passos.map(([t, d], i) => (<li><span class="passos3__num">{i + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
       </ol>
     </div>
+    <Midia titulo={pr.midia[0]} descricao={pr.midia[1]} proporcao="4x5" />
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container bloco2 bloco2--topo">
+    <div>
+      <h2 class="headline">Regras <span class="verde">completas.</span></h2>
+      <p class="lead">Transparência é um dos nossos valores. Tudo o que vale está aqui, sem letra miúda.</p>
+    </div>
+    <div class="lista-regras">
+      {pr.regras.map(([t, d]) => (<details class="regra3" open><summary>{t}</summary><p>{d}</p></details>))}
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container bloco2 bloco2--topo">
+    <h2 class="headline">O que não<br /><span class="verde">cobre.</span></h2>
+    <dl class="qa">
+      {pr.nao_cobre.map(([q, a]) => (<div><dt>{q}</dt><dd>{a}</dd></div>))}
+    </dl>
+  </div>
+</section>
+
+{slug === 'compra-certa' && (
+  <section class="secao">
+    <div class="container bloco2">
+      <div>
+        <h2 class="headline">Dez dias para<br />devolver. <span class="verde">Zero</span><br />devoluções.</h2>
+        <p class="lead">Em todos esses anos, nenhuma EDRO voltou pela Compra Certa. O programa existe para tirar o risco da sua decisão; a bike existe para você não precisar usá-lo.</p>
+      </div>
+      <div><ProvaSocial apenas={['0']} /></div>
+    </div>
   </section>
 )}
 
-<!-- REGRAS -->
-<section class="secao">
-  <div class="container">
-    {pr.secoes.map((s) => (
-      <div class="regra">
-        <h2 class="card-title regra__titulo">{s.titulo}</h2>
-        <div class="regra__corpo">
-          {s.paragrafos?.map((t) => <p class="body">{t}</p>)}
-          {s.lista?.length > 0 && (
-            <ul class="construcao__lista">
-              {s.lista.map((t) => <li>{t}</li>)}
-            </ul>
-          )}
-          {s.link && <a class="link-acao" href={s.link.href}>{s.link.rotulo}</a>}
-        </div>
-      </div>
-    ))}
-  </div>
-</section>
-
-<!-- ACIONAR -->
-<section class="secao" id="acionar">
-  <div class="container faq-bloco">
-    <div>
-      <h2 class="headline">{pr.cta.titulo}</h2>
-      <p class="lead acionar__texto">{pr.cta.texto}</p>
-    </div>
-
-    {pr.cta.tipo === 'formulario' ? (
-      <FormularioWhatsapp
-        id={`form-${slug}`}
-        campos={pr.cta.campos}
-        numero={numero}
-        cabecalho={pr.cta.mensagem}
-        origem={pr.cta.origem}
-        formulario={slug}
-        rotulo={pr.cta.rotulo}
-      />
-    ) : (
-      <div>
-        <a class="btn btn--primario" href={wa(pr.cta.mensagem, numero)} rel="noopener" data-wa={pr.cta.origem}>
-          {pr.cta.rotulo}
-          <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-        </a>
-      </div>
-    )}
-  </div>
-</section>
-
-<!-- OUTROS PROGRAMAS -->
-<section class="secao">
-  <div class="container">
-    <h2 class="card-title">Os outros programas</h2>
-    <div class="outros">
-      {outros.map((o) => (
-        <a class="outro" href={`/programas/${o.slug}`}>
-          <span class="outro__nome">{o.nome}</span>
-          <span class="outro__pergunta">{o.pergunta}</span>
-          <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-        </a>
-      ))}
-    </div>
-  </div>
-</section>
+<Fechamento linhas={pr.fechamento}
+  texto="Dúvida sobre este programa? Fale direto com quem faz."
+  botoes={[
+    { rotulo: 'Falar com o suporte', href: wa(`Olá, suporte EDRO. Tenho uma dúvida sobre o ${pr.nome}. (origem: site-${slug}-suporte)`, suporte), primario: true, wa: `${slug}-suporte` },
+    { rotulo: 'Ver os outros programas', href: '/programas' },
+  ]} />
 
 </Base>

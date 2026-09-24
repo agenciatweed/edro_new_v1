@@ -1,0 +1,137 @@
+---
+/* /engenharia v3.1 · tela site_v3/12-engenharia.png. Benefício primeiro, dado técnico como prova. */
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Cabecalho from '../components/Cabecalho.astro';
+import Midia from '../components/Midia.astro';
+import Fechamento from '../components/Fechamento.astro';
+import { wa } from '../lib/edro.js';
+import { videos } from '../lib/imagens.js';
+
+const processo = [
+  ['Molde exclusivo', 'Geometria e perfis desenhados pela EDRO, nunca compartilhados.'],
+  ['Laminação', 'Prepreg 40T e 46T, cura em EPS, inspeção de cada quadro.'],
+  ['Lixação', 'Preparação manual da superfície antes de qualquer pintura.'],
+  ['Pintura', 'Projeto aprovado pelo cliente, executado à mão, 15 dias de cura.'],
+  ['Montagem', 'Componentes com ganho real, torques de referência, inspeção final.'],
+  ['Bike fit', 'Medidas, cockpit e ajuste final para um único corpo.'],
+  ['Entrega e vida', 'Entrega técnica, revisões e garantia vitalícia com quem fez.'],
+];
+const tecnologias = [
+  { numero: 'EPS', legenda: 'no lugar da bexiga', titulo: 'Quadro mais leve e mais confiável', texto: 'O núcleo de EPS pressiona o carbono contra o molde de forma uniforme. Parede interna homogênea, sem rugas nem acúmulo de resina. Menos peso morto, mais resistência a longo prazo.' },
+  { numero: '46T', legenda: 'e 40T por região', titulo: 'Rigidez onde você pedala, conforto onde você senta', texto: 'Fibra de módulo mais alto no movimento central e no tubo de direção; 40T nos stays. Camadas a 0°, ±45° e 90° conforme a função de cada tubo.' },
+  { numero: '1', legenda: 'peça, monocoque', titulo: 'Nenhum ponto fraco', texto: 'Quadro moldado em peça única, sem juntas entre tubos: menos peso, mais responsividade e nenhum ponto de fragilidade onde um tubo encontra o outro.' },
+  { numero: 'PU', legenda: 'Acrílica Carbon Industrial', titulo: 'Pintura exclusiva, leve e tecnológica', texto: 'Sistema de pintura de padrão industrial, exclusividade EDRO no Brasil, aplicado à mão. Durabilidade contra risco e sol com a mínima adição de peso.' },
+];
+const padroes = [
+  ['UDH e T-Type', 'Troca de marcha mais precisa sob carga, câmbio mais resistente a impacto e peças para sempre disponíveis.'],
+  ['Boost 12x148', 'Roda mais rígida lateralmente: mais tração em curva e mais precisão na descida.'],
+  ['Movimento central BSA e PressFit 92', 'Zero ruído, manutenção fácil e transferência total de potência.'],
+  ['Laudo técnico por quadro', 'Você sabe que o seu quadro foi conferido, não uma amostra do lote.'],
+];
+const camadas = [['Camada 1', '46T unidirecional, 0°'], ['Camada 2', '46T, ±45°'], ['Camada 3', '40T, ±45°'], ['Camada 4', '40T, 90°'], ['Núcleo', 'EPS, removido após a cura']];
+---
+
+<Base
+  titulo="Engenharia de carbono EDRO · Molde exclusivo, EPS e fibra 46T"
+  descricao="Como uma EDRO nasce em Tubarão: molde exclusivo, laminação com prepreg 40T e 46T, monocoque EPS, pintura PU acrílica feita à mão, montagem e laudo técnico por quadro."
+  canonica="https://edrobikes.com.br/engenharia"
+  pagina="engenharia"
+>
+
+<Hero
+  eyebrow="Engenharia de carbono"
+  linhas={['Qualidade de ponta a ponta tem um só <span class="verde">endereço.</span>']}
+  lead="Tudo o que define uma EDRO acontece dentro da nossa fábrica, em Tubarão, Santa Catarina. Nada é terceirizado depois que o carbono chega."
+  botoes={[
+    { rotulo: 'Falar com um especialista', href: wa('Olá, EDRO. Quero saber mais sobre a engenharia das bikes. (origem: site-engenharia)'), primario: true, wa: 'engenharia-hero' },
+    { rotulo: 'Ver as bikes', href: '/bikes' },
+  ]}
+  brief={{ tipo: 'VÍDEO', titulo: 'Fábrica em Tubarão', descricao: 'Sequência de 20 s: molde abrindo, lâminas de carbono sendo posicionadas, cabine de pintura, bancada de montagem, balança. Luz dura, sem som.' }}
+/>
+
+<section class="secao secao--sem-linha">
+  <div class="container">
+    <h2 class="headline" style="text-align:center">Nasce em <span class="verde">Tubarão.</span></h2>
+    <ol class="processo">
+      {processo.map(([t, d]) => (<li><h3>{t}</h3><p>{d}</p></li>))}
+    </ol>
+    <div class="galeria3" style="margin-top:var(--s-10)">
+      <Midia titulo="Molde aberto" descricao="O molde exclusivo aberto com o quadro dentro. Plano fechado." />
+      <Midia titulo="Cabine de pintura" descricao="Artista pintando à mão, máscara e pistola, luz da cabine." />
+      <Midia titulo="Bancada de montagem" descricao="Mecânico com chave de torque no cockpit, bike em suporte." />
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container bloco2">
+    <div>
+      <h2 class="headline">Leve e resistente,<br />na <span class="verde">prática.</span></h2>
+      <p class="lead">O que faz o quadro EDRO ser tão leve sem abrir mão da resistência, explicado por quem projeta. Vídeo real, sem roteiro de publicidade.</p>
+    </div>
+    <Midia video={videos.leve} proporcao="16x9" sizes="(max-width: 1023px) 100vw, 50vw" />
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
+    <Cabecalho linhas={['O que muda', 'na sua']} verde=" pedalada."
+      lead="Cada tecnologia da EDRO existe por um motivo que você sente. O benefício vem primeiro; o dado técnico vem depois, como prova." />
+    <div class="numeros4">
+      {tecnologias.map((n) => (
+        <article class="numero-card">
+          <p class="numero-card__topo"><span class="numero-card__num">{n.numero}</span><span class="numero-card__leg">{n.legenda}</span></p>
+          <h3 class="card-title">{n.titulo}</h3>
+          <p>{n.texto}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container bloco2">
+    <div>
+      <h2 class="headline">O peso que você não<br />carrega foi decidido<br /><span class="verde">camada por camada.</span></h2>
+      <p class="lead">Cada lâmina tem orientação, módulo e posição definidos em projeto, e o processo EPS elimina o que não trabalha: resina em excesso, sobreposições, juntas. O resultado é um quadro de hardtail com cerca de 860 g no tamanho M.</p>
+    </div>
+    <figure class="camadas">
+      <p class="eyebrow eyebrow--verde" style="margin-bottom:var(--s-5)">Seção do tubo superior</p>
+      <svg viewBox="0 0 520 300" role="img" aria-label="Seção do tubo superior com quatro camadas de carbono ao redor do núcleo de EPS, parede de 0,9 mm">
+        {camadas.map(([t, d], i) => (
+          <g>
+            <text x="0" y={28 + i * 46} fill="#7A807A" font-family="Poppins, sans-serif" font-size="12">{t}</text>
+            <text x="0" y={44 + i * 46} fill="#B5BAB4" font-family="Poppins, sans-serif" font-size="12">{d}</text>
+            <line x1="150" y1={36 + i * 46} x2={250 + i * 12} y2={110 + i * 12} stroke="#2A2F2A" stroke-width="1" />
+          </g>
+        ))}
+        {[0, 1, 2, 3].map((i) => (
+          <ellipse cx="370" cy="150" rx={140 - i * 16} ry={78 - i * 10} fill="none" stroke={i === 0 ? '#38A936' : '#3A3F3A'} stroke-width={i === 0 ? 2 : 1.2} />
+        ))}
+        <ellipse cx="370" cy="150" rx="70" ry="36" fill="none" stroke="#2A2F2A" stroke-dasharray="4 4" />
+        <text x="310" y="270" fill="#F2F4F0" font-family="Anton, Impact, sans-serif" font-size="30">0,9</text>
+        <text x="352" y="270" fill="#7A807A" font-family="Poppins, sans-serif" font-size="12">mm</text>
+        <text x="310" y="290" fill="#7A807A" font-family="Poppins, sans-serif" font-size="11">espessura de parede, região central</text>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
+    <Cabecalho linhas={['Padrões que', 'duram.']} lead="Componentes com ganho real e assistência no Brasil. Padrões abertos para que peças estejam sempre disponíveis." />
+    <div class="lista-regras">
+      {padroes.map(([t, d]) => (<details class="regra3" open><summary>{t}</summary><p>{d}</p></details>))}
+    </div>
+  </div>
+</section>
+
+<Fechamento linhas={['Feita à']} verde="mão."
+  texto="Quer conhecer a fábrica? Fale com um dos nossos especialistas e agende uma visita em Tubarão."
+  botoes={[
+    { rotulo: 'Falar com um especialista', href: wa('Olá, EDRO. Quero agendar uma visita à fábrica em Tubarão. (origem: site-engenharia-visita)'), primario: true, wa: 'engenharia-fechamento' },
+    { rotulo: 'Ver as bikes', href: '/bikes' },
+  ]} />
+
+</Base>

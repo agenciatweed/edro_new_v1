@@ -1,0 +1,103 @@
+---
+/* =============================================================
+   Hero v3.1. Fundo com foto real do acervo ou, sem ela, o
+   placeholder listrado com a orientação de produção da tela.
+   Título em tipo (linhas + palavra verde) ou em wordmark oficial.
+   ============================================================= */
+import { Picture, Image } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+
+const {
+  eyebrow,
+  linhas = [],
+  verde,
+  h1Oculto,
+  lead,
+  botoes = [],
+  fundo,
+  brief,
+  wordmark,
+  wordmark2,
+  wordmarkAlt = '',
+  wordmarkClasse = '',
+  peso,
+  selo,
+  marcaDagua,
+  curto = false,
+  titulo = 'h1',
+  esconderBarra = true,
+  classe = '',
+} = Astro.props;
+
+const Tag = titulo;
+/* Com título em tipo, o wordmark é marca e não heading: um H1 por página. */
+const TagWm = linhas.length ? 'p' : titulo;
+const foto = fundo ? img(fundo.src) : null;
+const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
+---
+
+<section class:list={['hero3', { 'hero3--curto': curto }, classe]}>
+  {foto && (
+    <div class="hero3__fundo">
+      <Picture src={foto} formats={['avif', 'webp']} alt={fundo.alt ?? ''} widths={[640, 960, 1440, 1920]}
+        sizes="100vw" loading="eager" fetchpriority="high" style={`object-position:${fundo.posicao ?? 'center'}`} />
+    </div>
+  )}
+  {!foto && brief && (
+    <>
+      <div class="hero3__fundo midia--pendente" data-midia-pendente={brief.titulo} aria-hidden="true"></div>
+      <span class="hero3__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
+    </>
+  )}
+  {marcaDagua && <span class="marca-dagua" aria-hidden="true">{marcaDagua}</span>}
+  {!foto && brief && (
+    <div class="hero3__brief" aria-hidden="true">
+      <span class="midia__tag">{brief.tipo ?? 'VÍDEO'}</span>
+      <strong>{brief.titulo}</strong>
+      {brief.descricao && <span>{brief.descricao}</span>}
+    </div>
+  )}
+
+  <div class="hero3__interno">
+    <div class="hero3__texto">
+      {eyebrow && <p class="eyebrow eyebrow--verde">{eyebrow}</p>}
+      {wordmark ? (
+        <TagWm class:list={['hero3__wordmark', wordmarkClasse, { 'hero3__wordmark--duplo': wordmark2 }]}>
+          {h1Oculto && <span class="visualmente-oculto">{h1Oculto}</span>}
+          <Image src={img(wordmark)} alt={wordmarkAlt} width={1280} loading="eager" />
+          {wordmark2 && <Image src={img(wordmark2)} alt="" width={900} loading="eager" />}
+        </TagWm>
+      ) : null}
+      {linhas.length > 0 && (
+        <Tag class="display hero3__titulo" set:html={
+          linhas.join('<br />') + (verde ? `${linhas.length ? (verde.startsWith(' ') ? ' ' : '<br />') : ''}<span class="verde">${verde.trim()}</span>` : '')
+        } />
+      )}
+      {lead && <p class="lead hero3__lead" set:html={lead} />}
+      {botoes.length > 0 && (
+        <div class="hero3__botoes" data-esconde-barra={esconderBarra ? '' : undefined}>
+          {botoes.map((b) => (
+            <a class:list={['btn', b.primario ? 'btn--primario' : 'btn--secundario']} href={b.href}
+               rel={b.href.startsWith('http') ? 'noopener' : undefined} data-wa={b.wa}>
+              {b.rotulo}<Fragment set:html={b.primario ? seta : ''} />
+            </a>
+          ))}
+        </div>
+      )}
+      <slot />
+    </div>
+
+    {peso && (
+      <div class="hero3__lado hero3__peso">
+        <p class="metric-hero">{peso.valor}<span class="unidade">&nbsp;kg</span></p>
+        <span class="caption" set:html={peso.rotulo} />
+      </div>
+    )}
+    {selo && (
+      <div class="hero3__selo">
+        <Image src={img(selo.src)} alt={selo.alt} width={680} loading="eager" />
+      </div>
+    )}
+  </div>
+  <slot name="depois" />
+</section>

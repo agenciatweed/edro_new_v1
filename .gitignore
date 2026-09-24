@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+_legacy-v2/
+.env
+.env.*
+.vercel/
+Thumbs.db

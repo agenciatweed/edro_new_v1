@@ -1,0 +1,56 @@
+---
+/* =============================================================
+   Geometria v3.1: tabela com nomes por extenso (decisão 37.1.19)
+   e o desenho cotado do site atual, recortado e sobre fundo escuro.
+   Os códigos do desenho ganham legenda por extenso logo abaixo.
+   ============================================================= */
+import { Image } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import { medida } from '../lib/edro.js';
+
+const { p } = Astro.props;
+const geo = p.geometria;
+
+const NOMES_EXTRA = { REACH: 'Reach', STACK: 'Stack', WB: 'Entre-eixos' };
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+const colunas = geo.colunas
+  .map((c, i) => {
+    const leg = geo.legenda?.[c];
+    if (leg && leg !== 'não publicar') return { codigo: c, indice: i, rotulo: cap(leg) };
+    if (!leg && NOMES_EXTRA[c]) return { codigo: c, indice: i, rotulo: NOMES_EXTRA[c] };
+    return null;
+  })
+  .filter(Boolean);
+
+/* Ordem da tela site_v3: os oito números que decidem o tamanho primeiro. */
+const ORDEM = ['Reach', 'Stack', 'Ângulo da caixa', 'Ângulo do tubo de selim', 'Chainstay', 'Entre-eixos', 'Comprimento da caixa', 'BB drop'];
+const pos = (r) => (ORDEM.indexOf(r) === -1 ? 99 : ORDEM.indexOf(r));
+colunas.sort((a, b) => pos(a.rotulo) - pos(b.rotulo));
+
+const tamanhos = p.tamanhos.filter((t) => Array.isArray(geo[t]));
+const legendaDesenho = colunas.filter((c) => !NOMES_EXTRA[c.codigo]).map((c) => `${c.codigo}: ${c.rotulo.toLowerCase()}`);
+---
+<section class="secao" id="geometria">
+  <div class="container geo3">
+    <div>
+      <h2 class="headline">Geometria.</h2>
+      <p class="lead">Medidas em milímetros e graus, por tamanho. O FIT4U define o tamanho certo para você e ajusta avanço, largura de guidão e alturas dentro dele.</p>
+      {tamanhos.length > 3 && <p class="caption tabela__dica">Deslize a tabela para ver todos os tamanhos.</p>}
+      <div class="tabela-rolagem">
+        <table class="tabela tabela--geometria">
+          <caption class="visualmente-oculto">Geometria da {p.nome}, tamanhos {tamanhos.join(', ')}</caption>
+          <thead><tr><th scope="col">Medida</th>{tamanhos.map((t) => <th scope="col">{t}</th>)}</tr></thead>
+          <tbody>
+            {colunas.map((c) => (
+              <tr><th scope="row">{c.rotulo}</th>{tamanhos.map((t) => <td>{medida(geo[t][c.indice])}</td>)}</tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <figure class="geo3__desenho">
+      <Image src={img(`geometria/geo-${p.slug}-escuro.png`)} alt={`Desenho cotado do quadro EDRO ${p.nome} com as medidas de geometria`} width={1100} loading="lazy" />
+      <figcaption>Desenho cotado do quadro <i class="modelo">{p.nome}</i>. {legendaDesenho.join(' · ')}.</figcaption>
+    </figure>
+  </div>
+</section>

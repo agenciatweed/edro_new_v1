@@ -1,0 +1,21 @@
+{
+  "nota": "Atletas patrocinados (v3.1, capítulo 5). Modalidade, linha e resultados a preencher pela EDRO.",
+  "atletas": [
+    {
+      "nome": "Ricardo Pscheidt",
+      "linha": "SUMMA PRO",
+      "modalidade": "XCM",
+      "resumo": "Atleta EDRO. SUMMA PRO. XCM, Santa Catarina. Principais resultados a confirmar com a EDRO.",
+      "foto_brief": "Retrato em prova ou treino, bike SUMMA PRO visível. Formato 16:9.",
+      "resultados": []
+    },
+    {
+      "nome": "Matheus Miranda",
+      "linha": "",
+      "modalidade": "",
+      "resumo": "Atleta EDRO. Linha, modalidade e principais resultados a confirmar com a EDRO.",
+      "foto_brief": "Retrato em prova ou treino, bike EDRO visível. Formato 16:9.",
+      "resultados": []
+    }
+  ]
+}

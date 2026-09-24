@@ -52,3 +52,11 @@ Nomes de linha/versão:
 |---|---|
 | Manual de Técnicas de Mountain Bike para XC e Performance | `assets/ebooks/EDRO_Tecnicas_MTB_XC.pdf` |
 | Ebook sobre Nutrição no Ciclismo para XC e Performance | `assets/ebooks/EDRO_Nutricao_Ciclismo.pdf` |
+
+## v3.1 (setembro de 2026)
+
+- `brand/`: os 26 logos tratados para fundo escuro enviados pela EDRO (pasta `EDRO_Site_v3_1_Telas_e_Logos/brand`). Cópia de trabalho em `src/assets/brand/`, de onde o site gera AVIF/WebP.
+- `lp/`: fotos de clientes, hero e bikes baixadas de lps.edrobikes.com.br (acervo da LP que a v3.1 manda reaproveitar). Publicar só com a autorização de cada cliente.
+- `youtube/`: miniaturas dos 8 vídeos do acervo, usadas no lite embed (o player só carrega no clique).
+- `ebooks-capas/`: capas dos e-books do site atual.
+- `geometria/geo-*-escuro.png`: desenhos cotados do site atual, recortados e convertidos para fundo escuro.
