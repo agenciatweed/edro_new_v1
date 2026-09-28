@@ -583,3 +583,27 @@ a.selo-card:hover { border-color: var(--edro-line-2); }
   .hero3__wordmark--duplo img { max-width: 100%; }
 }
 .geo3 > *, .bloco2 > *, .filtro3 > *, .autonomia > * { min-width: 0; }
+
+/* ---------------- VIDEO VERTICAL NO BANNER ---------------- */
+.hero3--clipe .hero3__interno { align-items: center; }
+.hero3__lado--clipe { justify-self: end; display: flex; align-items: flex-end; gap: var(--s-6); }
+.hero3__clipe {
+  width: clamp(240px, 22vw, 340px); aspect-ratio: 9 / 16; overflow: hidden;
+  border: 1px solid var(--edro-line-2); border-radius: var(--radius); background: var(--edro-panel);
+}
+.hero3__clipe video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero3__lado--clipe .hero3__peso { text-align: right; padding-bottom: var(--s-2); }
+@media (max-width: 1023px) {
+  .hero3__lado--clipe { justify-self: start; }
+}
+@media (max-width: 899px) {
+  .hero3--clipe .hero3__interno { position: static; }
+  .hero3--clipe .hero3__texto, .hero3--clipe .hero3__peso { position: relative; z-index: 2; }
+  .hero3--clipe .hero3__clipe { position: absolute; inset: 0; width: auto; aspect-ratio: auto; border: 0; border-radius: 0; z-index: 0; }
+  .hero3--clipe .hero3__clipe::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(11,13,11,.97) 0%, rgba(11,13,11,.86) 45%, rgba(11,13,11,.7) 100%);
+  }
+  .hero3--clipe .hero3__lado--clipe .hero3__peso { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { .hero3__clipe video { animation: none; } }

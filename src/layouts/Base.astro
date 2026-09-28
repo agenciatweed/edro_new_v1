@@ -195,6 +195,11 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
     new IntersectionObserver((e) => recolher(e[0].isIntersecting)).observe(gatilho);
   }
 
+  /* Vídeos de banner: mudos, em loop; parados para quem pede menos movimento. */
+  document.querySelectorAll('video[data-clipe]').forEach((v) => {
+    if (reduzir) { v.removeAttribute('autoplay'); v.pause(); }
+  });
+
   /* Evento de analytics em todo botão de WhatsApp */
   document.querySelectorAll('[data-wa]').forEach((el) => {
     el.addEventListener('click', () => {

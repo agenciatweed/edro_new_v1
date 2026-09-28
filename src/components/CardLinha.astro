@@ -6,7 +6,9 @@ import { img } from '../lib/imagens.js';
 import { brl, kg } from '../lib/edro.js';
 
 const { p, larga = false } = Astro.props;
-const render = img(`bicicletas/bicicleta-${p.slug}.png`);
+/* Renders da produção v3.1 (itens 5 e 10), fundo transparente, vista lateral. */
+const RENDER = { summa: 'renders/render-8.png', range: 'renders/render-3.png', impetus: 'renders/render-13.png' };
+const render = img(RENDER[p.slug]);
 const precos = p.versoes.map((v) => v.preco);
 const nomesVersoes = [...p.versoes].reverse().map((v) => v.nome);
 const lista = nomesVersoes.length > 1

@@ -43,7 +43,7 @@ const summaH = hz.linhas.find((l) => l.slug === 'summa-horizon');
   lead="Cara de bike normal. Peso de bike normal. Dinâmica de bike normal. E potência e autonomia de uma e-bike full power. Leveza e dinâmica sempre que quiser, potência de sobra quando precisar."
   botoes={[{ rotulo: 'Montar a minha HORIZON', href: falar, primario: true, wa: 'horizon-hero' }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }]}
   peso={{ valor: summaH.versoes[0].peso_kg.toFixed(1).replace('.', ','), rotulo: '<i class="modelo">SUMMA</i> HORIZON <span class="verde">PRO</span>, sem pedais' }}
-  brief={{ tipo: 'VÍDEO', titulo: 'HORIZON em ação', descricao: 'Ciclista subindo serra íngreme em ritmo alto, depois descendo trilha rápida com a bike leve. Corte para o ciclista carregando a bike em um trecho. 15 s, sem som.' }}
+  clipe={{ src: '/videos/horizon-banner.mp4', poster: '/videos/horizon-banner.jpg', rotulo: 'SUMMA HORIZON pedalando em estrada à beira-mar' }}
 />
 
 <div class="container">
@@ -72,7 +72,7 @@ const summaH = hz.linhas.find((l) => l.slug === 'summa-horizon');
       </div>
     </div>
     <div class="galeria3">
-      <Midia titulo="Display e app" descricao='Close no display de 2,1" com o modo selecionado, mão no guidão.' />
+      <Midia src="fotos/horizon-display.jpg" alt="Display da HORIZON no guidão, com a mão do ciclista" />
       <Midia titulo="Motor central" descricao="Macro do motor CYC Photon Gen 2 integrado ao quadro, luz lateral." />
       <Midia titulo="Recarga na bike" descricao="Bateria integrada sendo recarregada na própria bike, na garagem." />
     </div>

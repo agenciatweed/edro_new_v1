@@ -26,7 +26,7 @@ const falar = (motivo, origem) => wa(`Olá, EDRO. ${motivo} (origem: site-parcer
   verde="já pedala."
   lead="Atletas, embaixadores, treinadores e lojistas que escolheram evoluir com a EDRO. Performance para a EDRO é evolução e prazer, não só pódio."
   botoes={[{ rotulo: 'Quero ser parceiro', href: falar('Quero ser parceiro da EDRO.', 'hero'), primario: true, wa: 'parcerias-hero' }, { rotulo: 'Ver as bikes', href: '/bikes' }]}
-  fundo={{ src: 'lp/customer-13.jpg', alt: 'Atleta EDRO em prova de mountain bike, curva em terra', posicao: 'center 35%' }}
+  fundo={{ src: 'fotos/parcerias-atleta-prova.jpg', alt: 'Atleta EDRO em prova de mountain bike, em velocidade na trilha', posicao: 'center 45%' }}
 />
 
 <section class="secao secao--sem-linha">
@@ -35,7 +35,7 @@ const falar = (motivo, origem) => wa(`Olá, EDRO. ${motivo} (origem: site-parcer
     <div class="atletas">
       {atletas.atletas.map((a) => (
         <article class="atleta">
-          <Midia titulo={a.nome} descricao={a.foto_brief} proporcao="16x9" />
+          <Midia titulo={a.nome} descricao={a.foto_brief} proporcao="16x9" src={a.foto} alt={`${a.nome}, atleta EDRO, em prova`} posicao="center 30%" />
           <h3 class="card-title">{a.nome}</h3>
           <p>{a.resumo}</p>
         </article>
@@ -77,9 +77,9 @@ const falar = (motivo, origem) => wa(`Olá, EDRO. ${motivo} (origem: site-parcer
   <div class="container">
     <Cabecalho linhas={['#DeSCParaOMundo']} lead="Mostre o seu lado campeão. Marque @edrobikes e a sua EDRO pode aparecer aqui." />
     <div class="galeria3">
-      <Midia src="lp/customer-2.webp" alt="Ciclista EDRO em prova de mountain bike, com placa de competição" />
-      <Midia src="lp/customer-20.jpg" alt="Ciclista com a EDRO SUMMA diante de uma cachoeira" />
-      <Midia src="lp/customer-19.jpg" alt="Ciclista de camisa de equipe pedalando a sua EDRO em trilha" posicao="center 30%" />
+      <Midia src="fotos/desc-1.jpg" alt="Ciclista EDRO em prova de mountain bike, com placa de competição" posicao="center 30%" />
+      <Midia src="fotos/desc-2.jpg" alt="Ciclista EDRO em prova, com placa 572, em trilha de mata" posicao="center 35%" />
+      <Midia src="fotos/desc-3.jpg" alt="Ciclista com a sua EDRO entre araucárias, céu azul" posicao="center 60%" />
     </div>
   </div>
 </section>

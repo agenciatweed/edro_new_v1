@@ -43,7 +43,7 @@ const pintura = [
   verde="Pintada do seu<br />jeito."
   lead="FIT4U é o processo EDRO de personalização. Nenhuma bike sai da fábrica sem passar por ele, e nenhuma sai igual a outra."
   botoes={[{ rotulo: 'Iniciar o meu projeto', href: iniciar, primario: true, wa: 'fit4u-hero' }, { rotulo: 'Baixar o guia FIT4U', href: '/guias#fit4u' }]}
-  fundo={{ src: 'lp/fit4u-bg.jpg', alt: 'Quadros EDRO com pinturas exclusivas FIT4U na fábrica', posicao: 'center 35%' }}
+  clipe={{ src: '/videos/fit4u-projeto.mp4', poster: '/videos/fit4u-projeto.jpg', rotulo: 'Projeto FIT4U do desenho à pintura laranja da RANGE PRO' }}
 />
 
 <section class="secao secao--sem-linha">
@@ -54,7 +54,7 @@ const pintura = [
         {passos.map(([t, d], i) => (<li><span class="passos3__num">{i + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
       </ol>
     </div>
-    <Midia src="lp/customer-9.jpg" proporcao="4x5" alt="EDRO preta com pintura exclusiva no cavalete da fábrica, pronta para entrega"
+    <Midia src="fotos/fit4u-bike-cliente.jpg" proporcao="4x5" alt="EDRO branca com pintura exclusiva em estúdio, fundo escuro"
       sizes="(max-width: 1023px) 100vw, 50vw" />
   </div>
 </section>
@@ -89,9 +89,9 @@ const pintura = [
       </div>
     </div>
     <div class="galeria3">
-      <Midia src="lp/customer-7.jpg" alt="Projeto de pintura FIT4U amarelo em duas EDRO full suspension, close no quadro" legenda="<strong>Projeto de pintura 1</strong>Amarelo com logos em preto." />
-      <Midia src="lp/customer-15.webp" alt="EDRO IMPETUS com pintura exclusiva vermelha em estrada de serra" legenda="<strong>Projeto de pintura 2</strong>IMPETUS vermelha, acabamento brilhoso." posicao="center 40%" />
-      <Midia src="lp/customer-14.jpg" alt="EDRO IMPETUS com pintura exclusiva azul e amarela com a família do dono" legenda="<strong>Projeto de pintura 3</strong>IMPETUS azul com detalhes em amarelo." posicao="center 70%" />
+      <Midia src="fotos/fit4u-pintura-3.jpg" alt="EDRO com pintura exclusiva preta e vermelha, close no quadro" legenda="<strong>Projeto de pintura 1</strong>Preto com detalhes em vermelho." />
+      <Midia src="fotos/fit4u-pintura-1.jpg" alt="EDRO com pintura exclusiva azul e branca, close no triângulo traseiro" legenda="<strong>Projeto de pintura 2</strong>Azul e branco, com a bandeira do Brasil." />
+      <Midia src="fotos/fit4u-pintura-2.jpg" alt="Nome do dono pintado à mão no quadro de uma EDRO" legenda="<strong>Projeto de pintura 3</strong>Nome do dono pintado à mão no quadro." />
     </div>
     <p class="lead" style="margin-top:var(--s-6);max-width:none">Enjoou da cor? Repintura total do quadro por R$&nbsp;1.299, valor exclusivo para clientes FIT4U.</p>
   </div>

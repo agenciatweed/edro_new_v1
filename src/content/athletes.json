@@ -7,7 +7,8 @@
       "modalidade": "XCM",
       "resumo": "Atleta EDRO. SUMMA PRO. XCM, Santa Catarina. Principais resultados a confirmar com a EDRO.",
       "foto_brief": "Retrato em prova ou treino, bike SUMMA PRO visível. Formato 16:9.",
-      "resultados": []
+      "resultados": [],
+      "foto": "fotos/atleta-1.jpg"
     },
     {
       "nome": "Matheus Miranda",
@@ -15,7 +16,9 @@
       "modalidade": "",
       "resumo": "Atleta EDRO. Linha, modalidade e principais resultados a confirmar com a EDRO.",
       "foto_brief": "Retrato em prova ou treino, bike EDRO visível. Formato 16:9.",
-      "resultados": []
+      "resultados": [],
+      "foto": "fotos/atleta-2.jpg"
     }
-  ]
+  ],
+  "nota_fotos": "atleta-1 e atleta-2 vieram como item 34 sem nome: confirmar com a EDRO qual é Ricardo e qual é Matheus."
 }

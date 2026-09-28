@@ -21,7 +21,7 @@ const slides = [
     linhas: ['Você, além do'], verde: 'horizonte.',
     lead: 'Cara, peso e dinâmica de MTB normal, com potência e autonomia de uma e-bike full power. Conheça a HORIZON.',
     botoes: [{ rotulo: 'Conhecer a HORIZON', href: '/horizon', primario: true }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }],
-    brief: { tipo: 'VÍDEO', titulo: 'Banner 1 de 3: HORIZON em ação', descricao: 'Ciclista subindo uma serra em MTB elétrica, câmera acompanhando lateral, luz de fim de tarde. 12 a 20 s, sem som, loop.' },
+    clipe: { src: '/videos/horizon-banner.mp4', poster: '/videos/horizon-banner.jpg', rotulo: 'SUMMA HORIZON pedalando em estrada à beira-mar' },
   },
   {
     aba: 'FIT4U: feita para você',
@@ -29,7 +29,7 @@ const slides = [
     linhas: ['Feita para'], verde: 'você.',
     lead: 'Tamanho, cockpit e ajustes definidos pelas suas medidas, e uma pintura exclusiva desenhada com você. Nenhuma EDRO sai igual a outra.',
     botoes: [{ rotulo: 'Conhecer o FIT4U', href: '/fit4u', primario: true }, { rotulo: 'Iniciar o meu projeto', href: wa('Olá, EDRO. Quero iniciar o meu projeto FIT4U. (origem: site-home-banner)'), wa: 'home-banner-fit4u' }],
-    fundo: { src: 'lp/customer-7.jpg', alt: 'Duas EDRO full suspension com pintura exclusiva FIT4U amarela', posicao: '60% center' },
+    clipe: { src: '/videos/fit4u-pintura-mao.mp4', poster: '/videos/fit4u-pintura-mao.jpg', rotulo: 'Pintura exclusiva FIT4U sendo feita à mão na cabine', adiado: true },
   },
   {
     aba: 'RANGE: full de 9,89 kg',
@@ -37,7 +37,7 @@ const slides = [
     linhas: ['Full de'], verde: '9,89 kg.',
     lead: 'Tração de full com pedalada de hardtail: a suspensão trabalha no terreno e fica firme quando você acelera. Peso da RANGE PRO, sem pedais, no tamanho M.',
     botoes: [{ rotulo: 'Conhecer a RANGE', href: '/bikes/range', primario: true }, { rotulo: 'Ver as bikes', href: '/bikes' }],
-    fundo: { src: 'lp/bike-range.jpg', alt: 'EDRO RANGE full suspension de carbono em estrada de terra ao entardecer', posicao: '70% center' },
+    clipe: { src: '/videos/range-trilha.mp4', poster: '/videos/range-trilha.jpg', rotulo: 'EDRO em trilha técnica', adiado: true },
   },
 ];
 
@@ -77,7 +77,7 @@ const jsonLd = {
   {slides.map((s, i) => (
     <div class="carrossel__slide" id={`slide-${i}`} role="tabpanel" aria-labelledby={`aba-${i}`} hidden={i !== 0}>
       <Hero eyebrow={s.eyebrow} linhas={s.linhas} verde={s.verde} lead={s.lead} botoes={s.botoes}
-        fundo={s.fundo} brief={s.brief} titulo={i === 0 ? 'h1' : 'h2'} esconderBarra={i === 0} />
+        fundo={s.fundo} brief={s.brief} clipe={s.clipe} titulo={i === 0 ? 'h1' : 'h2'} esconderBarra={i === 0} />
     </div>
   ))}
   <div class="carrossel__abas" role="tablist" aria-label="Destaques">
@@ -125,7 +125,7 @@ const jsonLd = {
       </div>
     </div>
     <div class="filtro3__foto">
-      <Midia src="lp/customer-1.jpg" proporcao="4x5" alt="Ciclista proprietária com a sua EDRO no início de uma trilha na serra"
+      <Midia src="fotos/para-quem-e.jpg" proporcao="4x5" alt="Ciclista pedalando a sua EDRO em uma trilha ao lado da linha do trem"
         sizes="(max-width: 1023px) 100vw, 50vw" posicao="center 35%" />
     </div>
   </div>
@@ -186,7 +186,7 @@ const jsonLd = {
       <p class="eyebrow eyebrow--verde">O sob medida</p>
       <h2 class="headline" style="margin-top:var(--s-4)">Nenhuma EDRO<br />nasce <span class="verde">igual.</span></h2>
       <p class="lead" style="margin-bottom:var(--s-8)">Cada EDRO é feita à mão, ajustada às suas medidas e pintada com o projeto que você aprovou. Quando ela chega, não existe outra igual no mundo.</p>
-      <Midia titulo="Detalhe da pintura à mão" descricao="Close no tubo com a pintura exclusiva sendo finalizada pelo artista, pincel e máscara. Formato 4:3." />
+      <Midia src="fotos/pintura-cabine.jpg" alt="Artista EDRO pintando à mão um quadro na cabine de pintura" posicao="center 35%" />
     </div>
     <ol class="passos3">
       {passos.map(([t, d], i) => (<li><span class="passos3__num">{i + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
@@ -251,6 +251,10 @@ const jsonLd = {
     const slides = abas.map((a) => document.getElementById(a.getAttribute('aria-controls') || ''));
     const ir = (i, focar = false) => {
       abas.forEach((a, j) => { a.setAttribute('aria-selected', String(i === j)); a.tabIndex = i === j ? 0 : -1; if (slides[j]) slides[j].hidden = i !== j; });
+      /* Só o vídeo do slide visível carrega e roda. */
+      slides.forEach((sl, j) => sl?.querySelectorAll('video').forEach((v) => {
+        if (j === i && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
+      }));
       if (focar) abas[i].focus();
     };
     abas.forEach((a, i) => {

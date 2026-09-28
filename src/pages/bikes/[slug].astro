@@ -57,6 +57,7 @@ const H1 = {
   impetus: 'EDRO IMPETUS, bicicleta speed aero de carbono',
 };
 const menor = Math.min(...p.versoes.map((v) => v.preco));
+const CLIPE = { summa: 'summa-descida', range: 'range-trilha', impetus: 'impetus-serra' };
 const tituloVideo = VIDEO.linhas.join('<br />') + (VIDEO.verde.startsWith(' ') ? ' ' : '<br />') + `<span class="verde">${VIDEO.verde.trim()}</span>`;
 ---
 
@@ -69,7 +70,6 @@ const tituloVideo = VIDEO.linhas.join('<br />') + (VIDEO.verde.startsWith(' ') ?
 >
 
 <Hero
-  classe="hero3--foto-lado"
   eyebrow={p.uso_curto}
   wordmark={`brand/${p.slug}.png`}
   h1Oculto={H1[slug]}
@@ -78,7 +78,7 @@ const tituloVideo = VIDEO.linhas.join('<br />') + (VIDEO.verde.startsWith(' ') ?
     { rotulo: `Monte a sua ${p.nome}`, href: wa(`Olá, EDRO. Quero montar a minha ${p.nome}. (origem: site-${p.slug})`), primario: true, wa: `hero-${p.slug}` },
     { rotulo: 'Ver versões', href: '#versoes' },
   ]}
-  fundo={{ src: `lp/bike-${p.slug}.jpg`, alt: `EDRO ${p.nome} de carbono em estrada ao entardecer`, posicao: '65% center' }}
+  clipe={{ src: `/videos/${CLIPE[slug]}.mp4`, poster: `/videos/${CLIPE[slug]}.jpg`, rotulo: `EDRO ${p.nome} em ação` }}
   peso={{ valor: kg(p.pro.peso_kg), rotulo: `<i class="modelo">${p.nome}</i> <span class="verde">${p.pro.nome}</span>, sem pedais<br />Versões a partir de ${brl(menor)}` }}
 />
 
@@ -99,7 +99,7 @@ const tituloVideo = VIDEO.linhas.join('<br />') + (VIDEO.verde.startsWith(' ') ?
 
 <section class="secao secao--sem-linha" style="padding-top:0">
   <div class="container galeria3">
-    {p.macros.map(([t, d]) => <Midia titulo={t} descricao={d} />)}
+    {p.macros.map(([t, d, foto]) => <Midia titulo={t} descricao={d} src={foto} alt={`EDRO ${p.nome}: ${d}`} />)}
   </div>
 </section>
 

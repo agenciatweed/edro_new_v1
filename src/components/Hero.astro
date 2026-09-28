@@ -27,6 +27,9 @@ const {
   titulo = 'h1',
   esconderBarra = true,
   classe = '',
+  /* Vídeo vertical 9:16 da produção EDRO: painel à direita no computador,
+     fundo em tela cheia no celular. adiado = só carrega quando o slide aparece. */
+  clipe,
 } = Astro.props;
 
 const Tag = titulo;
@@ -36,7 +39,7 @@ const foto = fundo ? img(fundo.src) : null;
 const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
 ---
 
-<section class:list={['hero3', { 'hero3--curto': curto }, classe]}>
+<section class:list={['hero3', { 'hero3--curto': curto, 'hero3--clipe': clipe }, classe]}>
   {foto && (
     <div class="hero3__fundo">
       <Picture src={foto} formats={['avif', 'webp']} alt={fundo.alt ?? ''} widths={[640, 960, 1440, 1920]}
@@ -87,7 +90,22 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
       <slot />
     </div>
 
-    {peso && (
+    {clipe ? (
+      <div class="hero3__lado hero3__lado--clipe">
+        <div class="hero3__clipe">
+          <video muted loop playsinline autoplay={!clipe.adiado} preload={clipe.adiado ? 'none' : 'metadata'}
+            poster={clipe.poster} aria-label={clipe.rotulo} data-clipe>
+            <source src={clipe.src} type="video/mp4" />
+          </video>
+        </div>
+        {peso && (
+          <div class="hero3__peso">
+            <p class="metric-hero">{peso.valor}<span class="unidade">&nbsp;kg</span></p>
+            <span class="caption" set:html={peso.rotulo} />
+          </div>
+        )}
+      </div>
+    ) : peso && (
       <div class="hero3__lado hero3__peso">
         <p class="metric-hero">{peso.valor}<span class="unidade">&nbsp;kg</span></p>
         <span class="caption" set:html={peso.rotulo} />

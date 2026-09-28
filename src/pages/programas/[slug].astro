@@ -16,6 +16,8 @@ export function getStaticPaths() {
 const { slug } = Astro.params;
 const pr = conteudo.programas[slug];
 const linhasTitulo = pr.titulo;
+/* Fotos produzidas (v3.1). Programa sem foto mostra a orientação de produção. */
+const FOTO = { 'compra-certa': 'fotos/compra-certa-embalagem.jpg' };
 
 const faq = {
   '@context': 'https://schema.org',
@@ -58,7 +60,7 @@ const DESCRICOES = {
         {pr.passos.map(([t, d], i) => (<li><span class="passos3__num">{i + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
       </ol>
     </div>
-    <Midia titulo={pr.midia[0]} descricao={pr.midia[1]} proporcao="4x5" />
+    <Midia titulo={pr.midia[0]} descricao={pr.midia[1]} proporcao="4x5" src={FOTO[slug]} alt={pr.midia[1]} />
   </div>
 </section>
 

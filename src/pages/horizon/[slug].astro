@@ -42,6 +42,8 @@ const produto = {
 };
 
 const s = hz.sistema;
+/* Vídeo produzido só para a SUMMA HORIZON (item 41); a RANGE HORIZON segue com a orientação. */
+const CLIPE = { 'summa-horizon': 'summa-horizon-litoral' };
 ---
 
 <Base
@@ -60,7 +62,8 @@ const s = hz.sistema;
   lead={l.frase}
   botoes={[{ rotulo: `Monte a sua ${nome}`, href: wa(`Olá, EDRO. Quero montar a minha ${nome}. (origem: site-${slug})`), primario: true, wa: `${slug}-hero` }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }]}
   peso={{ valor: peso1(l.versoes[0].peso_kg), rotulo: `<i class="modelo">${l.nome}</i> HORIZON <span class="verde">PRO</span>, sem pedais<br />Versões a partir de ${brl(menor)}` }}
-  brief={{ tipo: 'VÍDEO', titulo: l.banner[0], descricao: l.banner[1] }}
+  brief={CLIPE[slug] ? undefined : { tipo: 'VÍDEO', titulo: l.banner[0], descricao: l.banner[1] }}
+  clipe={CLIPE[slug] && { src: `/videos/${CLIPE[slug]}.mp4`, poster: `/videos/${CLIPE[slug]}.jpg`, rotulo: `${nome} em ação` }}
 />
 
 <section class="secao secao--sem-linha">

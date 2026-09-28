@@ -514,16 +514,19 @@
       ],
       "macros": [
         [
-          "Macro do cockpit",
-          "Guidão integrado e mesa da SUMMA PRO, luz dura lateral, fundo preto."
+          "Cockpit e garfo",
+          "Guidão integrado e garfo RockShox SID da SUMMA",
+          "fotos/summa-macro-cockpit-garfo.jpg"
         ],
         [
-          "Macro da transmissão",
-          "Câmbio e cassete T-Type da SUMMA, ângulo de 45°, profundidade de campo curta."
+          "Pedivela com potência",
+          "Pedivela SRAM XX com medidor de potência",
+          "fotos/summa-macro-pedivela.jpg"
         ],
         [
-          "Macro da suspensão",
-          "Garfo RockShox SID com o adesivo Flight Attendant visível."
+          "Transmissão T-Type",
+          "Câmbio e cassete T-Type com pneu Pirelli",
+          "fotos/summa-macro-transmissao.jpg"
         ]
       ],
       "banner": [
@@ -1024,16 +1027,19 @@
       ],
       "macros": [
         [
-          "Macro da suspensão traseira",
-          "Amortecedor SIDLuxe e link Trunnion da RANGE, luz dura lateral, fundo preto."
+          "Suspensão traseira",
+          "Amortecedor e pedivela XX da RANGE",
+          "fotos/range-macro-suspensao.jpg"
         ],
         [
-          "Macro do cockpit",
-          "Guidão integrado e mesa da RANGE PRO, luz dura lateral, fundo preto."
+          "Cockpit",
+          "Cockpit integrado e garfo da RANGE, de frente",
+          "fotos/range-macro-cockpit.jpg"
         ],
         [
-          "Macro da transmissão",
-          "Câmbio e cassete T-Type da RANGE, ângulo de 45°, profundidade de campo curta."
+          "Transmissão",
+          "Roda traseira, cassete e câmbio da RANGE",
+          "fotos/range-macro-transmissao.jpg"
         ]
       ],
       "banner": [
