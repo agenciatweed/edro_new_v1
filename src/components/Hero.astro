@@ -30,6 +30,8 @@ const {
   /* Vídeo vertical 9:16 da produção EDRO: painel à direita no computador,
      fundo em tela cheia no celular. adiado = só carrega quando o slide aparece. */
   clipe,
+  /* Imagem lateral (v3.2): captura do personalizador FIT4U, com link opcional. */
+  imagem,
 } = Astro.props;
 
 const Tag = titulo;
@@ -39,7 +41,7 @@ const foto = fundo ? img(fundo.src) : null;
 const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
 ---
 
-<section class:list={['hero3', { 'hero3--curto': curto, 'hero3--clipe': clipe }, classe]}>
+<section class:list={['hero3', { 'hero3--curto': curto, 'hero3--clipe': clipe && !imagem, 'hero3--imagem': imagem }, classe]}>
   {foto && (
     <div class="hero3__fundo">
       <Picture src={foto} formats={['avif', 'webp']} alt={fundo.alt ?? ''} widths={[640, 960, 1440, 1920]}
@@ -90,7 +92,21 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
       <slot />
     </div>
 
-    {clipe ? (
+    {imagem ? (
+      <div class="hero3__lado hero3__lado--imagem">
+        {imagem.href ? (
+          <a class="hero3__captura" href={imagem.href} aria-label={imagem.rotuloLink ?? imagem.alt}>
+            <Picture src={img(imagem.src)} formats={['avif', 'webp']} alt={imagem.alt} widths={[640, 960, 1440]}
+              sizes="(max-width: 1023px) 100vw, 46vw" loading={imagem.eager ? 'eager' : 'lazy'} />
+          </a>
+        ) : (
+          <span class="hero3__captura">
+            <Picture src={img(imagem.src)} formats={['avif', 'webp']} alt={imagem.alt} widths={[640, 960, 1440]}
+              sizes="(max-width: 1023px) 100vw, 46vw" loading={imagem.eager ? 'eager' : 'lazy'} />
+          </span>
+        )}
+      </div>
+    ) : clipe ? (
       <div class="hero3__lado hero3__lado--clipe">
         <div class="hero3__clipe">
           <video muted loop playsinline autoplay={!clipe.adiado} preload={clipe.adiado ? 'none' : 'metadata'}

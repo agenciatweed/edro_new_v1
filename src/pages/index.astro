@@ -8,8 +8,9 @@ import CardLinha from '../components/CardLinha.astro';
 import Selos from '../components/Selos.astro';
 import ProvaSocial from '../components/ProvaSocial.astro';
 import Fechamento from '../components/Fechamento.astro';
+import BlocoPersonalizador from '../components/BlocoPersonalizador.astro';
 import { Image } from 'astro:assets';
-import { bikes, plataformas, wa } from '../lib/edro.js';
+import { bikes, plataformas, wa, PERSONALIZADOR } from '../lib/edro.js';
 import { img, videos } from '../lib/imagens.js';
 
 const especialista = wa('Olá, EDRO. Quero falar com um dos especialistas sobre a minha EDRO. (origem: site-home)');
@@ -27,9 +28,10 @@ const slides = [
     aba: 'FIT4U: feita para você',
     eyebrow: 'FIT4U',
     linhas: ['Feita para'], verde: 'você.',
-    lead: 'Tamanho, cockpit e ajustes definidos pelas suas medidas, e uma pintura exclusiva desenhada com você. Nenhuma EDRO sai igual a outra.',
-    botoes: [{ rotulo: 'Conhecer o FIT4U', href: '/fit4u', primario: true }, { rotulo: 'Iniciar o meu projeto', href: wa('Olá, EDRO. Quero iniciar o meu projeto FIT4U. (origem: site-home-banner)'), wa: 'home-banner-fit4u' }],
-    clipe: { src: '/videos/fit4u-pintura-mao.mp4', poster: '/videos/fit4u-pintura-mao.jpg', rotulo: 'Pintura exclusiva FIT4U sendo feita à mão na cabine', adiado: true },
+    lead: 'Sob medida no tamanho. Pintada do seu jeito. Monte a pintura e veja a sua EDRO antes de ela existir.',
+    botoes: [{ rotulo: 'Monte a sua pintura', href: PERSONALIZADOR, primario: true }, { rotulo: 'Conhecer o FIT4U', href: '/fit4u' }],
+    /* v3.2, seção 5.1: até o vídeo da FIT4U ficar pronto, a captura do personalizador. */
+    imagem: { src: 'fit4u/fit4u-desktop.png', alt: 'Personalizador de pintura FIT4U com a SUMMA HORIZON PRO verde em foto no local', href: PERSONALIZADOR, rotuloLink: 'Abrir o personalizador de pintura FIT4U' },
   },
   {
     aba: 'RANGE: full de 9,89 kg',
@@ -50,7 +52,7 @@ const tec = [
 
 const passos = [
   ['Você escolhe a bike', 'Linha e versão, com um especialista EDRO ao lado para orientar.'],
-  ['Projeto de pintura exclusivo', 'Desenhado junto com você: cores do quadro, cores das logos, personalização e acabamento.'],
+  ['Projeto de pintura exclusivo', 'Montado no personalizador e aprovado com o design da EDRO: cores do quadro, cores das logos, personalização e acabamento.'],
   ['Bike fit ou medidas', 'Você envia o relatório do seu bike fit ou as suas medidas, conforme o manual da EDRO.'],
   ['Pintura exclusiva à mão', 'Executada por artistas brasileiros, com cura em ambiente controlado.'],
   ['Montagem, inspeção e entrega', 'Montada à mão, inspecionada ponto a ponto e entregue em até 30 dias, com frete grátis.'],
@@ -77,7 +79,7 @@ const jsonLd = {
   {slides.map((s, i) => (
     <div class="carrossel__slide" id={`slide-${i}`} role="tabpanel" aria-labelledby={`aba-${i}`} hidden={i !== 0}>
       <Hero eyebrow={s.eyebrow} linhas={s.linhas} verde={s.verde} lead={s.lead} botoes={s.botoes}
-        fundo={s.fundo} brief={s.brief} clipe={s.clipe} titulo={i === 0 ? 'h1' : 'h2'} esconderBarra={i === 0} />
+        fundo={s.fundo} brief={s.brief} clipe={s.clipe} imagem={s.imagem} titulo={i === 0 ? 'h1' : 'h2'} esconderBarra={i === 0} />
     </div>
   ))}
   <div class="carrossel__abas" role="tablist" aria-label="Destaques">
@@ -193,6 +195,9 @@ const jsonLd = {
     </ol>
   </div>
 </section>
+
+<!-- 6b · PERSONALIZADOR FIT4U (v3.2, seção 5.2) -->
+<BlocoPersonalizador variante="home" />
 
 <!-- 7 · PROGRAMAS -->
 <section class="secao">

@@ -1,0 +1,29 @@
+---
+/*
+ * FIT4U · personalizador de pintura dentro de uma página do site (opcional)
+ * O recomendado é abrir /fit4u/pintura/ como página inteira (melhor no celular).
+ * Use este componente só se precisar do personalizador dentro de outra página.
+ *
+ * Props:
+ *   modelo  chave do modelo para abrir direto (ex.: "range-xcr", "summa-pro-hz"). Opcional.
+ *   altura  altura do quadro. Padrão: "100vh".
+ */
+interface Props { modelo?: string; altura?: string }
+const { modelo, altura = "100vh" } = Astro.props;
+const src = "/fit4u/pintura/" + (modelo ? `?modelo=${encodeURIComponent(modelo)}` : "");
+---
+<iframe
+  src={src}
+  title="Personalizador de pintura FIT4U"
+  loading="lazy"
+  allow="clipboard-write"
+  style={`width:100%;height:${altura};border:0;display:block;background:#0C0E0C`}
+></iframe>
+
+<script is:inline>
+  /* repassa os eventos do personalizador (modelo, lead, whatsapp) para o dataLayer da página */
+  window.addEventListener("message", (e) => {
+    if (e.origin !== location.origin || !e.data || e.data.fonte !== "fit4u") return;
+    (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: "fit4u_" + e.data.evento }, e.data.dados || {}));
+  });
+</script>

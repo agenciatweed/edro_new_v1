@@ -8,20 +8,29 @@
       "sem pedais" e a nota oficial.
    2. Links internos: todo href e src começando com "/" resolve em dist/.
    3. Redirecionamentos da v3.1 existem.
-   4. Mídias pendentes: lista os placeholders de FOTO e VÍDEO que ainda
+   4. Personalizador FIT4U (v3.2): os arquivos de bikes/, lupa/ e vendor/ chegam ao
+      dist/ byte a byte iguais ao pacote (scripts/fit4u-manifesto.md5), bikes/ tem 84
+      mapas e todo link ?modelo= usa uma chave que o personalizador conhece.
+   5. Mídias pendentes: lista os placeholders de FOTO e VÍDEO que ainda
       precisam ser produzidos (aviso, não erro: as telas os preveem).
 
    Sai com código 1 se houver violação ou link quebrado.
    ============================================================= */
 
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join, dirname, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 
 /* O simulador é o arquivo original da EDRO, servido sem alteração (capítulo 7). */
-const FORA = new Set(['/simulador']);
+/* O personalizador FIT4U também: página pronta da EDRO, só o <head> e o FIT4U_CONFIG são do site (v3.2, 4.8). */
+const FORA = new Set(['/simulador', '/fit4u/pintura']);
+const CHAVES_FIT4U = [
+  'summa-pro', 'summa-xcr', 'summa-ex', 'range-pro', 'range-xcr', 'range-ex', 'impetus-pro', 'impetus-ssr',
+  'summa-pro-hz', 'summa-xcr-hz', 'summa-ex-hz', 'range-pro-hz', 'range-xcr-hz', 'range-ex-hz',
+];
 const REDIRECIONADAS = ['/assistencia', '/comeca-aqui', '/atletas', '/lojistas'];
 
 const REGRAS = [
@@ -120,11 +129,28 @@ for (const arquivo of paginas) {
     quebrados.get(alvo).add(rota);
   }
 
+  for (const m of html.matchAll(/href="\/fit4u\/pintura\/\?modelo=([^"&#]+)"/g)) {
+    if (!CHAVES_FIT4U.includes(m[1])) violacoes.push({ rota, nome: 'chave do personalizador FIT4U desconhecida', trecho: m[1] });
+  }
+
   for (const m of html.matchAll(/data-midia-pendente="([^"]+)"/g)) {
     if (!pendentes.has(rota)) pendentes.set(rota, []);
     pendentes.get(rota).push(m[1]);
   }
 }
+
+/* Personalizador: nenhum mapa recomprimido ou faltando no deploy. */
+const fit4u = [];
+const MANIFESTO = join(dirname(fileURLToPath(import.meta.url)), 'fit4u-manifesto.md5');
+for (const linha of readFileSync(MANIFESTO, 'utf8').split(/\r?\n/).filter(Boolean)) {
+  const [md5, nome] = linha.trim().split(/\s+\*?/);
+  const arq = join(DIST, 'fit4u', 'pintura', nome.replace(/^\.\//, ''));
+  if (!existsSync(arq)) fit4u.push(`falta ${nome}`);
+  else if (createHash('md5').update(readFileSync(arq)).digest('hex') !== md5) fit4u.push(`alterado ${nome}`);
+}
+const mapas = existsSync(join(DIST, 'fit4u/pintura/bikes')) ? readdirSync(join(DIST, 'fit4u/pintura/bikes')).length : 0;
+if (mapas !== 84) fit4u.push(`bikes/ com ${mapas} arquivos (esperado 84)`);
+if (!existsSync(join(DIST, 'fit4u/pintura/index.html'))) fit4u.push('falta index.html');
 
 const faltaRedir = REDIRECIONADAS.filter((r) => !existsSync(join(DIST, r, 'index.html')));
 
@@ -144,6 +170,7 @@ if (quebrados.size) {
   console.log('LINKS QUEBRADOS: nenhum.');
 }
 
+console.log(fit4u.length ? `\nPERSONALIZADOR FIT4U: ${fit4u.length} problema(s)\n  ${fit4u.join('\n  ')}` : '\nPERSONALIZADOR FIT4U: 84 mapas, arquivos idênticos ao pacote.');
 console.log(faltaRedir.length ? `\nREDIRECIONAMENTOS FALTANDO: ${faltaRedir.join(', ')}` : '\nREDIRECIONAMENTOS 301: ok.');
 
 const total = [...pendentes.values()].reduce((n, l) => n + l.length, 0);
@@ -151,4 +178,4 @@ console.log(`\nAVISO: ${total} mídia(s) ainda a produzir (placeholders das tela
 [...pendentes].sort().forEach(([r, l]) => console.log(`  ${r.padEnd(28)} ${l.join(' · ')}`));
 
 console.log('');
-process.exit(violacoes.length || quebrados.size || faltaRedir.length ? 1 : 0);
+process.exit(violacoes.length || quebrados.size || faltaRedir.length || fit4u.length ? 1 : 0);

@@ -1,0 +1,2003 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FIT4U · Personalizador de pintura EDRO</title>
+<meta name="description" content="Monte a pintura da sua EDRO no personalizador FIT4U: cores, degradês, grafismos, filetes, respingos, acabamentos e assinatura no quadro. Gere a imagem em alta e o projeto em PDF.">
+<link rel="canonical" href="https://edrobikes.com.br/fit4u/pintura/">
+<meta name="theme-color" content="#0b0d0b">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FIT4U · Personalizador de pintura EDRO">
+<meta property="og:description" content="Pintura personalizada para SUMMA, RANGE, IMPETUS e as elétricas HORIZON. Exclusividade em todos os detalhes.">
+<meta property="og:url" content="https://edrobikes.com.br/fit4u/pintura/">
+<meta property="og:image" content="https://edrobikes.com.br/fit4u/pintura/fit4u-logo.png">
+<link rel="icon" type="image/png" href="fit4u-marca.png">
+<script>
+/* ===== Configuração do FIT4U no site da EDRO =====
+   leadWebhook: endereço que recebe cada cadastro do personalizador (JSON via POST). Padrão: a função
+   /api/fit4u-lead que acompanha este pacote (mesmo domínio, sem CORS). Vazio = cadastros não saem do navegador.
+   onEvent: opcional, função (nome, dados) chamada a cada evento (modelo, lead, whatsapp). Os eventos também
+   vão para window.dataLayer como "fit4u_<nome>". Detalhes em INTEGRACAO_FIT4U.md. */
+window.FIT4U_CONFIG={ leadWebhook:"/api/fit4u-lead", onEvent:null };
+</script>
+<!-- GTM do site (GTM-W37WCWC) com Consent Mode v2: tudo negado por padrão. O banner de cookies do site
+     não aparece aqui; o consentimento vem do mesmo cookie que o site grava (edro_consent, JSON com
+     analytics e ads = "granted"). Sem o cookie, os eventos fit4u_* seguem negados. onEvent fica null. -->
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});
+(function(){try{var m=document.cookie.match(/(?:^|;\s*)edro_consent=([^;]+)/);if(!m)return;var c=JSON.parse(decodeURIComponent(m[1]));
+var a=c.analytics==="granted"?"granted":"denied",d=c.ads==="granted"?"granted":"denied";
+gtag("consent","update",{analytics_storage:a,ad_storage:d,ad_user_data:d,ad_personalization:d});}catch(e){}})();
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,"script","dataLayer","GTM-W37WCWC");
+</script>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@400;500;600;700&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+/* Layout: palco da bike à esquerda (fixo ao rolar), painel de pintura à direita; no celular o palco fica preso no topo */
+:root{
+  --preto:#0b0d0b; --carbon:#121512; --card:#181c18; --card2:#1d221d; --linha:#262c26;
+  --verde:#38A936; --verde-claro:#54c452; --branco:#f2f5f1; --cinza:#98a297; --cinza2:#6b746a;
+  --amarelo:#e9b83a;
+  --f-display:'Saira Condensed','Arial Narrow',system-ui,sans-serif;
+  --f-body:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--preto);color:var(--branco);font-family:var(--f-body);font-size:14px;
+  background-image:radial-gradient(1200px 500px at 80% -10%, rgba(56,169,54,.10), transparent 60%),repeating-linear-gradient(45deg, rgba(255,255,255,.012) 0 2px, transparent 2px 6px)}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:20px;padding-block:24px 60px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--verde-claro);outline-offset:2px}
+
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;border-bottom:2px solid var(--linha);padding-bottom:18px;margin-bottom:22px}
+.logo-edro{height:86px;display:block}
+.titulo{text-align:right}
+.fit4u{display:flex;align-items:center;justify-content:flex-end;gap:18px;margin-bottom:10px}.fit4u .marca{height:80px;width:auto;display:block}.fit4u .slogan{height:80px;width:auto;display:block;padding-left:18px;border-left:1px solid var(--linha)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:760px){.fit4u{justify-content:flex-start;gap:12px}.fit4u .marca{height:48px}.fit4u .slogan{height:48px;padding-left:12px}}
+@media(max-width:420px){.fit4u .slogan{display:none}}
+.eyebrow{font-family:var(--f-display);font-weight:700;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--cinza);margin-bottom:4px}
+.titulo h1{margin:0;font-family:var(--f-display);font-style:italic;font-weight:800;font-size:30px;text-transform:uppercase;letter-spacing:.5px;text-wrap:balance}
+.titulo h1 span{color:var(--verde)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;justify-content:flex-end}
+.chip{font-size:12px;font-weight:600;color:var(--cinza);background:var(--card);border:1px solid var(--linha);border-radius:4px;padding:4px 10px;letter-spacing:.4px}
+.chip b{color:var(--verde-claro);font-weight:700}
+@media(max-width:760px){.titulo{text-align:left}.chips{justify-content:flex-start}.logo-edro{height:64px}.titulo h1{font-size:24px}}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:22px;align-items:start}
+@media(max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}}
+.palco-col{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);min-width:0}
+@media(max-width:980px){.palco-col{top:env(safe-area-inset-top,0px);z-index:5;background:var(--preto);padding-block:8px 6px;margin-inline:-20px;padding-inline:20px;border-bottom:1px solid var(--linha)}}
+
+.modelos{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;margin-bottom:10px}
+.plats{display:flex;gap:2px}
+.plat{cursor:pointer;background:var(--card);border:1px solid var(--linha);padding:9px 16px;font-family:var(--f-display);font-style:italic;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:1px;color:var(--cinza);transition:all .15s}
+.plat:first-child{border-radius:6px 0 0 6px}.plat:last-child{border-radius:0 6px 6px 0}
+.plat[aria-pressed="true"]{background:var(--verde);border-color:var(--verde);color:#0a0f0a}
+.plat:hover:not([aria-pressed="true"]){color:var(--branco)}
+.cats{flex-basis:100%;display:flex;gap:18px;border-bottom:1px solid var(--linha);margin-bottom:2px}
+.cat{cursor:pointer;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:2px 0 7px;font-family:var(--f-body);font-weight:700;font-size:12.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--cinza2);display:flex;align-items:center;gap:6px}
+.cat svg{width:13px;height:13px;flex:none}
+.cat[aria-pressed="true"]{color:var(--branco);border-bottom-color:var(--verde)}
+.cat:hover:not([aria-pressed="true"]){color:var(--cinza)}
+.plat small{display:block;font-size:10px;font-style:normal;font-weight:700;letter-spacing:2px;line-height:1;margin-top:2px;opacity:.85}
+.nome-modelo b{font-style:italic;font-weight:800;color:var(--cinza)}
+.vers{display:flex;gap:6px}
+.ver{cursor:pointer;background:var(--card2);border:1px solid var(--linha);border-radius:5px;padding:9px 13px;font-family:var(--f-display);font-weight:700;font-size:16px;letter-spacing:1px;color:var(--cinza)}
+.ver[aria-pressed="true"]{border-color:var(--verde);color:var(--verde-claro);background:rgba(56,169,54,.10)}
+.nome-modelo{margin-left:auto;align-self:center;font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:.6px}
+.nome-modelo i{font-style:italic}
+.nome-modelo span{color:var(--verde);font-style:normal}
+@media(max-width:980px){.cats{gap:14px}.cat{font-size:11px;padding-bottom:5px}.plat small{font-size:8.5px}.nome-modelo{display:none}.plat{font-size:14px;padding:6px 9px;letter-spacing:.5px}.ver{font-size:13px;padding:6px 8px}.modelos{margin-bottom:6px;gap:6px}.vers{gap:4px}}
+
+.palco{position:relative;border:1px solid var(--linha);border-radius:8px;overflow:hidden;
+  --st1:#2a302a;--st2:#141814;--st3:#0b0d0b;--chao:rgba(255,255,255,.05);
+  background:radial-gradient(ellipse 70% 62% at 50% 42%, var(--st1) 0%, var(--st2) 58%, var(--st3) 100%)}
+.palco.claro{--st1:#ffffff;--st2:#eef0ed;--st3:#d4d8d3;--chao:rgba(0,0,0,.06)}
+.palco.cena{background:#0b0d0b}
+.palco:not(.cena)::after{content:"";position:absolute;left:8%;right:8%;bottom:9%;height:14%;background:radial-gradient(ellipse at 50% 50%, var(--chao), transparent 70%);pointer-events:none}
+.palco canvas#vw{display:block;width:100%;height:auto;max-height:68vh;object-fit:contain;position:relative;z-index:1}
+@media(max-width:980px){.palco canvas#vw{max-height:34vh}}
+.carregando{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-style:italic;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cinza);z-index:2;background:rgba(11,13,11,.35)}
+.lente{position:absolute;width:210px;height:210px;border-radius:50%;border:2px solid rgba(255,255,255,.75);box-shadow:0 6px 24px rgba(0,0,0,.5);pointer-events:none;z-index:3;overflow:hidden}
+.lente canvas{width:100%;height:100%;display:block}
+.palco-tools{position:absolute;top:10px;right:10px;display:flex;gap:6px;z-index:4}
+.tool{cursor:pointer;background:rgba(11,13,11,.72);border:1px solid rgba(255,255,255,.14);border-radius:5px;padding:6px 10px;font-size:11.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#e9ece8;backdrop-filter:blur(6px);-webkit-user-select:none;user-select:none;touch-action:none}
+.tool[aria-pressed="true"]{border-color:var(--verde);color:var(--verde-claro)}
+.palco-tag{position:absolute;left:12px;bottom:10px;z-index:4;font-size:11px;letter-spacing:.5px;color:rgba(233,236,232,.75);background:rgba(11,13,11,.55);padding:3px 8px;border-radius:4px}
+.palco.claro .palco-tag{color:rgba(20,24,20,.65);background:rgba(255,255,255,.6)}
+@media(max-width:980px){.palco-tag{display:none}.tool{font-size:10px;padding:4px 7px}.palco-tools{top:6px;right:6px}}
+@media(pointer:coarse){#t-lupa{display:none}}
+
+.ambientes{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.ambientes .rot{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--cinza2);margin-right:2px}
+.amb{cursor:pointer;background:var(--card);border:1px solid var(--linha);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--cinza);display:inline-flex;align-items:center;gap:7px}
+.amb i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background-size:cover;background-position:center}
+.amb[aria-pressed="true"]{border-color:var(--verde);color:var(--branco);background:rgba(56,169,54,.10)}
+@media(max-width:980px){.ambientes{margin-top:6px;gap:4px}.amb{padding:4px 9px;font-size:11px}.ambientes .rot{display:none}}
+
+.acoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{cursor:pointer;border-radius:6px;padding:11px 16px;font-family:var(--f-display);font-style:italic;font-weight:800;font-size:16px;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--linha);background:var(--card);color:var(--branco);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{border-color:var(--cinza2)}
+.btn.prim{background:var(--verde);border-color:var(--verde);color:#08100a}
+.btn.prim:hover{background:var(--verde-claro)}
+@media(max-width:980px){.acoes{display:none}}
+.btn:disabled{opacity:.55;cursor:progress}
+.acoes-mob{display:none}
+@media(max-width:980px){.acoes-mob{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}.acoes-mob .btn{padding:8px 12px;font-size:14px}}
+
+.painel{background:var(--card);border:1px solid var(--linha);border-radius:8px;padding:18px 18px 8px}
+.sec{border-bottom:1px solid var(--linha);padding-block:4px 18px;margin-bottom:16px}
+.sec:last-child{border-bottom:0}
+.sec h2{margin:0 0 12px;font-family:var(--f-display);font-style:italic;font-weight:800;font-size:19px;text-transform:uppercase;letter-spacing:1px;display:flex;flex-wrap:wrap;align-items:center;column-gap:.32em;row-gap:4px}
+.sec h2 em{color:var(--verde);font-style:italic}
+.sec h2 .switch{margin-left:auto}
+.lbl{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--cinza);margin:12px 0 8px}
+.lbl .val{font-family:var(--f-display);font-weight:800;font-size:17px;color:var(--verde-claro);letter-spacing:.5px;text-transform:none}
+
+.presets,.gopts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.preset,.gopt{cursor:pointer;background:var(--card2);border:1px solid var(--linha);border-radius:6px;padding:7px;text-align:left;display:flex;gap:9px;align-items:center;min-width:0}
+.preset canvas,.gopt canvas{width:52px;height:32px;border-radius:4px;flex:none;display:block;border:1px solid rgba(255,255,255,.08)}
+.pn{font-size:12px;font-weight:700;letter-spacing:.3px;line-height:1.2;display:block}
+.pd{font-size:10.5px;color:var(--cinza2);margin-top:2px;display:block;line-height:1.25}
+.preset[aria-pressed="true"],.gopt[aria-pressed="true"]{border-color:var(--verde);background:rgba(56,169,54,.10)}
+
+.sw-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:6px}
+.sw{cursor:pointer;aspect-ratio:1;max-width:100%;border-radius:50%;border:1px solid rgba(255,255,255,.18);padding:0;position:relative}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--preto),0 0 0 4px var(--verde)}
+.cor-linha{display:flex;align-items:center;gap:10px;margin-top:10px}
+.cor-atual{font-size:12.5px;color:var(--cinza);flex:1;min-width:0}
+.cor-atual b{color:var(--branco);font-weight:700}
+.cor-atual code{font-family:var(--f-display);font-weight:700;letter-spacing:.8px;color:var(--cinza)}
+.picker{position:relative;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:11.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--cinza);border:1px solid var(--linha);border-radius:5px;padding:5px 9px;background:var(--card2);flex:none}
+.picker input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.picker i{width:14px;height:14px;border-radius:50%;background:conic-gradient(red,yellow,lime,cyan,blue,magenta,red)}
+
+.opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.opts.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.opts.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.opt{cursor:pointer;background:var(--card2);border:1px solid var(--linha);border-radius:5px;padding:9px 4px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--cinza);min-width:0}
+.opt small{display:block;font-size:9.5px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--cinza2);margin-top:2px}
+.opt[aria-pressed="true"]{border-color:var(--verde);background:rgba(56,169,54,.10);color:var(--verde-claro)}
+.opt:disabled{opacity:.35;cursor:not-allowed}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;background:linear-gradient(to right,var(--verde) var(--p,50%),var(--linha) var(--p,50%));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--branco);border:4px solid var(--verde);cursor:pointer;box-shadow:0 0 0 3px rgba(56,169,54,.18)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--branco);border:4px solid var(--verde);cursor:pointer}
+.hint{display:flex;justify-content:space-between;font-size:10.5px;color:var(--cinza2);margin-top:5px;letter-spacing:.3px}
+.sub{background:var(--card2);border:1px solid var(--linha);border-radius:6px;padding:4px 12px 12px;margin-top:10px}
+.switch{display:flex;align-items:center;gap:9px;cursor:pointer}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch .sl{width:38px;height:20px;border-radius:11px;background:var(--linha);position:relative;flex:none;transition:background .15s}
+.switch .sl::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--cinza);transition:all .15s}
+.switch input:checked + .sl{background:var(--verde)}
+.switch input:checked + .sl::after{left:21px;background:#fff}
+.switch input:focus-visible + .sl{outline:2px solid var(--verde-claro);outline-offset:2px}
+.switch .swt{font-size:12.5px;color:var(--cinza);line-height:1.35}
+.mini-btn{cursor:pointer;background:none;border:1px solid var(--linha);border-radius:5px;padding:5px 9px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--cinza)}
+.mini-btn:hover{color:var(--branco)}
+.nota{font-size:12.5px;color:var(--cinza);line-height:1.6}
+.nota p{margin:0 0 8px;max-width:62ch}
+.nota b{color:var(--branco)}
+
+.aviso{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:16px;background:linear-gradient(90deg,rgba(56,169,54,.12),rgba(56,169,54,.03));border:1px solid rgba(56,169,54,.45);border-radius:8px;padding:14px 18px;font-size:13px;line-height:1.6;color:var(--cinza)}
+.aviso b{color:var(--branco)}.aviso a{color:var(--verde-claro);font-weight:700;white-space:nowrap}
+@media(max-width:760px){.aviso{grid-template-columns:1fr}}
+.resumo{margin-top:18px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px}
+@media(max-width:980px){.resumo{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--card);border:1px solid var(--linha);border-radius:8px;padding:16px 18px}
+.card h3{margin:0 0 10px;font-family:var(--f-display);font-style:italic;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:1px}
+.card h3 em{color:var(--verde);font-style:italic}
+.ficha{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 14px;font-size:13px;margin:0}
+.ficha dt{color:var(--cinza2);text-transform:uppercase;font-size:11px;letter-spacing:.8px;font-weight:600;padding-top:2px}
+.ficha dd{margin:0;color:var(--branco);display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
+.ficha dd i.dot{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,.25);flex:none}
+.ficha dd code{font-family:var(--f-display);font-weight:600;color:var(--cinza);letter-spacing:.6px}
+.codigo{margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.codigo code{font-family:var(--f-display);font-weight:700;font-size:13.5px;letter-spacing:.6px;color:var(--verde-claro);background:var(--card2);border:1px solid var(--linha);border-radius:5px;padding:6px 9px;word-break:break-all;-webkit-user-select:all;user-select:all;flex:1;min-width:0}
+.carregar{display:flex;gap:6px;margin-top:10px}
+.carregar input{flex:1;min-width:0;background:var(--card2);border:1px solid var(--linha);border-radius:5px;color:var(--branco);padding:7px 9px;font-family:var(--f-display);font-size:13px;letter-spacing:.6px}
+.msg{font-size:11.5px;color:var(--amarelo);min-height:16px;margin-top:6px}
+.wa-num{font-size:12px;color:var(--cinza);margin-top:8px}
+.wa-num b{color:var(--branco);-webkit-user-select:all;user-select:all}
+
+.cad-box{background:var(--card);border:1px solid var(--linha);border-radius:10px;padding:18px 20px 20px;width:100%;max-width:520px;max-height:100%;overflow:auto}
+.cad-h{display:flex;justify-content:space-between;align-items:center}.cad-h img{height:34px}
+.cad-box h3{margin:12px 0 4px;font-family:var(--f-display);font-style:italic;font-weight:800;font-size:22px;text-transform:uppercase;letter-spacing:1px}
+.cad-box .campo input.erro{border-color:#e0533d}
+.cad-acoes{display:flex;justify-content:flex-end;margin-top:14px}
+.leads{margin-top:18px}.leads h3 small{font-family:var(--f-body);font-style:normal;font-size:12px;color:var(--cinza2);margin-left:6px}
+.leads-tab{overflow:auto;max-height:340px;margin:8px 0 10px;border:1px solid var(--linha);border-radius:6px}
+.leads-tab table{border-collapse:collapse;width:100%;font-size:12.5px}.leads-tab th,.leads-tab td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--linha);white-space:nowrap}
+.leads-tab th{color:var(--cinza2);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.6px;position:sticky;top:0;background:var(--card)}
+.ov{position:fixed;inset:0;background:rgba(5,7,5,.88);z-index:50;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) 16px max(16px,env(safe-area-inset-bottom,0px))}
+.ov-box{max-width:1100px;width:100%;display:flex;flex-direction:column;gap:10px;max-height:100%}
+.ov-box img{width:100%;height:auto;max-height:76vh;object-fit:contain;border-radius:6px;border:1px solid var(--linha);background:var(--carbon)}
+.ov-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--cinza)}
+
+.detalhe{position:absolute;left:10px;bottom:10px;width:46%;max-width:520px;z-index:4;border:1px solid rgba(255,255,255,.35);border-radius:6px;overflow:hidden;background:#111;box-shadow:0 8px 28px rgba(0,0,0,.55)}
+.detalhe canvas{display:block;width:100%;height:auto}
+.detalhe.lupa{width:40%;max-width:430px;border-radius:10px}
+@media(max-width:980px){.detalhe.lupa{width:52%}}
+.detalhe .dt-bar{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;padding:4px 6px 4px 9px;background:linear-gradient(rgba(0,0,0,.7),transparent);font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#e9ece8}
+.detalhe .dt-bar button{cursor:pointer;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.25);border-radius:4px;color:#fff;font-size:11px;padding:1px 7px}
+@media(max-width:980px){.detalhe{width:58%;left:6px;bottom:6px}}
+.detalhe:not([hidden]) ~ .palco-tag{display:none}
+.pz{background:var(--card2);border:1px solid var(--linha);border-radius:6px;padding:10px 12px 12px;margin-top:10px}
+.pz-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px}
+.pz-h b{font-family:var(--f-display);font-style:italic;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.8px}
+.pz-h small{font-size:11px;color:var(--cinza2)}
+.campo{display:flex;flex-direction:column;gap:5px;margin-top:10px}
+.campo span{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--cinza)}
+.campo textarea{background:var(--card);border:1px solid var(--linha);border-radius:5px;color:var(--branco);padding:8px 10px;font-family:var(--f-body);font-size:13.5px;width:100%;min-width:0;resize:vertical;line-height:1.45}
+.campo input[type=text],.campo select{background:var(--card);border:1px solid var(--linha);border-radius:5px;color:var(--branco);padding:8px 10px;font-family:var(--f-body);font-size:14px;width:100%;min-width:0}
+.campo select option{color:#111}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sims{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.sim{cursor:pointer;background:var(--card);border:1px solid var(--linha);border-radius:5px;padding:6px 2px 5px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--cinza);min-width:0}
+.sim canvas{width:26px;height:26px;display:block}
+.sim[aria-pressed="true"]{border-color:var(--verde);color:var(--verde-claro);background:rgba(56,169,54,.10)}
+.upl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.upl label.btnf{position:relative;cursor:pointer;border:1px dashed var(--cinza2);border-radius:5px;padding:7px 11px;font-size:12px;font-weight:700;color:var(--branco)}
+.upl label.btnf input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.upl small{font-size:11px;color:var(--cinza2)}
+footer{margin-top:40px;border-top:1px solid var(--linha);padding-top:16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11.5px;color:var(--cinza2);letter-spacing:.4px}
+footer .fx{font-family:var(--f-display);font-style:italic;font-weight:700;letter-spacing:1px;color:var(--cinza)}
+@media(max-width:600px){.wrap{padding-inline:16px;padding-block:14px 40px}.palco-col{margin-inline:-16px;padding-inline:16px}.painel{padding:14px 14px 4px}.sw-grid{gap:5px}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <a href="/" aria-label="Página inicial da EDRO"><img class="logo-edro" src="logo-edro.png" alt="EDRO Performance Bikes"></a>
+  <div class="titulo">
+    <div class="fit4u"><img class="marca" src="fit4u-marca.png" alt="FIT4U"><img class="slogan" src="fit4u-slogan.png" alt="Feita sob medida + pintura personalizada · Exclusividade em todos os detalhes"></div>
+    <h1 class="sr">FIT4U · Estúdio de pintura personalizada EDRO</h1>
+    <div class="chips">
+      <span class="chip">Foto em <b>resolução cheia</b> do quadro</span>
+      <span class="chip"><b>6</b> grafismos + filete · <b>5</b> acabamentos · <b>26</b> cores</span>
+      <span class="chip"><b>2</b> campos de assinatura pessoal</span>
+    </div>
+  </div>
+</header>
+
+<div class="grid">
+  <div class="palco-col">
+    <div class="modelos">
+      <div class="cats" id="cats" role="group" aria-label="Tipo de bicicleta"></div>
+      <div class="plats" id="plats" role="group" aria-label="Plataforma"></div>
+      <div class="vers" id="vers" role="group" aria-label="Versão"></div>
+      <div class="nome-modelo" id="nome-modelo"></div>
+    </div>
+    <div class="palco" id="palco">
+      <canvas id="vw" width="2894" height="1582" aria-label="Prévia da pintura da bicicleta"></canvas>
+      <div class="carregando" id="carregando">Carregando quadro…</div>
+      <div class="lente" id="lente" hidden><canvas id="lcv" width="420" height="420"></canvas></div>
+      <div class="palco-tools">
+        <button class="tool" id="t-orig" type="button" title="Segure para ver a foto original">Original</button>
+        <button class="tool" id="t-lupa" type="button" aria-pressed="true">Lupa</button>
+      </div>
+      <div class="detalhe" id="detalhe" hidden><div class="dt-bar"><span id="dt-nome">Detalhe</span><button type="button" id="dt-fechar" aria-label="Fechar detalhe">×</button></div><canvas id="dcv" width="1040" height="480"></canvas></div>
+      <div class="palco-tag" id="palco-tag">Prévia digital · cor final confirmada com amostra de tinta</div>
+    </div>
+    <div class="ambientes" id="ambientes" role="group" aria-label="Ambiente"></div>
+    <div class="acoes">
+      <a class="btn prim" id="b-wa" href="#" target="_blank" rel="noopener">Enviar projeto à EDRO</a>
+      <button class="btn" id="b-img" type="button">Imagem em alta resolução</button>
+      <button class="btn" id="b-pdf" type="button">Gerar projeto (PDF)</button>
+      <button class="btn" id="b-cod" type="button">Copiar código</button>
+    </div>
+    <div class="acoes-mob">
+      <a class="btn prim" id="b-wa2" href="#" target="_blank" rel="noopener">Enviar à EDRO</a>
+      <button class="btn" id="b-img2" type="button">Imagem HD</button>
+      <button class="btn" id="b-pdf2" type="button">Projeto PDF</button>
+    </div>
+  </div>
+
+  <div class="painel" id="painel">
+    <div class="sec">
+      <h2>Comece por uma <em>inspiração</em></h2>
+      <div class="presets" id="presets"></div>
+    </div>
+
+    <div class="sec">
+      <h2>Cor <em>principal</em></h2>
+      <div class="sw-grid" id="sw-A" role="group" aria-label="Cor principal"></div>
+      <div class="cor-linha"><div class="cor-atual" id="ca-A"></div><label class="picker"><i></i>Outra cor<input type="color" id="pk-A" aria-label="Escolher outra cor principal"></label></div>
+    </div>
+
+    <div class="sec">
+      <h2><em>Grafismo</em></h2>
+      <div class="gopts" id="g-mode" role="group" aria-label="Grafismo"></div>
+      <div class="sub" id="sub-B" hidden>
+        <div class="lbl">Efeito do grafismo</div>
+        <div class="opts c2" id="g-tone" role="group" aria-label="Efeito do grafismo">
+          <button class="opt" type="button" data-v="0">Em cor<small>segunda cor no desenho</small></button>
+          <button class="opt" type="button" data-v="1">Tom sobre tom<small>mesma cor, brilho e fosco</small></button>
+        </div>
+        <div id="ctl-B">
+          <div class="lbl">Cor do grafismo</div>
+          <div class="sw-grid" id="sw-B" role="group" aria-label="Cor do grafismo"></div>
+          <div class="cor-linha"><div class="cor-atual" id="ca-B"></div><label class="picker"><i></i>Outra cor<input type="color" id="pk-B" aria-label="Escolher outra cor do grafismo"></label></div>
+        </div>
+        <div id="ctl-dir">
+          <div class="lbl">Direção <button class="mini-btn" type="button" id="b-inv">Inverter cores</button></div>
+          <div class="opts" id="g-dir" role="group" aria-label="Direção">
+            <button class="opt" type="button" data-v="135">Diagonal<small>frente → trás</small></button>
+            <button class="opt" type="button" data-v="45">Diagonal<small>cima → baixo</small></button>
+            <button class="opt" type="button" data-v="180">Horizontal<small>frente → trás</small></button>
+            <button class="opt" type="button" data-v="90">Vertical<small>cima → baixo</small></button>
+          </div>
+          <div class="lbl">Ângulo <span class="val"><span id="v-ang">135</span>°</span></div>
+          <input type="range" id="s-ang" min="0" max="355" step="5" value="135">
+        </div>
+        <div id="ctl-pos">
+          <div class="lbl">Posição <span class="val"><span id="v-pos">45</span>%</span></div>
+          <input type="range" id="s-pos" min="5" max="95" value="45">
+          <div class="hint"><span>mais desenho</span><span>mais cor principal</span></div>
+        </div>
+        <div id="ctl-soft">
+          <div class="lbl"><span id="l-soft">Suavidade</span> <span class="val"><span id="v-soft">35</span>%</span></div>
+          <input type="range" id="s-soft" min="0" max="100" value="35">
+        </div>
+        <div id="ctl-count">
+          <div class="lbl">Quantidade de faixas</div>
+          <div class="opts c3" id="g-count" role="group" aria-label="Quantidade de faixas">
+            <button class="opt" type="button" data-v="1">Uma</button>
+            <button class="opt" type="button" data-v="2">Duas</button>
+            <button class="opt" type="button" data-v="3">Três</button>
+          </div>
+        </div>
+        <div id="ctl-width">
+          <div class="lbl"><span id="l-width">Largura</span> <span class="val"><span id="v-width">18</span>%</span></div>
+          <input type="range" id="s-width" min="2" max="45" value="18">
+        </div>
+        <div id="ctl-scale">
+          <div class="lbl">Tamanho do desenho <span class="val"><span id="v-scale">50</span>%</span></div>
+          <input type="range" id="s-scale" min="0" max="100" value="50">
+          <div class="hint"><span>fino</span><span>grande</span></div>
+        </div>
+        <div id="ctl-dens">
+          <div class="lbl"><span id="l-dens">Quantidade</span> <span class="val"><span id="v-dens">50</span>%</span></div>
+          <input type="range" id="s-dens" min="0" max="100" value="50">
+        </div>
+        <div id="ctl-zones">
+          <p class="nota" style="margin:12px 0 6px" id="zonas-txt">A cor do grafismo vai no triângulo traseiro.</p>
+          <label class="switch" id="sw-fork-wrap"><input type="checkbox" id="c-fork"><span class="sl"></span><span class="swt">Garfo na cor do grafismo</span></label>
+        </div>
+      </div>
+      <div class="sub" id="fil-box">
+        <label class="switch" style="margin-top:10px"><input type="checkbox" id="c-fil"><span class="sl"></span><span class="swt"><b style="color:var(--branco)">Filete no tubo superior</b> · linhas finas pintadas à mão ao longo do tubo, combinam com qualquer grafismo</span></label>
+        <div id="fil-body">
+          <div class="lbl">Linhas <button class="mini-btn" type="button" data-ver="fil">Ver de perto</button></div>
+          <div class="opts c3" id="g-filn" role="group" aria-label="Quantidade de linhas do filete">
+            <button class="opt" type="button" data-v="1">Uma</button>
+            <button class="opt" type="button" data-v="2">Duas</button>
+            <button class="opt" type="button" data-v="3">Três</button>
+          </div>
+          <div class="lbl">Cor do filete</div>
+          <div class="sw-grid" id="sw-F" role="group" aria-label="Cor do filete"></div>
+          <div class="cor-linha"><div class="cor-atual" id="ca-F"></div><label class="picker"><i></i>Outra cor<input type="color" id="pk-F" aria-label="Escolher outra cor do filete"></label></div>
+          <div class="lbl">Espessura <span class="val"><span id="v-filw">35</span>%</span></div>
+          <input type="range" id="s-filw" min="0" max="100" value="35">
+          <div class="lbl">Posição no tubo <span class="val"><span id="v-filp">45</span>%</span></div>
+          <input type="range" id="s-filp" min="10" max="90" value="45">
+          <div class="hint"><span>mais acima</span><span>mais abaixo</span></div>
+          <label class="switch" style="margin-top:12px"><input type="checkbox" id="c-fillogo"><span class="sl"></span><span class="swt">Interromper o filete no nome do modelo</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>Respingos <em>EDRO</em> <label class="switch" style="font-family:var(--f-body)"><input type="checkbox" id="c-spk" aria-label="Ativar respingos"><span class="sl"></span></label></h2>
+      <div id="spk-body">
+        <div class="sw-grid" id="sw-S" role="group" aria-label="Cor dos respingos"></div>
+        <div class="cor-linha"><div class="cor-atual" id="ca-S"></div><label class="picker"><i></i>Outra cor<input type="color" id="pk-S" aria-label="Escolher outra cor de respingos"></label></div>
+        <div class="duo">
+          <label class="campo"><span>Código da cor</span><input type="text" id="in-spkhex" maxlength="7" placeholder="#0D0E0D" autocomplete="off" spellcheck="false"></label>
+          <label class="campo"><span>Intensidade exata (%)</span><input type="text" id="in-amt" inputmode="numeric" maxlength="3" placeholder="100" autocomplete="off"></label>
+        </div>
+        <div class="lbl">Intensidade <span class="val"><span id="v-amt">100</span>%</span></div>
+        <input type="range" id="s-amt" min="10" max="100" step="1" value="100">
+        <div class="lbl">Aplicar em</div>
+        <div class="opts" id="g-spkw" role="group" aria-label="Onde aplicar os respingos">
+          <button class="opt" type="button" data-v="all">Quadro todo</button>
+          <button class="opt" type="button" data-v="ramp">Em degradê</button>
+          <button class="opt" type="button" data-v="A">Cor principal</button>
+          <button class="opt" type="button" data-v="B">No desenho</button>
+        </div>
+        <label class="campo"><span>Detalhes dos respingos para o pintor</span><textarea id="in-spkobs" maxlength="400" rows="3" placeholder="Ex.: respingos maiores perto da caixa de direção, mais espaçados no tubo superior, sem respingos no garfo."></textarea></label>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2><em>Logotipo</em> EDRO</h2>
+      <div class="sw-grid" id="sw-L" role="group" aria-label="Cor do logotipo"></div>
+      <div class="cor-linha"><div class="cor-atual" id="ca-L"></div><label class="picker"><i></i>Outra cor<input type="color" id="pk-L" aria-label="Escolher outra cor de logotipo"></label></div>
+      <div class="lbl">Acabamento do logotipo</div>
+      <div class="opts c3" id="g-lfin" role="group" aria-label="Acabamento do logotipo">
+        <button class="opt" type="button" data-v="gloss">Brilhante</button>
+        <button class="opt" type="button" data-v="matte">Fosco</button>
+        <button class="opt" type="button" data-v="metal">Metálico</button>
+      </div>
+    </div>
+
+    <div class="sec" id="sec-pz">
+      <h2>Sua <em>assinatura</em></h2>
+      <p class="nota" style="margin:-4px 0 4px">Campos reservados para personalizar sua EDRO, em pontos do quadro livres dos logotipos de fábrica. O detalhe ampliado aparece no canto da imagem.</p>
+
+      <div class="pz" data-z="top">
+        <div class="pz-h"><b>Tubo superior</b><button class="mini-btn" type="button" data-ver="top">Ver de perto</button></div>
+        <label class="campo"><span>Nome ou apelido</span><input type="text" id="in-nome" maxlength="18" placeholder="Ex.: EDUARDO LIMA" autocomplete="off"></label>
+        <div class="duo">
+          <label class="campo"><span>Bandeira</span><select id="in-band"></select></label>
+          <label class="campo"><span>Tipo sanguíneo</span><select id="in-sang"></select></label>
+        </div>
+        <div class="lbl">Estilo da letra</div>
+        <div class="opts c3" id="g-fonte" role="group" aria-label="Estilo da letra">
+          <button class="opt" type="button" data-v="0">Esportiva</button>
+          <button class="opt" type="button" data-v="1">Clássica</button>
+          <button class="opt" type="button" data-v="2">Assinatura</button>
+        </div>
+        <div class="lbl">Cor dos textos</div>
+        <div class="sw-grid" id="sw-T" role="group" aria-label="Cor dos textos"></div>
+        <div class="cor-linha"><div class="cor-atual" id="ca-T"></div><label class="picker"><i></i>Outra cor<input type="color" id="pk-T" aria-label="Escolher outra cor dos textos"></label></div>
+      </div>
+
+      <div class="pz" data-z="topo">
+        <div class="pz-h"><b>Topo do tubo superior</b><button class="mini-btn" type="button" data-ver="topo">Ver de perto</button></div>
+        <p class="nota" style="margin:6px 0 0">Na parte de cima do tubo, junto à caixa de direção: o ponto que você vê pedalando. Como fica fora da vista lateral, ele aparece na lupa no canto da imagem.</p>
+        <div class="lbl" style="margin-top:8px">Símbolo</div>
+        <div class="sims" id="g-sim" role="group" aria-label="Símbolo"></div>
+        <label class="campo" id="campo-ini" hidden><span>Iniciais (até 3 letras, no estilo de letra escolhido acima)</span><input type="text" id="in-ini" maxlength="3" placeholder="Ex.: ECL" autocomplete="off" style="text-transform:uppercase"></label>
+        <label class="campo" id="campo-num" hidden><span>Número (até 3 caracteres)</span><input type="text" id="in-num" maxlength="3" placeholder="Ex.: 07" autocomplete="off"></label>
+        <div id="campo-img" hidden>
+          <div class="upl"><label class="btnf">Escolher imagem<input type="file" id="in-img" accept="image/png,image/jpeg,image/svg+xml,image/webp"></label><small id="img-nome">PNG com fundo transparente funciona melhor. A imagem fica só no seu navegador.</small></div>
+          <label class="switch" style="margin-top:10px"><input type="checkbox" id="c-imgcor"><span class="sl"></span><span class="swt">Manter as cores originais (desligado, a imagem vira silhueta na cor escolhida)</span></label>
+        </div>
+        <div id="campo-ori" hidden>
+          <div class="lbl">Orientação</div>
+          <div class="opts c2" id="g-ori" role="group" aria-label="Orientação do símbolo">
+            <button class="opt" type="button" data-v="eixo">No sentido do tubo</button>
+            <button class="opt" type="button" data-v="lat">Lateralizado</button>
+          </div>
+        </div>
+        <div id="campo-symcor">
+          <div class="lbl">Cor do símbolo</div>
+          <div class="sw-grid" id="sw-Y" role="group" aria-label="Cor do símbolo"></div>
+          <div class="cor-linha"><div class="cor-atual" id="ca-Y"></div><label class="picker"><i></i>Outra cor<input type="color" id="pk-Y" aria-label="Escolher outra cor do símbolo"></label></div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="sec">
+      <h2><em>Acabamento</em> do quadro</h2>
+      <div class="opts c3" id="g-fin" role="group" aria-label="Acabamento do quadro">
+        <button class="opt" type="button" data-v="gloss">Brilhante</button>
+        <button class="opt" type="button" data-v="matte">Fosco</button>
+        <button class="opt" type="button" data-v="metal">Metálico</button>
+        <button class="opt" type="button" data-v="candy">Candy</button>
+        <button class="opt" type="button" data-v="pearl">Perolizado</button>
+      </div>
+      <p class="nota" id="fin-cham" hidden style="margin:10px 0 0"><b>Camaleão</b> · efeito especial da inspiração. Escolha outro acabamento acima para voltar aos acabamentos padrão.</p>
+      <p class="nota" style="margin:10px 0 0" id="fin-txt"></p>
+      <div id="ctl-E" class="sub" hidden>
+        <div class="lbl" id="l-E">Cor do efeito</div>
+        <div class="sw-grid" id="sw-E" role="group" aria-label="Cor do efeito"></div>
+        <div class="cor-linha"><div class="cor-atual" id="ca-E"></div><label class="picker"><i></i>Outra cor<input type="color" id="pk-E" aria-label="Escolher outra cor do efeito"></label></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="aviso">
+  <div><b>Todo projeto FIT4U é revisado pela equipe de design da EDRO</b> antes da pintura: conferimos a aplicação das cores, o encaixe dos grafismos e da sua assinatura no quadro, e aprovamos a cor final com você na amostra física de tinta.</div>
+  <div><b>Não encontrou o grafismo ou a ideia que imaginou?</b> Fale com a nossa equipe: desenhamos um projeto exclusivo, feito à mão para a sua bicicleta. <a id="b-mao" href="#" target="_blank" rel="noopener">Pedir projeto feito à mão</a></div>
+</div>
+
+<div class="resumo">
+  <div class="card">
+    <h3>Seu <em>projeto</em></h3>
+    <dl class="ficha" id="ficha"></dl>
+    <div class="codigo"><code id="codigo"></code><button class="mini-btn" type="button" id="b-cod3">Copiar</button></div>
+    <div class="msg" id="msg-cod" role="status"></div>
+    <div class="carregar">
+      <input id="in-cod" type="text" placeholder="Cole um código de projeto" aria-label="Código de projeto para carregar" autocomplete="off" spellcheck="false">
+      <button class="mini-btn" type="button" id="b-load">Abrir</button>
+    </div>
+    <label class="campo"><span>Observações para o designer</span><textarea id="in-obs" maxlength="600" rows="3" placeholder="Conte o que mais você imagina para a sua bike: referências, cores que não podem faltar, detalhes que não estão no personalizador."></textarea></label>
+    <div class="wa-num">WhatsApp comercial EDRO: <b>(48) 99110-2017</b> · 8h às 18h</div>
+  </div>
+  <div class="card nota">
+    <h3>Como ler a <em>prévia</em></h3>
+    <p>A pintura é aplicada sobre a fotografia real de cada quadro, com a luz e os reflexos do estúdio. Telas mostram cores de formas diferentes: <b>a cor final é aprovada com a amostra física de tinta</b> antes de o quadro ir para a cabine.</p>
+    <p>Metálico, candy e camaleão são aproximações: o brilho real das partículas muda com a luz e o ângulo. Grafismos, filetes e posição dos logotipos seguem o layout de fábrica e são ajustados pela equipe de design da EDRO na arte de produção.</p>
+    <p>Os campos de assinatura ficam em trechos dos tubos livres dos logotipos EDRO. Tamanho, alinhamento e acabamento final de nome, bandeira e símbolo são ajustados pelo designer na arte de produção.</p>
+    <p>Os componentes da foto (suspensão, grupo, rodas) servem de referência e variam conforme a versão escolhida.</p>
+  </div>
+</div>
+
+<div class="card leads" id="leads" hidden>
+  <h3>Contatos <em>captados</em> <small id="leads-n"></small></h3>
+  <p class="nota">Visível só para a EDRO. Cada pessoa que gera imagem ou PDF aparece aqui com o último projeto.</p>
+  <div class="leads-tab" id="leads-tab"></div>
+  <button class="mini-btn" type="button" id="leads-csv">Baixar planilha (CSV)</button>
+</div>
+
+<footer>
+  <span class="fx">NÃO ACEITE SER SÓ MAIS UM</span>
+  <span>EDRO Performance Bikes · Tubarão SC · edrobikes.com.br · prévia ilustrativa, a pintura final é definida com o designer EDRO</span>
+</footer>
+</div>
+
+<div class="ov" id="cad" hidden>
+  <form class="cad-box" id="cad-form" novalidate>
+    <div class="cad-h"><img src="fit4u-marca.png" alt="FIT4U"><button type="button" class="mini-btn" id="cad-x" aria-label="Fechar">×</button></div>
+    <h3 id="cad-tit">Receba seu projeto</h3>
+    <p class="nota" id="cad-sub">Informe seus dados para gerar o arquivo. Um especialista EDRO pode entrar em contato para conversar sobre o seu projeto.</p>
+    <label class="campo"><span>Nome completo</span><input type="text" id="cad-nome" autocomplete="name" maxlength="80" required></label>
+    <div class="duo">
+      <label class="campo"><span>E-mail</span><input type="text" id="cad-email" autocomplete="email" inputmode="email" maxlength="120" required></label>
+      <label class="campo"><span>Telefone / WhatsApp</span><input type="text" id="cad-tel" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="(48) 99999-9999" required></label>
+    </div>
+    <label class="campo"><span>Cidade / UF</span><input type="text" id="cad-cidade" autocomplete="address-level2" maxlength="80" placeholder="Ex.: Tubarão / SC" required></label>
+    <label class="switch" style="margin-top:12px"><input type="checkbox" id="cad-ok"><span class="sl"></span><span class="swt">Autorizo a EDRO a usar estes dados para entrar em contato sobre o meu projeto, conforme a LGPD.</span></label>
+    <div class="msg" id="cad-msg" role="alert"></div>
+    <div class="cad-acoes"><button class="btn prim" type="submit" id="cad-go">Gerar</button></div>
+  </form>
+</div>
+
+<div class="ov" id="ov" hidden>
+  <div class="ov-box">
+    <img id="ov-img" alt="Imagem do projeto de pintura">
+    <div class="ov-bar"><span id="ov-hint">Imagem em alta resolução do seu projeto FIT4U.</span><span style="display:flex;gap:8px"><button class="btn prim" type="button" id="ov-save">Baixar imagem</button><button class="btn" type="button" id="ov-close">Fechar</button></span></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ================= Catálogo ================= */
+const WA_NUM="5548991102017";
+const C3K="#010101", CUD="#020202";            // materiais especiais: carbono aparente
+const PALETA=[
+ ["Branco Puro","#F4F5F2"],["Branco Gelo","#E3E7E8"],["Prata","#B7BBBD"],["Grafite","#4A4E52"],["Cinza Chumbo","#2C2F31"],["Preto Profundo","#0D0E0D"],
+ ["Carbono UD",CUD],["Verde EDRO","#38A936"],["Verde Original","#0A8A1E"],["Verde Militar","#4B5A3A"],["Verde Menta","#7DD3AE"],
+ ["Amarelo Ouro","#E9B83A"],["Amarelo Neon","#D4F21C"],["Laranja","#F26B1D"],["Vermelho Intenso","#C8102E"],["Vinho","#6B1424"],["Rosa","#E35A98"],
+ ["Roxo","#5A2C82"],["Azul Royal","#1F4FA8"],["Azul Marinho","#14264A"],["Azul Petróleo","#0E4C5A"],["Azul Céu","#5BB6E6"],["Areia","#C6B28C"],
+ ["Champanhe","#D6C29E"],["Cobre","#9A5A34"],["Bronze","#7A5C3A"]
+];
+const SW_CARB={[C3K]:"repeating-conic-gradient(#2e3236 0 25%,#0c0d0e 0 50%) 0 0/6px 6px",[CUD]:"repeating-linear-gradient(60deg,#24282b 0 1px,#0c0d0e 1px 3px)"};
+const ZR={
+ summa:[[-30,-30],[365,-30],[365,270],[388,300],[453,582],[440,735],[-30,735]],
+ range:[[-30,-30],[385,-30],[385,200],[446,360],[465,420],[467,570],[440,610],[425,706],[-30,706]],
+ impetus:[[-30,-30],[320,-30],[322,140],[358,262],[370,305],[432,485],[450,570],[410,765],[-30,765]]
+};
+const ZF={impetus:[[992,228],[1070,206],[1300,206],[1300,765],[1170,765]]};
+/* campos de assinatura: centro, ângulo, espessura e comprimento do trecho livre de cada tubo (coordenadas do quadro em escala 2000 px) */
+const ZONAS={"summa-ex":{"top":{"cx":564.0,"cy":207.4,"ang":-22.11,"th":28.5,"len":207.3},"seat":{"cx":442.4,"cy":436.6,"ang":75.83,"th":38.0,"len":175.1}},"summa-xcr":{"top":{"cx":564.0,"cy":207.2,"ang":-22.14,"th":28.5,"len":207.3},"seat":{"cx":442.7,"cy":436.6,"ang":75.75,"th":38.5,"len":175.1}},"summa-pro":{"top":{"cx":564.6,"cy":208.7,"ang":-22.04,"th":27.5,"len":207.3},"seat":{"cx":442.3,"cy":436.6,"ang":75.66,"th":38.5,"len":175.1}},"range-ex":{"top":{"cx":611.5,"cy":208.5,"ang":-23.75,"th":29.0,"len":204.2},"seat":{"cx":438.5,"cy":251.1,"ang":64.0,"th":46.5,"len":75.6}},"range-xcr":{"top":{"cx":611.5,"cy":208.5,"ang":-23.75,"th":29.0,"len":204.2},"seat":{"cx":438.5,"cy":251.1,"ang":64.0,"th":46.5,"len":75.6}},"range-pro":{"top":{"cx":611.4,"cy":208.2,"ang":-23.68,"th":28.5,"len":204.2},"seat":{"cx":438.6,"cy":251.1,"ang":64.0,"th":46.5,"len":75.6}},"impetus-pro":{"top":{"cx":536.0,"cy":117.7,"ang":-7.16,"th":33.0,"len":209.6},"seat":{"cx":408.6,"cy":334.7,"ang":70.7,"th":58.5,"len":175.9}},"impetus-ssr":{"top":{"cx":536.0,"cy":117.6,"ang":-7.12,"th":33.0,"len":209.6},"seat":{"cx":408.6,"cy":334.7,"ang":70.73,"th":58.5,"len":175.9}}};
+const NOME_ZONA={top:"Tubo superior",topo:"Topo do tubo superior",fil:"Filete no tubo superior"};
+const SANGUE=["","A+","A-","B+","B-","AB+","AB-","O+","O-"];
+const FONTES=[{n:"Esportiva",f:(px)=>`italic 800 ${px}px 'Saira Condensed', 'Arial Narrow', sans-serif`,up:true,k:1.0,ls:0.02},
+              {n:"Clássica",f:(px)=>`700 ${px}px Barlow, sans-serif`,up:true,k:0.82,ls:0.16},
+              {n:"Assinatura",f:(px)=>`400 ${px}px Yellowtail, cursive`,up:false,k:1.25,ls:0}];
+const BANDEIRAS=[["","Sem bandeira"],["br","Brasil"],["ar","Argentina"],["uy","Uruguai"],["py","Paraguai"],["cl","Chile"],["co","Colômbia"],["pt","Portugal"],["it","Itália"],["es","Espanha"],["de","Alemanha"],["fr","França"],["us","Estados Unidos"],["mx","México"],["jp","Japão"]];
+const SIMBOLOS=[["","Nenhum"],["raio","Raio"],["estrela","Estrela"],["coracao","Coração"],["montanha","Montanha"],["coroa","Coroa"],["infinito","Infinito"],["alvo","Alvo"],["num","Número"],["img","Sua imagem"],["ini","Iniciais"],["cruz","Cruz"],["cruzh","Cruz com halo"],["peixe","Peixe"],["pomba","Pomba"],["davi","Estrela de Davi"],["lua","Lua e estrela"]]
+const ORDEM_SIM=["","num","ini","cruz","cruzh","peixe","pomba","davi","lua","raio","estrela","coracao","montanha","coroa","infinito","alvo","img"];;
+const BIKES={
+ "summa-pro":{plat:"SUMMA",ver:"PRO",w:2884,h:1576,xr:0.9999,box:[495,103,2002,1122]},
+ "summa-xcr":{plat:"SUMMA",ver:"XCR",w:2894,h:1582,xr:0.9999,box:[499,106,2008,1127]},
+ "summa-ex":{plat:"SUMMA",ver:"EX",w:2883,h:1591,xr:1.0000,box:[496,121,2001,1137]},
+ "range-pro":{plat:"RANGE",ver:"PRO",w:3005,h:1597,xr:0.8571,box:[530,109,2131,1124]},
+ "range-xcr":{plat:"RANGE",ver:"XCR",w:3003,h:1590,xr:0.8597,box:[531,103,2132,1118]},
+ "range-ex":{plat:"RANGE",ver:"EX",w:3003,h:1596,xr:0.8589,box:[531,109,2132,1124]},
+ "impetus-pro":{plat:"IMPETUS",ver:"PRO",w:2411,h:1485,xr:0.9991,box:[424,242,1951,1127]},
+ "impetus-ssr":{plat:"IMPETUS",ver:"SSR",w:2411,h:1481,xr:0.9995,box:[424,243,1954,1121]},
+ /* linha elétrica HORIZON: mesma foto de estúdio da versão convencional, com bateria e motor (peças fixas, em preto) */
+ "summa-pro-hz":{plat:"SUMMA",ver:"PRO",hz:1,base:"summa-pro",w:2884,h:1576,xr:0.9999,box:[495,103,2002,1122]},
+ "summa-xcr-hz":{plat:"SUMMA",ver:"XCR",hz:1,base:"summa-xcr",w:2894,h:1582,xr:0.9999,box:[499,106,2008,1127]},
+ "summa-ex-hz":{plat:"SUMMA",ver:"EX",hz:1,base:"summa-ex",w:2883,h:1591,xr:1.0000,box:[496,121,2001,1137]},
+ "range-pro-hz":{plat:"RANGE",ver:"PRO",hz:1,base:"range-pro",w:3005,h:1597,xr:0.8571,box:[530,109,2131,1240]},
+ "range-xcr-hz":{plat:"RANGE",ver:"XCR",hz:1,base:"range-xcr",w:3003,h:1590,xr:0.8597,box:[531,103,2132,1240]},
+ "range-ex-hz":{plat:"RANGE",ver:"EX",hz:1,base:"range-ex",w:3003,h:1596,xr:0.8589,box:[531,109,2132,1240]}
+};
+const PLATS=["SUMMA","RANGE","IMPETUS"], KEYS=Object.keys(BIKES);
+const ehHz=k=>!!(BIKES[k]&&BIKES[k].hz);
+/* no arquivo único (imagens embutidas) pode vir só uma das linhas */
+const disponivel=k=>!window.FIT4U_IMG||!!window.FIT4U_IMG["bikes/"+k+".webp"];
+const platNome=k=>BIKES[k].hz?BIKES[k].plat+" HORIZON":BIKES[k].plat;
+const CATS=[{id:0,nome:"Bicicletas",ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="16" r="4"/><circle cx="18.5" cy="16" r="4"/><path d="M5.5 16 9 8h7l2.5 8M9 8l3.5 8H5.5M15 5h2.5"/></svg>'},
+            {id:1,nome:"Bicicletas elétricas",ic:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>'}];
+const AMBS=[
+ {id:"escuro",nome:"Estúdio escuro",chip:"radial-gradient(#3a423a,#0b0d0b)"},
+ {id:"claro",nome:"Estúdio claro",chip:"radial-gradient(#ffffff,#cfd4ce)"}
+];
+/* cenários: ground = linha do chão (fração da altura), wb = entre-eixos como fração da largura,
+   grade/nevoa = luz e ar do lugar, sol = direção da luz principal, sky = cor do reflexo no verniz */
+const SCENES=[
+ {id:"trilha",nome:"Trilha na mata",file:"scenes/trilha.webp",plats:["SUMMA","RANGE"],
+  ground:0.885,wb:0.35,x:0.5,grade:"#E6EADC",nevoa:"rgba(40,62,24,0.05)",sky:[0.80,0.95,0.70],wrap:0.45,grao:0.06,vinheta:0.28,
+  sol:[-0.85,-0.5],corSol:"#FFEFC4",recorte:[[3,0.55],[12,0.18]],
+  ambiente:[[0,"#F4F8EC"],[0.55,"#E2E6D4"],[1,"#A99880"]],folhas:{seed:11,sombra:0.16,luz:0.0},
+  sombra:{k:0.14,sh:0.55,nitida:2.5,difusa:22,alcance:0.08,cor:"rgb(24,17,10)",op:1,ao:1.7},assenta:7,
+  chip:"linear-gradient(#6f9a3e 0 62%,#6a4529 62%)"},
+ {id:"asfalto",nome:"Estrada de serra",file:"scenes/asfalto.webp",plats:["IMPETUS"],
+  ground:0.875,wb:0.35,x:0.5,grade:"#EEEEEB",nevoa:"rgba(200,212,222,0.10)",sky:[0.95,0.97,1.0],wrap:0.35,grao:0.06,vinheta:0.22,
+  sol:[-0.55,-0.83],corSol:"#FFE7C2",recorte:[[3,0.85],[11,0.30]],
+  ambiente:[[0,"#FFFFFF"],[0.6,"#E9EBEE"],[1,"#AEB2B6"]],
+  sombra:{k:0.32,sh:0.38,nitida:2,difusa:16,alcance:0.10,cor:"rgb(34,40,52)",op:0.9,ao:1},assenta:1.2,
+  chip:"linear-gradient(#d9e7ec 0 48%,#55665a 48% 58%,#2c2e30 58%)"}
+];
+/* fotos ambientadas (geradas uma única vez por IA): a pintura é aplicada aqui, no navegador; ref = quadro de estúdio de origem, map = foto→estúdio */
+const FOTOB={"summa-pro-foto":{"plat":"SUMMA","ver":"PRO","w":2752,"h":1536,"xr":0.7194,"box":[667,333,1801,1104],"ref":"summa-pro","map":[1.339523,-0.000391,-404.007385,-0.007861,1.328756,-329.941864],"inv":[0.746536,0.00022,301.678467,0.004416,0.752585,250.093521],"sky":[1.0,0.9,0.78]},"impetus-pro-foto":{"plat":"IMPETUS","ver":"PRO","w":2752,"h":1536,"xr":0.9663,"box":[634,256,2116,1114],"ref":"impetus-pro","map":[1.03004,-0.000905,-227.81517,-0.000167,1.028483,-20.050449],"inv":[0.970836,0.000854,221.188416,0.000158,0.972306,19.531189],"sky":[0.95,0.98,1.0]},"summa-ex-foto":{"plat":"SUMMA","ver":"EX","w":2752,"h":1536,"xr":0.7211,"box":[667,333,1801,1104],"ref":"summa-ex","map":[1.339534,-0.000396,-404.024261,-0.007856,1.328767,-314.957184],"inv":[0.74653,0.000222,301.686096,0.004414,0.752578,238.813217],"sky":[1.0,0.9,0.78]},"range-pro-foto":{"plat":"RANGE","ver":"PRO","w":2752,"h":1536,"xr":0.7631,"box":[664,331,1836,1078],"ref":"range-pro","map":[1.381761,-0.0,-396.629242,-0.0,1.381761,-356.776337],"inv":[0.723714,0.0,287.046204,0.0,0.723714,258.204102],"sky":[1.0,0.9,0.78]},"summa-xcr-foto":{"plat":"SUMMA","ver":"XCR","w":2752,"h":1536,"xr":0.7211,"box":[667,334,1800,1105],"ref":"summa-xcr","map":[1.340426,-0.000428,-400.121155,-0.007829,1.329652,-328.599304],"inv":[0.746033,0.00024,298.582397,0.004393,0.752078,248.889755],"sky":[1.0,0.9,0.78]},"impetus-ssr-foto":{"plat":"IMPETUS","ver":"SSR","w":2752,"h":1536,"xr":0.9644,"box":[634,257,2118,1109],"ref":"impetus-ssr","map":[1.030354,-0.000364,-228.564423,-0.000709,1.028798,-19.266306],"inv":[0.97054,0.000343,221.837601,0.000669,0.972009,18.879997],"sky":[0.95,0.98,1.0]},"range-xcr-foto":{"plat":"RANGE","ver":"XCR","w":2752,"h":1536,"xr":0.7651,"box":[666,332,1837,1079],"ref":"range-xcr","map":[1.381681,-0.0,-397.553619,-0.0,1.381681,-364.194611],"inv":[0.723756,0.0,287.731842,0.0,0.723756,263.588074],"sky":[1.0,0.9,0.78]},"range-ex-foto":{"plat":"RANGE","ver":"EX","w":2752,"h":1536,"xr":0.7648,"box":[666,332,1837,1079],"ref":"range-ex","map":[1.381681,-0.0,-397.553619,-0.0,1.381681,-358.19458],"inv":[0.723756,0.0,287.731842,0.0,0.723756,259.245514],"sky":[1.0,0.9,0.78]},"summa-pro-hz-foto":{"plat":"SUMMA","ver":"PRO","w":2752,"h":1536,"xr":0.7211,"box":[667,333,1801,1104],"ref":"summa-pro-hz","map":[1.339521,-0.000392,-404.003693,-0.00786,1.328755,-329.943451],"inv":[0.746537,0.00022,301.676178,0.004416,0.752586,250.094788],"sky":[1.0,0.9,0.78]},"summa-xcr-hz-foto":{"plat":"SUMMA","ver":"XCR","w":2752,"h":1536,"xr":0.7211,"box":[667,334,1800,1104],"ref":"summa-xcr-hz","map":[1.340533,-0.000389,-400.233826,-0.007869,1.329759,-328.631256],"inv":[0.745973,0.000218,298.635437,0.004414,0.752017,248.903137],"sky":[1.0,0.9,0.78]},"summa-ex-hz-foto":{"plat":"SUMMA","ver":"EX","w":2752,"h":1536,"xr":0.7211,"box":[667,333,1801,1104],"ref":"summa-ex-hz","map":[1.339534,-0.000397,-404.027893,-0.007854,1.328768,-314.95459],"inv":[0.74653,0.000223,301.689056,0.004413,0.752578,238.810867],"sky":[1.0,0.9,0.78]},"range-pro-hz-foto":{"plat":"RANGE","ver":"PRO","w":2752,"h":1536,"xr":0.7631,"box":[664,331,1836,1158],"ref":"range-pro-hz","map":[1.381761,-0.0,-396.629242,-0.0,1.381761,-356.776337],"inv":[0.723714,0.0,287.046204,0.0,0.723714,258.204102],"sky":[1.0,0.9,0.78]},"range-xcr-hz-foto":{"plat":"RANGE","ver":"XCR","w":2752,"h":1536,"xr":0.7651,"box":[666,332,1837,1159],"ref":"range-xcr-hz","map":[1.381681,-0.0,-397.553619,-0.0,1.381681,-364.194611],"inv":[0.723756,0.0,287.731842,0.0,0.723756,263.588074],"sky":[1.0,0.9,0.78]},"range-ex-hz-foto":{"plat":"RANGE","ver":"EX","w":2752,"h":1536,"xr":0.7648,"box":[666,332,1837,1159],"ref":"range-ex-hz","map":[1.381681,-0.0,-397.553619,-0.0,1.381681,-358.19458],"inv":[0.723756,0.0,287.731842,0.0,0.723756,259.245514],"sky":[1.0,0.9,0.78]}};
+const FOTOS=[{id:"foto",nome:"Foto no local",foto:true,chip:"linear-gradient(135deg,#7fb2d8 0 40%,#c9a06a 40% 70%,#5b4a36 70%)"}];
+const chaveAtiva=k=>(ambAtual().foto&&FOTOB[k+"-foto"])?k+"-foto":k;
+const MODES=["solid","fade","stripes","zones","pixel","dots","camo","topo","facet","marble","fade2"];
+/* grafismos oferecidos (pixel e meio-tom ficam só para abrir códigos antigos) */
+const MODES_UI=["solid","fade","fade2","stripes","zones","marble"];
+const MODE_INFO={
+ solid:{n:"Sólida",d:"uma cor"},fade:{n:"Degradê",d:"transição de cor"},stripes:{n:"Faixas",d:"uma, duas ou três"},zones:{n:"Bicolor",d:"traseira em outra cor"},
+ pixel:{n:"Pixels",d:"degradê digital"},dots:{n:"Meio-tom",d:"degradê em pontos"},camo:{n:"Camuflado",d:"três tons"},topo:{n:"Topográfico",d:"curvas de nível"},
+ facet:{n:"Facetado",d:"prisma geométrico"},marble:{n:"Mármore",d:"veios orgânicos"},fade2:{n:"Degradê central",d:"faixa que se dissolve"}
+};
+const CTL={solid:[],fade:["dir","pos","soft"],stripes:["dir","pos","soft","count","width"],zones:["zones"],pixel:["dir","pos","soft","scale"],dots:["dir","pos","soft","scale"],
+ camo:["scale","dens"],topo:["scale","dens","width"],facet:["dir","pos","soft","scale"],marble:["scale","dens"],fade2:["dir","pos","soft","width"]};
+/* acabamentos oferecidos; camaleão só vem da inspiração; os demais servem para abrir códigos antigos */
+const FINS_UI=["gloss","matte","metal","candy","pearl"];
+const FIN_MAP={satin:"matte",flake:"metal",prism:"gloss"};
+/* tubo superior de cada quadro (escala 2000 px): eixo, espessura e trecho do logotipo do modelo, para o filete */
+const TUBOS={"summa-ex":{"x0":424.8,"y0":263.2,"x1":897.2,"y1":71.1,"th":29.5,"logo":[420.0,504.0]},"summa-xcr":{"x0":425.0,"y0":263.5,"x1":895.5,"y1":72.0,"th":29.5,"logo":[418.0,502.0]},"summa-pro":{"x0":425.4,"y0":264.7,"x1":897.9,"y1":72.7,"th":29.0,"logo":[418.0,504.0]},"range-ex":{"x0":468.1,"y0":269.9,"x1":906.3,"y1":79.0,"th":30.5,"logo":[404.0,476.0]},"range-xcr":{"x0":468.1,"y0":269.9,"x1":906.3,"y1":79.0,"th":30.5,"logo":[404.0,476.0]},"range-pro":{"x0":468.0,"y0":269.6,"x1":906.2,"y1":78.8,"th":30.5,"logo":[404.0,476.0]},"impetus-pro":{"x0":401.1,"y0":134.8,"x1":946.8,"y1":66.1,"th":37.5,"logo":[412.0,512.0]},"impetus-ssr":{"x0":401.1,"y0":134.8,"x1":946.8,"y1":66.1,"th":37.5,"logo":[412.0,512.0]}};
+for(const k of KEYS){ const b=BIKES[k].base; if(b){ if(ZONAS[b]) ZONAS[k]=ZONAS[b]; if(TUBOS[b]) TUBOS[k]=TUBOS[b]; } }
+const FINS=["gloss","satin","matte","metal","candy","flake","pearl","cham","prism"];
+const NOME_FIN={gloss:"Brilhante",satin:"Acetinado",matte:"Fosco",metal:"Metálico",candy:"Candy",flake:"Flocado",pearl:"Perolizado",cham:"Camaleão",prism:"Prismático"};
+const TXT_FIN={
+ gloss:"Verniz de alto brilho: cor profunda e reflexos nítidos.",
+ satin:"Meio brilho: reflexos suaves e espalhados, toque aveludado.",
+ matte:"Sem brilho: reflexos difusos e cor mais seca. Ótimo com logotipo brilhante ou metálico.",
+ metal:"Partículas metálicas na base: a cor muda com a luz e as bordas escurecem.",
+ candy:"Verniz tingido sobre base metálica: cor profunda, quase translúcida, de alto contraste.",
+ flake:"Flocos metálicos grandes que cintilam no sol. Escolha a cor dos flocos.",
+ pearl:"Verniz perolizado: pigmento de pérola que dá um brilho sedoso e muda levemente de tom nas áreas de luz. Escolha o tom perolado abaixo.",
+ cham:"Efeito especial da inspiração Camaleão: muda de cor com o ângulo, da cor principal na luz para a cor de virada nas bordas.",
+ prism:"Reflexo iridescente que passa pelo arco-íris conforme a luz bate no tubo."
+};
+const E_LBL={flake:"Cor dos flocos",pearl:"Tom perolado",cham:"Cor de virada"};
+const LFINS=["gloss","matte","metal"];
+const SPKW=["all","ramp","A","B"];
+const PRESETS=[
+ {n:"Verde Original",d:"degradê para preto com respingos",s:{A:"#0A8A1E",B:"#0D0E0D",mode:"fade",ang:135,pos:.45,soft:.35,spk:true,spkC:"#0D0E0D",amt:1,spkW:"A",L:"#F4F5F2",lfin:"gloss",fin:"gloss"}},
+ {n:"Branco Granito",d:"branco com respingos cinza",s:{A:"#F4F5F2",mode:"solid",spk:true,spkC:"#7C8083",amt:1,spkW:"all",L:"#2C2F31",lfin:"gloss",fin:"gloss"}},
+ {n:"Degradê Oceano",d:"azul céu para marinho",s:{A:"#5BB6E6",B:"#14264A",mode:"fade",ang:135,pos:.5,soft:.65,spk:false,L:"#F4F5F2",lfin:"gloss",fin:"gloss"}},
+ {n:"Pôr do Sol",d:"laranja para vinho, candy",s:{A:"#F26B1D",B:"#6B1424",mode:"fade",ang:90,pos:.5,soft:.75,spk:false,L:"#F4F5F2",lfin:"gloss",fin:"candy"}},
+ {n:"Faixa Esfumada",d:"degradê central verde no grafite fosco",s:{A:"#2C2F31",B:"#38A936",mode:"fade2",ang:135,pos:.55,soft:.55,width:.14,spk:false,L:"#38A936",lfin:"gloss",fin:"matte"}},
+ {n:"Camaleão",d:"roxo que vira verde na luz",s:{A:"#3B1F78",E:"#0F8A5C",mode:"solid",spk:false,L:"#B7BBBD",lfin:"metal",fin:"cham"}},
+ {n:"Vermelho Candy",d:"traseira preta",s:{A:"#C8102E",B:"#0D0E0D",mode:"zones",fork:false,spk:false,L:"#F4F5F2",lfin:"gloss",fin:"candy"}}
+];
+const DEF={bike:"summa-xcr",A:"#0A8A1E",B:"#0D0E0D",E:"#B7BBBD",mode:"fade",tone:false,ang:135,pos:.45,soft:.35,width:.18,count:1,scale:.5,dens:.5,fork:true,
+  spk:true,spkC:"#0D0E0D",amt:1,spkW:"A",L:"#F4F5F2",lfin:"gloss",fin:"gloss",amb:"foto",preset:0,
+  fil:false,F:"#F4F5F2",filN:1,filW:.35,filP:.45,filLogo:true,spkObs:"",obs:"",
+  nome:"",band:"",sang:"",fonte:0,T:"#F4F5F2",sim:"",num:"",ini:"",ori:"eixo",Y:"#F4F5F2",frase:"",imgCor:false};
+let S=Object.assign({},DEF);
+for(const k in TUBOS){ const T=TUBOS[k], L=Math.hypot(T.x1-T.x0,T.y1-T.y0); if(ZONAS[k]) ZONAS[k].fil={cx:(T.x0+T.x1)/2,cy:(T.y0+T.y1)/2,ang:Math.atan2(T.y1-T.y0,T.x1-T.x0)*180/Math.PI,th:T.th,len:L*0.62}; }
+let lupa=true, mostrandoOriginal=false, LEAD=null;
+
+/* ================= Cor ================= */
+const hexOk=h=>/^#[0-9a-fA-F]{6}$/.test(h);
+const isCarb=h=>{h=(h||"").toUpperCase();return h===C3K||h===CUD;};
+function toLin(v){v/=255;return v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4);}
+function hexLin(h){ if(isCarb(h)) return [0.010,0.0105,0.0115]; return [toLin(parseInt(h.slice(1,3),16)),toLin(parseInt(h.slice(3,5),16)),toLin(parseInt(h.slice(5,7),16))];}
+const LUTN=4096, ENC=new Uint8ClampedArray(LUTN+1);
+for(let i=0;i<=LUTN;i++){const x=i/LUTN;ENC[i]=Math.round(255*(x<=0.0031308?x*12.92:1.055*Math.pow(x,1/2.4)-0.055));}
+const enc=x=>ENC[x<=0?0:x>=1?LUTN:(x*LUTN)|0];
+const LIN8=new Float32Array(256); for(let i=0;i<256;i++) LIN8[i]=toLin(i);
+const ss=(a,b,x)=>{let t=(x-a)/(b-a);t=t<0?0:t>1?1:t;return t*t*(3-2*t);};
+const fract=x=>x-Math.floor(x);
+function nomeCor(h){h=h.toUpperCase();const p=PALETA.find(c=>c[1]===h);return p?p[0]:"Cor personalizada";}
+const swBg=h=>SW_CARB[h.toUpperCase()]||h;
+
+/* ================= Ruído e tecidos ================= */
+function h2(i,j){let n=(Math.imul(i|0,374761393)+Math.imul(j|0,668265263))|0;n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967295;}
+function vnoise(x,y){const i=Math.floor(x),j=Math.floor(y);let fx=x-i,fy=y-j;fx=fx*fx*(3-2*fx);fy=fy*fy*(3-2*fy);
+  const a=h2(i,j),b=h2(i+1,j),c=h2(i,j+1),d=h2(i+1,j+1);return a+(b-a)*fx+(c-a)*fy+(a-b-c+d)*fx*fy;}
+/* respingo sintético em coordenadas do quadro (escala 2000): manchas irregulares de dois tamanhos,
+   densidade ajustada para igualar a cobertura média dos respingos de fábrica */
+function spkSint(x,y,dens){
+  let v=0;
+  for(const L of SPK_L){
+    const c=L.c, ci=Math.floor(x/c), cj=Math.floor(y/c), pr=Math.min(0.95,dens*L.k);
+    for(let dj=-1;dj<=1;dj++)for(let di=-1;di<=1;di++){
+      const i=ci+di, j=cj+dj; if(h2(i*7+L.s,j*13+L.s*3)>pr) continue;
+      const px=(i+h2(i+L.s,j*5))*c, py=(j+h2(i*3,j+L.s))*c, R=L.r0+(L.r1-L.r0)*Math.pow(h2(i*11,j*17+L.s),1.6);
+      if(Math.abs(x-px)>R*2.2+1||Math.abs(y-py)>R*2.2+1) continue;
+      const ns=1+Math.floor(h2(i*29,j*31+L.s)*L.sub), al=0.7+0.3*h2(i*19,j*23+L.s);
+      for(let q=0;q<ns;q++){
+        const qa=h2(i*5+q*41,j*9+L.s)*6.283, qd=q?R*(0.5+0.8*h2(i+q*13,j*7)):0, qx=px+Math.cos(qa)*qd, qy=py+Math.sin(qa)*qd;
+        const r=q?R*(0.25+0.45*h2(i*3+q,j*11+q)):R*0.75, dx=x-qx, dy=y-qy, d=Math.hypot(dx,dy); if(d>r*1.4+0.8) continue;
+        const a=Math.atan2(dy,dx), ph=h2(i+q,j)*6.283, rr=r*(1+0.18*Math.sin(2*a+ph)+0.12*Math.sin(3*a-ph*1.3)+0.07*Math.sin(5*a+ph*0.7));
+        const m=(1-ss(rr-0.55,rr+0.55,d))*al; if(m>v) v=m;
+      }
+    }
+  }
+  return v;
+}
+const SPK_L=[{c:8,k:1.5,r0:0.6,r1:1.4,sub:2,s:3},{c:17,k:1.15,r0:1.4,r1:3.4,sub:5,s:41}];
+function fbm(x,y,o){let s=0,a=0.5,f=1,n=0;for(let k=0;k<o;k++){s+=a*vnoise(x*f+k*17.3,y*f-k*9.1);n+=a;a*=0.5;f*=2.03;}return s/n;}
+function weave3k(x,y){const s=3.4,u=(x+y)*0.7071,v=(x-y)*0.7071,i=Math.floor(u/s),j=Math.floor(v/s);
+  const ori=((i+j)&3)<2, cr=ori?fract(v/s):fract(u/s), sh=Math.sin(Math.PI*cr); return ori?0.25+0.75*sh:0.08+0.35*sh;}
+function weaveUD(x,y){const v=(x*0.5-y*0.866); return 0.35+0.4*h2(Math.floor(v/1.4),7)+0.25*vnoise(v/9,(x*0.866+y*0.5)/60);}
+
+/* ================= Dados dos quadros ================= */
+const vw=document.getElementById("vw"), vctx=vw.getContext("2d");
+const cv=document.createElement("canvas"), ctx=cv.getContext("2d",{willReadFrequently:true});
+let cur=null;
+function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.decoding="async";i.onload=()=>res(i);i.onerror=()=>rej(new Error(src));i.src=src;});}
+function pixels(img,w,h){const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d",{willReadFrequently:true});x.drawImage(img,0,0,w,h);return x.getImageData(0,0,w,h).data;}
+function inPoly(px,py,poly){let ins=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const xi=poly[i][0],yi=poly[i][1],xj=poly[j][0],yj=poly[j][1];if(((yi>py)!==(yj>py))&&(px<(xj-xi)*(py-yi)/(yj-yi)+xi))ins=!ins;}return ins;}
+function blurBox(src,msk,bw,bh,r){
+  const a=new Float32Array(src.length), m=new Float32Array(src.length);
+  for(let i=0;i<src.length;i++){a[i]=src[i]*msk[i];m[i]=msk[i];}
+  const tmp=new Float32Array(src.length);
+  function pass(arr){
+    for(let y=0;y<bh;y++){let s=0;const o=y*bw;for(let x=-r;x<bw;x++){if(x+r<bw)s+=arr[o+x+r];if(x-r-1>=0)s-=arr[o+x-r-1];if(x>=0)tmp[o+x]=s;}}
+    for(let x=0;x<bw;x++){let s=0;for(let y=-r;y<bh;y++){if(y+r<bh)s+=tmp[(y+r)*bw+x];if(y-r-1>=0)s-=tmp[(y-r-1)*bw+x];if(y>=0)arr[y*bw+x]=s;}}
+  }
+  for(let k=0;k<3;k++){pass(a);pass(m);}
+  const out=new Float32Array(src.length);
+  for(let i=0;i<src.length;i++) out[i]=m[i]>1e-6?a[i]/m[i]:src[i];
+  return out;
+}
+/* sob os logotipos, a luz da foto original vem do logo de fábrica (escuro) e do preenchimento: reconstrói a luz da superfície
+   interpolando ao longo do eixo do tubo a partir da pintura limpa dos dois lados, para o logo receber o mesmo volume e reflexo do quadro */
+function fillLogo(chs,mBox,lgBox,bw,bh,K){
+  const n=bw*bh, L=new Uint8Array(n), D=new Uint8Array(n), d=Math.max(1,Math.round(2*K));
+  for(let i=0;i<n;i++) if(lgBox[i]>0.01&&mBox[i]) L[i]=1;
+  for(let y=0;y<bh;y++)for(let x=0;x<bw;x++){ if(!L[y*bw+x]) continue;
+    for(let yy=Math.max(0,y-d);yy<=Math.min(bh-1,y+d);yy++)for(let xx=Math.max(0,x-d);xx<=Math.min(bw-1,x+d);xx++) D[yy*bw+xx]=1; }
+  const G=16, gw=Math.ceil(bw/G), gh=Math.ceil(bh/G), M=new Float64Array(gw*gh*6);
+  for(let y=0;y<bh;y++)for(let x=0;x<bw;x++){ if(!L[y*bw+x]) continue; const c=((y/G|0)*gw+(x/G|0))*6; M[c]++;M[c+1]+=x;M[c+2]+=y;M[c+3]+=x*x;M[c+4]+=y*y;M[c+5]+=x*y; }
+  const R=Math.max(2,Math.ceil(48*K/G)), ang=new Float32Array(gw*gh).fill(NaN);
+  for(let gy=0;gy<gh;gy++)for(let gx=0;gx<gw;gx++){
+    let c0=0,sx=0,sy=0,sxx=0,syy=0,sxy=0;
+    for(let j=Math.max(0,gy-R);j<=Math.min(gh-1,gy+R);j++)for(let i=Math.max(0,gx-R);i<=Math.min(gw-1,gx+R);i++){const c=(j*gw+i)*6;c0+=M[c];sx+=M[c+1];sy+=M[c+2];sxx+=M[c+3];syy+=M[c+4];sxy+=M[c+5];}
+    if(c0<8) continue; const mx=sx/c0,my=sy/c0, cxx=sxx/c0-mx*mx, cyy=syy/c0-my*my, cxy=sxy/c0-mx*my;
+    ang[gy*gw+gx]=0.5*Math.atan2(2*cxy,cxx-cyy);
+  }
+  const T=Math.round(170*K), ok=(x,y)=>x>=0&&y>=0&&x<bw&&y<bh&&mBox[y*bw+x]&&!D[y*bw+x];
+  const nc=chs.length, out=chs.map(c=>new Float32Array(c));
+  for(let y=0;y<bh;y++)for(let x=0;x<bw;x++){
+    const j=y*bw+x; if(!D[j]||!mBox[j]) continue;
+    const a=ang[(y/G|0)*gw+(x/G|0)]; if(a!==a) continue;
+    const ux=Math.cos(a), uy=Math.sin(a); let j1=-1,t1=0,j2=-1,t2=0;
+    for(let t=1;t<=T;t++){ const X=Math.round(x+ux*t), Y=Math.round(y+uy*t); if(X<0||Y<0||X>=bw||Y>=bh) break; if(ok(X,Y)){j1=Y*bw+X;t1=t;break;} }
+    for(let t=1;t<=T;t++){ const X=Math.round(x-ux*t), Y=Math.round(y-uy*t); if(X<0||Y<0||X>=bw||Y>=bh) break; if(ok(X,Y)){j2=Y*bw+X;t2=t;break;} }
+    if(j1<0&&j2<0) continue;
+    const w=j1<0?0:j2<0?1:t2/(t1+t2);
+    for(let c=0;c<nc;c++){ const ch=chs[c]; out[c][j]=j1<0?ch[j2]:j2<0?ch[j1]:ch[j1]*w+ch[j2]*(1-w); }
+  }
+  for(let c=0;c<nc;c++) chs[c].set(out[c]);
+  return D;
+}
+async function prepBike(key){
+  const B=BIKES[key]||FOTOB[key]; if(B.ready) return B;
+  const [im0,imA,imB]=await Promise.all([loadImg(`bikes/${key}.webp`),loadImg(`bikes/${key}_a.webp`),loadImg(`bikes/${key}_b.webp`)]);
+  const W=B.w,H=B.h;
+  const base=pixels(im0,W,H), pa=pixels(imA,W,H), pb=pixels(imB,W,H);
+  const [x0,y0,x1,y1]=B.box, bw=x1-x0, bh=y1-y0, plat=key.split("-")[0], K=B.w/2000;
+  const xnBox=new Float32Array(bw*bh), dhBox=new Float32Array(bw*bh), sBox=new Float32Array(bw*bh), mBox=new Float32Array(bw*bh), lgBox=new Float32Array(bw*bh), spBox=new Float32Array(bw*bh);
+  let n=0;
+  for(let y=0;y<bh;y++)for(let x=0;x<bw;x++){
+    const p=((y+y0)*W+(x+x0))*4, f=pb[p+2], xn=B.ref?Math.min(1.2,LIN8[pa[p]]/B.xr):Math.min(1.2,Math.pow(LIN8[pa[p]]/(B.xr*ST.exp),ST.gam)), j=y*bw+x;
+    xnBox[j]=xn; dhBox[j]=Math.pow(xn,2.2); sBox[j]=LIN8[pa[p+2]]*(B.ref?1:ST.spec); mBox[j]=f>128?1:0; lgBox[j]=pb[p+1]/255; spBox[j]=pb[p]/255; if(f>0) n++;
+  }
+  const LD=fillLogo([xnBox,dhBox,sBox],mBox,lgBox,bw,bh,K);
+  /* tira do reflexo os pontinhos herdados dos respingos da foto de origem: picos fracos e isolados
+     são limitados pela média local; reflexos fortes e faixas de luz ficam como estão */
+  { const sbl=blurBox(sBox,mBox,bw,bh,Math.max(3,Math.round(10*K)));
+    for(let j=0;j<sBox.length;j++){ const v=sBox[j]; if(v>0&&v<0.14){ const cap=sbl[j]*1.1+0.002; if(v>cap) sBox[j]=cap+(v-cap)*Math.max(0,(v-0.08)/0.06); } } }
+  const cov=blurBox(spBox,mBox,bw,bh,Math.round(26*K)); let tgt=0;
+  { const v=[]; for(let j=0;j<cov.length;j+=5) if(mBox[j]&&!LD[j]) v.push(cov[j]); v.sort((a,b)=>a-b); tgt=v.length?v[Math.floor(v.length*0.8)]:0; }
+  const dens=tgt*3.0;
+  /* verniz: perto da silhueta o tubo é visto de raspão e reflete mais o ambiente (Fresnel):
+     borda de cima pega o céu, borda de baixo pega pouco */
+  const one=new Float32Array(bw*bh).fill(1), mbl=blurBox(mBox,one,bw,bh,Math.max(2,Math.round(2.6*K)));
+  const FR=new Float32Array(bw*bh);
+  for(let y=1;y<bh-1;y++)for(let x=0;x<bw;x++){ const j=y*bw+x; if(!mBox[j]) continue;
+    const e=Math.min(1,Math.max(0,(1-mbl[j])*2.2)); if(e<0.02) continue;
+    const gy=(mbl[j+bw]-mbl[j-bw])*K*1.8, up=Math.max(-1,Math.min(1,gy));
+    FR[j]=Math.pow(e,1.6)*(up>0?0.02+0.11*up:0.012); }
+  const xnB=blurBox(xnBox,mBox,bw,bh,Math.round(4*K)), dhB=blurBox(dhBox,mBox,bw,bh,Math.round(4*K)), sB=blurBox(sBox,mBox,bw,bh,Math.round(11*K));
+  const F=()=>new Float32Array(n);
+  const P={n,j:new Int32Array(n),dA:F(),dR:F(),dG:F(),dB:F(),idx:new Int32Array(n),rx:F(),ry:F(),f:F(),xn:F(),dh:F(),xnB:F(),dhB:F(),sp:F(),spS:F(),sB:F(),spk:F(),lg:F(),lt:F(),det:F(),est:F(),fl:F(),w3:F(),wu:F(),fr:F(),zone:new Uint8Array(n)};
+  let k=0, seed=12345; const rnd=()=>{seed=(Math.imul(seed,1103515245)+12345)&0x7fffffff;return seed/0x7fffffff;};
+  for(let y=0;y<bh;y++)for(let x=0;x<bw;x++){
+    const p=((y+y0)*W+(x+x0))*4, f8=pb[p+2]; if(!f8) continue;
+    const j=y*bw+x, f=f8/255;
+    let X=x/K, Yy=y/K;
+    if(B.ref){ const R=BIKES[B.ref], KR=R.w/2000, m=B.map, xa=x+x0, ya=y+y0; X=(m[0]*xa+m[1]*ya+m[2]-R.box[0])/KR; Yy=(m[3]*xa+m[4]*ya+m[5]-R.box[1])/KR; }
+    P.idx[k]=p; P.j[k]=j; P.rx[k]=X; P.ry[k]=Yy; P.f[k]=f;
+    P.xn[k]=xnBox[j]; P.dh[k]=dhBox[j]; P.xnB[k]=xnB[j]; P.dhB[k]=dhB[j];
+    const sl=sBox[j]; P.sp[k]=sl; P.spS[k]=sl*Math.min(1,Math.pow(sl/0.3,0.7)); P.sB[k]=sB[j];
+    { let sp=pb[p]/255; const need=tgt>0.01&&!LD[j]?Math.max(0,Math.min(1,(tgt-cov[j])/tgt*1.3)):0;
+      if(need>0.03){ const sv=spkSint(X,Yy,dens)*ss(0,0.6,need); if(sv>sp) sp=sv; } P.spk[k]=sp; } const lg=pb[p+1]/255; P.lg[k]=lg;
+    const g=pa[p+1]/255;
+    if(lg>0.02||LD[j]){P.lt[k]=1;P.det[k]=0;} else {P.lt[k]=1;P.det[k]=(g-0.5)/3;}
+    const bl=(0.2126*base[p]+0.7152*base[p+1]+0.0722*base[p+2])/255, sh=pa[p]/255, w=ss(0.8,1,f);
+    P.est[k]=sh*(1-w)+bl*w;
+    let z=0; if(inPoly(X,Yy,ZR[plat])) z=1; else if(ZF[plat]&&inPoly(X,Yy,ZF[plat])) z=2;
+    P.zone[k]=z; P.fr[k]=FR[j]; P.fl[k]=rnd(); P.w3[k]=weave3k(X,Yy); P.wu[k]=weaveUD(X,Yy);
+    k++;
+  }
+  // pontos de contato dos pneus (sombra no cenário)
+  const yb=[0,0], xb=[[1e9,-1],[1e9,-1]];
+  for(let y=H-1;y>=0&&(!yb[0]||!yb[1]);y--)for(let x=0;x<W;x++){ const hf=x<W/2?0:1; if(base[(y*W+x)*4+3]>140){ if(!yb[hf]) yb[hf]=y; if(yb[hf]===y){xb[hf][0]=Math.min(xb[hf][0],x);xb[hf][1]=Math.max(xb[hf][1],x);} } }
+  B.contato=[{x:(xb[0][0]+xb[0][1])/2,y:yb[0]},{x:(xb[1][0]+xb[1][1])/2,y:yb[1]}];
+  { const ai=[], aw=[]; for(let p=3;p<pa.length;p+=4){ if(pa[p]<250){ ai.push(p-3); aw.push(1-pa[p]/255); } }
+    if(ai.length){ const vs=[]; for(let i=0;i<ai.length;i++) if(aw[i]>0.8){ const p=ai[i]; vs.push(Math.max(base[p],base[p+1],base[p+2])); }
+      vs.sort((a,b)=>a-b); B.acc={i:Int32Array.from(ai),w:Float32Array.from(aw),vr:Math.max(40,vs.length?vs[Math.floor(vs.length*0.9)]:200)}; } else B.acc=null; }
+  B.P=P; B.base=base; B.out=new ImageData(new Uint8ClampedArray(base),W,H); B.im0=im0; B.ready=true; B.bw=bw/K; B.bh=bh/K; B.pbw=bw; B.pbh=bh; B.K=K; B.mask=null; B.decKey=null;
+  return B;
+}
+
+/* ================= Grafismos ================= */
+function rampAt(t,pos,soft){const h=Math.max(soft,0.002)/2;return ss(pos-h-0.0005,pos+h+0.0005,t);}
+function dirOf(st,bw,bh){const th=st.ang*Math.PI/180,dx=Math.cos(th),dy=Math.sin(th);const cs=[0,bw*dx,bh*dy,bw*dx+bh*dy];const pmin=Math.min(...cs),pmax=Math.max(...cs);return {dx,dy,pmin,pr:1/(pmax-pmin)};}
+/* [quanto da cor do grafismo 0..1, variação de luz da faceta] no ponto (x,y) do retângulo do quadro */
+function patAt(x,y,st,dir,zone){
+  const mode=st.mode;
+  if(mode==="solid") return [0,0];
+  if(mode==="zones") return [(zone===1||(zone===2&&st.fork))?1:0,0];
+  const tAt=(px,py)=>((px*dir.dx+py*dir.dy)-dir.pmin)*dir.pr;
+  if(mode==="fade") return [rampAt(tAt(x,y),st.pos,st.soft),0];
+  if(mode==="fade2"){ const hw=0.02+st.width*0.55, sf=0.01+st.soft*0.45; return [1-ss(hw,hw+sf,Math.abs(tAt(x,y)-st.pos)),0]; }
+  if(mode==="stripes"){
+    const t=tAt(x,y), w=st.width, g=Math.max(w*0.7,0.02), e=Math.max(st.soft,0.002)*0.08+0.0015; let m=0;
+    for(let i=0;i<st.count;i++){const c=st.pos+(i-(st.count-1)/2)*(w+g); m=Math.max(m,ss(c-w/2-e,c-w/2+e,t)*(1-ss(c+w/2-e,c+w/2+e,t)));}
+    return [m,0];
+  }
+  const sc=st.scale;
+  if(mode==="pixel"){
+    const cs=7+sc*36, i=Math.floor(x/cs), j=Math.floor(y/cs), fx=x/cs-i, fy=y/cs-j;
+    const pr=1-rampAt(tAt((i+.5)*cs,(j+.5)*cs),st.pos,Math.max(st.soft,0.15));
+    const on=h2(i*7+3,j*13+5)<pr, gap=Math.min(fx,fy,1-fx,1-fy)*cs;
+    return [on?ss(0.4,1.4,gap):0,0];
+  }
+  if(mode==="dots"){
+    const cs=8+sc*30, u=(x+y)*0.7071, v=(x-y)*0.7071, i=Math.floor(u/cs), j=Math.floor(v/cs);
+    const cu=(i+.5)*cs, cw=(j+.5)*cs, cx=(cu+cw)*0.7071, cy=(cu-cw)*0.7071;
+    const pr=1-rampAt(tAt(cx,cy),st.pos,Math.max(st.soft,0.15));
+    const r=cs*0.5*1.18*Math.sqrt(pr), d=Math.hypot(u-cu,v-cw);
+    return [pr<0.01?0:1-ss(r-0.8,r+0.8,d),0];
+  }
+  if(mode==="camo"){
+    const s=45+sc*170, th=0.62-st.dens*0.22, e=0.012;
+    const a=fbm(x/s,y/s,4), b=fbm(x/s+31.7,y/s-12.4,4);
+    const m1=ss(th-e,th+e,a), m2=ss(th-e,th+e,b);
+    return [Math.max(m1,m2*0.5*(1-m1)),0];
+  }
+  if(mode==="topo"){
+    const s=90+sc*260, lv=6+st.dens*16;
+    const v=fbm(x/s,y/s,4)*lv, vx=fbm((x+1)/s,y/s,4)*lv, vy=fbm(x/s,(y+1)/s,4)*lv;
+    const g=Math.hypot(vx-v,vy-v)+1e-4, f=fract(v), d=Math.min(f,1-f)/g, lw=0.7+st.width*14;
+    return [1-ss(lw-0.7,lw+0.7,d),0];
+  }
+  if(mode==="facet"){
+    const cs=40+sc*110, u=x/cs, v=y/cs, i=Math.floor(u), j=Math.floor(v), fu=u-i, fv=v-j;
+    const flip=h2(i,j*3+1)>0.5, tri=flip?(fu+fv<1?0:1):(fu>fv?0:1);
+    const hv=h2(i*5+tri*101,j*7+tri*53), hs=h2(i*11+tri*7,j*3+tri*29);
+    const r=rampAt(tAt((i+.5)*cs,(j+.5)*cs),st.pos,Math.max(st.soft,0.2));
+    return [Math.min(1,Math.max(0,r+(hv-0.5)*0.75)),(hs-0.5)*0.22];
+  }
+  if(mode==="marble"){
+    const s=120+sc*300, w=fbm(x/s,y/s,5), w2=fbm(x/s*2.3+5,y/s*2.3-3,4);
+    const vein=Math.abs(Math.sin((x*0.8+y*0.45)/s*5+w*9)), vein2=Math.abs(Math.sin((x*0.3-y*0.9)/s*9+w2*11));
+    const th=0.04+st.dens*0.16;
+    return [Math.max(1-ss(0,th,vein),(1-ss(0,th*0.5,vein2))*0.55),0];
+  }
+  return [0,0];
+}
+/* filete no tubo superior: linhas finas paralelas ao eixo do tubo, com pontas afinadas e pausa no logotipo do modelo */
+function filAt(x,y,st,T){
+  if(!T) return 0;
+  const ex=T.x1-T.x0, ey=T.y1-T.y0, L=Math.hypot(ex,ey), ux=ex/L, uy=ey/L, dx=x-T.x0, dy=y-T.y0;
+  const t=dx*ux+dy*uy; if(t<-2||t>L+2) return 0;
+  const n=-dx*uy+dy*ux, lw=1.1+st.filW*4.2, gap=lw*1.15+1.6, off=(st.filP-0.5)*T.th*0.8, N=st.filN|0||1;
+  let m=0;
+  for(let i=0;i<N;i++){ const c=off+(i-(N-1)/2)*(lw+gap); m=Math.max(m,1-ss(lw/2-0.55,lw/2+0.55,Math.abs(n-c))); }
+  if(!m) return 0;
+  let env=ss(2,26,t)*ss(2,26,L-t);
+  if(st.filLogo&&T.logo){ const a=T.logo[0]-6, b=T.logo[1]+6; env*=1-ss(a-14,a,t)*(1-ss(b,b+14,t)); }
+  return m*env;
+}
+function patKey(st){return [st.mode,st.ang,st.pos,st.soft,st.width,st.count,st.scale,st.dens,st.fork,st.fil,st.filN,st.filW,st.filP,st.filLogo].join("|");}
+function maskFor(B){
+  const key=patKey(S); if(B.mask&&B.mask.key===key) return B.mask;
+  const P=B.P, n=P.n, w=new Float32Array(n), fs=new Float32Array(n), rp=new Float32Array(n), wf=new Float32Array(n), d=dirOf(S,B.bw,B.bh), T=S.fil?TUBOS[B.ref||S.bike]:null;
+  for(let k=0;k<n;k++){
+    const r=patAt(P.rx[k],P.ry[k],S,d,P.zone[k]); w[k]=r[0]; fs[k]=r[1];
+    const t=((P.rx[k]*d.dx+P.ry[k]*d.dy)-d.pmin)*d.pr; rp[k]=1-rampAt(t,S.pos,Math.max(S.soft,0.3));
+    if(T) wf[k]=filAt(P.rx[k],P.ry[k],S,T);
+  }
+  B.mask={key,w,fs,rp,wf}; return B.mask;
+}
+
+/* ================= Shader ================= */
+let ENV={sky:[1,1,1]}, FLA=1;
+function prismRGB(h,o){const r=Math.abs(h*6-3)-1,g=2-Math.abs(h*6-2),b=2-Math.abs(h*6-4);o[0]=Math.min(1,Math.max(0,r));o[1]=Math.min(1,Math.max(0,g));o[2]=Math.min(1,Math.max(0,b));}
+const PR=[0,0,0];
+function shade(r,g,b,fin,k,P,o,cE,c3,cU,fsh){
+  const Y=0.2126*r+0.7152*g+0.0722*b, tt=ss(0.25,0.85,Y), blk=1-ss(0,0.04,Y);
+  let D=(P.dh[k]*(1-tt)+P.xn[k]*tt)*(1+P.det[k]*2.4)*(1+fsh);
+  let Su=P.spS[k]*(1-blk)+P.sp[k]*blk;
+  const carb=c3+cU;
+  if(carb>0){ const wv=P.w3[k]*c3+P.wu[k]*cU; Su*=1+carb*(wv*1.7-0.75); D*=1+carb*(wv-0.5)*0.5; r+=carb*wv*0.006; g+=carb*wv*0.006; b+=carb*wv*0.007; }
+  const sk=ENV.sky, frs=P.fr?P.fr[k]:0, SBk=P.sB[k], Sx=Math.max(0,Su-0.36*SBk+Math.max(0,Su-SBk*1.05)*0.55)+frs;
+  const s0=Sx*sk[0], s1=Sx*sk[1], s2=Sx*sk[2];
+  if(fin==="gloss"){o[0]=r*D+s0;o[1]=g*D+s1;o[2]=b*D+s2;return;}
+  const Db=(P.dhB[k]*(1-tt)+P.xnB[k]*tt)*(1+fsh), SB=P.sB[k];
+  if(fin==="matte"){const d=Db*0.8+0.10, s=SB*0.12;o[0]=r*d+s*sk[0];o[1]=g*d+s*sk[1];o[2]=b*d+s*sk[2];return;}
+  if(fin==="satin"){const d=D*0.45+Db*0.55, s=SB*0.3;o[0]=r*d+s0*0.35+s*sk[0];o[1]=g*d+s1*0.35+s*sk[1];o[2]=b*d+s2*0.35+s*sk[2];return;}
+  const fl=(P.fl[k]*2-1)*FLA;
+  if(fin==="metal"||fin==="candy"||fin==="flake"||fin==="cham"){
+    if(fin==="cham"){ const t=ss(0.25,0.95,D); r=cE[0]+(r-cE[0])*t; g=cE[1]+(g-cE[1])*t; b=cE[2]+(b-cE[2])*t; }
+    let mx=Math.max(r,g,b,1e-4);
+    if(fin==="candy"){ const q=1.45; r=Math.pow(r/mx,q)*mx; g=Math.pow(g/mx,q)*mx; b=Math.pow(b/mx,q)*mx; mx=Math.max(r,g,b,1e-4); }
+    const ex=fin==="candy"?1.4:1.25, d=Math.pow(D,ex)*(0.86+0.2*fl)*(fin==="candy"?1.08:1);
+    const tr=r/mx,tg=g/mx,tb=b/mx, sm=fin==="candy"?1.35:1.15, sb=SB*0.5;
+    o[0]=r*d+s0*sm*(0.45+0.55*tr)+sb*tr*mx*2; o[1]=g*d+s1*sm*(0.45+0.55*tg)+sb*tg*mx*2; o[2]=b*d+s2*sm*(0.45+0.55*tb)+sb*tb*mx*2;
+    if(fin==="flake"){ const q=P.fl[k]; if(q>0.962){ const sp=(q-0.962)/0.038; const a=sp*sp*(0.2+0.8*ss(0.15,1,D))*1.3; o[0]+=cE[0]*a; o[1]+=cE[1]*a; o[2]+=cE[2]*a; } }
+    return;
+  }
+  if(fin==="pearl"){
+    /* verniz perolizado: nas áreas de luz a cor puxa para o tom da pérola, um brilho sedoso tingido e o cintilar fino da mica */
+    /* em cores escuras a pérola fica concentrada nas luzes, para não acinzentar a base */
+    const Y=0.3*r+0.6*g+0.1*b, w=0.3+0.7*Math.sqrt(Math.min(1,Y*2));
+    const t=ss(0.3,1,D), m=0.2*t*w*w, rr=r+(cE[0]-r)*m, gg=g+(cE[1]-g)*m, bb=b+(cE[2]-b)*m;
+    const sh=(0.025*w+0.09*t*t)*D*w, mi=Math.max(0,P.fl[k]-0.82)*0.42*D*(0.4+0.6*t);
+    o[0]=rr*D+s0+cE[0]*(sh+mi); o[1]=gg*D+s1+cE[1]*(sh+mi); o[2]=bb*D+s2+cE[2]*(sh+mi); return;
+  }
+  const hue=fract(0.62+P.xn[k]*1.4+P.rx[k]*0.00045-P.ry[k]*0.0003); prismRGB(hue,PR);
+  const ia=(0.05+0.2*ss(0.35,1,D))*(0.35+0.65*D);
+  o[0]=r*D*0.9+s0+PR[0]*ia; o[1]=g*D*0.9+s1+PR[1]*ia; o[2]=b*D*0.9+s2+PR[2]*ia;
+}
+let pend=false;
+function agenda(){ if(!pend){pend=true;requestAnimationFrame(()=>{pend=false;render();});} }
+const altFin=f=>(f==="matte"||f==="satin")?"gloss":"matte";
+/* faixas do conjunto HORIZON acompanham a cor principal da pintura (ou a secundária, se a principal for escura ou carbono) */
+function corDetalhe(){
+  const ok=h=>{ const H=h.toUpperCase(); if(H===C3K||H===CUD) return false; const c=hexLin(h); return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2]>0.035; };
+  return ok(S.A)?S.A:(!S.tone&&ok(S.B))?S.B:ok(S.E)?S.E:"#B7BBBD";
+}
+function tintaDetalhe(C){
+  const h=corDetalhe(), r=parseInt(h.slice(1,3),16), g=parseInt(h.slice(3,5),16), b=parseInt(h.slice(5,7),16), A=C.acc, d=C.out.data, base=C.base;
+  for(let i=0;i<A.i.length;i++){ const p=A.i[i], w=A.w[i], v=Math.min(1.15,Math.max(base[p],base[p+1],base[p+2])/A.vr);
+    d[p]=base[p]+(r*v-base[p])*w; d[p+1]=base[p+1]+(g*v-base[p+1])*w; d[p+2]=base[p+2]+(b*v-base[p+2])*w; }
+}
+function render(){
+  if(!cur||!cur.ready) return;
+  if(mostrandoOriginal){ctx.clearRect(0,0,cv.width,cv.height);ctx.drawImage(cur.im0,0,0);compoe();return;}
+  const P=cur.P, d=cur.out.data, base=cur.base, M=maskFor(cur); decalques(cur);
+  const cA=hexLin(S.A), cB=S.tone?cA:hexLin(S.B), cS=hexLin(S.spkC), cL=hexLin(S.L), cE=hexLin(S.E), cF=hexLin(S.F), filOn=S.fil;
+  const A=S.A.toUpperCase(), Bh=S.B.toUpperCase();
+  const a3=A===C3K?1:0, aU=A===CUD?1:0, b3=S.tone?a3:(Bh===C3K?1:0), bU=S.tone?aU:(Bh===CUD?1:0);
+  const spkOn=S.spk, amt=S.amt, spkW=S.spkW, tone=S.tone, fin=S.fin, fin2=altFin(S.fin);
+  const o=[0,0,0], o2=[0,0,0], ol=[0,0,0];
+  for(let k=0;k<P.n;k++){
+    const wB=M.w[k], fsh=M.fs[k];
+    let r,g,b,c3,cU;
+    if(tone){ r=cA[0];g=cA[1];b=cA[2]; c3=a3; cU=aU; }
+    else { r=cA[0]+(cB[0]-cA[0])*wB; g=cA[1]+(cB[1]-cA[1])*wB; b=cA[2]+(cB[2]-cA[2])*wB; c3=a3+(b3-a3)*wB; cU=aU+(bU-aU)*wB; }
+    if(spkOn){
+      let a=P.spk[k]*amt; if(spkW==="A") a*=1-wB; else if(spkW==="B") a*=wB; else if(spkW==="ramp") a*=M.rp[k];
+      if(a>0){ r+=(cS[0]-r)*a; g+=(cS[1]-g)*a; b+=(cS[2]-b)*a; c3*=1-a; cU*=1-a; }
+    }
+    if(filOn){ const a=M.wf[k]; if(a>0){ r+=(cF[0]-r)*a; g+=(cF[1]-g)*a; b+=(cF[2]-b)*a; c3*=1-a; cU*=1-a; } }
+    const da=P.dA[k];
+    if(da>0){ r+=(P.dR[k]-r)*da; g+=(P.dG[k]-g)*da; b+=(P.dB[k]-b)*da; c3*=1-da; cU*=1-da; }
+    shade(r,g,b,fin,k,P,o,cE,c3,cU,fsh);
+    if(tone&&wB>0.003){ shade(r,g,b,fin2,k,P,o2,cE,c3,cU,fsh); if(fin2==="gloss"){ const sh=0.012*(0.25+P.xn[k])+P.sp[k]*0.6; o2[0]+=sh*ENV.sky[0]; o2[1]+=sh*ENV.sky[1]; o2[2]+=sh*ENV.sky[2]; } o[0]+=(o2[0]-o[0])*wB; o[1]+=(o2[1]-o[1])*wB; o[2]+=(o2[2]-o[2])*wB; }
+    const lg=P.lg[k];
+    if(lg>0.003){
+      const lt=P.lt[k];
+      FLA=0.3; shade(cL[0]*lt,cL[1]*lt,cL[2]*lt,S.lfin,k,P,ol,cE,0,0,0); FLA=1;
+      for(let c=0;c<3;c++){ const v=ol[c]; if(v>0.62) ol[c]=0.62+0.4*(1-Math.exp(-(v-0.62)/0.4)); }
+      o[0]+=(ol[0]-o[0])*lg; o[1]+=(ol[1]-o[1])*lg; o[2]+=(ol[2]-o[2])*lg;
+    }
+    const p=P.idx[k], f=P.f[k];
+    if(f>=0.999){ d[p]=enc(o[0]); d[p+1]=enc(o[1]); d[p+2]=enc(o[2]); }
+    else{ const e=P.est[k]*255; d[p]=base[p]+f*(enc(o[0])-e); d[p+1]=base[p+1]+f*(enc(o[1])-e); d[p+2]=base[p+2]+f*(enc(o[2])-e); }
+  }
+  if(cur.acc) tintaDetalhe(cur);
+  const [x0,y0,x1,y1]=cur.box;
+  ctx.putImageData(cur.out,0,0,x0,y0,x1-x0,y1-y0);
+  compoe();
+}
+
+/* ================= Assinatura: bandeiras, símbolos e textos pintados ================= */
+function bandeira(g,code,w,h){
+  const R=(c,x,y,ww,hh)=>{g.fillStyle=c;g.fillRect(x,y,ww,hh);};
+  const H3=(a,b,c)=>{R(a,0,0,w,h/3+0.5);R(b,0,h/3,w,h/3+0.5);R(c,0,2*h/3,w,h/3);};
+  const V3=(a,b,c)=>{R(a,0,0,w/3+0.5,h);R(b,w/3,0,w/3+0.5,h);R(c,2*w/3,0,w/3,h);};
+  const disco=(c,x,y,r)=>{g.fillStyle=c;g.beginPath();g.arc(x,y,r,0,7);g.fill();};
+  switch(code){
+    case "br": R("#009C3B",0,0,w,h); g.fillStyle="#FFDF00"; g.beginPath(); g.moveTo(w*0.08,h/2); g.lineTo(w/2,h*0.1); g.lineTo(w*0.92,h/2); g.lineTo(w/2,h*0.9); g.closePath(); g.fill();
+      disco("#002776",w/2,h/2,h*0.25); g.strokeStyle="#fff"; g.lineWidth=h*0.05; g.beginPath(); g.arc(w/2-h*0.05,h*0.95,h*0.5,-2.1,-1.05); g.stroke(); break;
+    case "ar": H3("#74ACDF","#FFFFFF","#74ACDF"); disco("#F6B40E",w/2,h/2,h*0.11); break;
+    case "uy": for(let i=0;i<9;i++) R(i%2?"#0038A8":"#FFFFFF",0,i*h/9,w,h/9+0.5); R("#FFFFFF",0,0,w*0.4,h*5/9); disco("#FCD116",w*0.2,h*0.27,h*0.15); break;
+    case "py": H3("#D52B1E","#FFFFFF","#0038A8"); g.strokeStyle="#0038A8"; g.lineWidth=h*0.03; g.beginPath(); g.arc(w/2,h/2,h*0.12,0,7); g.stroke(); break;
+    case "cl": R("#FFFFFF",0,0,w,h/2); R("#D52B1E",0,h/2,w,h/2); R("#0039A6",0,0,w/3,h/2); estrela(g,w/6,h/4,h*0.15,"#FFFFFF"); break;
+    case "co": R("#FCD116",0,0,w,h/2); R("#003893",0,h/2,w,h/4); R("#CE1126",0,h*0.75,w,h/4); break;
+    case "pt": R("#006600",0,0,w*0.4,h); R("#FF0000",w*0.4,0,w*0.6,h); disco("#FFD700",w*0.4,h/2,h*0.2); disco("#FF0000",w*0.4,h/2,h*0.12); disco("#FFFFFF",w*0.4,h/2,h*0.07); break;
+    case "it": V3("#009246","#FFFFFF","#CE2B37"); break;
+    case "es": R("#AA151B",0,0,w,h); R("#F1BF00",0,h/4,w,h/2); break;
+    case "de": H3("#000000","#DD0000","#FFCE00"); break;
+    case "fr": V3("#0055A4","#FFFFFF","#EF4135"); break;
+    case "us": for(let i=0;i<13;i++) R(i%2?"#FFFFFF":"#B22234",0,i*h/13,w,h/13+0.5); R("#3C3B6E",0,0,w*0.4,h*7/13);
+      g.fillStyle="#fff"; for(let i=0;i<5;i++)for(let j=0;j<4;j++){g.beginPath();g.arc(w*0.04+i*w*0.08,h*0.06+j*h*0.13,h*0.022,0,7);g.fill();} break;
+    case "mx": V3("#006847","#FFFFFF","#CE1126"); disco("#8C5A2B",w/2,h/2,h*0.12); break;
+    case "jp": R("#FFFFFF",0,0,w,h); disco("#BC002D",w/2,h/2,h*0.3); break;
+  }
+}
+function estrela(g,cx,cy,r,cor){ g.fillStyle=cor; g.beginPath(); for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5, rr=i%2?r*0.45:r; g[i?"lineTo":"moveTo"](cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);} g.closePath(); g.fill(); }
+/* símbolos desenhados num quadrado de -1 a 1 */
+function simbolo(g,id,cor){
+  g.fillStyle=cor; g.strokeStyle=cor; g.lineJoin="round"; g.lineCap="round";
+  const poly=pts=>{g.beginPath();pts.forEach((q,i)=>g[i?"lineTo":"moveTo"](q[0],q[1]));g.closePath();g.fill();};
+  if(id==="raio") poly([[0.15,-1],[-0.55,0.12],[-0.05,0.12],[-0.2,1],[0.55,-0.18],[0.05,-0.18],[0.3,-1]]);
+  else if(id==="estrela") estrela(g,0,0.06,1,cor);
+  else if(id==="coracao"){ g.beginPath(); g.moveTo(0,0.85); g.bezierCurveTo(-1.25,0,-0.75,-1.05,0,-0.42); g.bezierCurveTo(0.75,-1.05,1.25,0,0,0.85); g.fill(); }
+  else if(id==="montanha"){ poly([[-1,0.75],[-0.35,-0.45],[-0.05,0.05],[0.3,-0.75],[1,0.75]]); g.globalCompositeOperation="destination-out"; poly([[0.3,-0.75],[0.12,-0.4],[0.22,-0.32],[0.3,-0.42],[0.4,-0.3],[0.48,-0.4]]); g.globalCompositeOperation="source-over"; }
+  else if(id==="coroa") poly([[-0.95,0.6],[-1,-0.55],[-0.5,-0.05],[0,-0.75],[0.5,-0.05],[1,-0.55],[0.95,0.6]]);
+  else if(id==="infinito"){ g.lineWidth=0.26; g.beginPath(); g.moveTo(0,0); g.bezierCurveTo(0.35,-0.55,0.95,-0.5,0.95,0); g.bezierCurveTo(0.95,0.5,0.35,0.55,0,0); g.bezierCurveTo(-0.35,-0.55,-0.95,-0.5,-0.95,0); g.bezierCurveTo(-0.95,0.5,-0.35,0.55,0,0); g.stroke(); }
+  else if(id==="alvo"){ g.lineWidth=0.18; [0.85,0.5].forEach(r=>{g.beginPath();g.arc(0,0,r,0,7);g.stroke();}); g.beginPath(); g.arc(0,0,0.2,0,7); g.fill(); }
+  else if(id==="cruz"){ g.fillRect(-0.15,-1,0.3,2); g.fillRect(-0.62,-0.5,1.24,0.3); }
+  else if(id==="cruzh"){ g.lineWidth=0.1; g.beginPath(); g.arc(0,-0.35,0.5,0,7); g.stroke(); g.fillRect(-0.12,-1,0.24,2); g.fillRect(-0.52,-0.47,1.04,0.24); }
+  else if(id==="peixe"){ g.lineWidth=0.17; g.beginPath(); g.moveTo(0.95,0.02); g.quadraticCurveTo(0.15,-0.82,-0.82,0.44); g.moveTo(0.95,-0.02); g.quadraticCurveTo(0.15,0.82,-0.82,-0.44); g.stroke(); }
+  else if(id==="pomba"){ g.beginPath();
+    g.moveTo(0.98,-0.36); g.lineTo(0.74,-0.3); g.bezierCurveTo(0.7,-0.52,0.48,-0.6,0.36,-0.42);
+    g.bezierCurveTo(0.2,-0.72,-0.1,-0.95,-0.5,-0.98); g.bezierCurveTo(-0.28,-0.66,-0.18,-0.42,-0.14,-0.2);
+    g.bezierCurveTo(-0.4,-0.24,-0.66,-0.12,-0.98,0.12); g.lineTo(-0.66,0.16); g.lineTo(-0.86,0.42);
+    g.bezierCurveTo(-0.4,0.34,0.05,0.34,0.36,0.08); g.bezierCurveTo(0.56,-0.06,0.68,-0.16,0.74,-0.3); g.closePath(); g.fill();
+    g.lineWidth=0.07; g.beginPath(); g.moveTo(0.62,-0.18); g.quadraticCurveTo(0.7,0.25,0.5,0.62); g.stroke();
+    [[0.66,0.12,0.6],[0.58,0.38,2.4],[0.72,0.36,0.9]].forEach(([x,y,a])=>{ g.save(); g.translate(x,y); g.rotate(a); g.beginPath(); g.ellipse(0,0,0.11,0.045,0,0,7); g.fill(); g.restore(); }); }
+  else if(id==="davi"){ g.lineWidth=0.13; [[0,-1,0.87,0.5,-0.87,0.5],[0,1,0.87,-0.5,-0.87,-0.5]].forEach(t=>{ g.beginPath(); g.moveTo(t[0],t[1]); g.lineTo(t[2],t[3]); g.lineTo(t[4],t[5]); g.closePath(); g.stroke(); }); }
+  else if(id==="lua"){ g.beginPath(); g.arc(-0.12,0,0.86,0,7); g.fill(); g.globalCompositeOperation="destination-out"; g.beginPath(); g.arc(0.2,-0.06,0.72,0,7); g.fill(); g.globalCompositeOperation="source-over"; estrela(g,0.5,-0.04,0.3,cor); }
+}
+function gota(g,x,y,h,cor){ g.fillStyle=cor; g.beginPath(); g.moveTo(x,y-h/2); g.bezierCurveTo(x+h*0.42,y-h*0.05,x+h*0.38,y+h/2,x,y+h/2); g.bezierCurveTo(x-h*0.38,y+h/2,x-h*0.42,y-h*0.05,x,y-h/2); g.fill(); }
+let imgUsuario=null, imgSil=null;
+/* imagem do cliente: PNG com transparência usa o próprio alfa; imagem sem transparência (logo em fundo liso)
+   tem o fundo removido pela cor da borda; depois o desenho é recortado nas bordas e centralizado num quadrado */
+function prepImagem(img){
+  const iw=img.naturalWidth||img.width||512, ih=img.naturalHeight||img.height||512, M=1024, sc=Math.min(1,M/Math.max(iw,ih)), w=Math.max(1,Math.round(iw*sc)), h=Math.max(1,Math.round(ih*sc));
+  const c0=cnv(w,h), x0=c0.getContext("2d",{willReadFrequently:true}); x0.drawImage(img,0,0,w,h);
+  const d=x0.getImageData(0,0,w,h), a=d.data; let transp=0;
+  for(let i=3;i<a.length;i+=4) if(a[i]<200) transp++;
+  if(transp<w*h*0.01){
+    /* cor do fundo: branco (ou preto) se ocupar boa parte da borda; senão, a cor mais comum da borda */
+    const bd=[]; const add=(x,y)=>{const q=(y*w+x)*4; bd.push([a[q],a[q+1],a[q+2]]);};
+    for(let x=0;x<w;x+=2){ add(x,0); add(x,h-1); } for(let y=0;y<h;y+=2){ add(0,y); add(w-1,y); }
+    const media=l=>l.reduce((m,p)=>[m[0]+p[0]/l.length,m[1]+p[1]/l.length,m[2]+p[2]/l.length],[0,0,0]);
+    const brancos=bd.filter(p=>p[0]>215&&p[1]>215&&p[2]>215), pretos=bd.filter(p=>p[0]<40&&p[1]<40&&p[2]<40);
+    let fundo;
+    if(brancos.length>bd.length*0.15) fundo=media(brancos);
+    else if(pretos.length>bd.length*0.15) fundo=media(pretos);
+    else { const hist={}; let best=null,bn=0; bd.forEach(p=>{ const k=(p[0]>>5)+"_"+(p[1]>>5)+"_"+(p[2]>>5); (hist[k]=hist[k]||[]).push(p); if(hist[k].length>bn){bn=hist[k].length;best=k;} }); fundo=media(hist[best]); }
+    const [br,bg,bb]=fundo;
+    for(let i=0;i<a.length;i+=4){ const dist=Math.hypot(a[i]-br,a[i+1]-bg,a[i+2]-bb)/255; a[i+3]=Math.round(Math.min(1,Math.max(0,(dist-0.10)/0.28))*255); }
+  }
+  let x1=w,y1=h,x2=-1,y2=-1;
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++) if(a[(y*w+x)*4+3]>25){ if(x<x1)x1=x; if(x>x2)x2=x; if(y<y1)y1=y; if(y>y2)y2=y; }
+  if(x2<0){ x1=0;y1=0;x2=w-1;y2=h-1; }
+  x0.putImageData(d,0,0);
+  const N=512, cw=x2-x1+1, ch=y2-y1+1, k=N*0.96/Math.max(cw,ch), c=cnv(N,N), x=c.getContext("2d");
+  x.imageSmoothingQuality="high"; x.drawImage(c0,x1,y1,cw,ch,(N-cw*k)/2,(N-ch*k)/2,cw*k,ch*k);
+  const s2=cnv(N,N), sx=s2.getContext("2d"); sx.drawImage(c,0,0); sx.globalCompositeOperation="source-in"; sx.fillStyle="#fff"; sx.fillRect(0,0,N,N);
+  imgUsuario=c; imgSil=s2;
+}
+function texto(g,str,px,fi,cor,ls){
+  const F=FONTES[fi]; g.font=F.f(px); g.fillStyle=cor; g.textBaseline="middle";
+  if("letterSpacing" in g) g.letterSpacing=(ls??F.ls)*px+"px";
+  return g.measureText(str).width;
+}
+function zonaDe(B,zn){ return ZONAS[S.bike]&&ZONAS[S.bike][zn]; }
+function desenhaZonas(g,B){
+  let K=B.K, [x0,y0]=B.box;
+  if(B.ref){ const R=BIKES[B.ref], m=B.inv; K=R.w/2000; [x0,y0]=R.box; g.setTransform(m[0],m[3],m[1],m[4],m[2],m[5]); }
+  const em=(zn,fn)=>{ const z=zonaDe(B,zn); if(!z) return; g.save(); g.translate(x0+z.cx*K,y0+z.cy*K); g.rotate(z.ang*Math.PI/180); g.scale(K,K); fn(z); g.restore(); };
+  const F=FONTES[S.fonte];
+  // tubo superior: bandeira + nome + tipo sanguíneo
+  em("top",z=>{
+    const nome=(F.up?S.nome.toUpperCase():S.nome).trim(), sang=S.sang, band=S.band;
+    if(!nome&&!sang&&!band) return;
+    let px=z.th*0.5*F.k; const hB=z.th*0.42, wB=hB*1.5, gap=z.th*0.32;
+    const medir=()=>{ let w=0; if(band) w+=wB; if(nome){ w+=(w?gap:0)+texto(g,nome,px,S.fonte,S.T); } if(sang){ g.save(); const ws=texto(g,sang,z.th*0.42,0,S.T,0.02); g.restore(); w+=(w?gap:0)+z.th*0.4+ws+z.th*0.08; } return w; };
+    let tw=medir(); const max=z.len*0.94; if(tw>max){ px*=max/tw; tw=medir(); }
+    let x=-z.len/2+z.th*0.35; // começa junto ao canote do selim
+    if(band){ g.save(); g.translate(x,-hB/2); bandeira(g,band,wB,hB); g.restore(); g.strokeStyle="rgba(0,0,0,.25)"; g.lineWidth=0.6; g.strokeRect(x,-hB/2,wB,hB); x+=wB+gap; }
+    if(nome){ g.textAlign="left"; const w=texto(g,nome,px,S.fonte,S.T); g.fillText(nome,x,F.up?0:z.th*0.04); x+=w+gap; }
+    if(sang){ const hg=z.th*0.4; gota(g,x+hg*0.36,0,hg,S.T); x+=hg*0.8+z.th*0.08; g.textAlign="left"; texto(g,sang,z.th*0.42,0,S.T,0.02); g.fillText(sang,x,0); }
+  });
+}
+const decCanvas=document.createElement("canvas"), decCtx=decCanvas.getContext("2d",{willReadFrequently:true});
+let fontesProntas=false;
+function decalques(B){
+  const key=[S.bike,S.nome,S.band,S.sang,S.fonte,S.T,S.sim,S.num,S.Y,S.frase,S.imgCor,imgUsuario?1:0,fontesProntas].join("|");
+  if(B.decKey===key) return; B.decKey=key;
+  const P=B.P, W=B.w, H=B.h; if(decCanvas.width!==W||decCanvas.height!==H){decCanvas.width=W;decCanvas.height=H;}
+  decCtx.setTransform(1,0,0,1,0,0); decCtx.clearRect(0,0,W,H);
+  desenhaZonas(decCtx,B); decCtx.setTransform(1,0,0,1,0,0);
+  const [x0,y0]=B.box, dd=decCtx.getImageData(x0,y0,B.pbw,B.pbh).data;
+  for(let k=0;k<P.n;k++){ const q=P.j[k]*4, a=dd[q+3]/255; P.dA[k]=a; if(a>0){ P.dR[k]=LIN8[dd[q]]; P.dG[k]=LIN8[dd[q+1]]; P.dB[k]=LIN8[dd[q+2]]; } }
+}
+/* detalhe ampliado do campo de assinatura */
+let zonaDetalhe=null;
+function desenhaDetalhe(){
+  const el=document.getElementById("detalhe"); if(!zonaDetalhe||!cur||!ZONAS[S.bike]){ el.hidden=true; return; }
+  const dc0=document.getElementById("dcv");
+  if(zonaDetalhe==="topo"){ el.hidden=false; el.classList.add("lupa"); document.getElementById("dt-nome").textContent=NOME_ZONA.topo;
+    if(dc0.width!==900||dc0.height!==660){ dc0.width=900; dc0.height=660; }
+    desenhaLupa(dc0).catch(()=>{}); return; }
+  el.classList.remove("lupa"); if(dc0.width!==1040||dc0.height!==480){ dc0.width=1040; dc0.height=480; }
+  const z=ZONAS[S.bike][zonaDetalhe]; if(!z){ el.hidden=true; return; }
+  el.hidden=false; document.getElementById("dt-nome").textContent=NOME_ZONA[zonaDetalhe];
+  let K=cur.K, [x0,y0]=cur.box; if(cur.ref){ const R=BIKES[cur.ref]; K=R.w/2000; [x0,y0]=R.box; }
+  let px=x0+z.cx*K, py=y0+z.cy*K, sc=1;
+  if(cur.ref){ const m=cur.inv, qx=px, qy=py; px=m[0]*qx+m[1]*qy+m[2]; py=m[3]*qx+m[4]*qy+m[5]; sc=Math.hypot(m[0],m[3]); }
+  const amb=ambAtual(); if(amb.file&&SC_CACHE[amb.id]&&SC_CACHE[amb.id].layers){ const tf=SC_CACHE[amb.id].layers.tf; px=tf.bx+px*tf.s; py=tf.by+py*tf.s; sc=tf.s; }
+  const dc=document.getElementById("dcv"), dx=dc.getContext("2d"), ww=Math.max(z.len,z.th*3)*K*sc*1.35, hh=ww*dc.height/dc.width;
+  dx.fillStyle=amb.id==="claro"?"#eceeeb":"#16191a"; dx.fillRect(0,0,dc.width,dc.height);
+  dx.imageSmoothingQuality="high"; dx.drawImage(vw,px-ww/2,py-hh/2,ww,hh,0,0,dc.width,dc.height);
+}
+
+/* ================= Lupa: topo do tubo superior junto à caixa de direção =================
+   Foto real de cima do tubo (fundo removido, logotipos de terceiros apagados): a luz e os reflexos do verniz
+   vêm da foto (mapas D = luz difusa, R = reflexo), a cor vem da pintura escolhida e o símbolo do cliente
+   entra sob o verniz, com o mesmo acabamento. Guidão, mesa e caixa de direção ficam como na foto. */
+const LUPA={IMPETUS:{f:"lupa/imp",w:1130,h:960,txt:true,sym:{cx:522,cy:570,ang:-37.6,sz:175,sq:0.86,w:118},fade:{l:0.16,b:0.16},foco:[560,520],geo:{H:[800,374],ang:-37.6,k:4.5,aE:80,aS:175}},
+            MTB:{f:"lupa/mtb",w:1082,h:900,txt:false,sym:{cx:742,cy:322,ang:-20.3,sz:220,sq:0.93,w:215},fade:{l:0.13,b:0.18},foco:[620,380],geo:{H:[1040,224],ang:-20.3,k:9.8,aE:147,aS:257}}};
+const LUPA_C={};
+async function prepLupa(id){
+  if(LUPA_C[id]) return LUPA_C[id];
+  const L=LUPA[id], [im,mp,tx]=await Promise.all([loadImg(L.f+".webp"),loadImg(L.f+"_m.png"),L.txt?loadImg(L.f+"_t.png"):Promise.resolve(null)]);
+  const W=L.w,H=L.h,n=W*H, ph=pixels(im,W,H), pm=pixels(mp,W,H), pt=tx?pixels(tx,W,H):null;
+  const F=()=>new Float32Array(n), P={xn:F(),dh:F(),det:F(),sp:F(),spS:F(),xnB:F(),dhB:F(),sB:F(),fl:F(),w3:F(),wu:F(),rx:F(),ry:F()};
+  const al=F(), cp=F(), tA=F(), spat=F(), msk=F();
+  let seed=777; const rnd=()=>{seed=(Math.imul(seed,1103515245)+12345)&0x7fffffff;return seed/0x7fffffff;};
+  for(let i=0;i<n;i++){ const q=i*4, a=pm[q+3]/255; al[i]=a; msk[i]=a>0.02?1:0;
+    const D=pm[q]/255*1.25, rr=pm[q+1]/255, R=rr*rr*1.2*0.92; cp[i]=pm[q+2]/255;
+    P.xn[i]=D; P.dh[i]=Math.pow(D,1.6); P.sp[i]=R; P.spS[i]=R*Math.min(1,Math.pow(R/0.3,0.7)); P.fl[i]=rnd();
+    const x=i%W, y=(i/W)|0; P.rx[i]=x*0.45; P.ry[i]=y*0.45; P.w3[i]=weave3k(x*0.5,y*0.5); P.wu[i]=weaveUD(x*0.5,y*0.5);
+    spat[i]=spkSint(x*0.34,y*0.34,0.24); if(pt) tA[i]=pt[q]/255; }
+  const r=Math.round(4*W/1000), xb=blurBox(P.xn,msk,W,H,r), db=blurBox(P.dh,msk,W,H,r), sb=blurBox(P.sp,msk,W,H,Math.round(11*W/1000));
+  P.xnB.set(xb); P.dhB.set(db); P.sB.set(sb);
+  // sombra suave do recorte para assentar o tubo no fundo
+  const sh=cnv(W,H), sx=sh.getContext("2d"); const ac=cnv(W,H), ax=ac.getContext("2d"), aid=ax.createImageData(W,H);
+  for(let i=0;i<n;i++) aid.data[i*4+3]=Math.round(al[i]*255); ax.putImageData(aid,0,0);
+  sx.filter="blur(22px)"; sx.drawImage(ac,14,26); sx.filter="none";
+  LUPA_C[id]={L,W,H,n,ph,P,al,cp,tA,spat,img:im,alC:ac,sh,out:new ImageData(W,H),cv:cnv(W,H),key:null};
+  return LUPA_C[id];
+}
+const lupaId=()=>BIKES[S.bike].plat==="IMPETUS"?"IMPETUS":"MTB";
+/* grafismo na lupa: cada ponto da foto de cima é levado ao ponto equivalente do quadro na vista lateral
+   (topo do tubo = borda de cima do tubo superior; lateral = altura do tubo; caixa de direção e tubo inferior = logo abaixo da junção),
+   e o mesmo grafismo, filete e respingos da vista lateral são calculados ali. Grade de 4 px, interpolada. */
+function padraoLupa(C){
+  const T=TUBOS[S.bike], g=C.L.geo, key=[patKey(S),S.bike,S.spkW].join("|");
+  if(C.pad&&C.pad.key===key) return C.pad;
+  const W=C.W,H=C.H,G=4, gw=Math.ceil(W/G)+1, gh=Math.ceil(H/G)+1, N=gw*gh;
+  const gwB=new Float32Array(N), gfs=new Float32Array(N), grp=new Float32Array(N), gwf=new Float32Array(N);
+  const bw=cur.bw, bh=cur.bh, dir=dirOf(S,bw,bh);
+  const ex=T.x1-T.x0, ey=T.y1-T.y0, Lt=Math.hypot(ex,ey), ux=ex/Lt, uy=ey/Lt, nx=-uy, ny=ux;
+  const ua=g.ang*Math.PI/180, lx=Math.cos(ua), ly=Math.sin(ua);
+  for(let j=0;j<gh;j++)for(let i=0;i<gw;i++){
+    const px=i*G-g.H[0], py=j*G-g.H[1], dd=px*lx+py*ly, a=-px*ly+py*lx;
+    let fx,fy,lat=false;
+    if(dd>0||a>g.aS){ fx=T.x1+nx*T.th*1.5-ux*T.th*0.5; fy=T.y1+ny*T.th*1.5-uy*T.th*0.5; }
+    else { const sN=a<=g.aE?-0.9:-0.9+1.8*Math.min(1,(a-g.aE)/(g.aS-g.aE)); lat=a>g.aE; const fd=dd/g.k;
+      fx=T.x1+ux*fd+nx*sN*T.th/2; fy=T.y1+uy*fd+ny*sN*T.th/2; }
+    const q=j*gw+i, r=patAt(fx,fy,S,dir,0); gwB[q]=r[0]; gfs[q]=r[1];
+    const t=((fx*dir.dx+fy*dir.dy)-dir.pmin)*dir.pr; grp[q]=1-rampAt(t,S.pos,Math.max(S.soft,0.3));
+    if(S.fil&&lat) gwf[q]=filAt(fx,fy,S,T);
+  }
+  const n=W*H, w=new Float32Array(n), fs=new Float32Array(n), rp=new Float32Array(n), wf=new Float32Array(n);
+  for(let y=0;y<H;y++){ const j=Math.floor(y/G), fy=y/G-j; for(let x=0;x<W;x++){ const i=Math.floor(x/G), fx=x/G-i, q=j*gw+i, k=y*W+x;
+    const b=(A)=>(A[q]*(1-fx)+A[q+1]*fx)*(1-fy)+(A[q+gw]*(1-fx)+A[q+gw+1]*fx)*fy;
+    w[k]=b(gwB); fs[k]=b(gfs); rp[k]=b(grp); if(S.fil) wf[k]=b(gwf); } }
+  C.pad={key,w,fs,rp,wf}; return C.pad;
+}
+/* cor da pintura no tubo superior junto à caixa de direção, igual à vista lateral */
+function corTopo(){
+  const B=cur, P=B.P, M=maskFor(B), T=TUBOS[S.bike];
+  if(B.kTopo===undefined){ let best=1e18,bk=0; const ax=T.x0+(T.x1-T.x0)*0.86, ay=T.y0+(T.y1-T.y0)*0.86; for(let k=0;k<P.n;k++){ const d=(P.rx[k]-ax)**2+(P.ry[k]-ay)**2; if(d<best){best=d;bk=k;} } B.kTopo=bk; }
+  const k=B.kTopo, wB=S.tone?0:M.w[k], cA=hexLin(S.A), cB=S.tone?cA:hexLin(S.B), A=S.A.toUpperCase(), Bh=S.B.toUpperCase();
+  const a3=A===C3K?1:0, aU=A===CUD?1:0, b3=S.tone?a3:(Bh===C3K?1:0), bU=S.tone?aU:(Bh===CUD?1:0);
+  let sa=0; if(S.spk){ sa=S.amt; if(S.spkW==="A") sa*=1-wB; else if(S.spkW==="B") sa*=wB; else if(S.spkW==="ramp") sa*=M.rp[k]; }
+  return {c:[cA[0]+(cB[0]-cA[0])*wB,cA[1]+(cB[1]-cA[1])*wB,cA[2]+(cB[2]-cA[2])*wB],c3:a3+(b3-a3)*wB,cU:aU+(bU-aU)*wB,sa};
+}
+function simboloEm(g,sz,wl){ wl=wl||sz*0.95;
+  if(!S.sim) return false;
+  if(S.sim==="num"){ const t=(S.num||"").trim(); if(!t) return false; g.textAlign="center"; let px=sz*0.8; const mx=S.ori==="lat"?sz*1.3:wl; const w=texto(g,t,px,0,S.Y); if(w>mx){px*=mx/w; texto(g,t,px,0,S.Y);} g.fillText(t,0,0); return true; }
+  if(S.sim==="ini"){ const F=FONTES[S.fonte], t=(S.ini||"").trim().toUpperCase(); if(!t) return false; g.textAlign="center"; let px=sz*0.78*F.k; const w=texto(g,t,px,S.fonte,S.Y); const mx=S.ori==="lat"?sz*1.5:wl; if(w>mx){px*=mx/w; texto(g,t,px,S.fonte,S.Y);} g.fillText(t,0,F.up?0:sz*0.04); return true; }
+  if(S.sim==="img"){ if(!imgUsuario) return false; if(S.imgCor) g.drawImage(imgUsuario,-sz/2,-sz/2,sz,sz); else { const t=cnv(256,256), tx=t.getContext("2d"); tx.drawImage(imgSil,0,0,256,256); tx.globalCompositeOperation="source-in"; tx.fillStyle=S.Y; tx.fillRect(0,0,256,256); g.drawImage(t,-sz/2,-sz/2,sz,sz); } return true; }
+  g.save(); g.scale(sz/2,sz/2); simbolo(g,S.sim,S.Y); g.restore(); return true;
+}
+async function lupaCanvas(){
+  const C=await prepLupa(lupaId()), {L,W,H,n,P,al,cp,tA,spat,ph}=C;
+  const amb=ambAtual(), claro=amb.id==="claro";
+  const key=[lupaId(),patKey(S),S.F,S.A,S.B,S.mode,S.tone,S.pos,S.ang,S.soft,S.width,S.fin,S.E,S.L,S.lfin,S.spk,S.spkC,S.amt,S.spkW,S.sim,S.num,S.ini,S.ori,S.fonte,S.Y,S.imgCor,imgUsuario?1:0,claro,S.bike,fontesProntas].join("|");
+  if(C.key===key) return C;
+  C.key=key;
+  // decalque do símbolo sob o verniz, alinhado ao eixo do tubo
+  const dcv2=cnv(W,H), dg=dcv2.getContext("2d"); dg.translate(L.sym.cx,L.sym.cy); dg.rotate(L.sym.ang*Math.PI/180); dg.scale(1,L.sym.sq); if(S.ori!=="lat") dg.rotate(Math.PI/2);
+  const tem=simboloEm(dg,L.sym.sz,L.sym.w); const dd=tem?dg.getImageData(0,0,W,H).data:null;
+  const PD=padraoLupa(C), cS=hexLin(S.spkC), cL=hexLin(S.L), cE=hexLin(S.E), cF=hexLin(S.F), o=[0,0,0], o2=[0,0,0], ol=[0,0,0], d=C.out.data;
+  const cA=hexLin(S.A), cB=S.tone?cA:hexLin(S.B), A=S.A.toUpperCase(), Bh=S.B.toUpperCase();
+  const a3=A===C3K?1:0, aU=A===CUD?1:0, b3=S.tone?a3:(Bh===C3K?1:0), bU=S.tone?aU:(Bh===CUD?1:0), fin2=altFin(S.fin);
+  ENV.sky=claro?[1,1,1]:[0.96,0.98,1];
+  for(let i=0;i<n;i++){
+    const q=i*4, a=al[i]; if(a<0.004){ d[q+3]=0; continue; }
+    const wT=PD.w[i], wB=S.tone?0:wT;
+    let r=cA[0]+(cB[0]-cA[0])*wB, g=cA[1]+(cB[1]-cA[1])*wB, b=cA[2]+(cB[2]-cA[2])*wB, c3=a3+(b3-a3)*wB, cU=aU+(bU-aU)*wB;
+    if(S.spk){ let sa=S.amt; if(S.spkW==="A") sa*=1-wB; else if(S.spkW==="B") sa*=wB; else if(S.spkW==="ramp") sa*=PD.rp[i];
+      const sp=spat[i]*sa; if(sp>0){ r+=(cS[0]-r)*sp; g+=(cS[1]-g)*sp; b+=(cS[2]-b)*sp; c3*=1-sp; cU*=1-sp; } }
+    if(S.fil){ const f=PD.wf[i]; if(f>0){ r+=(cF[0]-r)*f; g+=(cF[1]-g)*f; b+=(cF[2]-b)*f; c3*=1-f; cU*=1-f; } }
+    const fsh=PD.fs[i];
+    shade(r,g,b,S.fin,i,P,o,cE,c3,cU,fsh);
+    if(S.tone&&wT>0.003){ shade(r,g,b,fin2,i,P,o2,cE,c3,cU,fsh); o[0]+=(o2[0]-o[0])*wT; o[1]+=(o2[1]-o[1])*wT; o[2]+=(o2[2]-o[2])*wT; }
+    if(dd){ const da=dd[q+3]/255; if(da>0){ shade(LIN8[dd[q]],LIN8[dd[q+1]],LIN8[dd[q+2]],S.fin==="cham"?"gloss":S.fin,i,P,ol,cE,0,0,0); o[0]+=(ol[0]-o[0])*da; o[1]+=(ol[1]-o[1])*da; o[2]+=(ol[2]-o[2])*da; } }
+    const ta=tA[i]; if(ta>0.003){ FLA=0.3; shade(cL[0],cL[1],cL[2],S.lfin,i,P,ol,cE,0,0,0); FLA=1; for(let c=0;c<3;c++){ const v=ol[c]; if(v>0.62) ol[c]=0.62+0.4*(1-Math.exp(-(v-0.62)/0.4)); } o[0]+=(ol[0]-o[0])*ta; o[1]+=(ol[1]-o[1])*ta; o[2]+=(ol[2]-o[2])*ta; }
+    const c=cp[i];
+    d[q]=enc(o[0])*(1-c)+ph[q]*c; d[q+1]=enc(o[1])*(1-c)+ph[q+1]*c; d[q+2]=enc(o[2])*(1-c)+ph[q+2]*c; d[q+3]=Math.round(a*255);
+  }
+  C.cv.getContext("2d").putImageData(C.out,0,0);
+  // composição: fundo, sombra, tubo e esmaecimento das bordas cortadas
+  const F=cnv(W,H), fx=F.getContext("2d");
+  const g0=fx.createRadialGradient(W*0.62,H*0.42,40,W*0.55,H*0.5,W*0.8);
+  if(claro){ g0.addColorStop(0,"#ffffff"); g0.addColorStop(0.6,"#eceeeb"); g0.addColorStop(1,"#d3d7d2"); } else { g0.addColorStop(0,"#2a302a"); g0.addColorStop(0.6,"#151915"); g0.addColorStop(1,"#0b0d0b"); }
+  fx.fillStyle=g0; fx.fillRect(0,0,W,H);
+  const T2=cnv(W,H), tx2=T2.getContext("2d");
+  tx2.globalAlpha=claro?0.35:0.6; tx2.drawImage(C.sh,0,0); tx2.globalAlpha=1; tx2.drawImage(C.cv,0,0);
+  tx2.globalCompositeOperation="destination-in";
+  const gl=tx2.createLinearGradient(0,0,W*L.fade.l,0); gl.addColorStop(0,"rgba(0,0,0,0)"); gl.addColorStop(1,"rgba(0,0,0,1)"); tx2.fillStyle=gl; tx2.fillRect(0,0,W,H);
+  tx2.globalCompositeOperation="destination-in";
+  const gb=tx2.createLinearGradient(0,H,0,H*(1-L.fade.b)); gb.addColorStop(0,"rgba(0,0,0,0)"); gb.addColorStop(1,"rgba(0,0,0,1)"); tx2.fillStyle=gb; tx2.fillRect(0,0,W,H);
+  fx.drawImage(T2,0,0);
+  C.final=F; return C;
+}
+async function desenhaLupa(dc){
+  const C=await lupaCanvas(); if(zonaDetalhe!=="topo") return;
+  const dx=dc.getContext("2d"), L=C.L, k=Math.max(dc.width/C.W,dc.height/C.H)*1.08;
+  let sx=L.foco[0]-dc.width/k/2, sy=L.foco[1]-dc.height/k/2; sx=Math.max(0,Math.min(C.W-dc.width/k,sx)); sy=Math.max(0,Math.min(C.H-dc.height/k,sy));
+  dx.imageSmoothingQuality="high"; dx.drawImage(C.final,sx,sy,dc.width/k,dc.height/k,0,0,dc.width,dc.height);
+}
+const temSimbolo=()=>!!S.sim&&!(S.sim==="num"&&!(S.num||"").trim())&&!(S.sim==="ini"&&!(S.ini||"").trim())&&!(S.sim==="img"&&!imgUsuario);
+
+/* ================= Ambientes e composição ================= */
+const SC_CACHE={};
+const ambAtual=()=>AMBS.concat(SCENES,FOTOS).find(a=>a.id===S.amb)||AMBS[0];
+const cenasDisponiveis=()=>[]; /* cenários ilustrativos desativados: a ambientação é a "Foto no local" */
+async function prepCena(sc){ if(!SC_CACHE[sc.id]){ const img=await loadImg(sc.file); SC_CACHE[sc.id]={img}; } return SC_CACHE[sc.id]; }
+/* ===== composição fotográfica no cenário =====
+   Camadas fixas por bike + cenário (calculadas uma vez): fundo com vinheta, sombra projetada da
+   silhueta no plano do chão (nítida no contato, difusa ao se afastar), oclusão de contato,
+   pneus assentados no piso, luz ambiente (céu em cima, rebatimento do chão embaixo),
+   luz filtrada pelas folhas, luz de recorte do sol, luz do fundo contornando a silhueta e grão. */
+function cnv(w,h){ const c=document.createElement("canvas"); c.width=w; c.height=h; return c; }
+const TEM_FILTRO=(()=>{ try{ const x=cnv(1,1).getContext("2d"); x.filter="blur(2px)"; return x.filter==="blur(2px)"; }catch(_){ return false; } })();
+function desfoca(src,r){
+  const o=cnv(src.width,src.height), ox=o.getContext("2d");
+  if(r<=0.3){ ox.drawImage(src,0,0); return o; }
+  if(TEM_FILTRO){ ox.filter=`blur(${r}px)`; ox.drawImage(src,0,0); ox.filter="none"; return o; }
+  const f=Math.max(1.5,r/1.1), tw=Math.max(2,Math.round(src.width/f)), th=Math.max(2,Math.round(src.height/f));
+  let c=src, w=src.width, h=src.height;            // sem ctx.filter: reduz em etapas e amplia
+  while(w/2>tw){ w=Math.round(w/2); h=Math.round(h/2); const t=cnv(w,h), tx=t.getContext("2d"); tx.imageSmoothingQuality="high"; tx.drawImage(c,0,0,w,h); c=t; }
+  { const t=cnv(tw,th), tx=t.getContext("2d"); tx.imageSmoothingQuality="high"; tx.drawImage(c,0,0,tw,th); c=t; }
+  ox.imageSmoothingQuality="high"; ox.drawImage(c,0,0,src.width,src.height); return o;
+}
+function mascara(dst,m){ const x=dst.getContext("2d"); x.globalCompositeOperation="destination-in"; x.drawImage(m,0,0); x.globalCompositeOperation="source-over"; return dst; }
+function ruido(seed){ let s=seed>>>0||1; return ()=>{ s^=s<<13; s^=s>>>17; s^=s<<5; return (s>>>0)/4294967296; }; }
+let GRAO=null;
+function grao(){
+  if(GRAO) return GRAO;
+  const c=cnv(256,256), x=c.getContext("2d"), id=x.createImageData(256,256), d=id.data, r=ruido(7);
+  for(let i=0;i<d.length;i+=4){ const v=Math.round(128+(r()+r()+r()-1.5)*90); d[i]=d[i+1]=d[i+2]=Math.max(0,Math.min(255,v)); d[i+3]=255; }
+  x.putImageData(id,0,0); GRAO=c; return c;
+}
+/* manchas de luz e sombra das folhas (ruído de valor em 3 oitavas) */
+function folhagem(VW,VH,seed){
+  const w=640, h=Math.round(640*VH/VW), r=ruido(seed), G=[];
+  const oct=[[26,0.55],[55,0.3],[110,0.15]];
+  oct.forEach(([n])=>{ const g=[]; for(let i=0;i<(n+2)*(n+2);i++) g.push(r()); G.push(g); });
+  const sm=t=>t*t*(3-2*t);
+  const val=(u,v)=>{ let s=0; oct.forEach(([n,a],o)=>{ const X=u*n, Y=v*n*h/w, i=Math.floor(X), j=Math.floor(Y), fx=sm(X-i), fy=sm(Y-j), g=G[o], q=(a,b)=>g[((b%(n+2))*(n+2)+(a%(n+2)))];
+    s+=a*((q(i,j)*(1-fx)+q(i+1,j)*fx)*(1-fy)+(q(i,j+1)*(1-fx)+q(i+1,j+1)*fx)*fy); }); return s; };
+  const sh=cnv(w,h), lt=cnv(w,h), a=sh.getContext("2d").createImageData(w,h), b=lt.getContext("2d").createImageData(w,h);
+  for(let j=0;j<h;j++) for(let i=0;i<w;i++){
+    const v=val(i/w,j/h), k=(j*w+i)*4;
+    const dark=Math.max(0,Math.min(1,(0.44-v)/0.09)), lit=Math.max(0,Math.min(1,(v-0.6)/0.05));
+    a.data[k]=a.data[k+1]=a.data[k+2]=255-Math.round(dark*255); a.data[k+3]=255;      // multiplica: 1 → sombra
+    b.data[k]=255; b.data[k+1]=236; b.data[k+2]=190; b.data[k+3]=Math.round(lit*255); // luz quente do sol
+  }
+  sh.getContext("2d").putImageData(a,0,0); lt.getContext("2d").putImageData(b,0,0);
+  const S2=cnv(VW,VH), L2=cnv(VW,VH);
+  S2.getContext("2d").imageSmoothingQuality="high"; S2.getContext("2d").drawImage(sh,0,0,VW,VH);
+  L2.getContext("2d").imageSmoothingQuality="high"; L2.getContext("2d").drawImage(lt,0,0,VW,VH);
+  return {sombra:S2,luz:L2};
+}
+/* pneus: ajusta um círculo na borda externa de cada roda para achar o ponto de contato real
+   e recortar a sombra de estúdio que vem na foto original */
+function rodas(B){
+  if(B.rodas) return B.rodas;
+  const W=B.w, H=B.h, A=B.base, al=(x,y)=>A[(y*W+x)*4+3];
+  let yMax=0; for(let y=H-1;y>0&&!yMax;y--) for(let x=0;x<W;x+=3) if(al(x,y)>60){ yMax=y; break; }
+  const lim=yMax-Math.round(0.07*H);
+  const borda=(y,dir)=>{ if(dir>0){ for(let x=0;x<W/2;x++) if(al(x,y)>140) return x; } else { for(let x=W-1;x>W/2;x--) if(al(x,y)>140) return x; } return -1; };
+  const roda=dir=>{
+    let ex=dir>0?1e9:-1, ey=0;
+    for(let y=Math.round(H*0.25);y<lim;y+=2){ const x=borda(y,dir); if(x<0) continue; if(dir>0?x<ex:x>ex){ex=x;ey=y;} }
+    const R0=Math.max(40,yMax-ey), pts=[];
+    for(let y=Math.round(ey-0.62*R0);y<=Math.min(lim,ey+0.62*R0);y++){ const x=borda(y,dir); if(x>=0&&Math.abs(x-ex)<R0*0.6) pts.push([x,y]); }
+    // ajuste algébrico (Kasa): x²+y²+Dx+Ey+F=0
+    let n=0,sx=0,sy=0,sxx=0,syy=0,sxy=0,sz=0,sxz=0,syz=0;
+    pts.forEach(([x,y])=>{ x-=ex; y-=ey; const z=x*x+y*y; n++; sx+=x; sy+=y; sxx+=x*x; syy+=y*y; sxy+=x*y; sz+=z; sxz+=x*z; syz+=y*z; });
+    const M=[[sxx,sxy,sx],[sxy,syy,sy],[sx,sy,n]], v=[-sxz,-syz,-sz];
+    const det=m=>m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])-m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])+m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+    const d0=det(M), col=(k)=>M.map((r,i)=>r.map((q,j)=>j===k?v[i]:q)), D=det(col(0))/d0, E=det(col(1))/d0, F=det(col(2))/d0;
+    let cx=-D/2+ex, cy=-E/2+ey, R=Math.sqrt(D*D/4+E*E/4-F);
+    if(!isFinite(R)||R<R0*0.6||R>R0*1.3){ R=R0*0.97; cx=ex+dir*R; cy=ey; }
+    return {cx,cy,R};
+  };
+  const r0=roda(1), r1=roda(-1);
+  const corte=Math.max(r0.cy+0.55*r0.R, r1.cy+0.55*r1.R);
+  const cl=cnv(W,H), x=cl.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,W,corte);
+  [r0,r1].forEach(r=>{ x.beginPath(); x.arc(r.cx,r.cy,r.R+0.8,0,7); x.fill(); });
+  B.rodas={r:[r0,r1],contato:[{x:r0.cx,y:r0.cy+r0.R},{x:r1.cx,y:r1.cy+r1.R}],clip:cl};
+  return B.rodas;
+}
+function camadasCena(sc,bg,B){
+  const key=sc.id+"|"+S.bike; if(bg.layers&&bg.layers.key===key) return bg.layers;
+  const VW=bg.img.naturalWidth, VH=bg.img.naturalHeight, u=VW/2000;
+  const RD=rodas(B), c0=RD.contato[0], c1=RD.contato[1], wbI=Math.abs(c1.x-c0.x);
+  const s=sc.wb*VW/wbI, contY=Math.max(c0.y,c1.y);
+  const bx=VW*sc.x-((c0.x+c1.x)/2)*s, by=VH*sc.ground-contY*s;
+  const tf={s,bx,by,VW,VH};
+  const gx0=bx+c0.x*s, gx1=bx+c1.x*s, gy=by+contY*s, sp=gx1-gx0;
+  // silhueta da bike já posicionada
+  const m=cnv(VW,VH), mx=m.getContext("2d"); mx.imageSmoothingQuality="high";
+  mx.drawImage(B.im0,bx,by,B.w*s,B.h*s); mx.globalCompositeOperation="destination-in"; mx.drawImage(RD.clip,bx,by,B.w*s,B.h*s); mx.globalCompositeOperation="source-in"; mx.fillStyle="#fff"; mx.fillRect(0,0,VW,VH);
+  // ---- fundo + vinheta de lente
+  const bgc=cnv(VW,VH), g=bgc.getContext("2d");
+  g.drawImage(bg.img,0,0,VW,VH);
+  const vg=g.createRadialGradient(VW*0.5,VH*0.55,VH*0.35,VW*0.5,VH*0.55,VW*0.62);
+  vg.addColorStop(0,"rgba(0,0,0,0)"); vg.addColorStop(1,`rgba(0,0,0,${sc.vinheta})`); g.fillStyle=vg; g.fillRect(0,0,VW,VH);
+  // ---- sombra projetada: silhueta rebatida no plano do chão, inclinada pela direção do sol
+  const P=sc.sombra, pr=cnv(VW,VH), px=pr.getContext("2d");
+  px.setTransform(1,0,-P.sh,-P.k,P.sh*gy,gy*(1+P.k)); px.drawImage(m,0,0); px.setTransform(1,0,0,1,0,0);
+  const perto=desfoca(pr,P.nitida*u), longe=desfoca(pr,P.difusa*u);
+  const gp=px.createLinearGradient(0,gy,0,gy+P.alcance*VH);
+  gp.addColorStop(0,"rgba(0,0,0,1)"); gp.addColorStop(1,"rgba(0,0,0,0)");
+  const gl=px.createLinearGradient(0,gy,0,gy+P.alcance*VH*1.6);
+  gl.addColorStop(0,"rgba(0,0,0,.55)"); gl.addColorStop(.35,"rgba(0,0,0,.8)"); gl.addColorStop(1,"rgba(0,0,0,.25)");
+  { const x=perto.getContext("2d"); x.globalCompositeOperation="destination-in"; x.fillStyle=gp; x.fillRect(0,0,VW,VH); }
+  { const x=longe.getContext("2d"); x.globalCompositeOperation="destination-in"; x.fillStyle=gl; x.fillRect(0,0,VW,VH); }
+  const so=cnv(VW,VH), sx=so.getContext("2d");
+  sx.drawImage(longe,0,0); sx.drawImage(perto,0,0);
+  // oclusão de contato: onde o pneu encosta, a luz do céu quase não chega
+  const elip=(cx,cy,rx,ry,a)=>{sx.save();sx.translate(cx,cy);sx.scale(rx,ry);const gr=sx.createRadialGradient(0,0,0,0,0,1);gr.addColorStop(0,`rgba(0,0,0,${a})`);gr.addColorStop(1,"rgba(0,0,0,0)");sx.fillStyle=gr;sx.beginPath();sx.arc(0,0,1,0,7);sx.fill();sx.restore();};
+  elip((gx0+gx1)/2,gy+2*u,sp*0.78,sp*0.045,0.35*P.ao);
+  [gx0,gx1].forEach(x=>{ elip(x,gy+1.5*u,sp*0.13,7*u,0.75*P.ao); elip(x,gy+0.5*u,sp*0.045,2.6*u,1.0*P.ao); });
+  sx.globalCompositeOperation="source-in"; sx.fillStyle=P.cor; sx.fillRect(0,0,VW,VH);
+  g.save(); g.globalCompositeOperation="multiply"; g.globalAlpha=P.op; g.drawImage(so,0,0); g.restore();
+  // ---- luz ambiente sobre a bike: céu em cima, rebatimento do chão embaixo
+  const yT=gy-sp*1.15, mul=cnv(VW,VH), ux=mul.getContext("2d");
+  const ga=ux.createLinearGradient(0,yT,0,gy); sc.ambiente.forEach(([t,c])=>ga.addColorStop(t,c));
+  ux.fillStyle=ga; ux.fillRect(0,0,VW,VH);
+  let luzF=null;
+  if(sc.folhas){ const F=folhagem(VW,VH,sc.folhas.seed); ux.globalAlpha=sc.folhas.sombra; ux.globalCompositeOperation="multiply"; ux.drawImage(F.sombra,0,0); ux.globalAlpha=1; ux.globalCompositeOperation="source-over"; luzF=F.luz; }
+  mascara(mul,m);
+  // ---- luz de recorte: bordas voltadas para o sol acendem (fina e forte + larga e suave)
+  const add=cnv(VW,VH), ax=add.getContext("2d");
+  sc.recorte.forEach(([d,a])=>{
+    const r=cnv(VW,VH), rx=r.getContext("2d"); rx.drawImage(m,0,0);
+    rx.globalCompositeOperation="destination-out"; rx.drawImage(m,-sc.sol[0]*d*u,-sc.sol[1]*d*u);
+    const rs=desfoca(r,Math.max(0.6,d*0.35)*u); ax.globalAlpha=a; ax.drawImage(rs,0,0);
+  });
+  ax.globalAlpha=1; ax.globalCompositeOperation="source-in"; ax.fillStyle=sc.corSol; ax.fillRect(0,0,VW,VH); ax.globalCompositeOperation="source-over";
+  if(luzF&&sc.folhas.luz>0){ ax.globalAlpha=sc.folhas.luz; ax.drawImage(luzF,0,0); ax.globalAlpha=1; }
+  mascara(add,m);
+  // ---- luz do fundo contornando a silhueta (light wrap)
+  const wrap=desfoca(bgc,12*u), wx=wrap.getContext("2d");
+  wx.globalCompositeOperation="destination-out"; wx.drawImage(desfoca(m,4*u),0,0);
+  mascara(wrap,m);
+  // ---- pneus assentados: o piso volta a cobrir a base do pneu alguns milímetros
+  let piso=null;
+  if(sc.assenta>0){
+    piso=cnv(VW,VH); const qx=piso.getContext("2d"), h=sc.assenta*u, w=sp*0.11;
+    [gx0,gx1].forEach(x=>{ qx.drawImage(bgc,x-w,gy-h,w*2,h*1.6,x-w,gy-h,w*2,h*1.6); });
+    const gv=qx.createLinearGradient(0,gy-h,0,gy+0.2*h); gv.addColorStop(0,"rgba(0,0,0,0)"); gv.addColorStop(0.55,"rgba(0,0,0,.75)"); gv.addColorStop(1,"rgba(0,0,0,1)");
+    qx.globalCompositeOperation="destination-in"; qx.fillStyle=gv; qx.fillRect(0,0,VW,VH);
+    [gx0,gx1].forEach(x=>{ const gh=qx.createLinearGradient(x-w,0,x+w,0); gh.addColorStop(0,"rgba(0,0,0,0)"); gh.addColorStop(0.3,"rgba(0,0,0,1)"); gh.addColorStop(0.7,"rgba(0,0,0,1)"); gh.addColorStop(1,"rgba(0,0,0,0)");
+      qx.save(); qx.beginPath(); qx.rect(x-w,0,w*2,VH); qx.clip(); qx.fillStyle=gh; qx.fillRect(x-w,0,w*2,VH); qx.restore(); });
+    piso=mascara(piso,desfoca(m,1.2*u));
+  }
+  bg.layers={key,bgc,mul,add,wrap,piso,tf};
+  return bg.layers;
+}
+const tmpc=document.createElement("canvas"), tmpx=tmpc.getContext("2d");
+/* ===== estúdio fotográfico: contraluz de recorte, sombra de contato e reflexo no piso ===== */
+const ST={exp:0.9,gam:0.85,spec:1.7};
+function camadasEstudio(B,claro){
+  const key=(claro?"c":"e"); if(B.est&&B.est.key===key) return B.est;
+  const W=B.w,H=B.h,u=W/2000;
+  if(!B.estM){ const RD=rodas(B), m=cnv(W,H), mx=m.getContext("2d"); mx.drawImage(B.im0,0,0); mx.globalCompositeOperation="destination-in"; mx.drawImage(RD.clip,0,0); mx.globalCompositeOperation="source-in"; mx.fillStyle="#fff"; mx.fillRect(0,0,W,H); B.estM=m; }
+  const m=B.estM, RD=rodas(B);
+  // luz de recorte: bordas voltadas para a janela de luz (alto, à esquerda) acendem
+  const rim=cnv(W,H), rx=rim.getContext("2d");
+  [[3.5,claro?0.55:0.9],[11,claro?0.18:0.32]].forEach(([d,a])=>{ const r=cnv(W,H), q=r.getContext("2d"); q.drawImage(m,0,0); q.globalCompositeOperation="destination-out"; q.drawImage(m,d*u*0.55,d*u*0.85); rx.globalAlpha=a; rx.drawImage(desfoca(r,Math.max(0.6,d*0.3)*u),0,0); });
+  rx.globalAlpha=1; rx.globalCompositeOperation="source-in"; rx.fillStyle=claro?"#ffffff":"#eaf2ff"; rx.fillRect(0,0,W,H);
+  rx.globalCompositeOperation="destination-in"; rx.drawImage(m,0,0);
+  // sombra de contato dos pneus e sombra suave do conjunto no piso
+  const sh=cnv(W,H), sx=sh.getContext("2d"); const c0=RD.contato[0], c1=RD.contato[1], gy=Math.max(c0.y,c1.y), sp=Math.abs(c1.x-c0.x);
+  const elip=(cx,cy,rx_,ry,a)=>{sx.save();sx.translate(cx,cy);sx.scale(rx_,ry);const gr=sx.createRadialGradient(0,0,0,0,0,1);gr.addColorStop(0,`rgba(0,0,0,${a})`);gr.addColorStop(1,"rgba(0,0,0,0)");sx.fillStyle=gr;sx.beginPath();sx.arc(0,0,1,0,7);sx.fill();sx.restore();};
+  const k=claro?1:0.85;
+  elip((c0.x+c1.x)/2,gy+2*u,sp*0.72,sp*0.035,0.28*k);
+  [c0,c1].forEach(c=>{ elip(c.x,gy+1.5*u,sp*0.16,9*u,0.55*k); elip(c.x,gy+0.5*u,sp*0.05,3*u,0.85*k); });
+  // reflexo do piso (só o que cabe abaixo do ponto de contato)
+  const rf=cnv(W,H), fx=rf.getContext("2d"); fx.save(); fx.translate(0,2*gy); fx.scale(1,-1); fx.drawImage(B.estM,0,0); fx.restore();
+  fx.globalCompositeOperation="source-in"; fx.fillStyle=claro?"rgba(0,0,0,1)":"rgba(255,255,255,1)"; fx.fillRect(0,0,W,H);
+  fx.globalCompositeOperation="destination-in"; const gr=fx.createLinearGradient(0,gy,0,gy+70*u); gr.addColorStop(0,"rgba(0,0,0,1)"); gr.addColorStop(1,"rgba(0,0,0,0)"); fx.fillStyle=gr; fx.fillRect(0,0,W,H);
+  // reflexo da janela de luz no verniz: faixa que acompanha cada tubo, um pouco abaixo da borda superior
+  if(!B.estP){ const pm=cnv(W,H), px=pm.getContext("2d"), id=px.createImageData(W,H), P=B.P; for(let k=0;k<P.n;k++){ id.data[P.idx[k]+3]=Math.round(P.f[k]*255); } px.putImageData(id,0,0); B.estP=pm; }
+  const band=d=>{ const c=cnv(W,H), q=c.getContext("2d"); q.drawImage(B.estP,0,0); q.globalCompositeOperation="destination-out"; q.drawImage(B.estP,d*u*0.35,d*u*0.94); return c; };
+  const sb=cnv(W,H), bx=sb.getContext("2d"); bx.drawImage(band(11),0,0); bx.globalCompositeOperation="destination-out"; bx.drawImage(band(4.5),0,0);
+  bx.globalCompositeOperation="source-in"; bx.fillStyle="#fff"; bx.fillRect(0,0,W,H);
+  const soft=desfoca(sb,1.3*u), sx2=soft.getContext("2d"); sx2.globalCompositeOperation="destination-in"; sx2.drawImage(B.estP,0,0);
+  B.est={key,rim,sh,rf:desfoca(rf,2.5*u),soft}; return B.est;
+}
+function compoe(){
+  if(!cur) return;
+  const det=()=>{ if(typeof desenhaDetalhe==="function") desenhaDetalhe(); };
+  const amb=ambAtual(), palco=document.getElementById("palco");
+  palco.classList.toggle("claro",amb.id==="claro"); palco.classList.toggle("cena",!!amb.file||!!amb.foto);
+  if(!amb.file){
+    if(vw.width!==cur.w||vw.height!==cur.h){vw.width=cur.w;vw.height=cur.h;}
+    const V=vctx, claro=amb.id==="claro", E=(cur.ref||amb.foto)?null:camadasEstudio(cur,claro);
+    V.globalCompositeOperation="source-over"; V.globalAlpha=1; V.clearRect(0,0,vw.width,vw.height);
+    if(E){ V.globalAlpha=claro?0.07:0.05; V.drawImage(E.rf,0,0); V.globalAlpha=1; V.drawImage(E.sh,0,0); }
+    V.drawImage(cv,0,0);
+    if(E){ V.globalCompositeOperation="screen";
+      const fb={gloss:1,metal:0.9,candy:1,flake:0.9,pearl:1,cham:0.9,prism:0.9,satin:0.35,matte:0}[S.fin]; const ga=(fb===undefined?0.8:fb)*(claro?0.5:0.68);
+      if(ga>0){ V.globalAlpha=ga; V.drawImage(E.soft,0,0); }
+      V.globalAlpha=claro?0.55:0.75; V.drawImage(E.rim,0,0); V.globalAlpha=1; V.globalCompositeOperation="source-over"; }
+    det(); return;
+  }
+  const bg=SC_CACHE[amb.id]; if(!bg){ prepCena(amb).then(()=>compoe()).catch(()=>{S.amb="escuro";montaAmbientes();compoe();}); return; }
+  const L=camadasCena(amb,bg,cur), tf=L.tf;
+  if(vw.width!==tf.VW||vw.height!==tf.VH){vw.width=tf.VW;vw.height=tf.VH;}
+  const V=vctx; V.globalCompositeOperation="source-over"; V.globalAlpha=1;
+  V.drawImage(L.bgc,0,0);
+  // bike com a luz do cenário: exposição/temperatura (multiplica) e névoa do ar (clareia as sombras)
+  if(tmpc.width!==cur.w||tmpc.height!==cur.h){tmpc.width=cur.w;tmpc.height=cur.h;}
+  tmpx.globalCompositeOperation="source-over"; tmpx.globalAlpha=1; tmpx.clearRect(0,0,cur.w,cur.h); tmpx.drawImage(cv,0,0);
+  tmpx.globalCompositeOperation="multiply"; tmpx.fillStyle=amb.grade; tmpx.fillRect(0,0,cur.w,cur.h);
+  tmpx.globalCompositeOperation="screen"; tmpx.fillStyle=amb.nevoa; tmpx.fillRect(0,0,cur.w,cur.h);
+  tmpx.globalCompositeOperation="destination-in"; tmpx.drawImage(cv,0,0); tmpx.drawImage(rodas(cur).clip,0,0);
+  tmpx.globalCompositeOperation="source-over";
+  V.imageSmoothingQuality="high"; V.drawImage(tmpc,tf.bx,tf.by,cur.w*tf.s,cur.h*tf.s);
+  V.globalCompositeOperation="multiply"; V.drawImage(L.mul,0,0);
+  V.globalCompositeOperation="screen"; V.drawImage(L.add,0,0);
+  V.globalAlpha=amb.wrap; V.drawImage(L.wrap,0,0); V.globalAlpha=1;
+  V.globalCompositeOperation="source-over"; if(L.piso) V.drawImage(L.piso,0,0);
+  // grão único para foto e bike
+  V.globalCompositeOperation="overlay"; V.globalAlpha=amb.grao; V.fillStyle=V.createPattern(grao(),"repeat"); V.fillRect(0,0,tf.VW,tf.VH);
+  V.globalAlpha=1; V.globalCompositeOperation="source-over";
+  det();
+}
+function montaAmbientes(){
+  const el=document.getElementById("ambientes"), lst=AMBS.concat(FOTOS.filter(f=>FOTOB[S.bike+"-foto"]),cenasDisponiveis());
+  if(!lst.find(a=>a.id===S.amb)) S.amb="escuro";
+  el.innerHTML=`<span class="rot">Ambiente</span>`+lst.map(a=>`<button class="amb" type="button" data-v="${a.id}" aria-pressed="${a.id===S.amb}"><i style="background:${a.chip}"></i>${a.nome}</button>`).join("");
+  el.querySelectorAll(".amb").forEach(b=>b.onclick=()=>{ const era=chaveAtiva(S.bike); S.amb=b.dataset.v; montaAmbientes(); if(chaveAtiva(S.bike)!==era) trocaBike(S.bike); else if(cur) render(); });
+  const fa=ambAtual(); ENV.sky=fa.foto?(FOTOB[S.bike+"-foto"]||{}).sky||[1,1,1]:(fa.sky||[1,1,1]);
+  document.getElementById("palco-tag").textContent = ambAtual().foto ? "Foto ambientada · pintura aplicada digitalmente" : ambAtual().file ? "Cenário ilustrativo · prévia digital da pintura" : "Prévia digital · cor final confirmada com amostra de tinta";
+}
+
+/* ================= Miniaturas ================= */
+function thumb(cnv,st,vb){
+  const W=cnv.width,H=cnv.height,x=cnv.getContext("2d"),img=x.createImageData(W,H),dd=img.data;
+  const bw=vb||520,bh=Math.round(bw*H/W), sc=bw/W, d=dirOf(st,bw,bh);
+  const cA=hexLin(st.A),cB=st.tone?cA:hexLin(st.B||st.A),cS=hexLin(st.spkC||"#000000"),cE=hexLin(st.E||"#B7BBBD");
+  const Au=(st.A||"").toUpperCase(), Bu=(st.B||"").toUpperCase();
+  for(let j=0;j<H;j++)for(let i=0;i<W;i++){
+    const px=i*sc,py=j*sc;
+    const wB=st.mode==="zones"?(i<W*0.38?1:0):patAt(px,py,st,d,0)[0];
+    const carb=(isCarb(Au)?(1-wB):0)+(!st.tone&&isCarb(Bu)?wB:0);
+    let c=[cA[0]+(cB[0]-cA[0])*wB,cA[1]+(cB[1]-cA[1])*wB,cA[2]+(cB[2]-cA[2])*wB];
+    if(st.spk&&h2(i*3,j*5)>0.9){const a=st.amt||1;c=c.map((v,q)=>v+(cS[q]-v)*a);}
+    if(st.fil){ const cF=hexLin(st.F||"#F4F5F2"), N=st.filN||1, y0=H*0.58; let on=0; for(let q=0;q<N;q++){ const yy=y0+q*3.2; if(Math.abs(j+0.5-yy)<0.9) on=1; } if(on&&i>W*0.06&&i<W*0.94) c=cF.slice(); }
+    const tube=Math.sin(Math.PI*(j+0.5)/H), D=0.35+0.75*Math.pow(tube,1.6), hl=Math.pow(Math.max(0,1-Math.abs(j/H-0.3)*7),2)*0.35;
+    if(st.fin==="cham"){const t=ss(0.25,0.95,D);c=c.map((v,q)=>cE[q]+(v-cE[q])*t);}
+    let o=c.map(v=>v*D+hl);
+    if(st.fin==="matte") o=c.map(v=>v*(0.5+0.45*tube)+0.01);
+    if(st.tone&&wB>0.5) o=c.map(v=>v*D+(st.fin==="matte"?hl*1.4:0.01));
+    if(carb>0){const wv=weave3k(i*4,j*4);o=o.map(v=>v+wv*0.06*carb*D);}
+    const p=(j*W+i)*4; dd[p]=enc(o[0]);dd[p+1]=enc(o[1]);dd[p+2]=enc(o[2]);dd[p+3]=255;
+  }
+  x.putImageData(img,0,0);
+}
+
+/* ================= Interface ================= */
+const $=id=>document.getElementById(id);
+function setPressed(group,val){ group.querySelectorAll("[data-v]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===String(val)))); }
+function rangeFill(s){ s.style.setProperty("--p",((s.value-s.min)/(s.max-s.min)*100)+"%"); }
+const nomeModeloHTML=k=>{const b=BIKES[k];return `<i>${b.plat}</i>${b.hz?" <b>HORIZON</b>":""} <span>${b.ver}</span>`;};
+function montaModelos(){
+  const pl=$("plats"), vs=$("vers"), ct=$("cats"), plat=BIKES[S.bike].plat, hz=ehHz(S.bike);
+  const catsOk=CATS.filter(c=>KEYS.some(k=>disponivel(k)&&ehHz(k)===!!c.id)); ct.hidden=catsOk.length<2;
+  ct.innerHTML=catsOk.map(c=>`<button class="cat" type="button" data-v="${c.id}" aria-pressed="${!!c.id===hz}">${c.ic}${c.nome}</button>`).join("");
+  ct.querySelectorAll(".cat").forEach(b=>b.onclick=()=>{ const quer=b.dataset.v==="1"; if(quer===ehHz(S.bike)) return; const at=BIKES[S.bike];
+    const no=KEYS.filter(x=>disponivel(x)&&ehHz(x)===quer), k=no.find(x=>BIKES[x].plat===at.plat&&BIKES[x].ver===at.ver)||no.find(x=>BIKES[x].plat===at.plat)||no.find(x=>BIKES[x].ver===at.ver)||no[0]; trocaBike(k); });
+  const plats=PLATS.filter(p=>KEYS.some(k=>disponivel(k)&&BIKES[k].plat===p&&ehHz(k)===hz));
+  pl.innerHTML=plats.map(p=>`<button class="plat" type="button" data-v="${p}" aria-pressed="${p===plat}">${p}${hz?"<small>HORIZON</small>":""}</button>`).join("");
+  vs.innerHTML=KEYS.filter(k=>disponivel(k)&&BIKES[k].plat===plat&&ehHz(k)===hz).map(k=>`<button class="ver" type="button" data-v="${k}" aria-pressed="${k===S.bike}">${BIKES[k].ver}</button>`).join("");
+  pl.querySelectorAll(".plat").forEach(b=>b.onclick=()=>{ if(b.dataset.v===BIKES[S.bike].plat) return; const mesmo=KEYS.filter(x=>disponivel(x)&&BIKES[x].plat===b.dataset.v&&ehHz(x)===hz); const k=mesmo.find(x=>BIKES[x].ver===BIKES[S.bike].ver)||mesmo[0]; trocaBike(k); });
+  vs.querySelectorAll(".ver").forEach(b=>b.onclick=()=>trocaBike(b.dataset.v));
+  $("nome-modelo").innerHTML=nomeModeloHTML(S.bike);
+}
+async function trocaBike(k){
+  if(!BIKES[k]) k=DEF.bike;
+  if(!disponivel(k)){ const at=BIKES[k], ok=KEYS.filter(disponivel); k=ok.find(x=>BIKES[x].plat===at.plat&&BIKES[x].ver===at.ver)||ok.find(x=>BIKES[x].plat===at.plat)||ok[0]; }
+  S.bike=k; montaModelos(); montaAmbientes(); atualizaUI();
+  const load=$("carregando"); load.hidden=false;
+  try{
+    const ck=chaveAtiva(k), B=await prepBike(ck);
+    if(S.bike!==k||chaveAtiva(S.bike)!==ck) return;
+    cur=B; cv.width=B.w; cv.height=B.h; ctx.putImageData(B.out,0,0); render();
+    try{ fit4uEvento("modelo",{modelo:nomeModeloTxt(),eletrica:ehHz(k),ambiente:S.amb}); }catch(_){}
+  }catch(e){ load.textContent=location.protocol==="file:"?"Esta versão roda a partir de um site (servidor). Para abrir direto no computador, use os arquivos FIT4U_EDRO_bicicletas.html ou FIT4U_EDRO_bicicletas_eletricas.html.":"Não foi possível carregar o quadro. Recarregue a página."; return; }
+  load.hidden=true;
+  setTimeout(()=>KEYS.filter(x=>BIKES[x].plat===BIKES[k].plat&&ehHz(x)===ehHz(k)&&!BIKES[x].ready).forEach(x=>["","_a","_b"].forEach(sf=>{const i=new Image();i.src=`bikes/${x}${sf}.webp`;})),600);
+  // libera memória dos quadros que não estão na tela
+  KEYS.forEach(x=>{ if(x!==k&&BIKES[x].ready){ const b=BIKES[x]; b.ready=false; b.P=null; b.base=null; b.out=null; b.mask=null; } });
+  Object.keys(FOTOB).forEach(x=>{ if(x!==chaveAtiva(k)&&FOTOB[x].ready){ const b=FOTOB[x]; b.ready=false; b.P=null; b.base=null; b.out=null; b.mask=null; } });
+}
+function swatches(id,key,pk,semCarbono){
+  const el=$(id);
+  el.innerHTML=PALETA.filter(c=>!(semCarbono&&isCarb(c[1]))).map(([n,h])=>`<button class="sw" type="button" data-v="${h}" title="${n}" aria-label="${n}" style="background:${swBg(h)}"></button>`).join("");
+  el.querySelectorAll(".sw").forEach(b=>b.onclick=()=>{S[key]=b.dataset.v;S.preset=-1;mudou();});
+  $(pk).addEventListener("input",e=>{S[key]=e.target.value.toUpperCase();S.preset=-1;mudou();});
+}
+function corUI(id,key,pk,ca){
+  const h=S[key].toUpperCase(); setPressed($(id),h);
+  $(ca).innerHTML=`<b>${nomeCor(h)}</b>${isCarb(h)?" <code>material</code>":` <code>${h}</code>`}`; if(!isCarb(h)) $(pk).value=h.toLowerCase();
+}
+function bindOpts(id,key,conv){ $(id).querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{ S[key]=conv?conv(b.dataset.v):b.dataset.v; S.preset=-1; mudou(); }); }
+function bindRange(id,key,scale){ const s=$(id); s.addEventListener("input",()=>{ S[key]=+s.value/scale; S.preset=-1; mudou(); }); }
+
+function atualizaUI(){
+  setPressed($("presets"),S.preset);
+  corUI("sw-A","A","pk-A","ca-A"); corUI("sw-B","B","pk-B","ca-B"); corUI("sw-F","F","pk-F","ca-F"); corUI("sw-S","spkC","pk-S","ca-S"); corUI("sw-L","L","pk-L","ca-L"); corUI("sw-E","E","pk-E","ca-E");
+  setPressed($("g-mode"),S.mode);
+  $("sub-B").hidden=S.mode==="solid";
+  const ctl=CTL[S.mode];
+  ["dir","pos","soft","count","width","scale","dens","zones"].forEach(c=>$("ctl-"+c).hidden=!ctl.includes(c));
+  $("c-fil").checked=!!S.fil; $("fil-body").hidden=!S.fil; setPressed($("g-filn"),S.filN); $("c-fillogo").checked=!!S.filLogo;
+  [["s-filw","v-filw",S.filW],["s-filp","v-filp",S.filP]].forEach(([a,b,v])=>{ const el=$(a); el.value=Math.round(v*100); rangeFill(el); $(b).textContent=Math.round(v*100); });
+  if(document.activeElement!==$("in-spkhex")) $("in-spkhex").value=S.spkC.toUpperCase(); if(document.activeElement!==$("in-amt")) $("in-amt").value=Math.round(S.amt*100);
+  if(document.activeElement!==$("in-spkobs")) $("in-spkobs").value=S.spkObs||""; if(document.activeElement!==$("in-obs")) $("in-obs").value=S.obs||"";
+  $("ctl-B").hidden=S.tone; setPressed($("g-tone"),S.tone?1:0); $("b-inv").hidden=S.tone;
+  $("l-soft").textContent= S.mode==="stripes"?"Borda da faixa":(S.mode==="pixel"||S.mode==="dots"||S.mode==="facet")?"Extensão da transição":"Suavidade";
+  $("l-dens").textContent= S.mode==="topo"?"Curvas de nível":S.mode==="marble"?"Espessura dos veios":"Quantidade de manchas";
+  $("l-width").textContent= S.mode==="topo"?"Espessura da linha":S.mode==="fade2"?"Largura da faixa":"Largura";
+  const plat=BIKES[S.bike].plat;
+  $("zonas-txt").textContent= plat==="RANGE" ? "A cor do grafismo vai na balança traseira (bainhas e escoras)." : "A cor do grafismo vai no triângulo traseiro (bainhas e escoras).";
+  $("sw-fork-wrap").hidden= plat!=="IMPETUS"; $("c-fork").checked=!!S.fork;
+  setPressed($("g-dir"),S.ang); setPressed($("g-count"),S.count);
+  [["s-ang","v-ang",S.ang,1],["s-pos","v-pos",S.pos,100],["s-soft","v-soft",S.soft,100],["s-width","v-width",S.width,100],["s-amt","v-amt",S.amt,100],["s-scale","v-scale",S.scale,100],["s-dens","v-dens",S.dens,100]].forEach(([s,v,val,m])=>{ const el=$(s); el.value=Math.round(val*m); rangeFill(el); $(v).textContent=Math.round(val*m); });
+  $("c-spk").checked=S.spk; $("spk-body").style.opacity=S.spk?1:.4; $("spk-body").style.pointerEvents=S.spk?"auto":"none";
+  setPressed($("g-spkw"),S.spkW);
+  ["A","B"].forEach(v=>$("g-spkw").querySelector(`[data-v="${v}"]`).disabled=S.mode==="solid");
+  setPressed($("g-lfin"),S.lfin); setPressed($("g-fin"),S.fin);
+  $("fin-txt").textContent=TXT_FIN[S.fin]||""; $("fin-cham").hidden=S.fin!=="cham";
+  $("ctl-E").hidden=!E_LBL[S.fin]; if(E_LBL[S.fin]) $("l-E").textContent=E_LBL[S.fin];
+  uiAssinatura(); thumbsModo(); ficha();
+}
+let thumbKey="";
+function thumbsModo(){
+  const k=[S.A,S.B,S.tone,S.fin,S.E].join("|"); if(k===thumbKey) return; thumbKey=k;
+  const lum=h=>{const c=hexLin(h);return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2];};
+  const ya=lum(S.A), B2=(S.tone||Math.abs(ya-lum(S.B))<0.08)?(ya<0.2?"#B7BBBD":"#0D0E0D"):S.B;
+  $("g-mode").querySelectorAll(".gopt").forEach(b=>{ const m=b.dataset.v; thumb(b.querySelector("canvas"),Object.assign({},DEF,{A:S.A,B:B2,tone:false,fin:S.fin,E:S.E,spk:false,mode:m,ang:180,pos:.5,soft:m==="fade"?.6:.5,scale:.3,count:2,width:m==="topo"?.12:m==="fade2"?.1:.1,fil:false}),300); });
+}
+function descGrafismo(){
+  if(S.mode==="solid") return "Sólida";
+  const sec=S.tone?"tom sobre tom (brilho e fosco)":`em ${corTxt(S.B)}`;
+  if(S.mode==="zones") return `Bicolor: traseira${BIKES[S.bike].plat==="IMPETUS"&&S.fork?" e garfo":""} ${sec}`;
+  const dir={135:"diagonal",45:"diagonal descendente",180:"horizontal",0:"horizontal invertido",90:"vertical",270:"vertical invertido"}[S.ang]||`${S.ang}°`;
+  let extra=""; const c=CTL[S.mode];
+  if(c.includes("dir")) extra+=`, ${dir}`;
+  if(c.includes("pos")) extra+=`, posição ${Math.round(S.pos*100)}%`;
+  if(S.mode==="stripes") extra+=`, ${S.count} ${S.count>1?"faixas":"faixa"} de ${Math.round(S.width*100)}%`;
+  if(c.includes("scale")) extra+=`, tamanho ${Math.round(S.scale*100)}%`;
+  return `${MODE_INFO[S.mode].n} ${sec}${extra}`;
+}
+const dot=h=>`<i class="dot" style="background:${swBg(h)}"></i>`;
+const corTxt=h=>`${nomeCor(h)}${isCarb(h)?"":` (${h.toUpperCase()})`}`;
+const ondeSpk={all:"quadro todo",ramp:"em degradê",A:"na cor principal",B:"no desenho"};
+function ficha(){
+  const rows=[
+    ["Modelo",nomeModeloHTML(S.bike)],
+    ["Cor principal",`${dot(S.A)}${nomeCor(S.A)}${isCarb(S.A)?"":` <code>${S.A.toUpperCase()}</code>`}`],
+    ["Grafismo",(S.mode!=="solid"&&!S.tone?dot(S.B):"")+descGrafismo()],
+    ["Filete",S.fil?`${dot(S.F)}${descFilete()}`:"Sem filete"],
+    ["Respingos",S.spk?`${dot(S.spkC)}${nomeCor(S.spkC)} <code>${S.spkC.toUpperCase()}</code> · intensidade ${Math.round(S.amt*100)}% · ${ondeSpk[S.spkW]}${S.spkObs.trim()?` · <i>${esc(S.spkObs.trim())}</i>`:""}`:"Sem respingos"],
+    ["Logotipo",`${dot(S.L)}${nomeCor(S.L)} <code>${S.L.toUpperCase()}</code> · ${NOME_FIN[S.lfin].toLowerCase()}`],
+    ["Assinatura",descAssinatura()||"Sem personalização"],
+    ["Acabamento",NOME_FIN[S.fin]+(E_LBL[S.fin]?` · ${E_LBL[S.fin].toLowerCase()} ${dot(S.E)}${nomeCor(S.E)} <code>${S.E.toUpperCase()}</code>`:"")]
+  ];
+  $("ficha").innerHTML=rows.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("");
+  $("codigo").textContent=codigo();
+  const url=`https://wa.me/${WA_NUM}?text=${encodeURIComponent(mensagem())}`;
+  $("b-wa").href=url; $("b-wa2").href=url;
+}
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function descFilete(){ if(!S.fil) return "sem filete"; const n=S.filN|0; return `${n} ${n>1?"linhas":"linha"} em ${corTxt(S.F)} no tubo superior, espessura ${Math.round(S.filW*100)}%, posição ${Math.round(S.filP*100)}%${S.filLogo?", interrompido no nome do modelo":""}`; }
+function descAssinatura(){
+  const p=[]; const nb=BANDEIRAS.find(b=>b[0]===S.band);
+  const top=[]; if(S.nome.trim()) top.push(`nome "${S.nome.trim()}"`); if(S.band) top.push(`bandeira ${nb?nb[1]:""}`); if(S.sang) top.push(`tipo sanguíneo ${S.sang}`);
+  if(top.length) p.push(`tubo superior com ${top.join(", ")}`);
+  if(temSimbolo()){ const onde=` no topo do tubo superior, junto à caixa de direção, ${S.ori==="lat"?"lateralizado (leitura de quem vê a bike de lado)":"no sentido do tubo (topo voltado para a caixa de direção)"}`;
+    if(S.sim==="num") p.push(`número ${S.num.trim()} em ${nomeCor(S.Y)}${onde}`);
+    else if(S.sim==="ini") p.push(`iniciais ${S.ini.trim().toUpperCase()} em ${nomeCor(S.Y)} (letra ${FONTES[S.fonte].n.toLowerCase()})${onde}`);
+    else if(S.sim==="img") p.push(`imagem própria${S.imgCor?" (cores originais)":` (em ${nomeCor(S.Y)})`}${onde}`);
+    else p.push(`símbolo ${SIMBOLOS.find(x=>x[0]===S.sim)[1].toLowerCase()} em ${nomeCor(S.Y)}${onde}`); }
+  if(!p.length) return "";
+  return p.join("; ")+(top.length?` · letra ${FONTES[S.fonte].n.toLowerCase()} em ${nomeCor(S.T)}`:"");
+}
+function mensagem(){
+  const b=BIKES[S.bike];
+  let t=`Olá, EDRO! Montei um projeto de pintura no personalizador FIT4U.\n\n`;
+  t+=`Modelo: _${platNome(S.bike)}_ ${b.ver}\n`;
+  t+=`Cor principal: ${corTxt(S.A)}\n`;
+  t+=`Grafismo: ${descGrafismo()}\n`;
+  if(S.fil) t+=`Filete: ${descFilete()}\n`;
+  t+=`Respingos: ${S.spk?`${corTxt(S.spkC)}, intensidade ${Math.round(S.amt*100)}%, ${ondeSpk[S.spkW]}${S.spkObs.trim()?` (${S.spkObs.trim()})`:""}`:"sem respingos"}\n`;
+  t+=`Logotipo: ${corTxt(S.L)}, ${NOME_FIN[S.lfin].toLowerCase()}\n`;
+  if(descAssinatura()) t+=`Assinatura: ${descAssinatura()}\n`;
+  if(S.sim==="img"&&imgUsuario) t+=`(Vou enviar o arquivo da imagem por aqui.)\n`;
+  t+=`Acabamento: ${NOME_FIN[S.fin]}${E_LBL[S.fin]?`, ${E_LBL[S.fin].toLowerCase()} ${corTxt(S.E)}`:""}\n\n`;
+  if(S.obs&&S.obs.trim()) t+=`Observações: ${S.obs.trim()}\n\n`;
+  if(LEAD) t+=`Meus dados: ${LEAD.nome} · ${LEAD.tel} · ${LEAD.email} · ${LEAD.cidade}\n\n`;
+  t+=`Código do projeto: ${codigo()}\n`;
+  if(/edrobikes/i.test(location.hostname)) t+=`Link: ${location.origin}${location.pathname}#${codigo()}\n`;
+  t+=`\nGostaria de conversar sobre esse projeto.`;
+  return t;
+}
+/* código do projeto: só letras, números e ponto (vale como âncora de link) */
+const b36=n=>n.toString(36);
+function codigo(){
+  const h=x=>x.replace("#","").toUpperCase(), flags=(S.spk?1:0)+(S.fork?2:0)+(S.tone?4:0), ambs=AMBS.concat(SCENES,FOTOS).map(a=>a.id);
+  const g=b36(KEYS.indexOf(S.bike))+b36(MODES.indexOf(S.mode))+b36(FINS.indexOf(S.fin))+b36(LFINS.indexOf(S.lfin))+b36(SPKW.indexOf(S.spkW))+b36(flags)+b36(S.count)+b36(Math.max(0,ambs.indexOf(S.amb)));
+  const t64=v=>{ if(!v) return "0"; const b=btoa(unescape(encodeURIComponent(v))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); return "~"+b; };
+  const pz=b36(Math.max(0,BANDEIRAS.findIndex(x=>x[0]===S.band)))+"x"+b36(Math.max(0,SANGUE.indexOf(S.sang)))+"x"+S.fonte+"x"+Math.max(0,SIMBOLOS.findIndex(x=>x[0]===S.sim))+"x"+(S.imgCor?1:0);
+  return ["E3",g,h(S.A),h(S.B),h(S.spkC),h(S.L),h(S.E),S.ang,Math.round(S.pos*100),Math.round(S.soft*100),Math.round(S.width*100),Math.round(S.amt*100),Math.round(S.scale*100),Math.round(S.dens*100),pz,h(S.T),h(S.Y),t64(S.nome),t64(S.num),t64(S.frase),(S.fil?`${S.filN}x${Math.round(S.filW*100)}x${Math.round(S.filP*100)}x${S.filLogo?1:0}`:"0"),h(S.F),S.ori==="lat"?1:0,t64(S.ini)].join(".");
+}
+function leCodigo(c){
+  c=(c||"").trim().replace(/^#/,"");
+  const p=c.split("."); if((p.length!==20&&p.length!==22&&p.length!==24)||p[0]!=="E3"||p[1].length!==8) return null;
+  const f=p[1], i=q=>parseInt(f[q],36), hx=v=>"#"+v.toUpperCase(), n=v=>{const x=+v;return isFinite(x)?x:NaN;}, ambs=AMBS.concat(SCENES,FOTOS).map(a=>a.id);
+  const st={bike:KEYS[i(0)],mode:MODES[i(1)],fin:FINS[i(2)],lfin:LFINS[i(3)],spkW:SPKW[i(4)],spk:!!(i(5)&1),fork:!!(i(5)&2),tone:!!(i(5)&4),count:i(6),amb:(SCENES.some(c=>c.id===ambs[i(7)])?"foto":ambs[i(7)])||"escuro",
+    A:hx(p[2]),B:hx(p[3]),spkC:hx(p[4]),L:hx(p[5]),E:hx(p[6]),ang:n(p[7]),pos:n(p[8])/100,soft:n(p[9])/100,width:n(p[10])/100,amt:n(p[11])/100,scale:n(p[12])/100,dens:n(p[13])/100,preset:-1};
+  const u64=v=>{ if(!v||v==="0") return ""; try{ let b=v.replace(/^~/,"").replace(/-/g,"+").replace(/_/g,"/"); while(b.length%4) b+="="; return decodeURIComponent(escape(atob(b))); }catch(_){ return ""; } };
+  const q=p[14].split("x"); if(q.length!==5) return null;
+  Object.assign(st,{band:(BANDEIRAS[parseInt(q[0],36)]||[""])[0],sang:SANGUE[parseInt(q[1],36)]||"",fonte:Math.min(2,+q[2]||0),sim:(SIMBOLOS[+q[3]]||[""])[0],imgCor:q[4]==="1",T:hx(p[15]),Y:hx(p[16]),nome:u64(p[17]).slice(0,18),num:u64(p[18]).slice(0,3),frase:""});
+  if(st.sim==="img") st.sim="";
+  if(FIN_MAP[st.fin]) st.fin=FIN_MAP[st.fin];
+  ["A","B","spkC","L","E"].forEach(q=>{ if((st[q]||"").toUpperCase()===C3K) st[q]=CUD; });
+  Object.assign(st,{fil:false,F:"#F4F5F2",filN:1,filW:.35,filP:.45,filLogo:true,spkObs:"",obs:""});
+  if(p.length===22){ if(p[20]!=="0"){ const q=p[20].split("x").map(Number); if(q.length===4&&q.every(v=>isFinite(v))) Object.assign(st,{fil:true,filN:Math.min(3,Math.max(1,q[0])),filW:q[1]/100,filP:q[2]/100,filLogo:q[3]===1}); } if(hexOk("#"+p[21])) st.F="#"+p[21].toUpperCase(); }
+  st.ori="eixo"; st.ini="";
+  if(p.length===24){ st.ori=p[22]==="1"?"lat":"eixo"; st.ini=u64(p[23]).slice(0,3); }
+  if(!hexOk(st.T)||!hexOk(st.Y)) return null;
+  if(!st.bike||!st.mode||!st.fin||!st.lfin||!st.spkW||!(st.count>=1&&st.count<=3)||![st.A,st.B,st.spkC,st.L,st.E].every(hexOk)||[st.ang,st.pos,st.soft,st.width,st.amt,st.scale,st.dens].some(isNaN)) return null;
+  return st;
+}
+function mudou(){ atualizaUI(); agenda(); }
+function montaPresets(){
+  $("presets").innerHTML=PRESETS.map((p,i)=>`<button class="preset" type="button" data-v="${i}"><canvas width="104" height="64"></canvas><span style="min-width:0"><span class="pn">${p.n}</span><span class="pd">${p.d}</span></span></button>`).join("");
+  $("presets").querySelectorAll(".preset").forEach(b=>{
+    const p=PRESETS[+b.dataset.v]; thumb(b.querySelector("canvas"),Object.assign({},DEF,p.s));
+    b.onclick=()=>{ const pz={}; ["nome","band","sang","fonte","T","sim","num","ini","ori","Y","frase","imgCor","spkObs","obs"].forEach(q=>pz[q]=S[q]); S=Object.assign({},DEF,{bike:S.bike,amb:S.amb},pz,p.s,{preset:+b.dataset.v}); mudou(); };
+  });
+}
+function montaModos(){
+  $("g-mode").innerHTML=MODES_UI.map(m=>`<button class="gopt" type="button" data-v="${m}"><canvas width="104" height="64"></canvas><span style="min-width:0"><span class="pn">${MODE_INFO[m].n}</span><span class="pd">${MODE_INFO[m].d}</span></span></button>`).join("");
+  $("g-mode").querySelectorAll(".gopt").forEach(b=>b.onclick=()=>{
+    const m=b.dataset.v; S.mode=m; S.preset=-1;
+    if(m!=="solid"&&!S.tone&&S.B.toUpperCase()===S.A.toUpperCase()) S.B="#0D0E0D";
+    if(m==="stripes"){ if(S.soft>0.3) S.soft=0.06; if(S.width>0.3) S.width=0.12; }
+    if((m==="fade"||m==="fade2")&&S.soft<0.1) S.soft=0.35;
+    if(m==="fade2"&&S.width>0.3) S.width=0.14;
+    if((m==="pixel"||m==="dots"||m==="facet")&&S.soft<0.3) S.soft=0.55;
+    if(m==="topo"&&S.width>0.3) S.width=0.12;
+    mudou();
+  });
+}
+function montaAssinatura(){
+  $("in-band").innerHTML=BANDEIRAS.map(b=>`<option value="${b[0]}">${b[1]}</option>`).join("");
+  $("in-sang").innerHTML=SANGUE.map(v=>`<option value="${v}">${v||"Não mostrar"}</option>`).join("");
+  $("g-sim").innerHTML=ORDEM_SIM.map(id=>[id,SIMBOLOS.find(x=>x[0]===id)[1]]).map(([id,n])=>`<button class="sim" type="button" data-v="${id}"><canvas width="52" height="52"></canvas>${n}</button>`).join("");
+  $("g-sim").querySelectorAll(".sim").forEach(b=>{ const c=b.querySelector("canvas"), g=c.getContext("2d"), id=b.dataset.v; g.translate(26,26);
+    if(id==="num"){ g.fillStyle="#d8ddd6"; g.font="italic 800 30px 'Saira Condensed', sans-serif"; g.textAlign="center"; g.textBaseline="middle"; g.fillText("07",0,1); }
+    else if(id==="ini"){ g.fillStyle="#d8ddd6"; g.font="italic 800 25px 'Saira Condensed', sans-serif"; g.textAlign="center"; g.textBaseline="middle"; g.fillText("ABC",0,1); }
+    else if(id==="img"){ g.strokeStyle="#d8ddd6"; g.lineWidth=3; g.strokeRect(-16,-13,32,26); g.fillStyle="#d8ddd6"; g.beginPath(); g.moveTo(-12,9); g.lineTo(-3,-3); g.lineTo(4,5); g.lineTo(8,1); g.lineTo(13,9); g.closePath(); g.fill(); }
+    else if(!id){ g.strokeStyle="#6b746a"; g.lineWidth=3; g.beginPath(); g.arc(0,0,14,0,7); g.moveTo(-10,10); g.lineTo(10,-10); g.stroke(); }
+    else { g.scale(19,19); simbolo(g,id,"#d8ddd6"); }
+    b.onclick=()=>{ S.sim=id; verZona("topo"); mudou(); if(id==="img"&&!imgUsuario) $("in-img").click(); };
+  });
+  swatches("sw-T","T","pk-T",true); swatches("sw-Y","Y","pk-Y",true);
+  const txt=(id,key,zn)=>{ const el=$(id); el.addEventListener("input",()=>{ S[key]=el.value; verZona(zn); mudou(); }); el.addEventListener("focus",()=>verZona(zn)); };
+  txt("in-nome","nome","top"); txt("in-num","num","topo"); txt("in-ini","ini","topo");
+  $("g-ori").querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{ S.ori=b.dataset.v; verZona("topo"); mudou(); desenhaDetalhe(); });
+  $("in-band").addEventListener("change",e=>{ S.band=e.target.value; verZona("top"); mudou(); });
+  $("in-sang").addEventListener("change",e=>{ S.sang=e.target.value; verZona("top"); mudou(); });
+  bindOpts("g-fonte","fonte",v=>+v);
+  $("g-fonte").querySelectorAll("[data-v]").forEach(b=>b.addEventListener("click",()=>verZona(zonaDetalhe||"top")));
+  $("c-imgcor").addEventListener("change",e=>{ S.imgCor=e.target.checked; verZona("topo"); mudou(); });
+  $("in-img").addEventListener("change",e=>{ const f=e.target.files&&e.target.files[0]; if(!f) return;
+    if(f.size>8e6){ $("img-nome").textContent="Arquivo grande demais (até 8 MB)."; return; }
+    const rd=new FileReader(); rd.onload=()=>{ const im=new Image(); im.onload=()=>{ prepImagem(im); S.sim="img"; $("img-nome").textContent=f.name; verZona("topo"); mudou(); }; im.onerror=()=>{ $("img-nome").textContent="Não foi possível ler essa imagem. Use PNG, JPG ou SVG."; }; im.src=rd.result; }; rd.readAsDataURL(f); });
+  document.querySelectorAll("[data-ver]").forEach(b=>b.onclick=()=>{ verZona(b.dataset.ver); desenhaDetalhe(); });
+  $("dt-fechar").onclick=()=>{ zonaDetalhe=null; desenhaDetalhe(); };
+  if(document.fonts&&document.fonts.load){ Promise.all([document.fonts.load("40px Yellowtail"),document.fonts.load("italic 800 40px 'Saira Condensed'"),document.fonts.load("700 40px Barlow")]).then(()=>{ fontesProntas=true; agenda(); }).catch(()=>{}); }
+}
+function verZona(zn){ zonaDetalhe=zn; }
+function uiAssinatura(){
+  if(document.activeElement!==$("in-nome")) $("in-nome").value=S.nome;
+  if(document.activeElement!==$("in-num")) $("in-num").value=S.num;
+  $("in-band").value=S.band; $("in-sang").value=S.sang; if(document.activeElement!==$("in-ini")) $("in-ini").value=S.ini||"";
+  setPressed($("g-fonte"),S.fonte); setPressed($("g-sim"),S.sim);
+  $("campo-num").hidden=S.sim!=="num"; $("campo-img").hidden=S.sim!=="img"; $("campo-ini").hidden=S.sim!=="ini"; $("campo-ori").hidden=!S.sim; setPressed($("g-ori"),S.ori);
+  $("campo-symcor").hidden=!S.sim||(S.sim==="img"&&S.imgCor); $("c-imgcor").checked=S.imgCor;
+  corUI("sw-T","T","pk-T","ca-T"); corUI("sw-Y","Y","pk-Y","ca-Y");
+}
+function init(){
+  montaPresets(); montaModos();
+  swatches("sw-A","A","pk-A"); swatches("sw-B","B","pk-B"); swatches("sw-F","F","pk-F",true); swatches("sw-S","spkC","pk-S",true); swatches("sw-L","L","pk-L",true); swatches("sw-E","E","pk-E",true);
+  bindOpts("g-tone","tone",v=>v==="1");
+  $("g-dir").querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{ S.ang=+b.dataset.v; S.preset=-1; mudou(); });
+  bindOpts("g-count","count",v=>+v);
+  bindOpts("g-spkw","spkW"); bindOpts("g-lfin","lfin"); bindOpts("g-fin","fin");
+  bindRange("s-ang","ang",1); bindRange("s-pos","pos",100); bindRange("s-soft","soft",100); bindRange("s-width","width",100); bindRange("s-amt","amt",100); bindRange("s-scale","scale",100); bindRange("s-dens","dens",100);
+  $("c-spk").addEventListener("change",e=>{S.spk=e.target.checked;S.preset=-1;mudou();});
+  $("c-fil").addEventListener("change",e=>{S.fil=e.target.checked;S.preset=-1;if(S.fil){verZona("fil");} mudou(); desenhaDetalhe();});
+  $("c-fillogo").addEventListener("change",e=>{S.filLogo=e.target.checked;S.preset=-1;mudou();});
+  bindOpts("g-filn","filN",v=>+v); bindRange("s-filw","filW",100); bindRange("s-filp","filP",100);
+  $("in-spkhex").addEventListener("input",e=>{ let v=e.target.value.trim().toUpperCase(); if(v&&v[0]!=="#") v="#"+v; if(hexOk(v)){ S.spkC=v; S.preset=-1; mudou(); } });
+  $("in-amt").addEventListener("input",e=>{ const v=parseInt(e.target.value,10); if(v>=1&&v<=100){ S.amt=v/100; S.preset=-1; mudou(); } });
+  $("in-spkobs").addEventListener("input",e=>{ S.spkObs=e.target.value; ficha(); });
+  $("in-obs").addEventListener("input",e=>{ S.obs=e.target.value; ficha(); });
+  $("c-fork").addEventListener("change",e=>{S.fork=e.target.checked;S.preset=-1;mudou();});
+  $("b-inv").onclick=()=>{ const a=S.A; S.A=S.B; S.B=a; S.preset=-1; mudou(); };
+  $("t-lupa").onclick=e=>{ lupa=!lupa; e.currentTarget.setAttribute("aria-pressed",String(lupa)); if(!lupa) $("lente").hidden=true; };
+  const orig=$("t-orig");
+  const on=e=>{ e.preventDefault(); mostrandoOriginal=true; render(); }, off=()=>{ if(mostrandoOriginal){ mostrandoOriginal=false; if(cur){ctx.clearRect(0,0,cv.width,cv.height);ctx.putImageData(cur.out,0,0);} render(); } };
+  orig.addEventListener("pointerdown",on); ["pointerup","pointerleave","pointercancel"].forEach(ev=>orig.addEventListener(ev,off));
+  orig.addEventListener("keydown",e=>{ if(e.key===" "||e.key==="Enter") on(e); }); orig.addEventListener("keyup",off);
+  const palco=$("palco"), lente=$("lente"), lcv=$("lcv"), lctx=lcv.getContext("2d");
+  vw.addEventListener("pointermove",e=>{
+    if(!lupa||e.pointerType!=="mouse"||!cur){ lente.hidden=true; return; }
+    const r=vw.getBoundingClientRect(), pr=palco.getBoundingClientRect();
+    const sx=(e.clientX-r.left)/r.width*vw.width, sy=(e.clientY-r.top)/r.height*vw.height, L=420*0.55;
+    lctx.fillStyle=ambAtual().id==="claro"?"#eceeeb":"#1b1f1b"; lctx.fillRect(0,0,420,420);
+    lctx.drawImage(vw,sx-L/2,sy-L/2,L,L,0,0,420,420);
+    lente.hidden=false; lente.style.left=(e.clientX-pr.left-105)+"px"; lente.style.top=(e.clientY-pr.top-105)+"px";
+  });
+  vw.addEventListener("pointerleave",()=>lente.hidden=true);
+  const copia=()=>{ const c=codigo(), m=$("msg-cod");
+    const ok=()=>{m.textContent="Código copiado.";setTimeout(()=>m.textContent="",2500);};
+    const falha=()=>{const r=document.createRange();r.selectNodeContents($("codigo"));const s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent="Código selecionado: use Ctrl+C ou Copiar.";};
+    try{ navigator.clipboard.writeText(c).then(ok,falha); }catch(_){ falha(); } };
+  $("b-cod").onclick=copia; $("b-cod3").onclick=copia;
+  $("b-load").onclick=()=>{ const st=leCodigo($("in-cod").value), m=$("msg-cod");
+    if(!st){ m.textContent="Código não reconhecido. Confira se foi colado inteiro, começando por E3."; return; }
+    const troca=st.bike!==S.bike; S=st; m.textContent="Projeto carregado."; if(troca) trocaBike(S.bike); else { montaAmbientes(); mudou(); } };
+  $("b-img").onclick=pedeImagem; $("b-img2").onclick=pedeImagem; $("b-pdf").onclick=geraPDF; $("b-pdf2").onclick=geraPDF;
+  $("ov-save").onclick=()=>{ if(!IMG_ATUAL) return; IMG_ATUAL.toBlob(bl=>{ if(bl) salvaArquivo(nomeArq("jpg"),bl); },"image/jpeg",0.95); };
+  $("leads-csv").onclick=()=>{ const cols=["ultimo","nome","tel","email","cidade","acao","modelo","projeto"], q=v=>`"${String(v==null?"":v).replace(/"/g,'""')}"`;
+    const csv="\ufeff"+["Quando;Nome;Telefone;E-mail;Cidade;Pediu;Modelo;Projeto"].concat(LEADS.map(l=>cols.map(c=>q(l[c])).join(";"))).join("\n");
+    salvaArquivo("contatos-fit4u.csv",new Blob([csv],{type:"text/csv"})); };
+  $("cad").addEventListener("click",e=>{ if(e.target.id==="cad") $("cad-x").click(); });
+  $("b-mao").onclick=e=>{ e.currentTarget.href=`https://wa.me/${WA_NUM}?text=${encodeURIComponent("Olá, EDRO! Usei o personalizador FIT4U e quero um projeto de pintura feito à mão para a minha bicicleta.\n\nModelo: "+nomeModeloTxt()+"\nCódigo do que montei até agora: "+codigo())}`; };
+  LEAD=leadSalvo(); setTimeout(carregaLeads,400);
+  $("ov-close").onclick=()=>{$("ov").hidden=true;};
+  $("ov").addEventListener("click",e=>{ if(e.target.id==="ov") $("ov").hidden=true; });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ $("ov").hidden=true; if(!$("cad").hidden) $("cad-x").click(); } });
+  montaAssinatura();
+  try{ const st=leCodigo(location.hash); if(st) S=st; }catch(_){}
+  /* link direto para um modelo: ?modelo=range-xcr ou ?modelo=summa-pro-hz (ignorado quando há código de projeto no endereço) */
+  try{ const m=new URLSearchParams(location.search).get("modelo"); if(m&&BIKES[m]&&!location.hash.replace("#","")) S.bike=m; }catch(_){}
+  montaModelos(); montaAmbientes(); atualizaUI(); trocaBike(S.bike);
+}
+
+/* ================= Cadastro, arquivos e contatos ================= */
+/* No site da EDRO, aponte LEAD_WEBHOOK para o CRM (Nextags, RD Station ou formulário): cada cadastro chega como JSON via POST. */
+const CFG=window.FIT4U_CONFIG||{};
+const LEAD_WEBHOOK=CFG.leadWebhook||"";
+const JSPDF_URLS=["vendor/jspdf.umd.min.js","https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"];
+const capac=n=>Promise.resolve(null); /* fora do Claude não há capacidades extras: arquivos baixam direto pelo navegador */
+function leadSalvo(){ try{ return JSON.parse(localStorage.getItem("fit4u-lead")||"null"); }catch(_){ return null; } }
+function pedeCadastro(tipo){
+  return new Promise(res=>{
+    const L=LEAD||leadSalvo()||{}, f=$("cad-form");
+    $("cad-tit").textContent= tipo==="pdf"?"Gerar o projeto em PDF":"Imagem em alta resolução";
+    $("cad-go").textContent= tipo==="pdf"?"Gerar PDF":"Gerar imagem";
+    $("cad-nome").value=L.nome||""; $("cad-email").value=L.email||""; $("cad-tel").value=L.tel||""; $("cad-cidade").value=L.cidade||""; $("cad-ok").checked=!!L.nome;
+    $("cad-msg").textContent=""; f.querySelectorAll("input").forEach(i=>i.classList.remove("erro"));
+    $("cad").hidden=false; setTimeout(()=>$(L.nome?"cad-go":"cad-nome").focus(),30);
+    const fecha=v=>{ $("cad").hidden=true; f.onsubmit=null; $("cad-x").onclick=null; res(v); };
+    $("cad-x").onclick=()=>fecha(null);
+    f.onsubmit=e=>{
+      e.preventDefault();
+      const d={nome:$("cad-nome").value.trim(),email:$("cad-email").value.trim(),tel:$("cad-tel").value.trim(),cidade:$("cad-cidade").value.trim()};
+      const ruim=[]; if(d.nome.length<3) ruim.push("cad-nome"); if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)) ruim.push("cad-email");
+      if(d.tel.replace(/\D/g,"").length<10) ruim.push("cad-tel"); if(d.cidade.length<2) ruim.push("cad-cidade");
+      f.querySelectorAll("input").forEach(i=>i.classList.toggle("erro",ruim.includes(i.id)));
+      if(ruim.length){ $("cad-msg").textContent="Confira os campos destacados: nome, e-mail válido, telefone com DDD e cidade."; return; }
+      if(!$("cad-ok").checked){ $("cad-msg").textContent="Para gerar o arquivo, autorize o contato da EDRO."; return; }
+      LEAD=d; try{ localStorage.setItem("fit4u-lead",JSON.stringify(d)); }catch(_){}
+      registraLead(d,tipo); fecha(d);
+    };
+  });
+}
+function resumoTexto(){ return mensagem().replace(/_/g,""); }
+/* eventos para o site: dataLayer (GTM/GA4/Meta), callback FIT4U_CONFIG.onEvent e postMessage quando estiver em iframe. Nunca levam dados pessoais. */
+function fit4uEvento(nome,dados){ const e=Object.assign({event:"fit4u_"+nome},dados||{});
+  try{ (window.dataLayer=window.dataLayer||[]).push(e); }catch(_){}
+  try{ if(typeof CFG.onEvent==="function") CFG.onEvent(nome,dados||{}); }catch(_){}
+  try{ if(window.parent&&window.parent!==window) window.parent.postMessage({fonte:"fit4u",evento:nome,dados:dados||{}},"*"); }catch(_){} }
+document.addEventListener("click",ev=>{ const a=ev.target.closest&&ev.target.closest("a"); if(!a) return;
+  if(a.id==="b-wa"||a.id==="b-wa2") fit4uEvento("whatsapp",{tipo:"projeto",modelo:nomeModeloTxt(),projeto:codigo()});
+  else if(a.id==="b-mao") fit4uEvento("whatsapp",{tipo:"projeto_a_mao",modelo:nomeModeloTxt()}); });
+async function registraLead(d,tipo){
+  const reg={origem:"FIT4U site",pagina:location.href,consentimento_lgpd:true,...d,acao:tipo==="pdf"?"PDF do projeto":"Imagem em alta",modelo:nomeModeloTxt(),projeto:codigo(),resumo:resumoTexto().slice(0,3000),quando:new Date().toISOString()};
+  fit4uEvento("lead",{acao:reg.acao,modelo:reg.modelo,projeto:reg.projeto});
+  if(LEAD_WEBHOOK){ try{ fetch(LEAD_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(reg),keepalive:true}).catch(()=>{}); }catch(_){} }
+  try{
+    const [db,user]=await Promise.all([capac("db"),capac("user")]); if(!db||!user) return;
+    const id=await user.id(); if(!id) return;
+    await db.doc(`leads/${id}`).set({nome:d.nome,email:d.email,tel:d.tel,cidade:d.cidade,ultimo:reg.quando,acao:reg.acao,modelo:reg.modelo,projeto:reg.projeto});
+    await db.doc(`leads/${id}/envios/${Date.now()}`).set(reg);
+    if(document.getElementById("leads").hidden===false) carregaLeads();
+  }catch(_){}
+}
+const nomeModeloTxt=()=>{ const b=BIKES[S.bike]; return `${platNome(S.bike)} ${b.ver}`; };
+let LEADS=[];
+async function carregaLeads(){
+  try{
+    const [db,user]=await Promise.all([capac("db"),capac("user")]); if(!db||!user||!(await user.isOwner())) return;
+    const q=await db.collection("leads").orderBy("ultimo","desc").limit(500).get();
+    LEADS=q.docs.map(x=>x.data()); const el=$("leads"); el.hidden=false; $("leads-n").textContent=`(${LEADS.length})`;
+    const tab=$("leads-tab"); tab.textContent="";
+    const t=document.createElement("table"), hd=["Quando","Nome","Telefone","E-mail","Cidade","Pediu","Modelo","Projeto"];
+    const tr=t.insertRow(); hd.forEach(h=>{ const th=document.createElement("th"); th.textContent=h; tr.appendChild(th); });
+    LEADS.forEach(l=>{ const r=t.insertRow(); [new Date(l.ultimo).toLocaleString("pt-BR"),l.nome,l.tel,l.email,l.cidade,l.acao,l.modelo,l.projeto].forEach(v=>{ r.insertCell().textContent=v||""; }); });
+    tab.appendChild(t);
+  }catch(_){}
+}
+async function salvaArquivo(nome,blob){
+  const dl=await capac("downloads");
+  if(dl){ try{ await dl.save({filename:nome,data:blob}); return true; }catch(e){ if(e&&e.code==="declined") return false; } }
+  try{ const u=URL.createObjectURL(blob), a=document.createElement("a"); a.href=u; a.download=nome; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); return true; }catch(_){ return false; }
+}
+const nomeArq=ext=>`EDRO-FIT4U-${nomeModeloTxt().replace(/\s+/g,"-")}-${(LEAD&&LEAD.nome?LEAD.nome.split(" ")[0]:"projeto").normalize("NFD").replace(/[^A-Za-z0-9]/g,"")}.${ext}`;
+let IMG_ATUAL=null;
+async function pedeImagem(){ if(!cur) return; const d=await pedeCadastro("img"); if(!d) return; await geraImagem(); }
+function carregaJsPDF(){ return new Promise((ok,ko)=>{ if(window.jspdf) return ok(window.jspdf); let n=0;
+  const tenta=()=>{ if(n>=JSPDF_URLS.length) return ko(new Error("jspdf")); const sc=document.createElement("script"); sc.src=JSPDF_URLS[n++]; sc.onload=()=>window.jspdf?ok(window.jspdf):tenta(); sc.onerror=tenta; document.head.appendChild(sc); }; tenta(); }); }
+async function imgData(src){ const im=await loadImg(src); const c=document.createElement("canvas"); c.width=im.naturalWidth; c.height=im.naturalHeight; c.getContext("2d").drawImage(im,0,0); return {url:c.toDataURL("image/png"),w:c.width,h:c.height}; }
+async function geraPDF(){
+  if(!cur) return; const d=await pedeCadastro("pdf"); if(!d) return;
+  const bts=[$("b-pdf"),$("b-pdf2")]; bts.forEach(b=>{b.disabled=true;}); const txt=$("b-pdf").textContent; $("b-pdf").textContent="Gerando PDF…";
+  try{
+    const {jsPDF}=await carregaJsPDF();
+    const doc=new jsPDF({unit:"mm",format:"a4",compress:true}), W=210, H=297, M=14;
+    const verde=[56,169,54], esc=[11,13,11], cinza=[110,118,110];
+    const foto=await composicao(true); const fw=W-2*M, fh=fw*foto.height/foto.width;
+    const [lgE,lgF]=await Promise.all([imgData("logo-edro.png"),imgData("fit4u-marca.png")]);
+    // cabeçalho
+    doc.setFillColor(...esc); doc.rect(0,0,W,30,"F"); doc.setFillColor(...verde); doc.rect(0,30,W,1.2,"F");
+    doc.addImage(lgE.url,"PNG",M,6,18*lgE.w/lgE.h,18); const fx=M+18*lgE.w/lgE.h+8;
+    doc.setDrawColor(70,78,70); doc.line(fx-4,9,fx-4,21); doc.addImage(lgF.url,"PNG",fx,9.5,11*lgF.w/lgF.h,11);
+    doc.setTextColor(242,245,241); doc.setFont("helvetica","bolditalic"); doc.setFontSize(15); doc.text(nomeModeloTxt(),W-M,14,{align:"right"});
+    doc.setFont("helvetica","normal"); doc.setFontSize(8.5); doc.setTextColor(170,178,170);
+    doc.text(`Projeto de pintura personalizada · ${new Date().toLocaleDateString("pt-BR")}`,W-M,20,{align:"right"});
+    // imagem
+    let y=36; doc.addImage(foto.toDataURL("image/jpeg",0.9),"JPEG",M,y,fw,fh); y+=fh+7;
+    const titulo=t=>{ doc.setFont("helvetica","bolditalic"); doc.setFontSize(11); doc.setTextColor(...verde); doc.text(t.toUpperCase(),M,y); y+=2; doc.setDrawColor(220,224,220); doc.line(M,y,W-M,y); y+=5; };
+    const linha=(k,v,cor)=>{
+      doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(...cinza); doc.text(k.toUpperCase(),M,y);
+      let x=M+42; if(cor&&!isCarb(cor)){ const c=cor.match(/\w\w/g).map(h=>parseInt(h,16)); doc.setFillColor(...c); doc.setDrawColor(180,184,180); doc.roundedRect(x,y-3.2,4,4,0.8,0.8,"FD"); x+=6; }
+      doc.setFont("helvetica","normal"); doc.setFontSize(9.5); doc.setTextColor(20,22,20);
+      const ls=doc.splitTextToSize(v,W-M-x); doc.text(ls,x,y); y+=Math.max(5.2,ls.length*4.4+0.8);
+      if(y>H-22){ doc.addPage(); y=20; }
+    };
+    titulo("Ficha técnica da pintura");
+    const b=BIKES[S.bike];
+    linha("Modelo",`${platNome(S.bike)} ${b.ver}`);
+    linha("Cor principal",corTxt(S.A),S.A.replace("#",""));
+    linha("Grafismo",descGrafismo(),S.mode!=="solid"&&!S.tone?S.B.replace("#",""):null);
+    linha("Filete",S.fil?descFilete():"Sem filete",S.fil?S.F.replace("#",""):null);
+    linha("Respingos",S.spk?`${corTxt(S.spkC)} · intensidade ${Math.round(S.amt*100)}% · aplicados ${ondeSpk[S.spkW]}`:"Sem respingos",S.spk?S.spkC.replace("#",""):null);
+    if(S.spk&&S.spkObs.trim()) linha("Detalhe respingos",S.spkObs.trim());
+    linha("Logotipo EDRO",`${corTxt(S.L)} · ${NOME_FIN[S.lfin].toLowerCase()}`,S.L.replace("#",""));
+    linha("Acabamento",NOME_FIN[S.fin]+(S.fin==="cham"?` · cor de virada ${corTxt(S.E)}`:""));
+    linha("Assinatura",descAssinatura()||"Sem personalização");
+    if(S.obs&&S.obs.trim()) linha("Observações",S.obs.trim());
+    linha("Código do projeto",codigo());
+    y+=2; titulo("Cliente");
+    linha("Nome",d.nome); linha("Telefone",d.tel); linha("E-mail",d.email); linha("Cidade",d.cidade);
+    y+=1; if(y>H-40){ doc.addPage(); y=20; }
+    doc.setFillColor(238,246,238); doc.setDrawColor(...verde); doc.roundedRect(M,y,W-2*M,22,2,2,"FD");
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(20,60,22);
+    const av=doc.splitTextToSize("Este projeto será revisado pela equipe de design da EDRO, que confere a aplicação das cores, o encaixe dos grafismos, do filete e da assinatura no quadro. A cor final é aprovada com você na amostra física de tinta.",W-2*M-8);
+    doc.text(av,M+4,y+6);
+    doc.setFont("helvetica","normal"); doc.setTextColor(40,60,40);
+    doc.text(doc.splitTextToSize("Quer algo que não está no personalizador? Nossa equipe cria um projeto exclusivo, feito à mão para a sua bicicleta.",W-2*M-8),M+4,y+6+av.length*4.2+2);
+    // rodapé
+    const pags=doc.getNumberOfPages();
+    for(let i=1;i<=pags;i++){ doc.setPage(i); doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor(...cinza);
+      doc.text("EDRO Performance Bikes · Tubarão SC · edrobikes.com.br · WhatsApp (48) 99110-2017",M,H-8); doc.text(`FIT4U · ${i}/${pags}`,W-M,H-8,{align:"right"}); }
+    const ok=await salvaArquivo(nomeArq("pdf"),doc.output("blob"));
+    $("msg-cod").textContent= ok?"PDF do projeto gerado.":"O PDF não foi salvo. Tente de novo.";
+  }catch(e){ $("msg-cod").textContent="Não foi possível gerar o PDF agora. Verifique a conexão e tente de novo."; }
+  finally{ bts.forEach(b=>{b.disabled=false;}); $("b-pdf").textContent=txt; }
+}
+/* ================= Imagem para salvar ================= */
+async function composicao(semRodape){
+  const W=vw.width, H=vw.height, FH=Math.round(W*0.115), c=document.createElement("canvas"); c.width=W; c.height=H+(semRodape?0:FH);
+  const x=c.getContext("2d"), amb=ambAtual();
+  if(!amb.file&&!amb.foto){
+    const g=x.createRadialGradient(W/2,H*0.42,50,W/2,H*0.42,W*0.62);
+    if(amb.id==="claro"){g.addColorStop(0,"#ffffff");g.addColorStop(.58,"#eef0ed");g.addColorStop(1,"#d4d8d3");} else {g.addColorStop(0,"#2a302a");g.addColorStop(.58,"#141814");g.addColorStop(1,"#0b0d0b");}
+    x.fillStyle=g; x.fillRect(0,0,W,H);
+  }
+  x.drawImage(vw,0,0);
+  if(temSimbolo()){ try{ const C=await lupaCanvas(), lw=Math.round(W*0.27), lh=Math.round(lw*0.74), lx=Math.round(W*0.022), ly=H-lh-Math.round(W*0.022), L=C.L, k=Math.max(lw/C.W,lh/C.H)*1.08;
+      let sx=L.foco[0]-lw/k/2, sy=L.foco[1]-lh/k/2; sx=Math.max(0,Math.min(C.W-lw/k,sx)); sy=Math.max(0,Math.min(C.H-lh/k,sy));
+      x.save(); x.shadowColor="rgba(0,0,0,.45)"; x.shadowBlur=W*0.012; x.fillStyle="#111"; const rr=W*0.008; x.beginPath(); x.roundRect?x.roundRect(lx,ly,lw,lh,rr):x.rect(lx,ly,lw,lh); x.fill(); x.restore();
+      x.save(); x.beginPath(); x.roundRect?x.roundRect(lx,ly,lw,lh,W*0.008):x.rect(lx,ly,lw,lh); x.clip(); x.drawImage(C.final,sx,sy,lw/k,lh/k,lx,ly,lw,lh);
+      const gt=x.createLinearGradient(0,ly,0,ly+lh*0.16); gt.addColorStop(0,"rgba(0,0,0,.65)"); gt.addColorStop(1,"rgba(0,0,0,0)"); x.fillStyle=gt; x.fillRect(lx,ly,lw,lh*0.16);
+      x.fillStyle="#f2f5f1"; x.font=`600 ${Math.round(lw*0.036)}px Barlow, sans-serif`; x.textAlign="left"; x.fillText("TOPO DO TUBO SUPERIOR",lx+lw*0.03,ly+lh*0.075);
+      x.restore(); x.strokeStyle="rgba(255,255,255,.4)"; x.lineWidth=Math.max(1,W*0.0008); x.beginPath(); x.roundRect?x.roundRect(lx,ly,lw,lh,W*0.008):x.rect(lx,ly,lw,lh); x.stroke();
+    }catch(_){} }
+  if(semRodape) return c;
+  x.fillStyle="#0b0d0b"; x.fillRect(0,H,W,FH); x.fillStyle="#38A936"; x.fillRect(0,H,W,5);
+  try{ const lg=await loadImg("logo-edro.png"); const lh=FH*0.65, lw=lg.naturalWidth*lh/lg.naturalHeight; x.drawImage(lg,60,H+FH*0.17,lw,lh); const fm=await loadImg("fit4u-marca.png"), fh=FH*0.5, fw=fm.naturalWidth*fh/fm.naturalHeight, fx=60+lw+FH*0.35; x.fillStyle="rgba(255,255,255,.18)"; x.fillRect(fx-FH*0.18,H+FH*0.22,2,FH*0.56); x.drawImage(fm,fx,H+FH*0.25,fw,fh); }catch(_){}
+  const b=BIKES[S.bike], fs=Math.round(FH*0.28);
+  x.textAlign="right";
+  x.font=`800 ${fs}px 'Saira Condensed', sans-serif`; const vw2=x.measureText(b.ver).width;
+  x.fillStyle="#38A936"; x.fillText(b.ver,W-60,H+FH*0.43);
+  x.fillStyle="#f2f5f1"; x.font=`italic 800 ${fs}px 'Saira Condensed', sans-serif`; x.fillText(platNome(S.bike)+" ",W-60-vw2,H+FH*0.43);
+  x.font=`600 ${Math.round(FH*0.115)}px Barlow, sans-serif`; x.fillStyle="#98a297";
+  const l1=`${nomeCor(S.A)} · ${MODE_INFO[S.mode].n}${S.mode!=="solid"?(S.tone?" tom sobre tom":" em "+nomeCor(S.B)):""}${S.fil?` · Filete ${nomeCor(S.F)}`:""} · ${NOME_FIN[S.fin]}`;
+  const l2=`Logotipo ${nomeCor(S.L)} ${NOME_FIN[S.lfin].toLowerCase()}${S.spk?` · Respingos ${nomeCor(S.spkC)}`:""} · Código ${codigo()}`;
+  const livre=W-60-FH*3.3; [[l1,0.66],[l2,0.85]].forEach(([t,yy])=>{ let fs2=Math.round(FH*0.115); x.font=`600 ${fs2}px Barlow, sans-serif`; while(x.measureText(t).width>livre&&fs2>10){ fs2--; x.font=`600 ${fs2}px Barlow, sans-serif`; } x.fillText(t,W-60,H+FH*yy); });
+  return c;
+}
+async function geraImagem(){
+  if(!cur) return;
+  const c=await composicao(); IMG_ATUAL=c;
+  $("ov-img").src=c.toDataURL("image/jpeg",0.92); $("ov-hint").textContent=`Imagem em alta resolução · ${c.width} × ${c.height} px`; $("ov").hidden=false;
+}
+init();
+</script>
+</body>
+</html>

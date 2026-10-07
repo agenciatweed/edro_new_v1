@@ -17,6 +17,7 @@ const grupos = [
     ['Vocês vendem só o quadro?', 'Não. Apenas bicicletas completas: os componentes são calculados para trabalhar em sincronia.'],
     ['Vocês fazem bikes de entrada ou de alumínio?', 'Não. Nosso foco é alta performance em carbono, com garantia vitalícia de quadro.'],
     ['O peso anunciado é o peso real?', 'Pesos sem pedais, aferidos no tamanho M, podendo variar até 5% conforme o tamanho, os componentes e a pintura.'],
+    ['Posso escolher a pintura?', 'Sim, sem custo adicional. Monte a sua no <a href="/fit4u/pintura/">personalizador de pintura FIT4U</a>: cores, grafismos, acabamento e a sua assinatura sobre a foto real da bike. A equipe de design da EDRO revisa o projeto e aprova a arte final com você.'],
     ['E se eu não gostar?', 'Compra Certa: 10 dias a partir do recebimento para devolver com 100% do valor.'],
     ['A HORIZON precisa de habilitação?', 'Não. É bicicleta elétrica nos termos da CONTRAN 996/2023: pedal assistido, sem acelerador, limitada a 32 km/h de fábrica.'],
   ] },
@@ -25,7 +26,7 @@ const grupos = [
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: grupos.flatMap((g) => g.itens.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))),
+  mainEntity: grupos.flatMap((g) => g.itens.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, '') } }))),
 };
 ---
 
@@ -46,7 +47,7 @@ const jsonLd = {
       <div>
         <h2 class="eyebrow eyebrow--verde">{g.titulo}</h2>
         <dl class="qa">
-          {g.itens.map(([q, a]) => (<div><dt>{q}</dt><dd>{a}</dd></div>))}
+          {g.itens.map(([q, a]) => (<div><dt>{q}</dt><dd set:html={a} /></div>))}
         </dl>
       </div>
     ))}

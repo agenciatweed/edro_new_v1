@@ -1,0 +1,52 @@
+---
+/* =============================================================
+   Bloco do personalizador de pintura FIT4U (v3.2).
+   - home: "Pinte a sua EDRO antes de ela existir" com as três frases (seção 5.2).
+   - fit4u: o mesmo título, o texto da seção 4.6 e as etiquetas do que dá para montar.
+   A captura real do personalizador: desktop no computador, mobile no celular.
+   Sempre leva ao personalizador como página inteira, nunca em iframe.
+   ============================================================= */
+import { Picture } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import { PERSONALIZADOR } from '../lib/edro.js';
+
+const { variante = 'home' } = Astro.props;
+const home = variante === 'home';
+const frases = [
+  ['14 modelos', ' com a fotografia real do quadro.'],
+  ['26 cores, 6 grafismos, 5 acabamentos', ' e a sua assinatura.'],
+  ['Imagem em alta e projeto em PDF na hora;', ' o design da EDRO revisa e aprova com você.'],
+];
+const etiquetas = ['14 modelos', '26 cores', '6 grafismos + filete', '5 acabamentos', 'Assinatura pessoal', 'Imagem em alta e PDF'];
+const alt = 'Personalizador de pintura FIT4U com a SUMMA HORIZON PRO verde em foto no local';
+const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
+---
+<section class="secao" id="personalizador">
+  <div class="container personalizador">
+    <a class="personalizador__captura" href={PERSONALIZADOR} tabindex="-1" aria-hidden="true">
+      <span class="personalizador__desktop"><Picture src={img('fit4u/fit4u-desktop.png')} formats={['avif', 'webp']} alt=""
+        widths={[720, 1080, 1440]} sizes="(max-width: 1023px) 100vw, 52vw" loading="lazy" /></span>
+      <span class="personalizador__mobile"><Picture src={img('fit4u/fit4u-mobile.png')} formats={['avif', 'webp']} alt=""
+        widths={[430, 645]} sizes="80vw" loading="lazy" /></span>
+    </a>
+    <span class="visualmente-oculto">{alt}</span>
+    <div>
+      <p class="eyebrow eyebrow--verde">{home ? 'Personalizador FIT4U' : 'Personalizador de pintura'}</p>
+      <h2 class="headline" style="margin-top:var(--s-4)">Pinte a sua EDRO<br />antes de ela <span class="verde">existir.</span></h2>
+      {home ? (
+        <ul class="personalizador__frases">
+          {frases.map(([b, t]) => <li><b>{b}</b>{t}</li>)}
+        </ul>
+      ) : (
+        <>
+          <p class="lead">Escolha o modelo, a cor principal, o grafismo, os filetes, os respingos, o acabamento e a sua assinatura no quadro. A pintura aparece sobre a fotografia real da bike, em estúdio ou na trilha, e você recebe a imagem em alta e o projeto em PDF. Liberdade total: monte quantas versões quiser, do jeito que imaginar.</p>
+          <ul class="personalizador__etiquetas">{etiquetas.map((e) => <li>{e}</li>)}</ul>
+        </>
+      )}
+      <div class="personalizador__acoes">
+        <a class="btn btn--primario" href={PERSONALIZADOR} data-personalizar={`bloco-${variante}`}>Monte a sua pintura<Fragment set:html={seta} /></a>
+        <a class="link-seta" href={home ? '/fit4u#aprovacao' : '#aprovacao'}>{home ? 'Como a EDRO aprova o seu projeto' : 'Ver como a EDRO aprova o projeto'}</a>
+      </div>
+    </div>
+  </div>
+</section>

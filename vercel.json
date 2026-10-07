@@ -74,6 +74,49 @@
       "source": "/minha-conta",
       "destination": "/contato",
       "permanent": true
+    },
+    {
+      "source": "/fit4u/pintura",
+      "destination": "/fit4u/pintura/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/fit4u/pintura/bikes/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/fit4u/pintura/lupa/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/fit4u/pintura/vendor/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ]
+    },
+    {
+      "source": "/fit4u/pintura/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300"
+        }
+      ]
     }
   ]
 }

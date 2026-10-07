@@ -607,3 +607,95 @@ a.selo-card:hover { border-color: var(--edro-line-2); }
   .hero3--clipe .hero3__lado--clipe .hero3__peso { text-align: left; }
 }
 @media (prefers-reduced-motion: reduce) { .hero3__clipe video { animation: none; } }
+
+/* ---------------- FIT4U · PERSONALIZADOR DE PINTURA (v3.2) ---------------- */
+
+/* Menu: FIT4U com o subitem "Monte a sua pintura" (dropdown no desktop) */
+.nav__item { position: relative; display: inline-flex; align-items: center; }
+.nav__sub {
+  position: absolute; top: 100%; left: 50%; transform: translate(-50%, 6px);
+  min-width: 220px; padding: var(--s-2); z-index: 5;
+  background: var(--edro-panel); border: 1px solid var(--edro-line-2); border-radius: var(--radius);
+  opacity: 0; visibility: hidden; transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), visibility 0s linear var(--dur-fast);
+}
+.nav__item:hover .nav__sub, .nav__item:focus-within .nav__sub { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+.nav__sub a {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
+  padding: var(--s-3) var(--s-4); border-radius: calc(var(--radius) - 2px);
+  font: 500 var(--t-nav)/1.2 var(--font-body); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--edro-green); text-decoration: none; white-space: nowrap;
+}
+.nav__sub a:hover, .nav__sub a:focus-visible { background: var(--edro-bg-alt); color: var(--edro-ink); }
+.nav__sub svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.menu-mobile__lista a.menu-mobile__sub {
+  padding: 0 0 var(--s-3) var(--s-5); font-family: var(--font-body); font-size: var(--t-caption);
+  letter-spacing: .1em; color: var(--edro-green);
+}
+
+/* Botão de contorno verde: "Personalize a pintura" */
+.btn--contorno { background: transparent; color: var(--edro-green); border: 1px solid var(--edro-green); }
+.btn--contorno:hover { background: var(--edro-green); color: var(--edro-green-ink); }
+
+.link-seta {
+  display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px;
+  font: 600 .75rem/1.2 var(--font-body); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--edro-green); text-decoration: none;
+}
+.link-seta::after { content: "→"; transition: transform var(--dur-fast) var(--ease); }
+.link-seta:hover::after { transform: translateX(3px); }
+.card-linha__extra { position: relative; z-index: 2; align-self: flex-start; margin-top: var(--s-4); }
+
+/* Banner com a captura do personalizador ao lado do texto */
+.hero3--imagem .hero3__interno { grid-template-columns: 5fr 6fr; align-items: center; }
+.hero3__lado--imagem { justify-self: stretch; text-align: left; }
+.hero3__captura {
+  display: block; overflow: hidden; border: 1px solid var(--edro-line-2); border-radius: var(--radius);
+  box-shadow: 0 40px 80px -30px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.02);
+  transform: perspective(1600px) rotateY(-6deg) rotateX(2deg);
+  transition: transform var(--dur-slow, .4s) var(--ease);
+}
+.hero3__captura:hover { transform: perspective(1600px) rotateY(-2deg) rotateX(1deg); }
+.hero3__captura img { display: block; width: 100%; height: auto; }
+
+/* Bloco "Pinte a sua EDRO antes de ela existir" */
+.personalizador { display: grid; grid-template-columns: 6fr 5fr; gap: var(--s-16); align-items: center; }
+.personalizador > * { min-width: 0; }
+.personalizador__captura {
+  display: block; border: 1px solid var(--edro-line-2); border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 40px 80px -30px rgba(0,0,0,.9);
+  transform: perspective(1600px) rotateY(5deg) rotateX(2deg);
+  transition: transform .4s var(--ease);
+}
+.personalizador__captura:hover { transform: perspective(1600px) rotateY(1deg) rotateX(1deg); }
+.personalizador__captura img { display: block; width: 100%; height: auto; }
+.personalizador__desktop { display: block; }
+.personalizador__mobile { display: none; }
+.personalizador__frases { list-style: none; margin: var(--s-6) 0 var(--s-8); padding: 0; display: grid; gap: var(--s-3); }
+.personalizador__frases li { font-size: var(--t-body); line-height: 1.6; color: var(--edro-soft); }
+.personalizador__frases b { color: var(--edro-ink); font-weight: 600; }
+.personalizador__etiquetas { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-6) 0 var(--s-8); padding: 0; }
+.personalizador__etiquetas li {
+  padding: var(--s-2) var(--s-3); border: 1px solid var(--edro-line-2); border-radius: var(--radius);
+  font: 500 .6875rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--edro-soft);
+}
+.personalizador__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-6); }
+.headline--media { font-size: clamp(2rem, 1.6rem + 1.8vw, 3rem); }
+
+/* Rodapé com a coluna FIT4U */
+.rodape__grade { grid-template-columns: 2fr repeat(5, 1fr); gap: var(--s-8); }
+
+@media (max-width: 1023px) {
+  .hero3--imagem .hero3__interno, .personalizador { grid-template-columns: 1fr; gap: var(--s-10); }
+  .hero3__captura, .personalizador__captura { transform: none; }
+  .rodape__grade { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 767px) {
+  .personalizador__desktop { display: none; }
+  .personalizador__mobile { display: block; }
+  .personalizador__captura { max-width: 340px; margin-inline: auto; }
+  .personalizador__acoes .btn { width: 100%; }
+  .rodape__grade { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero3__captura, .personalizador__captura { transition: none; }
+}

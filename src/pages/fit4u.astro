@@ -1,17 +1,19 @@
 ---
-/* /fit4u v3.1 · tela site_v3/06-fit4u.png. Sem número de série, sem formulário, sem bloco de perguntas. */
+/* /fit4u v3.2 · telas site_v3/06-fit4u.png e site_v3_2/06-fit4u.png. Sem número de série, sem formulário, sem bloco de perguntas.
+   v3.2: o personalizador de pintura entra no banner, num bloco próprio e na regra do time de design (seção 4.6). */
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Cabecalho from '../components/Cabecalho.astro';
 import Midia from '../components/Midia.astro';
 import Fechamento from '../components/Fechamento.astro';
-import { wa } from '../lib/edro.js';
+import BlocoPersonalizador from '../components/BlocoPersonalizador.astro';
+import { wa, PERSONALIZADOR } from '../lib/edro.js';
 
 const iniciar = wa('Olá, EDRO. Quero iniciar o meu projeto FIT4U. (origem: site-fit4u)');
 
 const passos = [
   ['Você escolhe a bike', 'Linha e versão, com um especialista EDRO ao lado para orientar.'],
-  ['Projeto de pintura exclusivo', 'Desenhado junto com você, aprovado antes de qualquer tinta encostar no carbono.'],
+  ['Projeto de pintura exclusivo', 'Você monta no personalizador e desenvolve junto com o design da EDRO; aprovado antes de qualquer tinta encostar no carbono.'],
   ['Bike fit ou medidas', 'Você envia o relatório do seu bike fit ou as suas medidas, conforme o manual da EDRO.'],
   ['Pintura exclusiva à mão', 'Feita por artistas brasileiros, em PU Acrílica Carbon Industrial, com cura em ambiente controlado.'],
   ['Montagem, inspeção e entrega', 'Montada à mão, inspecionada ponto a ponto e entregue com a sua pintura exclusiva, em até 30 dias.'],
@@ -28,6 +30,12 @@ const pintura = [
   ['Personalização', 'Grafismos, nome, bandeira, frase: o que faz a bike ser sua.'],
   ['Acabamento', 'Acetinado ou brilhoso.'],
 ];
+const aprovacao = [
+  ['Monte e salve', 'Você cria a pintura no personalizador e pede a imagem ou o PDF. O código do projeto reabre a pintura a qualquer momento.'],
+  ['A EDRO recebe', 'Um especialista EDRO entra em contato pelo canal que você informou, com o seu projeto já em mãos.'],
+  ['O design revisa', 'A equipe de design da EDRO confere a viabilidade de cores, grafismos e detalhes, alinha as cores com o personalizador e prepara a arte de produção.'],
+  ['Você aprova', 'Arte final e amostra de tinta aprovadas com você. Só então o quadro vai para a cabine.'],
+];
 ---
 
 <Base
@@ -42,7 +50,7 @@ const pintura = [
   linhas={['Feita para o', 'seu corpo.']}
   verde="Pintada do seu<br />jeito."
   lead="FIT4U é o processo EDRO de personalização. Nenhuma bike sai da fábrica sem passar por ele, e nenhuma sai igual a outra."
-  botoes={[{ rotulo: 'Iniciar o meu projeto', href: iniciar, primario: true, wa: 'fit4u-hero' }, { rotulo: 'Baixar o guia FIT4U', href: '/guias#fit4u' }]}
+  botoes={[{ rotulo: 'Monte a sua pintura', href: PERSONALIZADOR, primario: true }, { rotulo: 'Iniciar o meu projeto', href: iniciar, wa: 'fit4u-hero' }, { rotulo: 'Baixar o guia FIT4U', href: '/guias#fit4u' }]}
   clipe={{ src: '/videos/fit4u-projeto.mp4', poster: '/videos/fit4u-projeto.jpg', rotulo: 'Projeto FIT4U do desenho à pintura laranja da RANGE PRO' }}
 />
 
@@ -88,6 +96,27 @@ const pintura = [
         ))}
       </div>
     </div>
+  </div>
+</section>
+
+<BlocoPersonalizador variante="fit4u" />
+
+<section class="secao" id="aprovacao">
+  <div class="container">
+    <p class="eyebrow eyebrow--verde">Aprovação</p>
+    <h2 class="headline headline--media" style="margin:var(--s-4) 0 var(--s-6)">Você traz a inspiração.<br /><span class="verde">O design da EDRO assina o projeto.</span></h2>
+    <p class="lead" style="max-width:none">O personalizador é o ponto de partida. Os detalhes finais e a aprovação são feitos pela equipe de design da EDRO, que confere se as cores, os grafismos e os detalhes são viáveis na pintura à mão, ajusta o layout dos logotipos e da assinatura e alinha as cores do projeto com as cores geradas no personalizador, sempre com amostra física de tinta antes de o quadro ir para a cabine. Nenhum projeto vai para a pintura sem a sua aprovação final.</p>
+    <div class="numeros4 numeros4--quatro" style="margin-top:var(--s-10)">
+      {aprovacao.map(([t, d], i) => (
+        <div class="numero-card"><p class="numero-card__num">{i + 1}</p><h3 style="font:600 .9375rem/1.35 var(--font-body);text-transform:none;margin:var(--s-3) 0 var(--s-2)">{t}</h3><p>{d}</p></div>
+      ))}
+    </div>
+    <p class="nota-peso">Telas mostram cores de formas diferentes. Metálico, candy e camaleão são aproximações; a cor final é confirmada com a amostra física de tinta.</p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
     <div class="galeria3">
       <Midia src="fotos/fit4u-pintura-3.jpg" alt="EDRO com pintura exclusiva preta e vermelha, close no quadro" legenda="<strong>Projeto de pintura 1</strong>Preto com detalhes em vermelho." />
       <Midia src="fotos/fit4u-pintura-1.jpg" alt="EDRO com pintura exclusiva azul e branca, close no triângulo traseiro" legenda="<strong>Projeto de pintura 2</strong>Azul e branco, com a bandeira do Brasil." />
@@ -98,7 +127,7 @@ const pintura = [
 </section>
 
 <Fechamento linhas={['Exclusividade', 'em', 'todos os']} verde="detalhes."
-  texto="Fale com um dos nossos especialistas e comece o seu projeto FIT4U."
-  botoes={[{ rotulo: 'Iniciar o meu projeto', href: iniciar, primario: true, wa: 'fit4u-fechamento' }, { rotulo: 'Baixar o guia FIT4U', href: '/guias#fit4u' }]} />
+  texto="Monte a sua pintura agora ou fale com um dos nossos especialistas e comece o seu projeto FIT4U."
+  botoes={[{ rotulo: 'Monte a sua pintura', href: PERSONALIZADOR, primario: true }, { rotulo: 'Iniciar o meu projeto', href: iniciar, wa: 'fit4u-fechamento' }]} />
 
 </Base>

@@ -58,3 +58,21 @@ export const porSlug = (slug) => plataformas.find((p) => p.slug === slug);
 
 /* Nome de plataforma em caixa de titulo, para links e listas. */
 export const titulo = (nome) => nome.charAt(0) + nome.slice(1).toLowerCase();
+
+/* ---- Personalizador de pintura FIT4U (v3.2, seção 4) ---- */
+
+export const PERSONALIZADOR = '/fit4u/pintura/';
+
+/* Chaves aceitas em ?modelo= (INTEGRACAO_FIT4U.md, seção 2). A IMPETUS SS
+   ainda não tem foto no personalizador e fica sem chave. */
+export const CHAVES_FIT4U = [
+  'summa-pro', 'summa-xcr', 'summa-ex', 'range-pro', 'range-xcr', 'range-ex', 'impetus-pro', 'impetus-ssr',
+  'summa-pro-hz', 'summa-xcr-hz', 'summa-ex-hz', 'range-pro-hz', 'range-xcr-hz', 'range-ex-hz',
+];
+
+export const chaveFit4u = (linha, versao, horizon = false) => {
+  const k = `${linha}-${versao}${horizon ? '-hz' : ''}`;
+  return CHAVES_FIT4U.includes(k) ? k : null;
+};
+
+export const personalizar = (chave) => (chave ? `${PERSONALIZADOR}?modelo=${chave}` : PERSONALIZADOR);

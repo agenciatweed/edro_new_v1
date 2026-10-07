@@ -30,7 +30,7 @@ const ativoEm = (href) => rotaLimpa === href || rotaLimpa.startsWith(href + '/')
 const menu = [
   { rotulo: 'Bikes',           href: '/bikes' },
   { rotulo: 'Bikes elétricas', href: '/horizon' },
-  { rotulo: 'FIT4U',           href: '/fit4u' },
+  { rotulo: 'FIT4U',           href: '/fit4u', sub: [{ rotulo: 'Monte a sua pintura', href: '/fit4u/pintura/' }] },
   { rotulo: 'Programas',       href: '/programas' },
   { rotulo: 'Engenharia',      href: '/engenharia' },
   { rotulo: 'Parcerias',       href: '/parcerias' },
@@ -40,7 +40,8 @@ const menu = [
 const rodape = [
   { titulo: 'Bikes', links: [['SUMMA', '/bikes/summa'], ['RANGE', '/bikes/range'], ['IMPETUS', '/bikes/impetus']] },
   { titulo: 'Bikes elétricas', links: [['HORIZON', '/horizon'], ['SUMMA HORIZON', '/horizon/summa-horizon'], ['RANGE HORIZON', '/horizon/range-horizon'], ['Simulador de autonomia', '/horizon/simulador']] },
-  { titulo: 'Programas', links: [['FIT4U', '/fit4u'], ['Compra Certa', '/programas/compra-certa'], ['Ciclo EDRO', '/programas/ciclo-edro'], ['Carbon Assist', '/programas/carbon-assist'], ['Garantia Vitalícia', '/programas/garantia']] },
+  { titulo: 'FIT4U', links: [['Como funciona', '/fit4u'], ['Personalizador de pintura', '/fit4u/pintura/'], ['Guia FIT4U', '/guias#fit4u']] },
+  { titulo: 'Programas', links: [['Compra Certa', '/programas/compra-certa'], ['Ciclo EDRO', '/programas/ciclo-edro'], ['Carbon Assist', '/programas/carbon-assist'], ['Garantia Vitalícia', '/programas/garantia']] },
   { titulo: 'EDRO', links: [['A marca', '/a-marca'], ['Engenharia', '/engenharia'], ['Parcerias', '/parcerias'], ['Guias', '/guias'], ['Dúvidas frequentes', '/faq'], ['Contato', '/contato']] },
 ];
 
@@ -113,7 +114,14 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
     </a>
 
     <nav class="nav__menu" aria-label="Navegação principal">
-      {menu.map((m) => (
+      {menu.map((m) => m.sub ? (
+        <div class="nav__item">
+          <a class:list={['nav__link', { ativo: ativoEm(m.href) }]} href={m.href} aria-current={ativoEm(m.href) ? 'page' : undefined}>{m.rotulo}</a>
+          <div class="nav__sub">
+            {m.sub.map((s) => <a href={s.href}>{s.rotulo}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>)}
+          </div>
+        </div>
+      ) : (
         <a class:list={['nav__link', { ativo: ativoEm(m.href) }]} href={m.href} aria-current={ativoEm(m.href) ? 'page' : undefined}>{m.rotulo}</a>
       ))}
     </nav>
@@ -132,7 +140,12 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
 
 <div class="menu-mobile" id="menu-mobile" hidden>
   <nav class="menu-mobile__lista" aria-label="Navegação mobile">
-    {menu.map((m) => <a href={m.href}>{m.rotulo}</a>)}
+    {menu.map((m) => m.sub ? (
+      <>
+        <a href={m.href}>{m.rotulo}</a>
+        {m.sub.map((s) => <a class="menu-mobile__sub" href={s.href}>{s.rotulo}</a>)}
+      </>
+    ) : <a href={m.href}>{m.rotulo}</a>)}
     <span class="menu-mobile__divisor" aria-hidden="true"></span>
     <div class="menu-mobile__rodape">
       <a href={`https://wa.me/${comercial}`} rel="noopener">Comercial {telefoneBr(ct.whatsapp_comercial)}</a>

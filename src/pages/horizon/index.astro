@@ -10,7 +10,7 @@ import AutonomiaReal from '../../components/AutonomiaReal.astro';
 import Fechamento from '../../components/Fechamento.astro';
 import { Image, Picture } from 'astro:assets';
 import hz from '../../content/horizon.json';
-import { brl, kg, wa } from '../../lib/edro.js';
+import { brl, kg, wa, chaveFit4u, personalizar } from '../../lib/edro.js';
 import { img } from '../../lib/imagens.js';
 
 const falar = wa('Olá, EDRO. Quero montar a minha HORIZON. (origem: site-horizon)');
@@ -123,6 +123,7 @@ const summaH = hz.linhas.find((l) => l.slug === 'summa-horizon');
           <dl class="versoes-lista">
             {l.versoes.map((v) => (<div><dt>{v.nome} · {v.peso_kg.toFixed(1).replace('.', ',')}&nbsp;kg</dt><dd><b>{brl(v.preco)}</b> · {v.macro}</dd></div>))}
           </dl>
+          <a class="card-linha__extra link-seta" href={personalizar(chaveFit4u(l.base, 'pro', true))} data-personalizar={`horizon-${l.slug}`}>Personalize a pintura</a>
         </article>
       ))}
     </div>
