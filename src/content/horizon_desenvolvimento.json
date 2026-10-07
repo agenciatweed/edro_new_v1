@@ -1,0 +1,46 @@
+{
+  "fonte": "Atualização v3.2, seção 3.2 (copy final)",
+  "abertura": "Uma e-bike nasce de uma escolha: pegar um quadro pronto e pendurar um motor, ou projetar a bike inteira em torno do sistema. A EDRO escolheu a segunda. A HORIZON foi desenvolvida com a mesma concepção da <i class=\"modelo\">SUMMA</i> e da <i class=\"modelo\">RANGE</i>, e cada decisão de engenharia tem um benefício que você sente no pedal.",
+  "cards": [
+    {
+      "rotulo": "Integração",
+      "titulo": "Integrar ao quadro sem mudar a bike",
+      "desafio": "Um motor central e uma bateria pedem espaço, fixações e rigidez que um quadro de XC não tem de sobra. O caminho fácil é engordar tubos e alterar a geometria; o resultado é uma bike que não se comporta mais como a original.",
+      "fez": "Desenvolveu o quadro da HORIZON com a mesma geometria e a mesma dinâmica da <i class=\"modelo\">SUMMA</i> e da <i class=\"modelo\">RANGE</i>. Motor e Power Pack entram no projeto do quadro desde o início, e não como acessórios presos depois.",
+      "sente": "A HORIZON vira, desce e sobe como uma bike de XC. Quem já pedala uma EDRO não precisa reaprender nada.",
+      "sente_curto": "A HORIZON vira, desce e sobe como uma bike de XC."
+    },
+    {
+      "rotulo": "Peso",
+      "titulo": "Peso de bike de XC",
+      "desafio": "Cada quilo a mais aparece na curva, na subida e na hora de carregar a bike em um trecho a pé. E-bikes full power costumam passar dos 20 kg.",
+      "fez": "Quadro monocoque de carbono moldado em EPS, motor compacto e um conjunto bateria e fixação enxuto. A <i class=\"modelo\">SUMMA</i> PRO HORIZON pesa {peso_summa}; a <i class=\"modelo\">RANGE</i> PRO HORIZON, {peso_range} (sem pedais, tamanho M).",
+      "sente": "A bike responde ao corpo, não só ao motor. Com a assistência desligada, você segue pedalando sem carregar peso morto.",
+      "sente_curto": "A bike responde ao corpo, não só ao motor."
+    },
+    {
+      "rotulo": "EDRO Power Pack",
+      "titulo": "EDRO Power Pack: uma bateria para este motor e esta bike",
+      "titulo_curto": "Uma bateria para este motor e esta bike",
+      "desafio": "Baterias de prateleira são longas, pesadas na ponta e desenhadas para caber em qualquer quadro, não no quadro certo. Onde elas ficam define onde a massa da bike fica, e a massa define o comportamento.",
+      "fez": "Desenvolveu o EDRO Power Pack exclusivamente para o motor CYC Photon Gen 2 e para esta aplicação. O desenho é exclusivo e posiciona os 540 Wh junto ao motor, na parte baixa do quadro: centralização de massa e centro de gravidade mais baixo. Recarga direto na bike.",
+      "sente": "Uma bicicleta mais ágil, com a dianteira mais leve para levantar a roda e corrigir a linha, e uma sensação de pedalada mais natural, porque o peso está onde o seu corpo espera que ele esteja.",
+      "sente_curto": "Mais ágil, dianteira mais leve e pedalada mais natural.",
+      "destaque": true
+    },
+    {
+      "rotulo": "Assistência",
+      "titulo": "Sensação natural de pedalada",
+      "desafio": "Assistência que entra com tranco ou que continua depois que você parou de pedalar muda o seu gesto e a sua confiança no terreno técnico.",
+      "fez": "Sensor de torque no motor central, assistência exclusivamente ao pedal (sem acelerador), Modo automático por frequência cardíaca e arrasto zero com o motor desligado.",
+      "sente": "Força na medida da sua pedalada, no instante em que você pede. Em terreno técnico a bike segue o seu ritmo, não o contrário.",
+      "sente_curto": "Força na medida da sua pedalada, no instante em que você pede."
+    }
+  ],
+  "fecho": ["O resultado é uma e-bike que não parece e-bike.", "Leveza e dinâmica sempre que quiser, potência de sobra quando precisar."],
+  "marcadores": [
+    { "n": 1, "x": 44, "y": 73, "rotulo": "motor central" },
+    { "n": 2, "x": 63, "y": 19, "rotulo": "quadro com a geometria da SUMMA" },
+    { "n": 3, "x": 51, "y": 50, "rotulo": "EDRO Power Pack, baixo e junto ao motor" }
+  ]
+}

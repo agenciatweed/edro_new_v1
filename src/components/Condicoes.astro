@@ -1,0 +1,20 @@
+---
+/* Condições e programas, texto do catálogo 2027 (v3.2, seção 2.4).
+   Entra na página de cada linha, abaixo das versões. */
+import Cabecalho from './Cabecalho.astro';
+import c from '../content/condicoes_2027.json';
+const { linhas = ['Toda EDRO', 'vem com'], verde = ' isso.' } = Astro.props;
+---
+<section class="secao">
+  <div class="container">
+    <Cabecalho eyebrow="Condições e programas" linhas={linhas} verde={verde} />
+    <dl class="condicoes27">
+      {c.itens.map(([t, d, href]) => (
+        <div>
+          <dt>{href ? <a href={href}>{t}</a> : t}</dt>
+          <dd>{d}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+{
+  "fonte": "Catálogo de Bicicletas EDRO 2027, seção 2.4 da atualização v3.2",
+  "itens": [
+    ["FIT4U", "A bike é definida com você: tamanho do quadro, avanço, largura do guidão e ajustes finos, a partir do seu bike fit ou das suas medidas. E a pintura também: cores do quadro, cores das logos, personalização e acabamento acetinado ou brilhoso.", "/fit4u"],
+    ["Garantia vitalícia", "Para quadros, garfos e componentes da marca EDRO.", "/programas/garantia"],
+    ["EDRO Carbon Assist", "Reparo ou substituição do carbono em caso de acidente, pedalando, no transporte ou em outra situação, mantendo a garantia do quadro.", "/programas/carbon-assist"],
+    ["Compra Certa", "10 dias para pedalar a sua EDRO. Se não for a bike certa para você, devolução com 100% do valor.", "/programas/compra-certa"],
+    ["Ciclo EDRO", "A sua EDRO atual, com 18 a 24 meses de uso e após avaliação técnica, pode entrar como parte do pagamento de uma nova.", "/programas/ciclo-edro"],
+    ["Pagamento", "Em até 12x sem juros no cartão, ou à vista no Pix com 5% de desconto.", null],
+    ["Entrega", "Bike sob medida e com pintura exclusiva em cerca de 30 dias, com frete grátis para todo o Brasil.", null]
+  ],
+  "numeros": [
+    ["100%", "das bikes feitas sob medida no FIT4U"],
+    ["EPS", "quadro monocoque carbono 40T/46T"],
+    ["Vitalícia", "garantia de quadros, garfos e componentes EDRO"],
+    ["30 dias", "para receber a sua, frete grátis no Brasil"]
+  ],
+  "como_escolher": [
+    ["Prova e treino de XC, com leveza máxima", "SUMMA", "/bikes/summa"],
+    ["Maratona, trilha técnica e mais conforto", "RANGE", "/bikes/range"],
+    ["Estrada, treinos longos e provas", "IMPETUS", "/bikes/impetus"],
+    ["Voltar ao ritmo, acompanhar um grupo mais forte, ir mais longe e subir mais", "SUMMA HORIZON ou RANGE HORIZON", "/horizon"]
+  ]
+}

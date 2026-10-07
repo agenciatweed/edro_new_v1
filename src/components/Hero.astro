@@ -100,10 +100,16 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
               sizes="(max-width: 1023px) 100vw, 46vw" loading={imagem.eager ? 'eager' : 'lazy'} />
           </a>
         ) : (
-          <span class="hero3__captura">
-            <Picture src={img(imagem.src)} formats={['avif', 'webp']} alt={imagem.alt} widths={[640, 960, 1440]}
-              sizes="(max-width: 1023px) 100vw, 46vw" loading={imagem.eager ? 'eager' : 'lazy'} />
+          <span class:list={[imagem.bike ? 'hero3__bike' : 'hero3__captura']}>
+            <Picture src={img(imagem.src)} formats={['avif', 'webp']} alt={imagem.alt} widths={imagem.bike ? [800, 1600] : [640, 960, 1440]}
+              sizes="(max-width: 1023px) 100vw, 50vw" loading="eager" fetchpriority={imagem.bike ? 'high' : undefined} />
           </span>
+        )}
+        {peso && (
+          <div class="hero3__peso">
+            <p class="metric-hero">{peso.valor}<span class="unidade">&nbsp;kg</span></p>
+            <span class="caption" set:html={peso.rotulo} />
+          </div>
         )}
       </div>
     ) : clipe ? (

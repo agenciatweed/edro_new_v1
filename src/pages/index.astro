@@ -10,7 +10,10 @@ import ProvaSocial from '../components/ProvaSocial.astro';
 import Fechamento from '../components/Fechamento.astro';
 import BlocoPersonalizador from '../components/BlocoPersonalizador.astro';
 import { Image } from 'astro:assets';
-import { bikes, plataformas, wa, PERSONALIZADOR } from '../lib/edro.js';
+import { plataformas, porSlug, wa, PERSONALIZADOR, rodapeFicha } from '../lib/edro.js';
+
+const rangePro = porSlug('range').pro;
+const summaPro = porSlug('summa').pro;
 import { img, videos } from '../lib/imagens.js';
 
 const especialista = wa('Olá, EDRO. Quero falar com um dos especialistas sobre a minha EDRO. (origem: site-home)');
@@ -34,9 +37,9 @@ const slides = [
     imagem: { src: 'fit4u/fit4u-desktop.png', alt: 'Personalizador de pintura FIT4U com a SUMMA HORIZON PRO verde em foto no local', href: PERSONALIZADOR, rotuloLink: 'Abrir o personalizador de pintura FIT4U' },
   },
   {
-    aba: 'RANGE: full de 9,89 kg',
+    aba: `RANGE: full de ${rangePro.peso_texto}`,
     eyebrow: 'Full suspension XC, 100 mm',
-    linhas: ['Full de'], verde: '9,89 kg.',
+    linhas: ['Full de'], verde: `${rangePro.peso_texto}.`,
     lead: 'Tração de full com pedalada de hardtail: a suspensão trabalha no terreno e fica firme quando você acelera. Peso da RANGE PRO, sem pedais, no tamanho M.',
     botoes: [{ rotulo: 'Conhecer a RANGE', href: '/bikes/range', primario: true }, { rotulo: 'Ver as bikes', href: '/bikes' }],
     clipe: { src: '/videos/range-trilha.mp4', poster: '/videos/range-trilha.jpg', rotulo: 'EDRO em trilha técnica', adiado: true },
@@ -93,10 +96,10 @@ const jsonLd = {
 <!-- 2 · BARRA DE CONFIANÇA -->
 <div class="confianca">
   <div class="container confianca__interno">
-    <span class="confianca__item"><b>Garantia vitalícia</b> no quadro</span>
+    <span class="confianca__item"><b>Garantia vitalícia</b> para quadros, garfos e componentes EDRO</span>
+    <span class="confianca__item"><b>12x</b> sem juros no cartão, ou 5% de desconto no Pix</span>
+    <span class="confianca__item"><b>30 dias</b> para receber a sua, sob medida e com pintura exclusiva</span>
     <span class="confianca__item"><b>Frete grátis</b> para todo o Brasil</span>
-    <span class="confianca__item"><b>12x</b> sem juros ou 5% no Pix</span>
-    <span class="confianca__item"><b>30 dias</b> da medida à entrega</span>
     <span class="confianca__item confianca__item--verde"><b>Tubarão, SC</b> #DeSCParaOMundo</span>
   </div>
 </div>
@@ -149,7 +152,7 @@ const jsonLd = {
       </div>
       <a class="btn btn--secundario" href="/horizon">Conhecer a HORIZON</a>
     </div>
-    <p class="nota-peso">{bikes.meta.nota_peso}</p>
+    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
   </div>
 </section>
 
@@ -177,7 +180,7 @@ const jsonLd = {
   <div class="container galeria3">
     <Midia titulo="Macro da laminação" descricao="Mãos posicionando a lâmina de carbono no molde. Luz dura lateral, fundo escuro." />
     <Midia titulo="Cura e desmolde" descricao="Quadro saindo do molde, brilho da resina. Contraluz." />
-    <Midia tipo="VÍDEO" titulo="Balança" descricao="Bike completa pendurada na balança, display legível: 8,47 kg, sem pedais. 8 s, loop." />
+    <Midia tipo="VÍDEO" titulo="Balança" descricao={`Bike completa pendurada na balança, display legível: ${summaPro.peso_texto}, sem pedais. 8 s, loop.`} />
   </div>
 </section>
 

@@ -699,3 +699,89 @@ a.selo-card:hover { border-color: var(--edro-line-2); }
 @media (prefers-reduced-motion: reduce) {
   .hero3__captura, .personalizador__captura { transition: none; }
 }
+
+/* ---------------- CATÁLOGO 2027 (v3.2) ---------------- */
+
+/* Versão: foto lateral oficial, destaques e o botão do personalizador */
+.versao__foto { margin: var(--s-2) 0 var(--s-6); filter: drop-shadow(0 28px 26px rgba(0,0,0,.75)); }
+.versao__foto img { display: block; width: 100%; height: auto; }
+.versao__destaques { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); margin-bottom: var(--s-4); }
+.versao__destaques--quatro { grid-template-columns: repeat(4, 1fr); }
+.versao__destaques > div { padding: var(--s-4) var(--s-5); background: var(--edro-panel); border: 1px solid var(--edro-line); border-radius: var(--radius); min-width: 0; }
+.versao__destaque { font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); line-height: 1.1; color: var(--edro-ink); margin-bottom: var(--s-2); overflow-wrap: anywhere; }
+.versao__destaque--texto { font-size: clamp(1.125rem, 1rem + .5vw, 1.375rem); }
+.versao__destaque-uni { margin-left: 4px; font-size: .55em; color: var(--edro-green); }
+.versao__destaques .caption { display: block; line-height: 1.5; }
+.versao__specs { align-self: start; }
+
+/* Banner com a bike de lado (RANGE HORIZON, até o vídeo ficar pronto) */
+.hero3__bike { display: block; filter: drop-shadow(0 30px 30px rgba(0,0,0,.8)); }
+.hero3__bike img { display: block; width: 100%; height: auto; }
+.hero3__lado--imagem .hero3__peso { text-align: right; margin-top: var(--s-4); }
+
+/* Cards de linha: chamada e ações */
+.card-linha__cta { margin-top: var(--s-5); font: 600 .75rem/1.2 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--edro-green); }
+.card-linha__valor small { font-family: var(--font-body); font-size: .5em; color: var(--edro-mute); }
+.card-linha__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-5); margin-top: var(--s-6); }
+.card-linha__acoes .card-linha__extra { margin-top: 0; }
+.btn--pequeno { padding: 12px 18px; font-size: .6875rem; }
+.versoes-lista dd { text-align: right; }
+
+/* Condições e programas, faixa de números, como escolher */
+.condicoes27 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--s-4); }
+.condicoes27 > div { padding: var(--s-6); background: var(--edro-panel); border: 1px solid var(--edro-line); border-radius: var(--radius); }
+.condicoes27 dt { font-weight: 600; color: var(--edro-ink); margin-bottom: var(--s-2); }
+.condicoes27 dt a { color: inherit; text-decoration-color: var(--edro-green); text-underline-offset: 4px; }
+.condicoes27 dd { margin: 0; font-size: var(--t-body-card); line-height: 1.6; color: var(--edro-soft); }
+.faixa-specs--quatro { grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--edro-line); }
+.faixa-specs__num { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.75rem; line-height: 1.1; color: var(--edro-green) !important; margin-bottom: var(--s-1); }
+.escolher { border-top: 1px solid var(--edro-line); }
+.escolher > div { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-6); padding: var(--s-5) 0; border-bottom: 1px solid var(--edro-line); }
+.escolher dt { font-size: var(--t-body); color: var(--edro-soft); }
+.escolher dd { margin: 0; text-align: right; }
+.escolher a { font-family: var(--font-display); font-size: 1.375rem; color: var(--edro-ink); text-decoration: none; text-transform: uppercase; }
+.escolher a:hover { color: var(--edro-green); }
+
+/* HORIZON: mais pedal, desenvolvimento, no seu pedal */
+.assinatura-verde { margin-top: var(--s-5); font-weight: 600; color: var(--edro-green); }
+.dev__topo { display: grid; grid-template-columns: 5fr 6fr; gap: var(--s-12); align-items: center; margin-bottom: var(--s-12); }
+.dev__topo > * { min-width: 0; }
+.dev__foto { margin: 0; }
+.dev__palco { position: relative; filter: drop-shadow(0 30px 30px rgba(0,0,0,.8)); }
+.dev__palco img { display: block; width: 100%; height: auto; }
+.dev__marcador {
+  position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
+  display: grid; place-items: center; font: 700 .875rem/1 var(--font-body); color: var(--edro-green-ink);
+  background: var(--edro-green); box-shadow: 0 0 0 6px rgba(44,170,60,.25), 0 0 0 12px rgba(44,170,60,.1);
+}
+.dev__foto figcaption { margin-top: var(--s-4); color: var(--edro-mute); }
+.dev__cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5); }
+.dev__card { padding: var(--s-8); background: var(--edro-panel); border: 1px solid var(--edro-line); border-radius: var(--radius); }
+.dev__card--destaque { border-color: var(--edro-green); }
+.dev__titulo { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.2; text-transform: uppercase; margin-bottom: var(--s-5); }
+.dev__card dl > div { display: grid; grid-template-columns: 130px 1fr; gap: var(--s-5); padding: var(--s-3) 0; }
+.dev__card dt { font: 600 .6875rem/1.5 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--edro-green); }
+.dev__card dd { margin: 0; font-size: var(--t-body-card); line-height: 1.65; color: var(--edro-soft); }
+.dev__fecho { margin-top: var(--s-10); text-align: center; font-size: 1.125rem; color: var(--edro-ink); }
+.dev__curtos { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); }
+.dev__curto { padding: var(--s-6); background: var(--edro-panel); border: 1px solid var(--edro-line); border-radius: var(--radius); }
+.dev__curto h3 { font: 600 .9375rem/1.4 var(--font-body); text-transform: none; margin: var(--s-3) 0 var(--s-2); }
+.dev__curto p:last-child { font-size: var(--t-caption); line-height: 1.6; color: var(--edro-soft); }
+.pedal-lista { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-4); }
+.pedal-lista li { font-size: var(--t-body); line-height: 1.65; color: var(--edro-soft); }
+.pedal-lista b { color: var(--edro-ink); }
+
+@media (max-width: 1023px) {
+  .dev__topo, .dev__cards { grid-template-columns: 1fr; }
+  .faixa-specs--quatro { grid-template-columns: 1fr 1fr; }
+  .hero3__lado--imagem .hero3__peso { text-align: left; }
+}
+@media (max-width: 767px) {
+  .versao__destaques, .versao__destaques--quatro { grid-template-columns: 1fr 1fr; }
+  .dev__card { padding: var(--s-6); }
+  .dev__card dl > div, .escolher > div { grid-template-columns: 1fr; gap: var(--s-1); }
+  .escolher dd { text-align: left; }
+  .dev__curtos, .faixa-specs--quatro { grid-template-columns: 1fr; }
+  .dev__marcador { width: 26px; height: 26px; margin: -13px 0 0 -13px; font-size: .75rem; }
+  .versoes-lista dd { text-align: left; }
+}

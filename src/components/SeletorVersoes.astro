@@ -1,31 +1,36 @@
 ---
 /* =============================================================
-   Seletor de versões v3.1. Tab com wordmark da linha + versão em
-   verde, resumo, peso e preço, especificações-chave e o botão
-   "Ver especificações completas", que abre a ficha minuciosa
-   (quadro, garfo, câmbios... selante) num <dialog>.
-   v3.2: terceiro botão "Personalize a pintura", que abre o personalizador
-   FIT4U na versão em tela. Sem chave (IMPETUS SS), "Falar sobre a pintura".
-   Tabs com ARIA, teclado e âncora na URL (#pro, #xcr, #ex).
+   Seletor de versões v3.2 (telas site_v3_2/17 e 18). Tudo vem do
+   catálogo 2027 via lib/edro.js: nome com a versão em verde, resumo,
+   foto lateral oficial, destaques, preço com "em até 12x sem juros",
+   peso com a nota e três botões: "Quero a minha", "Ver especificações
+   completas" (a ficha do catálogo num <dialog>) e "Personalize a
+   pintura" (personalizador FIT4U na versão em tela). A IMPETUS SS
+   ainda não está no personalizador: no lugar, "Falar sobre a pintura".
+   Ao lado, a ficha resumida. Tabs com ARIA, teclado e âncora na URL.
    ============================================================= */
-import { Image } from 'astro:assets';
+import { Image, Picture } from 'astro:assets';
 import { img } from '../lib/imagens.js';
-import { brl, kg, wa, junto, chaveFit4u, personalizar } from '../lib/edro.js';
+import { brl, wa, junto, pesoTexto, rodapeFicha } from '../lib/edro.js';
 import Cabecalho from './Cabecalho.astro';
 
-const { linha, wordmark, horizon = false, notaPeso, rotuloGrupos, lead } = Astro.props;
-/* HORIZON publica peso com uma casa (14,5 kg); as linhas, com duas (8,47 kg). */
-const peso = (n) => (horizon ? n.toFixed(1).replace('.', ',') : kg(n));
+const { linha, wordmark, horizon = false, lead } = Astro.props;
 const nomeCompleto = horizon ? `${linha.nome} HORIZON` : linha.nome;
-const idBase = horizon ? `${linha.slug}` : linha.slug;
-const rotulos = Object.fromEntries(rotuloGrupos.map((g) => [g.chave, g.rotulo]));
-rotulos.sistema = 'Sistema';
-const specs = (v) => linha.specs_chave.filter((k) => v[k]).map((k) => [rotulos[k] ?? k, junto(v[k])]);
-const rotuloFicha = (r) => (r.item === 'Dianteiro / traseiro' ? 'Freios' : r.item === r.grupo || r.grupo === 'Quadro' ? r.item : r.item);
+const idBase = linha.slug;
+/* Na página, a ficha resumida; no modal, a ficha inteira do catálogo. */
+const FORA_DO_RESUMO = ['Peso', 'Cockpit', 'Selim e manoplas', 'Selim'];
+/* "8,47 kg" vira número grande + unidade; "XX SL AXS" vira "XX" + "SL AXS"; texto puro fica inteiro. */
+const destaque = (d) => {
+  const n = d.valor.match(/^([\d.,]+)\s*(.*)$/);
+  if (n) return { num: n[1], uni: n[2] };
+  const t = d.valor.match(/^(\S{1,3})\s+(.+)$/);
+  return t ? { num: t[1], uni: t[2] } : { num: d.valor, uni: '', texto: true };
+};
 ---
 <section class="secao" id="versoes">
   <div class="container">
-    <Cabecalho linhas={['Três versões.', 'O mesmo quadro.']} lead={lead ?? `Todas as versões da ${nomeCompleto} partem do mesmo quadro em carbono, da mesma pintura exclusiva e da mesma garantia vitalícia. O que muda são os componentes.`} />
+    <Cabecalho eyebrow="Versões" linhas={['Três versões.', 'O mesmo']} verde=" quadro."
+      lead={lead ?? `Todas partem do mesmo quadro <i class="modelo">${linha.nome}</i>${horizon ? ' HORIZON' : ''} em carbono, da mesma pintura exclusiva e da mesma garantia vitalícia. O que muda são os componentes.`} />
 
     <div class="versoes__tabs" role="tablist" aria-label={`Versões da ${nomeCompleto}`}>
       {linha.versoes.map((v, i) => (
@@ -44,25 +49,40 @@ const rotuloFicha = (r) => (r.item === 'Dianteiro / traseiro' ? 'Freios' : r.ite
             <Image src={img(`brand/${v.slug}.png`)} alt="" height={46} />
           </h3>
           <p class="lead versao__resumo">{junto(v.resumo)}</p>
+          <div class="versao__foto">
+            <Picture src={img(v.foto)} formats={['avif', 'webp']} alt={`EDRO ${nomeCompleto} ${v.nome} 2027, vista lateral`}
+              widths={[800, 1600]} sizes="(max-width: 1023px) 100vw, 55vw" loading={i === 0 ? 'eager' : 'lazy'} />
+          </div>
+          <div class:list={['versao__destaques', { 'versao__destaques--quatro': v.destaques.length > 3 }]}>
+            {v.destaques.map((d) => {
+              const x = destaque(d);
+              return (
+                <div>
+                  <p class:list={['versao__destaque', { 'versao__destaque--texto': x.texto }]}>{x.num}{x.uni && <span class="versao__destaque-uni">{x.uni}</span>}</p>
+                  <span class="caption">{junto(d.legenda)}</span>
+                </div>
+              );
+            })}
+          </div>
           <div class="versao__stats">
             <div>
-              <p class="metric-stat">{peso(v.peso_kg)}<span class="unidade">&nbsp;kg</span></p>
+              <p class="metric-stat">{pesoTexto(v)}<span class="unidade">&nbsp;kg</span></p>
               <span class="caption">sem pedais, tamanho M</span>
             </div>
             <div>
               <p class="metric-stat">{brl(v.preco)}</p>
-              <span class="caption">preço de tabela · 12x sem juros ou 5% no Pix</span>
+              <span class="caption">{v.parcelamento} no cartão, ou 5% de desconto no Pix</span>
             </div>
           </div>
           <div class="versao__botoes">
             <a class="btn btn--primario" rel="noopener" data-wa={`versao-${idBase}-${v.slug}`}
                href={wa(`Olá, EDRO. Tenho interesse na ${nomeCompleto} ${v.nome}. Minha bike atual é: ___ (origem: site-${idBase}-${v.slug})`)}>
-              Quero a {nomeCompleto} {v.nome}
+              Quero a minha {nomeCompleto} {v.nome}
               <svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
             </a>
             <button class="btn btn--secundario" type="button" data-abre-ficha={`ficha-${idBase}-${v.slug}`}>Ver especificações completas</button>
-            {chaveFit4u(linha.base ?? linha.slug, v.slug, horizon) ? (
-              <a class="btn btn--contorno" href={personalizar(chaveFit4u(linha.base ?? linha.slug, v.slug, horizon))} data-personalizar={`${idBase}-${v.slug}`}>Personalize a pintura</a>
+            {v.personalizar ? (
+              <a class="btn btn--contorno" href={v.personalizar} data-personalizar={`${idBase}-${v.slug}`}>Personalize a pintura</a>
             ) : (
               <a class="btn btn--contorno" rel="noopener" data-wa={`pintura-${idBase}-${v.slug}`}
                  href={wa(`Olá, EDRO. Quero falar sobre a pintura da minha ${nomeCompleto} ${v.nome}. (origem: site-${idBase}-${v.slug}-pintura)`)}>Falar sobre a pintura</a>
@@ -70,12 +90,12 @@ const rotuloFicha = (r) => (r.item === 'Dianteiro / traseiro' ? 'Freios' : r.ite
           </div>
         </div>
         <dl class="versao__specs">
-          {specs(v).map(([r, val]) => (<div><dt>{r}</dt><dd>{val}</dd></div>))}
+          {v.ficha.filter(([k]) => !FORA_DO_RESUMO.includes(k)).map(([k, val]) => (<div><dt>{k}</dt><dd>{junto(val)}</dd></div>))}
         </dl>
 
         <dialog class="ficha-modal" id={`ficha-${idBase}-${v.slug}`} aria-labelledby={`ficha-${idBase}-${v.slug}-t`}>
           <div class="ficha-modal__topo">
-            <h2 class="card-title" id={`ficha-${idBase}-${v.slug}-t`}><i class="modelo">{nomeCompleto}</i> <span class="verde">{v.nome}</span></h2>
+            <h2 class="card-title" id={`ficha-${idBase}-${v.slug}-t`}><i class="modelo">{linha.nome}</i>{horizon && ' HORIZON'} <span class="verde">{v.nome}</span></h2>
             <button class="ficha-modal__fechar" type="button" data-fecha-ficha aria-label="Fechar especificações">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
             </button>
@@ -84,17 +104,17 @@ const rotuloFicha = (r) => (r.item === 'Dianteiro / traseiro' ? 'Freios' : r.ite
             <table class="tabela">
               <caption class="visualmente-oculto">Especificações completas da {nomeCompleto} {v.nome}</caption>
               <tbody>
-                {v.ficha.map((r) => (<tr><th scope="row">{rotuloFicha(r)}</th><td>{junto(r.valor)}</td></tr>))}
-                <tr><th scope="row">Peso</th><td>{peso(v.peso_kg)}&nbsp;kg, sem pedais, tamanho M</td></tr>
+                {v.ficha.map(([k, val]) => (<tr><th scope="row">{k}</th><td>{k === 'Peso' ? `${junto(val)}, sem pedais, tamanho M` : junto(val)}</td></tr>))}
+                <tr><th scope="row">Preço</th><td>{brl(v.preco)}, {v.parcelamento}</td></tr>
               </tbody>
             </table>
-            <p class="nota-peso">{notaPeso}</p>
+            {rodapeFicha.map((t) => <p class="nota-peso">{t}</p>)}
           </div>
         </dialog>
       </div>
     ))}
 
-    <p class="nota-peso">{notaPeso}</p>
+    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
   </div>
 </section>
 

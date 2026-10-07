@@ -1,22 +1,15 @@
 ---
-/* Card de linha de bikes (home e /bikes). Nome da linha sempre em wordmark,
-   benefício ao ciclista antes do dado técnico, peso da PRO e faixa de preço. */
+/* Card de linha de bikes (home e /bikes), v3.2. Nome da linha em wordmark,
+   foto lateral oficial da PRO, a frase "para quem" do catálogo 2027,
+   peso da PRO e o preço de entrada. */
 import { Picture, Image } from 'astro:assets';
 import { img } from '../lib/imagens.js';
-import { brl, kg } from '../lib/edro.js';
+import { brl, pesoTexto } from '../lib/edro.js';
 
 const { p, larga = false } = Astro.props;
-/* Renders da produção v3.1 (itens 5 e 10), fundo transparente, vista lateral. */
-const RENDER = { summa: 'renders/render-8.png', range: 'renders/render-3.png', impetus: 'renders/render-13.png' };
-const render = img(RENDER[p.slug]);
-const precos = p.versoes.map((v) => v.preco);
-const nomesVersoes = [...p.versoes].reverse().map((v) => v.nome);
-const lista = nomesVersoes.length > 1
-  ? `${nomesVersoes.slice(0, -1).join(', ')} e ${nomesVersoes.at(-1)}`
-  : nomesVersoes[0];
 ---
 <article class:list={['card-linha', { 'card-linha--larga': larga }]}>
-  <p class="eyebrow">{p.uso_curto}</p>
+  <p class="eyebrow">{p.tipo}</p>
   <h3 class="card-linha__wordmark">
     <a class="card-linha__link" href={`/bikes/${p.slug}`}>
       <Image src={img(`brand/${p.slug}.png`)} alt={p.nome} height={60} />
@@ -24,18 +17,18 @@ const lista = nomesVersoes.length > 1
   </h3>
   <span class="card-linha__canto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
   <span class="card-linha__render">
-    <Picture src={render} formats={['avif', 'webp']} alt={`EDRO ${p.nome} ${p.pro.nome} de carbono, vista lateral`}
-      widths={[480, 960]} sizes={larga ? '(max-width: 767px) 100vw, 440px' : '(max-width: 767px) 100vw, 33vw'} loading="lazy" />
+    <Picture src={img(p.pro.foto)} formats={['avif', 'webp']} alt={`EDRO ${p.nome} ${p.pro.nome} 2027, vista lateral`}
+      widths={[800, 1600]} sizes={larga ? '(max-width: 767px) 100vw, 440px' : '(max-width: 767px) 100vw, 33vw'} loading="lazy" />
   </span>
-  <p class="card-linha__beneficio"><b>{p.beneficio_titulo}</b> {larga ? p.beneficio_bikes : p.beneficio}</p>
+  <p class="card-linha__beneficio">{p.para_quem}.</p>
   <div class="card-linha__numeros">
     <div>
-      <p class="card-linha__valor">{kg(p.pro.peso_kg)}&nbsp;<small>kg</small></p>
+      <p class="card-linha__valor">{pesoTexto(p.pro)}&nbsp;<small>kg</small></p>
       <span class="caption">{p.pro.nome}, sem pedais</span>
     </div>
     <div>
-      <p class="card-linha__valor">{brl(Math.min(...precos))} a {new Intl.NumberFormat('pt-BR').format(Math.max(...precos))}</p>
-      <span class="caption">{larga ? lista : `versões ${lista}`}</span>
+      <p class="card-linha__valor"><small>a partir de</small> {brl(p.entrada.preco)}</p>
+      <span class="caption">{p.versoes.map((v) => v.nome).join(', ')}, {p.entrada.parcelamento}</span>
     </div>
   </div>
   {larga && (
@@ -43,4 +36,5 @@ const lista = nomesVersoes.length > 1
       {p.macro_specs.map(([rot, val]) => (<div><dt>{rot}</dt><dd>{val}</dd></div>))}
     </dl>
   )}
+  <span class="card-linha__cta">Conhecer a <i class="modelo">{p.nome}</i> <span aria-hidden="true">→</span></span>
 </article>

@@ -1,0 +1,9 @@
+---
+/* Faixa de quatro números da marca, catálogo 2027 (v3.2, seção 2.4). Home e /bikes. */
+import c from '../content/condicoes_2027.json';
+---
+<div class="container">
+  <div class="faixa-specs faixa-specs--quatro">
+    {c.numeros.map(([n, t]) => (<div><b class="faixa-specs__num">{n}</b><span>{t}</span></div>))}
+  </div>
+</div>

@@ -1,0 +1,351 @@
+{
+  "nota_peso": "Pesos sem pedais, aferidos no tamanho M, podendo variar até 5% conforme o tamanho da bicicleta, os componentes e a pintura escolhida.",
+  "vigencia": "Preços e especificações vigentes em out/2026, sujeitos a alteração.",
+  "sistema": {
+    "Motor": "CYC Photon Gen 2, central, 1.200 W de pico, 600 W nominal, 135 N.m de torque",
+    "Bateria": "EDRO Power Pack 540 Wh, recarga direto na bike",
+    "Autonomia": "Eco 130 a 185 km, Ride 70 a 95 km, Turbo 35 a 70 km, conforme peso, terreno e ritmo",
+    "Comandos": "Display 2,1\" IP65, app Ride Control, Apple Find My e Modo automático por frequência cardíaca",
+    "Velocidade assistida": "Limitada a 32 km/h de fábrica; ajustável para 45 km/h em circuitos fechados, respeitando a legislação",
+    "Detalhes": "Sem acelerador: a assistência só atua com pedalada"
+  },
+  "no_seu_pedal": [
+    {
+      "titulo": "Assistência natural.",
+      "texto": "O sensor de torque entrega força na medida da sua pedalada, sem tranco."
+    },
+    {
+      "titulo": "Arrasto zero.",
+      "texto": "Com o motor desligado, a HORIZON pedala como uma bike comum."
+    },
+    {
+      "titulo": "Modo automático.",
+      "texto": "A assistência se ajusta pela sua frequência cardíaca e mantém você na zona de treino que escolher."
+    },
+    {
+      "titulo": "Autonomia calculada para o seu percurso.",
+      "texto": "O simulador EDRO, calibrado com pedais reais, mostra a autonomia para a sua rota antes de você sair."
+    },
+    {
+      "titulo": "Sempre com você.",
+      "texto": "Display 2,1\" IP65, app Ride Control e Apple Find My integrado para localizar a bike."
+    }
+  ],
+  "simulador": {
+    "titulo": "Autonomia real, não de tabela.",
+    "texto": "Na EDRO não trazemos informação de catálogo. Trazemos dados reais, testados e comprovados. Para isso criamos um simulador: você coloca a sua rota real e ele considera trajeto, elevações, peso do ciclista, potência, cadência, vento, temperatura e as demais variáveis para entregar a autonomia da bike com margem de erro de 2%.",
+    "numeros": [
+      [
+        "2%",
+        "margem de erro"
+      ],
+      [
+        "15+",
+        "pedais instrumentados"
+      ],
+      [
+        "GPX",
+        "GPX, TCX e FIT"
+      ],
+      [
+        "Vento",
+        "previsão por trecho"
+      ]
+    ],
+    "aviso": "Resultados estimados. A autonomia real varia com temperatura, calibragem dos pneus, estilo de pilotagem e estado da bateria."
+  },
+  "linhas": [
+    {
+      "id": "summa-horizon",
+      "nome": "SUMMA HORIZON",
+      "tipo": "Hardtail de cross country com pedal assistido",
+      "para_quem": "Versão eletrificada da SUMMA, de pedal assistido, com a mesma geometria e a dinâmica de uma bike normal",
+      "rota": "/horizon/summa-horizon",
+      "quadro": "Carbono monocoque moldado em EPS, UDH, Boost",
+      "tamanhos": "S, M e L, com ajuste FIT4U",
+      "versoes": [
+        {
+          "versao": "PRO",
+          "chave_fit4u": "summa-pro-hz",
+          "preco": 94990,
+          "preco_texto": "R$ 94.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "14.5",
+          "peso_texto": "14,5 kg",
+          "resumo": "A HORIZON mais leve, com 14,5 kg, suspensão Flight Attendant e SRAM XX SL AXS. Para acompanhar o grupo mais forte e subir no seu ritmo.",
+          "destaques": [
+            {
+              "valor": "14,5 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "135 N.m",
+              "legenda": "CYC Photon Gen 2, 1.200 W de pico e 600 W nominal"
+            },
+            {
+              "valor": "540 Wh",
+              "legenda": "bateria EDRO Power Pack"
+            },
+            {
+              "valor": "XX SL AXS",
+              "legenda": "transmissão SRAM"
+            }
+          ],
+          "ficha": {
+            "Autonomia": "Eco 130 a 185 km, Ride 70 a 95 km, Turbo 35 a 70 km; cálculo para a sua rota no simulador EDRO",
+            "Quadro": "Carbono monocoque moldado em EPS, UDH, Boost",
+            "Suspensão": "RockShox SID Ultimate 110 mm Flight Attendant",
+            "Transmissão": "SRAM XX SL T-Type 12v AXS, coroa 36 e cassete 10/52",
+            "Freios": "SRAM Motive Ultimate 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ SL Carbon PRO",
+            "Pneus": "Pirelli Scorpion XC RH Team Edition Lite",
+            "Canote": "Retrátil RockShox Reverb AXS",
+            "Cockpit": "Guidão integrado FSA KFX SIC Carbon",
+            "Selim e manoplas": "Fizik Vento Argo R1; manoplas Supacaz",
+            "Peso": "14,5 kg",
+            "Tamanhos": "S, M e L, com ajuste FIT4U"
+          },
+          "foto_lateral": "SUMMA PRO HORIZON.png",
+          "foto_drive_id": "1b-bxKFbadf6K4xUlgV54-Xafxx8JrGLT",
+          "personalizar_url": "/fit4u/pintura/?modelo=summa-pro-hz"
+        },
+        {
+          "versao": "XCR",
+          "chave_fit4u": "summa-xcr-hz",
+          "preco": 62990,
+          "preco_texto": "R$ 62.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "15.0",
+          "peso_texto": "15,0 kg",
+          "resumo": "Rodas de carbono, transmissão eletrônica sem fio e canote retrátil, com 15,0 kg. A versão que equilibra performance e investimento na HORIZON hardtail.",
+          "destaques": [
+            {
+              "valor": "15,0 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "135 N.m",
+              "legenda": "CYC Photon Gen 2, 1.200 W de pico e 600 W nominal"
+            },
+            {
+              "valor": "540 Wh",
+              "legenda": "bateria EDRO Power Pack"
+            },
+            {
+              "valor": "GX AXS",
+              "legenda": "transmissão SRAM"
+            }
+          ],
+          "ficha": {
+            "Autonomia": "Eco 130 a 185 km, Ride 70 a 95 km, Turbo 35 a 70 km; cálculo para a sua rota no simulador EDRO",
+            "Quadro": "Carbono monocoque moldado em EPS, UDH, Boost",
+            "Suspensão": "RockShox SID SL 110 mm",
+            "Transmissão": "SRAM GX Eagle T-Type 12v AXS, coroa 36 e cassete 10/52",
+            "Freios": "SRAM Motive Bronze 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ SL Carbon",
+            "Pneus": "Pirelli Scorpion XC RH Team Edition Lite",
+            "Canote": "Retrátil KS LEV SI",
+            "Cockpit": "Guidão integrado FSA KFX SIC Carbon",
+            "Selim e manoplas": "Vultro Ion; manoplas Supacaz",
+            "Peso": "15,0 kg",
+            "Tamanhos": "S, M e L, com ajuste FIT4U"
+          },
+          "foto_lateral": "SUMMA XCR HORIZON.png",
+          "foto_drive_id": "1KWJYQLyWV4GsXqWSP2vLMsTuQe776tBf",
+          "personalizar_url": "/fit4u/pintura/?modelo=summa-xcr-hz"
+        },
+        {
+          "versao": "EX",
+          "chave_fit4u": "summa-ex-hz",
+          "preco": 47990,
+          "preco_texto": "R$ 47.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "15.3",
+          "peso_texto": "15,3 kg",
+          "resumo": "Suspensão RockShox SID SL, freios de 4 pistões e 15,3 kg, para ir mais longe nos estradões e nas trilhas de XC.",
+          "destaques": [
+            {
+              "valor": "15,3 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "135 N.m",
+              "legenda": "CYC Photon Gen 2, 1.200 W de pico e 600 W nominal"
+            },
+            {
+              "valor": "540 Wh",
+              "legenda": "bateria EDRO Power Pack"
+            },
+            {
+              "valor": "Eagle 90",
+              "legenda": "transmissão SRAM"
+            }
+          ],
+          "ficha": {
+            "Autonomia": "Eco 130 a 185 km, Ride 70 a 95 km, Turbo 35 a 70 km; cálculo para a sua rota no simulador EDRO",
+            "Quadro": "Carbono monocoque moldado em EPS, UDH, Boost",
+            "Suspensão": "RockShox SID SL 110 mm",
+            "Transmissão": "SRAM Eagle 90 T-Type 12v mecânica, coroa 36 e cassete 10/52",
+            "Freios": "SRAM Motive Bronze 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ COMP alumínio, largura interna 26 mm",
+            "Pneus": "Pirelli Scorpion XC RH Team Edition Lite",
+            "Canote": "Vultro Journey, micro ajuste",
+            "Cockpit": "Guidão Vultro Journey 760 mm e mesa Vultro Journey 80 mm",
+            "Selim e manoplas": "Vultro Ion; manoplas Supacaz",
+            "Peso": "15,3 kg",
+            "Tamanhos": "S, M e L, com ajuste FIT4U"
+          },
+          "foto_lateral": "SUMMA EX HORIZON.png",
+          "foto_drive_id": "1ysTLKx7mxw5IUOH2tKolOR7cI2Lr9FMM",
+          "personalizar_url": "/fit4u/pintura/?modelo=summa-ex-hz"
+        }
+      ]
+    },
+    {
+      "id": "range-horizon",
+      "nome": "RANGE HORIZON",
+      "tipo": "Full suspension de cross country com pedal assistido",
+      "para_quem": "Versão eletrificada da RANGE, de pedal assistido, para trilha técnica e pedais longos",
+      "rota": "/horizon/range-horizon",
+      "quadro": "Carbono monocoque moldado em EPS, Boost",
+      "tamanhos": "S, M, L e XL, com ajuste FIT4U",
+      "versoes": [
+        {
+          "versao": "PRO",
+          "chave_fit4u": "range-pro-hz",
+          "preco": 104990,
+          "preco_texto": "R$ 104.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "15.9",
+          "peso_texto": "15,9 kg",
+          "resumo": "Full suspension com Flight Attendant na frente e atrás, SRAM XX SL AXS e 15,9 kg. Para trilha técnica e pedais longos em terreno exigente.",
+          "destaques": [
+            {
+              "valor": "15,9 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "135 N.m",
+              "legenda": "CYC Photon Gen 2, 1.200 W de pico e 600 W nominal"
+            },
+            {
+              "valor": "540 Wh",
+              "legenda": "bateria EDRO Power Pack"
+            },
+            {
+              "valor": "XX SL AXS",
+              "legenda": "transmissão SRAM"
+            }
+          ],
+          "ficha": {
+            "Autonomia": "Eco 130 a 185 km, Ride 70 a 95 km, Turbo 35 a 70 km; cálculo para a sua rota no simulador EDRO",
+            "Quadro": "Carbono monocoque moldado em EPS, Boost",
+            "Suspensão": "RockShox SID Ultimate 110 mm Flight Attendant; shock RockShox SID Luxe Ultimate Flight Attendant",
+            "Transmissão": "SRAM XX SL T-Type 12v AXS, coroa 36 e cassete 10/52",
+            "Freios": "SRAM Motive Ultimate 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ SL Carbon PRO",
+            "Pneus": "Pirelli Scorpion XC RH Team Edition Lite",
+            "Canote": "Retrátil RockShox Reverb AXS",
+            "Cockpit": "Guidão integrado FSA KFX SIC Carbon",
+            "Selim e manoplas": "Fizik Vento Argo R1; manoplas Supacaz",
+            "Peso": "15,9 kg",
+            "Tamanhos": "S, M, L e XL, com ajuste FIT4U"
+          },
+          "foto_lateral": "RANGE PRO HORIZON.png",
+          "foto_drive_id": "1YLF5dCO610CEoQ8z8ta_Eg2eOTAFMeta",
+          "personalizar_url": "/fit4u/pintura/?modelo=range-pro-hz"
+        },
+        {
+          "versao": "XCR",
+          "chave_fit4u": "range-xcr-hz",
+          "preco": 66990,
+          "preco_texto": "R$ 66.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "16.4",
+          "peso_texto": "16,4 kg",
+          "resumo": "Rodas de carbono, SRAM GX Eagle AXS e canote retrátil, com 16,4 kg. Controle de full suspension e força extra para subir no seu ritmo.",
+          "destaques": [
+            {
+              "valor": "16,4 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "135 N.m",
+              "legenda": "CYC Photon Gen 2, 1.200 W de pico e 600 W nominal"
+            },
+            {
+              "valor": "540 Wh",
+              "legenda": "bateria EDRO Power Pack"
+            },
+            {
+              "valor": "GX AXS",
+              "legenda": "transmissão SRAM"
+            }
+          ],
+          "ficha": {
+            "Autonomia": "Eco 130 a 185 km, Ride 70 a 95 km, Turbo 35 a 70 km; cálculo para a sua rota no simulador EDRO",
+            "Quadro": "Carbono monocoque moldado em EPS, Boost",
+            "Suspensão": "RockShox SID SL 110 mm; shock RockShox SIDLuxe Select+",
+            "Transmissão": "SRAM GX Eagle T-Type 12v AXS, coroa 36 e cassete 10/52",
+            "Freios": "SRAM Motive Bronze 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ SL Carbon",
+            "Pneus": "Pirelli Scorpion XC RH Team Edition Lite",
+            "Canote": "Retrátil KS LEV SI",
+            "Cockpit": "Guidão integrado FSA KFX SIC Carbon",
+            "Selim e manoplas": "Vultro Ion; manoplas Supacaz",
+            "Peso": "16,4 kg",
+            "Tamanhos": "S, M, L e XL, com ajuste FIT4U"
+          },
+          "foto_lateral": "RANGE XCR HORIZON.png",
+          "foto_drive_id": "1u0fFZm0k2o8jGBvH3u_-liIrx8X8fbnT",
+          "personalizar_url": "/fit4u/pintura/?modelo=range-xcr-hz"
+        },
+        {
+          "versao": "EX",
+          "chave_fit4u": "range-ex-hz",
+          "preco": 52990,
+          "preco_texto": "R$ 52.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "16.6",
+          "peso_texto": "16,6 kg",
+          "resumo": "Conforto e tração de full suspension, com RockShox SID SL, SIDLuxe Select+ e 16,6 kg, para ter mais trilha em cada saída.",
+          "destaques": [
+            {
+              "valor": "16,6 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "135 N.m",
+              "legenda": "CYC Photon Gen 2, 1.200 W de pico e 600 W nominal"
+            },
+            {
+              "valor": "540 Wh",
+              "legenda": "bateria EDRO Power Pack"
+            },
+            {
+              "valor": "Eagle 90",
+              "legenda": "transmissão SRAM"
+            }
+          ],
+          "ficha": {
+            "Autonomia": "Eco 130 a 185 km, Ride 70 a 95 km, Turbo 35 a 70 km; cálculo para a sua rota no simulador EDRO",
+            "Quadro": "Carbono monocoque moldado em EPS, Boost",
+            "Suspensão": "RockShox SID SL 110 mm; shock RockShox SIDLuxe Select+",
+            "Transmissão": "SRAM Eagle 90 T-Type 12v mecânica, coroa 36 e cassete 10/52",
+            "Freios": "SRAM Motive Bronze 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ COMP alumínio, largura interna 26 mm",
+            "Pneus": "Pirelli Scorpion XC RH Team Edition Lite",
+            "Canote": "Vultro Journey, micro ajuste",
+            "Cockpit": "Guidão Vultro Journey 760 mm e mesa Vultro Journey 80 mm",
+            "Selim e manoplas": "Vultro Ion; manoplas Supacaz",
+            "Peso": "16,6 kg",
+            "Tamanhos": "S, M, L e XL, com ajuste FIT4U"
+          },
+          "foto_lateral": "RANGE EX HORIZON.png",
+          "foto_drive_id": "167Ea9hxt2rkkxHGkwPFhGX8UZBNUMTLU",
+          "personalizar_url": "/fit4u/pintura/?modelo=range-ex-hz"
+        }
+      ]
+    }
+  ]
+}

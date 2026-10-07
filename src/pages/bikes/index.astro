@@ -4,8 +4,10 @@ import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
 import CardLinha from '../../components/CardLinha.astro';
 import Fechamento from '../../components/Fechamento.astro';
+import NumerosMarca from '../../components/NumerosMarca.astro';
+import condicoes from '../../content/condicoes_2027.json';
 import { Image } from 'astro:assets';
-import { bikes, plataformas, wa } from '../../lib/edro.js';
+import { plataformas, wa, rodapeFicha } from '../../lib/edro.js';
 import { img } from '../../lib/imagens.js';
 
 const jsonLd = {
@@ -42,7 +44,25 @@ const jsonLd = {
     <div class="linhas__coluna">
       {plataformas.map((p) => <CardLinha p={p} larga />)}
     </div>
-    <p class="nota-peso">{bikes.meta.nota_peso}</p>
+    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
+  </div>
+</section>
+
+<NumerosMarca />
+
+<!-- Como o catálogo 2027 orienta a escolha (v3.2, seção 2.2) -->
+<section class="secao secao--sem-linha">
+  <div class="container">
+    <p class="eyebrow eyebrow--verde">Como escolher</p>
+    <h2 class="headline" style="margin:var(--s-4) 0 var(--s-8)">Como escolher<br />a <span class="verde">sua.</span></h2>
+    <dl class="escolher">
+      {condicoes.como_escolher.map(([uso, linha, href]) => (
+        <div>
+          <dt>{uso}</dt>
+          <dd><a href={href} set:html={linha.replace(/(SUMMA|RANGE|IMPETUS)/g, '<i class="modelo">$1</i>')} /></dd>
+        </div>
+      ))}
+    </dl>
   </div>
 </section>
 

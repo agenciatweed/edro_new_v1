@@ -1,0 +1,400 @@
+{
+  "nota_peso": "Pesos sem pedais, aferidos no tamanho M, podendo variar até 5% conforme o tamanho da bicicleta, os componentes e a pintura escolhida.",
+  "vigencia": "Preços e especificações vigentes em out/2026, sujeitos a alteração.",
+  "condicoes": {
+    "pagamento": "Em até 12x sem juros no cartão, ou à vista no Pix com 5% de desconto.",
+    "entrega": "Bike sob medida e com pintura exclusiva em cerca de 30 dias, com frete grátis para todo o Brasil."
+  },
+  "linhas": [
+    {
+      "id": "summa",
+      "nome": "SUMMA",
+      "tipo": "Hardtail de cross country",
+      "para_quem": "Hardtail de cross country, para leveza e resposta em prova e treino",
+      "rota": "/bikes/summa",
+      "quadro": "Carbono monocoque moldado em EPS, UDH, Boost",
+      "tamanhos": "S, M e L, com ajuste FIT4U",
+      "versoes": [
+        {
+          "versao": "PRO",
+          "chave_fit4u": "summa-pro",
+          "preco": 69990,
+          "preco_texto": "R$ 69.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "8.47",
+          "peso_texto": "8,47 kg",
+          "resumo": "Para quem disputa prova e quer cada grama a seu favor: 8,47 kg, suspensão Flight Attendant, que se ajusta ao terreno sozinha, e transmissão SRAM XX SL sem fio.",
+          "destaques": [
+            {
+              "valor": "8,47 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "XX SL",
+              "legenda": "transmissão AXS sem fio"
+            },
+            {
+              "valor": "Flight Attendant",
+              "legenda": "suspensão automática"
+            }
+          ],
+          "ficha": {
+            "Quadro": "Carbono monocoque moldado em EPS, UDH, Boost",
+            "Suspensão": "RockShox SID Ultimate 110 mm Flight Attendant",
+            "Transmissão": "SRAM XX SL T-Type 12v AXS, coroa 34 e cassete 10/52",
+            "Freios": "SRAM Motive Ultimate 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ SL Carbon PRO",
+            "Pneus": "Pirelli Scorpion XC RH Lite Tubeless 29x2.4, selante Solifes",
+            "Canote": "Retrátil RockShox Reverb AXS",
+            "Cockpit": "Guidão integrado FSA KFX SIC Carbon",
+            "Selim e manoplas": "Fizik Vento Argo R1; manoplas Supacaz",
+            "Peso": "8,47 kg",
+            "Tamanhos": "S, M e L, com ajuste FIT4U"
+          },
+          "foto_lateral": "SUMMA PRO.png",
+          "foto_drive_id": "1m_1HpE_epyUAXtgJm_k6F0uAXqVrmUJy",
+          "personalizar_url": "/fit4u/pintura/?modelo=summa-pro"
+        },
+        {
+          "versao": "XCR",
+          "chave_fit4u": "summa-xcr",
+          "preco": 38990,
+          "preco_texto": "R$ 38.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "9.10",
+          "peso_texto": "9,10 kg",
+          "resumo": "Rodas de carbono, transmissão eletrônica sem fio e canote retrátil, com 9,10 kg. Para treinar forte e competir com a mesma bike.",
+          "destaques": [
+            {
+              "valor": "9,10 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "GX AXS",
+              "legenda": "transmissão sem fio"
+            },
+            {
+              "valor": "Carbono",
+              "legenda": "rodas VORZ SL Carbon"
+            }
+          ],
+          "ficha": {
+            "Quadro": "Carbono monocoque moldado em EPS, UDH, Boost",
+            "Suspensão": "RockShox SID SL 110 mm",
+            "Transmissão": "SRAM GX Eagle T-Type 12v AXS, coroa 34 e cassete 10/52",
+            "Freios": "SRAM Motive Bronze 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ SL Carbon",
+            "Pneus": "Pirelli Scorpion XC RH Lite Tubeless 29x2.4, selante Solifes",
+            "Canote": "Retrátil KS LEV SI",
+            "Cockpit": "Guidão integrado FSA KFX SIC Carbon",
+            "Selim e manoplas": "Vultro Ion; manoplas Supacaz",
+            "Peso": "9,10 kg",
+            "Tamanhos": "S, M e L, com ajuste FIT4U"
+          },
+          "foto_lateral": "SUMMA XCR.png",
+          "foto_drive_id": "1s3KpwHnajjtWGDLigKxjQo1fwi_uUMv0",
+          "personalizar_url": "/fit4u/pintura/?modelo=summa-xcr"
+        },
+        {
+          "versao": "EX",
+          "chave_fit4u": "summa-ex",
+          "preco": 23990,
+          "preco_texto": "R$ 23.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "9.48",
+          "peso_texto": "9,48 kg",
+          "resumo": "O mesmo quadro de carbono das versões de topo, com suspensão RockShox SID SL, freios de 4 pistões e 9,48 kg. A forma mais direta de ter uma SUMMA sob medida.",
+          "destaques": [
+            {
+              "valor": "9,48 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "Eagle 90",
+              "legenda": "transmissão 12v"
+            },
+            {
+              "valor": "4 pistões",
+              "legenda": "freios SRAM Motive"
+            }
+          ],
+          "ficha": {
+            "Quadro": "Carbono monocoque moldado em EPS, UDH, Boost",
+            "Suspensão": "RockShox SID SL 110 mm",
+            "Transmissão": "SRAM Eagle 90 T-Type 12v mecânica, coroa 34 e cassete 10/52",
+            "Freios": "SRAM Motive Bronze 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ COMP alumínio, largura interna 26 mm",
+            "Pneus": "Pirelli Scorpion XC RC Lite Tubeless 29x2.4, selante Solifes",
+            "Canote": "Vultro Journey, micro ajuste",
+            "Cockpit": "Guidão Vultro Journey 760 mm e mesa Vultro Journey 80 mm",
+            "Selim e manoplas": "Vultro Ion; manoplas Supacaz",
+            "Peso": "9,48 kg",
+            "Tamanhos": "S, M e L, com ajuste FIT4U"
+          },
+          "foto_lateral": "SUMMA EX.png",
+          "foto_drive_id": "1gFDLTjJ0bsnUtA9Z4oW_GHNKKsRdljdn",
+          "personalizar_url": "/fit4u/pintura/?modelo=summa-ex"
+        }
+      ]
+    },
+    {
+      "id": "range",
+      "nome": "RANGE",
+      "tipo": "Full suspension de cross country",
+      "para_quem": "Full suspension de cross country, para eficiência com mais controle e conforto",
+      "rota": "/bikes/range",
+      "quadro": "Carbono monocoque moldado em EPS, Boost",
+      "tamanhos": "S, M, L e XL, com ajuste FIT4U",
+      "versoes": [
+        {
+          "versao": "PRO",
+          "chave_fit4u": "range-pro",
+          "preco": 79990,
+          "preco_texto": "R$ 79.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "9.89",
+          "peso_texto": "9,89 kg",
+          "resumo": "Full suspension para XCO e maratona, com Flight Attendant na frente e atrás: a suspensão lê o terreno e ajusta a bike em tempo real. 9,89 kg e SRAM XX SL sem fio.",
+          "destaques": [
+            {
+              "valor": "9,89 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "XX SL",
+              "legenda": "transmissão AXS sem fio"
+            },
+            {
+              "valor": "Flight Attendant",
+              "legenda": "na frente e atrás"
+            }
+          ],
+          "ficha": {
+            "Quadro": "Carbono monocoque moldado em EPS, Boost",
+            "Suspensão": "RockShox SID Ultimate 110 mm Flight Attendant; shock RockShox SID Luxe Ultimate Flight Attendant",
+            "Transmissão": "SRAM XX SL T-Type 12v AXS, coroa 34 e cassete 10/52",
+            "Freios": "SRAM Motive Ultimate 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ SL Carbon PRO",
+            "Pneus": "Pirelli Scorpion XC RH Lite Tubeless 29x2.4, selante Solifes",
+            "Canote": "Retrátil RockShox Reverb AXS",
+            "Cockpit": "Guidão integrado FSA KFX SIC Carbon",
+            "Selim e manoplas": "Fizik Vento Argo R1; manoplas Supacaz",
+            "Peso": "9,89 kg",
+            "Tamanhos": "S, M, L e XL, com ajuste FIT4U"
+          },
+          "foto_lateral": "RANGE PRO.png",
+          "foto_drive_id": "1BukKvo-Unn4LD7xM81vxUd1vf1_3-WJC",
+          "personalizar_url": "/fit4u/pintura/?modelo=range-pro"
+        },
+        {
+          "versao": "XCR",
+          "chave_fit4u": "range-xcr",
+          "preco": 43990,
+          "preco_texto": "R$ 43.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "10.58",
+          "peso_texto": "10,58 kg",
+          "resumo": "Controle de full suspension com rodas de carbono, transmissão eletrônica sem fio e 10,58 kg. Para maratona, trilha técnica e pedais longos.",
+          "destaques": [
+            {
+              "valor": "10,58 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "GX AXS",
+              "legenda": "transmissão sem fio"
+            },
+            {
+              "valor": "Carbono",
+              "legenda": "rodas VORZ SL Carbon"
+            }
+          ],
+          "ficha": {
+            "Quadro": "Carbono monocoque moldado em EPS, Boost",
+            "Suspensão": "RockShox SID SL 110 mm; shock RockShox SIDLuxe Select+",
+            "Transmissão": "SRAM GX Eagle T-Type 12v AXS, coroa 34 e cassete 10/52",
+            "Freios": "SRAM Motive Bronze 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ SL Carbon",
+            "Pneus": "Pirelli Scorpion XC RH Lite Tubeless 29x2.4, selante Solifes",
+            "Canote": "Retrátil KS LEV SI",
+            "Cockpit": "Guidão integrado FSA KFX SIC Carbon",
+            "Selim e manoplas": "Vultro Ion; manoplas Supacaz",
+            "Peso": "10,58 kg",
+            "Tamanhos": "S, M, L e XL, com ajuste FIT4U"
+          },
+          "foto_lateral": "RANGE XCR.png",
+          "foto_drive_id": "1JACtL9-Y200v7xgYO3wzOasi8vzAF0XZ",
+          "personalizar_url": "/fit4u/pintura/?modelo=range-xcr"
+        },
+        {
+          "versao": "EX",
+          "chave_fit4u": "range-ex",
+          "preco": 29990,
+          "preco_texto": "R$ 29.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "10.78",
+          "peso_texto": "10,78 kg",
+          "resumo": "O conforto e a tração de uma full suspension de carbono, com RockShox SID SL, SIDLuxe Select+, freios de 4 pistões e 10,78 kg.",
+          "destaques": [
+            {
+              "valor": "10,78 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "110 mm",
+              "legenda": "SID SL e SIDLuxe Select+"
+            },
+            {
+              "valor": "4 pistões",
+              "legenda": "freios SRAM Motive"
+            }
+          ],
+          "ficha": {
+            "Quadro": "Carbono monocoque moldado em EPS, Boost",
+            "Suspensão": "RockShox SID SL 110 mm; shock RockShox SIDLuxe Select+",
+            "Transmissão": "SRAM Eagle 90 T-Type 12v mecânica, coroa 34 e cassete 10/52",
+            "Freios": "SRAM Motive Bronze 4 pistões, rotor 160 mm",
+            "Rodas": "VORZ COMP alumínio, largura interna 26 mm",
+            "Pneus": "Pirelli Scorpion XC RC Lite Tubeless 29x2.4, selante Solifes",
+            "Canote": "Vultro Journey, micro ajuste",
+            "Cockpit": "Guidão Vultro Journey 760 mm e mesa Vultro Journey 80 mm",
+            "Selim e manoplas": "Vultro Ion; manoplas Supacaz",
+            "Peso": "10,78 kg",
+            "Tamanhos": "S, M, L e XL, com ajuste FIT4U"
+          },
+          "foto_lateral": "RANGE EX.png",
+          "foto_drive_id": "1bnEKcsHSRQFu958xZecJSfUhXOkXDs90",
+          "personalizar_url": "/fit4u/pintura/?modelo=range-ex"
+        }
+      ]
+    },
+    {
+      "id": "impetus",
+      "nome": "IMPETUS",
+      "tipo": "Estrada, freio a disco, quadro Ger. 3.1",
+      "para_quem": "Estrada com freio a disco e quadro de carbono Ger. 3.1, mais leve, mais rígido e mais responsivo",
+      "rota": "/bikes/impetus",
+      "quadro": "Carbono monocoque Ger. 3.1 moldado em EPS: mais leve, mais rígido e mais responsivo",
+      "tamanhos": "XS, S, M, L e XL, com ajuste FIT4U",
+      "versoes": [
+        {
+          "versao": "PRO",
+          "chave_fit4u": "impetus-pro",
+          "preco": 79990,
+          "preco_texto": "R$ 79.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "6.67",
+          "peso_texto": "6,67 kg",
+          "resumo": "Estrada no nível mais alto: quadro Ger. 3.1, 6,67 kg, SRAM RED E1 AXS e rodas VORZ SLR PRO de carbono com perfil de 45 mm. Para rolar mais rápido e subir mais leve.",
+          "destaques": [
+            {
+              "valor": "6,67 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "RED E1",
+              "legenda": "SRAM AXS sem fio"
+            },
+            {
+              "valor": "45 mm",
+              "legenda": "rodas de carbono VORZ SLR PRO"
+            }
+          ],
+          "ficha": {
+            "Quadro e garfo": "Carbono monocoque Ger. 3.1 moldado em EPS: mais leve, mais rígido e mais responsivo",
+            "Transmissão": "SRAM RED E1 AXS 24 velocidades, coroas 48/35 e cassete 10/36",
+            "Freios": "SRAM RED E1 AXS hidráulico, rotor 160 mm",
+            "Rodas": "VORZ SLR PRO Carbon Disc 45 mm",
+            "Pneus": "Hutchinson Blackbird Race 700x28c, selante Solifes",
+            "Cockpit": "Guidão integrado Vultro Proton R-SL Carbono; fita Supacaz",
+            "Canote": "EDRO Carbon",
+            "Selim": "Fizik Vento Argo R1",
+            "Peso": "6,67 kg",
+            "Tamanhos": "XS, S, M, L e XL, com ajuste FIT4U"
+          },
+          "foto_lateral": "IMPETUS PRO.png",
+          "foto_drive_id": "1EkmvucURZCxDbAAHW-qsFmMWi0kabujb",
+          "personalizar_url": "/fit4u/pintura/?modelo=impetus-pro"
+        },
+        {
+          "versao": "SSR",
+          "chave_fit4u": "impetus-ssr",
+          "preco": 32990,
+          "preco_texto": "R$ 32.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "7.36",
+          "peso_texto": "7,36 kg",
+          "resumo": "Quadro e garfo de carbono Ger. 3.1, transmissão eletrônica SRAM Rival E1 AXS e rodas de carbono de 45 mm, com 7,36 kg. Para treinos longos e provas de estrada.",
+          "destaques": [
+            {
+              "valor": "7,36 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "Rival E1",
+              "legenda": "SRAM AXS sem fio"
+            },
+            {
+              "valor": "45 mm",
+              "legenda": "rodas de carbono VORZ SLR"
+            }
+          ],
+          "ficha": {
+            "Quadro e garfo": "Carbono monocoque Ger. 3.1 moldado em EPS: mais leve, mais rígido e mais responsivo",
+            "Transmissão": "SRAM Rival E1 AXS 24 velocidades, coroas 48/35 e cassete 10/36",
+            "Freios": "SRAM Rival E1 AXS hidráulico, rotor 160 mm",
+            "Rodas": "VORZ SLR Carbon Disc 45 mm",
+            "Pneus": "Hutchinson Blackbird Race 700x28c, selante Solifes",
+            "Cockpit": "Guidão integrado Vultro Proton R-SL Carbono; fita Supacaz",
+            "Canote": "EDRO Carbon",
+            "Selim": "Vultro Ion 140 mm",
+            "Peso": "7,36 kg",
+            "Tamanhos": "XS, S, M, L e XL, com ajuste FIT4U"
+          },
+          "foto_lateral": "IMPETUS SSR.png",
+          "foto_drive_id": "1dafenNi5nu4lfMuapVMK4LLEq_WcNS8a",
+          "personalizar_url": "/fit4u/pintura/?modelo=impetus-ssr"
+        },
+        {
+          "versao": "SS",
+          "chave_fit4u": "impetus-ss",
+          "preco": 23990,
+          "preco_texto": "R$ 23.990",
+          "parcelamento": "em até 12x sem juros",
+          "peso_kg": "7.66",
+          "peso_texto": "7,66 kg",
+          "resumo": "O mesmo quadro e garfo de carbono Ger. 3.1 das versões de topo, com Shimano 105 mecânico, freios hidráulicos e rodas VORZ de alumínio, com 7,66 kg. Para quem quer uma bike de estrada de carbono sob medida.",
+          "destaques": [
+            {
+              "valor": "7,66 kg",
+              "legenda": "peso total"
+            },
+            {
+              "valor": "105",
+              "legenda": "Shimano mecânico, 24 velocidades"
+            },
+            {
+              "valor": "Ger. 3.1",
+              "legenda": "quadro e garfo de carbono"
+            }
+          ],
+          "ficha": {
+            "Quadro e garfo": "Carbono monocoque Ger. 3.1 moldado em EPS: mais leve, mais rígido e mais responsivo",
+            "Transmissão": "Shimano 105 mecânica, 24 velocidades",
+            "Freios": "Shimano 105 hidráulico",
+            "Rodas": "VORZ COMP R Disc alumínio, perfil 30 mm",
+            "Pneus": "Hutchinson Blackbird Race 700x28c, selante Solifes",
+            "Cockpit": "Guidão integrado Vultro Proton R-SL Carbono; fita Supacaz",
+            "Canote": "EDRO Carbon",
+            "Selim": "Vultro Ion 140 mm",
+            "Peso": "7,66 kg",
+            "Tamanhos": "XS, S, M, L e XL, com ajuste FIT4U"
+          },
+          "foto_lateral": null,
+          "foto_drive_id": null,
+          "personalizar_url": null
+        }
+      ]
+    }
+  ]
+}

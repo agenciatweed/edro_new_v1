@@ -39,7 +39,8 @@ const REGRAS = [
   ['"plataforma"', /plataformas?\b/gi],
   ['"recompra"', /recompra/gi],
   ['"promoção"', /promo[cç][aã]o/gi],
-  ['"desconto" fora de "5% de desconto no Pix"', /desconto(?![^<]{0,12}Pix)/gi],
+  /* "à vista no Pix com 5% de desconto" é o texto do catálogo 2027 (v3.2, seção 2.4). */
+  ['"desconto" fora de "5% de desconto no Pix"', /(?<!Pix com 5% de )desconto(?![^<]{0,12}Pix)/gi],
   ['"estimado" junto a peso', /(peso[^<.]{0,40}estimad|estimad[^<.]{0,40}peso)/gi],
   ['promessa de "2 horas"', /2 horas|duas horas/gi],
   ['nome no número de série', /nome no n[uú]mero de s[eé]rie|n[uú]mero de s[eé]rie com (o seu )?nome/gi],
@@ -51,6 +52,9 @@ const REGRAS = [
   ['"Wi-Fi"', /Wi-?Fi/gi],
   ['"custo-benefício"', /custo-benef[ií]cio/gi],
   ['"ultra leve"', /ultra[\s-]?leve/gi],
+  ['"estimado" (v3.2)', /\bestimado\b/gi],
+  ['"pedi vela"', /pedi vela/gi],
+  ['"Edro Bikes"', /Edro Bikes/g],
   ['ponto decimal em célula de tabela', /<td[^>]*>\s*\d+\.\d{1,2}\s*<\/td>/g],
 ];
 

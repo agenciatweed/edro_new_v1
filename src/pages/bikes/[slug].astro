@@ -1,5 +1,6 @@
 ---
-/* Páginas de linha v3.1 · telas site_v3/03, 04 e 05. Mesmo template para SUMMA, RANGE e IMPETUS. */
+/* Páginas de linha v3.2 · telas site_v3/03, 04 e 05. Mesmo template para SUMMA, RANGE e IMPETUS.
+   Preço, peso, resumo, destaques e ficha vêm do catálogo 2027; condições abaixo das versões. */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
 import SeletorVersoes from '../../components/SeletorVersoes.astro';
@@ -8,7 +9,8 @@ import Midia from '../../components/Midia.astro';
 import Pilares from '../../components/Pilares.astro';
 import Geometria from '../../components/Geometria.astro';
 import Fechamento from '../../components/Fechamento.astro';
-import { bikes, plataformas, brl, kg, wa } from '../../lib/edro.js';
+import Condicoes from '../../components/Condicoes.astro';
+import { plataformas, brl, wa, pesoTexto } from '../../lib/edro.js';
 import { videos } from '../../lib/imagens.js';
 
 export function getStaticPaths() {
@@ -31,7 +33,7 @@ const produto = {
   '@context': 'https://schema.org',
   '@type': 'ProductGroup',
   name: `EDRO ${p.nome}`,
-  description: `${p.beneficio_titulo} ${p.beneficio}`,
+  description: `${p.para_quem}.`,
   brand: { '@type': 'Brand', name: 'EDRO Performance Bikes' },
   category: p.categoria,
   productGroupID: `edro-${p.slug}`,
@@ -41,6 +43,7 @@ const produto = {
     name: `EDRO ${p.nome} ${v.nome}`,
     description: v.resumo,
     image: 'https://edrobikes.com.br/og-edro.png',
+    sku: v.chave,
     weight: { '@type': 'QuantitativeValue', value: v.peso_kg, unitCode: 'KGM' },
     offers: { '@type': 'Offer', price: v.preco, priceCurrency: 'BRL', availability: 'https://schema.org/PreOrder', url: `https://edrobikes.com.br/bikes/${p.slug}#${v.slug}` },
   })),
@@ -63,14 +66,14 @@ const tituloVideo = VIDEO.linhas.join('<br />') + (VIDEO.verde.startsWith(' ') ?
 
 <Base
   titulo={TITULOS[slug]}
-  descricao={`${p.nome} ${p.pro.nome} com ${kg(p.pro.peso_kg)} kg sem pedais. ${p.beneficio_titulo} Carbono, feita à mão em Tubarão, a partir de ${brl(menor)}.`}
+  descricao={`${p.nome}: ${p.para_quem}. ${p.pro.nome} com ${p.pro.peso_texto} sem pedais. Carbono, feita à mão em Tubarão, a partir de ${brl(menor)}.`}
   canonica={`https://edrobikes.com.br/bikes/${p.slug}`}
   pagina={p.slug}
   jsonLd={produto}
 >
 
 <Hero
-  eyebrow={p.uso_curto}
+  eyebrow={p.tipo}
   wordmark={`brand/${p.slug}.png`}
   h1Oculto={H1[slug]}
   lead={p.hero_frase}
@@ -79,10 +82,12 @@ const tituloVideo = VIDEO.linhas.join('<br />') + (VIDEO.verde.startsWith(' ') ?
     { rotulo: 'Ver versões', href: '#versoes' },
   ]}
   clipe={{ src: `/videos/${CLIPE[slug]}.mp4`, poster: `/videos/${CLIPE[slug]}.jpg`, rotulo: `EDRO ${p.nome} em ação` }}
-  peso={{ valor: kg(p.pro.peso_kg), rotulo: `<i class="modelo">${p.nome}</i> <span class="verde">${p.pro.nome}</span>, sem pedais<br />Versões a partir de ${brl(menor)}` }}
+  peso={{ valor: pesoTexto(p.pro), rotulo: `<i class="modelo">${p.nome}</i> <span class="verde">${p.pro.nome}</span>, sem pedais<br />Versões a partir de ${brl(menor)}` }}
 />
 
-<SeletorVersoes linha={p} wordmark={p.slug} notaPeso={bikes.meta.nota_peso} rotuloGrupos={bikes.meta.grupos_ficha} />
+<SeletorVersoes linha={p} wordmark={p.slug} />
+
+<Condicoes />
 
 <section class="secao">
   <div class="container bloco2">

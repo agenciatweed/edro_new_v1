@@ -1,7 +1,8 @@
 ---
-/* /horizon v3.1 · tela site_v3/16-horizon.png.
+/* /horizon v3.2 · tela site_v3_2/16-horizon.png e seção 3.1 da atualização.
    1.200 W sempre com a potência nominal de 600 W; 45 km/h sempre com circuito fechado e legislação;
-   sem acelerador e arrasto zero só nos detalhes técnicos; sem menção às células da bateria. */
+   sem acelerador e arrasto zero só nos detalhes técnicos; sem menção às células da bateria.
+   Preços, pesos, "para quem", sistema elétrico e "O que muda no seu pedal" vêm do catálogo 2027. */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
 import Cabecalho from '../../components/Cabecalho.astro';
@@ -9,26 +10,21 @@ import Midia from '../../components/Midia.astro';
 import AutonomiaReal from '../../components/AutonomiaReal.astro';
 import Fechamento from '../../components/Fechamento.astro';
 import { Image, Picture } from 'astro:assets';
-import hz from '../../content/horizon.json';
-import { brl, kg, wa, chaveFit4u, personalizar } from '../../lib/edro.js';
+import dev from '../../content/horizon_desenvolvimento.json';
+import { brl, wa, junto, horizonLinhas, catalogoHz, pesoTexto, rodapeFicha } from '../../lib/edro.js';
 import { img } from '../../lib/imagens.js';
 
 const falar = wa('Olá, EDRO. Quero montar a minha HORIZON. (origem: site-horizon)');
-const detalhes = [
-  ['Quadro', 'Linhas SUMMA e RANGE, carbono de alto módulo, molde exclusivo'],
-  ['Sob medida', 'Cada HORIZON é feita sob medida e personalizada pelo FIT4U, como toda EDRO'],
-  ['Motor', 'CYC Photon Gen 2 central, 1.200 W de pico, 600 W nominais, 135 N·m, sensor de torque'],
-  ['Bateria', 'EDRO Power Pack 540 Wh, 36 V 15 Ah, integrada, recarga na bike, serviço técnico EDRO'],
-  ['Tecnologia', 'Display 2,1" IP65, app Ride Control, Apple Find My integrado'],
-  ['Velocidade', 'Assistência limitada a 32 km/h de fábrica; ajustável pela EDRO para 45 km/h, para uso em circuitos fechados, respeitando a legislação brasileira'],
-  ['Assistência', 'Exclusivamente ao pedal, sem acelerador. Motor desligado: arrasto zero'],
-];
-const summaH = hz.linhas.find((l) => l.slug === 'summa-horizon');
+const summaH = horizonLinhas.find((l) => l.slug === 'summa-horizon');
+const rangeH = horizonLinhas.find((l) => l.slug === 'range-horizon');
+const modelo = (s) => s.replace(/\b(SUMMA|RANGE)\b/g, '<i class="modelo">$1</i>');
+const pesos = (s) => s.replace('{peso_summa}', summaH.pro.peso_texto).replace('{peso_range}', rangeH.pro.peso_texto);
+const rotulos = ['O desafio', 'O que a EDRO fez', 'O que você sente'];
 ---
 
 <Base
   titulo="HORIZON · Mountain bike elétrica EDRO de carbono, SUMMA e RANGE"
-  descricao="HORIZON: cara, peso e dinâmica de MTB normal com potência e autonomia de e-bike full power. 1.200 W de pico, potência nominal limitada a 600 W, 540 Wh, a partir de 14,5 kg."
+  descricao={`HORIZON: a versão eletrificada, de pedal assistido, da SUMMA e da RANGE. 1.200 W de pico, potência nominal de 600 W, 135 N.m, EDRO Power Pack de 540 Wh, a partir de ${summaH.pro.peso_texto} sem pedais.`}
   canonica="https://edrobikes.com.br/horizon"
   pagina="horizon"
 >
@@ -42,72 +38,109 @@ const summaH = hz.linhas.find((l) => l.slug === 'summa-horizon');
   verde="horizonte."
   lead="Cara de bike normal. Peso de bike normal. Dinâmica de bike normal. E potência e autonomia de uma e-bike full power. Leveza e dinâmica sempre que quiser, potência de sobra quando precisar."
   botoes={[{ rotulo: 'Montar a minha HORIZON', href: falar, primario: true, wa: 'horizon-hero' }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }]}
-  peso={{ valor: summaH.versoes[0].peso_kg.toFixed(1).replace('.', ','), rotulo: '<i class="modelo">SUMMA</i> HORIZON <span class="verde">PRO</span>, sem pedais' }}
+  peso={{ valor: pesoTexto(summaH.pro), rotulo: '<i class="modelo">SUMMA</i> PRO HORIZON, sem pedais, tamanho M' }}
   clipe={{ src: '/videos/horizon-banner.mp4', poster: '/videos/horizon-banner.jpg', rotulo: 'SUMMA HORIZON pedalando em estrada à beira-mar' }}
 />
 
 <div class="container">
   <div class="faixa-specs">
-    <div><b>1.200 W</b> de pico · potência nominal limitada a 600 W</div>
-    <div><b>135 N·m</b> torque no motor central</div>
-    <div><b>540 Wh</b> EDRO Power Pack</div>
-    <div><b>Full power</b> com peso e dinâmica de MTB</div>
-    <div><b>32 km/h</b> de fábrica; ajustável a 45 km/h em circuitos fechados, respeitando a legislação</div>
+    <div><b>1.200 W</b> de pico; potência nominal limitada a 600 W</div>
+    <div><b>135 N.m</b> de torque, para subir no seu ritmo</div>
+    <div><b>540 Wh</b> EDRO Power Pack; até 185 km no modo Eco</div>
+    <div><b>{summaH.pro.peso_texto}</b> <i class="modelo">SUMMA</i> PRO HORIZON, peso total sem pedais, tamanho M</div>
+    <div><b>32 km/h</b> de fábrica; ajustável a 45 km/h em circuito fechado, conforme a legislação</div>
   </div>
 </div>
 
+<!-- Mais pedal, com sensação de bike normal (texto do catálogo) -->
 <section class="secao secao--sem-linha">
+  <div class="container bloco2">
+    <div>
+      <p class="eyebrow eyebrow--verde">HORIZON</p>
+      <h2 class="headline" style="margin-top:var(--s-4)">Mais pedal, com<br /><span class="verde">sensação de bike normal.</span></h2>
+    </div>
+    <div>
+      <p class="lead">A HORIZON é a versão eletrificada, de pedal assistido, das bikes de cross country da EDRO. Ela foi desenvolvida pela EDRO com a mesma concepção da <i class="modelo">SUMMA</i> e da <i class="modelo">RANGE</i>: a mesma geometria, a dinâmica de uma bike normal e peso de bike de XC. É para quem já pedala e quer voltar ao ritmo, acompanhar um grupo mais forte, ir mais longe e subir mais.</p>
+      <p class="assinatura-verde">O seu melhor ritmo. Todos os dias.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Desenvolvida, não adaptada (v3.2, seção 3.2) -->
+<section class="secao" id="desenvolvimento">
   <div class="container">
-    <Cabecalho linhas={['Assistência quando', 'você']} verde=" pede."
-      lead="A HORIZON pedala como uma MTB normal. Quando a subida, a distância ou o grupo pedem mais, você liga a assistência no nível que quiser: Eco, Ride, Turbo ou Modo automático." />
-    <div class="modo-auto">
+    <div class="dev__topo">
       <div>
-        <h3 class="card-title">Modo automático</h3>
-        <p>Defina a zona de treino no seu monitor de frequência cardíaca e a HORIZON ajusta a assistência sozinha para você ficar dentro dela. Subiu a frequência, o motor entra; caiu, o motor sai. Você pedala no seu ritmo e a bike cuida do resto.</p>
+        <p class="eyebrow eyebrow--verde">Desenvolvimento</p>
+        <h2 class="headline" style="margin:var(--s-4) 0 var(--s-6)">Desenvolvida,<br />não <span class="verde">adaptada.</span></h2>
+        <p class="lead" set:html={dev.abertura} />
       </div>
-      <div class="modo-auto__barras" aria-hidden="true">
-        <span style="height:18%"></span><span style="height:30%"></span><span style="height:42%"></span>
-        <span class="zona" style="height:62%"></span><span class="zona" style="height:70%"></span><span class="zona" style="height:66%"></span>
-        <span style="height:82%"></span><span style="height:92%"></span>
+      <figure class="dev__foto">
+        <div class="dev__palco">
+          <Picture src={img(summaH.pro.foto)} formats={['avif', 'webp']} alt="EDRO SUMMA PRO HORIZON 2027, vista lateral, com o motor, o quadro e o EDRO Power Pack marcados"
+            widths={[800, 1600]} sizes="(max-width: 1023px) 100vw, 50vw" loading="lazy" />
+          {dev.marcadores.map((m) => (
+            <span class="dev__marcador" style={`left:${m.x}%;top:${m.y}%`} aria-hidden="true">{m.n}</span>
+          ))}
+        </div>
+        <figcaption class="caption" set:html={dev.marcadores.map((m) => `${m.n} ${modelo(m.rotulo)}`).join(' · ')} />
+      </figure>
+    </div>
+
+    <div class="dev__cards">
+      {dev.cards.map((c, i) => (
+        <article class:list={['dev__card', { 'dev__card--destaque': c.destaque }]}>
+          <h3 class="dev__titulo"><span class="verde">{i + 1}</span> {c.titulo}</h3>
+          <dl>
+            {[c.desafio, pesos(c.fez), c.sente].map((t, j) => (
+              <div><dt>{rotulos[j]}</dt><dd set:html={junto(t)} /></div>
+            ))}
+          </dl>
+        </article>
+      ))}
+    </div>
+    <p class="dev__fecho">{dev.fecho[0]} <span class="verde">{dev.fecho[1]}</span></p>
+  </div>
+</section>
+
+<!-- O que muda no seu pedal + Sistema elétrico, igual nas seis versões -->
+<section class="secao">
+  <div class="container">
+    <div class="bloco2 bloco2--topo">
+      <div>
+        <p class="eyebrow eyebrow--verde">No seu pedal</p>
+        <h2 class="headline" style="margin:var(--s-4) 0 var(--s-6)">O que muda<br />no seu <span class="verde">pedal.</span></h2>
+        <ul class="pedal-lista">
+          {catalogoHz.no_seu_pedal.map((f) => <li><b>{f.titulo}</b> {f.texto}</li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow eyebrow--verde">Sistema elétrico</p>
+        <h2 class="headline headline--media" style="margin:var(--s-4) 0 var(--s-6)">Igual nas<br /><span class="verde">seis versões.</span></h2>
+        <dl class="detalhes-tec" style="margin-top:0">
+          {Object.entries(catalogoHz.sistema).map(([k, v]) => (<div><dt>{k}</dt><dd>{junto(v)}</dd></div>))}
+        </dl>
       </div>
     </div>
-    <div class="galeria3">
-      <Midia src="fotos/horizon-display.jpg" alt="Display da HORIZON no guidão, com a mão do ciclista" />
-      <Midia titulo="Motor central" descricao="Macro do motor CYC Photon Gen 2 integrado ao quadro, luz lateral." />
-      <Midia titulo="Recarga na bike" descricao="Bateria integrada sendo recarregada na própria bike, na garagem." />
+    <div class="galeria3" style="margin-top:var(--s-12)">
+      <Midia src="fotos/horizon-display.jpg" alt="Display da HORIZON no guidão, com a mão do ciclista" legenda="<strong>Display e app</strong>Display 2,1&quot; IP65 e app Ride Control." />
+      <Midia titulo="Motor e Power Pack" descricao="Macro do motor CYC Photon Gen 2 e do EDRO Power Pack no quadro, luz lateral." />
+      <Midia titulo="Recarga na bike" descricao="EDRO Power Pack sendo recarregado na própria bike, na garagem." />
     </div>
   </div>
 </section>
 
 <AutonomiaReal />
 
-<section class="secao">
-  <div class="container bloco2 bloco2--topo">
-    <div>
-      <p class="eyebrow eyebrow--verde">Integração</p>
-      <h2 class="headline" style="margin-top:var(--s-4)">Discreta.<br />Não <span class="verde">invisível.</span></h2>
-      <p class="lead">A HORIZON não esconde que é elétrica, e não precisa. O motor central mantém o centro de gravidade onde uma MTB precisa e a bateria fica integrada ao quadro. Você carrega sozinho, pilota com a leveza de sempre e liga a assistência só quando quer.</p>
-      <dl class="detalhes-tec">
-        {detalhes.map(([t, d]) => (<div><dt>{t}</dt><dd>{d}</dd></div>))}
-      </dl>
-    </div>
-    <div class="tec4">
-      <div class="tec tec--destaque"><p class="numero-card__topo"><span class="numero-card__num">1.200</span><span class="numero-card__leg">W</span></p><p>De pico, quando a subida pede. Potência nominal limitada a 600 W.</p></div>
-      <div class="tec"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">135</span><span class="numero-card__leg">N·m</span></p><p>Torque cheio a partir de cadência baixa.</p></div>
-      <div class="tec"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">540</span><span class="numero-card__leg">Wh</span></p><p>Bateria integrada, recarga direto na bike.</p></div>
-      <div class="tec"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">0</span><span class="numero-card__leg">arrasto</span></p><p>Motor desligado, pedal livre. A sensação de uma bike normal.</p></div>
-    </div>
-  </div>
-</section>
-
+<!-- Duas linhas. Seis HORIZON. -->
 <section class="secao">
   <div class="container">
-    <Cabecalho linhas={['Duas linhas.', 'Seis']} verde=" HORIZON."
-      lead="Escolha a linha pelo terreno e a versão pelos componentes. Motor e bateria são os mesmos em todas. Quadro, pintura e ajustes são feitos para você." />
+    <Cabecalho eyebrow="Linhas" linhas={['Duas linhas.', 'Seis']} verde=" HORIZON."
+      lead="Escolha a linha pelo terreno e a versão pelos componentes. Motor e EDRO Power Pack são os mesmos nas seis. Quadro, pintura e ajustes são feitos para você." />
     <div class="linhas__grade" style="grid-template-columns:1fr 1fr">
-      {hz.linhas.map((l) => (
+      {horizonLinhas.map((l) => (
         <article class="card-linha card-horizon-linha">
-          <p class="eyebrow">{l.uso}</p>
+          <p class="eyebrow">{l.tipo}</p>
           <h3 class="card-linha__wordmark">
             <a class="card-linha__link" href={`/horizon/${l.slug}`}>
               <span class="visualmente-oculto">{l.nome} HORIZON</span>
@@ -117,17 +150,20 @@ const summaH = hz.linhas.find((l) => l.slug === 'summa-horizon');
           </h3>
           <span class="card-linha__canto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
           <span class="card-linha__render">
-            <Picture src={img(`bicicletas/bicicleta-${l.base}.png`)} formats={['avif', 'webp']} alt={`EDRO ${l.nome} HORIZON, mountain bike elétrica de carbono`} widths={[480, 960]} sizes="(max-width: 767px) 100vw, 50vw" loading="lazy" />
+            <Picture src={img(l.pro.foto)} formats={['avif', 'webp']} alt={`EDRO ${l.nome} PRO HORIZON 2027, vista lateral`} widths={[800, 1600]} sizes="(max-width: 767px) 100vw, 50vw" loading="lazy" />
           </span>
-          <p class="card-linha__beneficio">{l.frase}</p>
+          <p class="card-linha__beneficio" set:html={`${modelo(l.para_quem)}.`} />
           <dl class="versoes-lista">
-            {l.versoes.map((v) => (<div><dt>{v.nome} · {v.peso_kg.toFixed(1).replace('.', ',')}&nbsp;kg</dt><dd><b>{brl(v.preco)}</b> · {v.macro}</dd></div>))}
+            {l.versoes.map((v) => (<div><dt><span class="verde">{v.nome}</span> · {v.peso_texto}</dt><dd><b>{brl(v.preco)}</b> {v.parcelamento}</dd></div>))}
           </dl>
-          <a class="card-linha__extra link-seta" href={personalizar(chaveFit4u(l.base, 'pro', true))} data-personalizar={`horizon-${l.slug}`}>Personalize a pintura</a>
+          <div class="card-linha__acoes">
+            <span class="btn btn--primario btn--pequeno">Conhecer a {l.nome} HORIZON</span>
+            <a class="card-linha__extra link-seta" href={l.pro.personalizar} data-personalizar={`horizon-${l.slug}`}>Personalize a pintura</a>
+          </div>
         </article>
       ))}
     </div>
-    <p class="nota-peso">{hz.nota_peso}</p>
+    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
   </div>
 </section>
 
@@ -159,7 +195,7 @@ const summaH = hz.linhas.find((l) => l.slug === 'summa-horizon');
   </div>
 </section>
 
-<Fechamento linhas={['Mais longe.', 'Mais alto.']} verde="Mais rápido."
+<Fechamento linhas={['Monte a sua']} verde="HORIZON."
   texto="Conte como você pedala hoje e onde quer chegar. Um dos nossos especialistas responde com a simulação de autonomia do seu treino."
   botoes={[{ rotulo: 'Falar sobre a minha HORIZON', href: wa('Olá, EDRO. Quero falar sobre a minha HORIZON. (origem: site-horizon-fechamento)'), primario: true, wa: 'horizon-fechamento' }, { rotulo: 'Enviar meu pedal para simulação', href: '/horizon/simulador' }]} />
 
