@@ -1,0 +1,16 @@
+{
+  "fonte": "acervo-lp/mosaico-clientes: versão -wide no computador, versão quadrada no celular",
+  "home": [
+    { "largo": "fundos/customer-17-wide.jpg", "movel": "fundos/customer-17.jpg", "posicao": "60% center" },
+    { "largo": "fundos/customer-3-wide.jpg", "movel": "fundos/customer-3.jpg", "posicao": "60% center" },
+    { "largo": "fundos/customer-4-wide.jpg", "movel": "fundos/customer-4.jpg", "posicao": "center 60%" },
+    { "largo": "fundos/customer-11-wide.jpg", "movel": "fundos/customer-11.jpg", "posicao": "center 30%" },
+    { "largo": "fundos/customer-2-wide.jpg", "movel": "fundos/customer-2.webp", "posicao": "center 40%" }
+  ],
+  "bikes": [
+    { "largo": "fundos/customer-15-wide.jpg", "movel": "fundos/customer-15.webp", "posicao": "center 35%" },
+    { "largo": "fundos/customer-12-wide.jpg", "movel": "fundos/customer-12.jpg", "posicao": "center 40%" },
+    { "largo": "fundos/customer-19-wide.jpg", "movel": "fundos/customer-19.jpg", "posicao": "center 50%" },
+    { "largo": "fundos/customer-20-wide.jpg", "movel": "fundos/customer-20.jpg", "posicao": "center 45%" }
+  ]
+}

@@ -1,0 +1,69 @@
+---
+/* =============================================================
+   Fundo de banner com fotos que se alternam (home e /bikes).
+   Cada foto entra com fade e se move devagar (efeito Ken Burns);
+   a cada 3,5 s passa para a próxima e, depois da última, volta à
+   primeira. No computador usa a versão larga ("-wide"); no celular,
+   a versão quadrada. Uma máscara escura mantém o texto legível.
+   Roda sozinho, independente de qualquer seletor de conteúdo do banner.
+   Quem pede menos movimento vê só a primeira foto, parada.
+   ============================================================= */
+import { getImage } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+
+const { fotos = [], intervalo = 3500 } = Astro.props;
+
+const versao = async (src, widths) => {
+  const [avif, webp] = await Promise.all(['avif', 'webp'].map((format) => getImage({ src: img(src), widths, format })));
+  return { avif: avif.srcSet.attribute, webp: webp.srcSet.attribute, src: webp.src };
+};
+const camadas = await Promise.all(fotos.map(async (f) => ({
+  ...f,
+  largo: await versao(f.largo, [1280, 1920, 2560]),
+  movel: await versao(f.movel, [640, 960]),
+})));
+/* Direções alternadas do movimento, para as fotos não parecerem iguais. */
+const MOV = ['kb-a', 'kb-b', 'kb-c', 'kb-d'];
+---
+<div class="fundo-rotativo" data-fundo-rotativo data-intervalo={intervalo} aria-hidden="true">
+  {camadas.map((c, i) => (
+    <picture class:list={['fundo-rotativo__foto', MOV[i % MOV.length], { ativa: i === 0 }]} style={`--pos:${c.posicao ?? 'center'};--pos-m:${c.posicaoMovel ?? 'center'}`}>
+      <source media="(max-width: 767px)" type="image/avif" srcset={c.movel.avif} sizes="100vw" />
+      <source media="(max-width: 767px)" type="image/webp" srcset={c.movel.webp} sizes="100vw" />
+      <source type="image/avif" srcset={c.largo.avif} sizes="100vw" />
+      <source type="image/webp" srcset={c.largo.webp} sizes="100vw" />
+      <img src={c.largo.src} alt="" decoding="async" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} />
+    </picture>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-fundo-rotativo]').forEach((caixa) => {
+    const fotos = [...caixa.querySelectorAll<HTMLElement>('.fundo-rotativo__foto')];
+    if (fotos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const passo = Number(caixa.dataset.intervalo) || 3500;
+    /* As próximas fotos carregam logo depois da primeira, para o fade não mostrar foto vazia. */
+    fotos.slice(1).forEach((f) => f.querySelector('img')?.setAttribute('loading', 'eager'));
+    let atual = 0;
+    let timer: number | undefined;
+    const avancar = () => {
+      const anterior = fotos[atual];
+      atual = (atual + 1) % fotos.length;
+      const proxima = fotos[atual];
+      /* Reinicia o movimento da foto que entra. */
+      proxima.classList.remove('ativa');
+      void proxima.offsetWidth;
+      proxima.classList.add('ativa');
+      anterior.classList.add('saindo');
+      anterior.classList.remove('ativa');
+      setTimeout(() => anterior.classList.remove('saindo'), 1400);
+    };
+    const tocar = () => { if (!timer) timer = window.setInterval(avancar, passo); };
+    const parar = () => { clearInterval(timer); timer = undefined; };
+    /* Só roda com o banner na tela e a aba visível. */
+    let visivel = true;
+    new IntersectionObserver((e) => { visivel = e[0].isIntersecting; visivel && !document.hidden ? tocar() : parar(); }).observe(caixa);
+    document.addEventListener('visibilitychange', () => (document.hidden || !visivel ? parar() : tocar()));
+    tocar();
+  });
+</script>

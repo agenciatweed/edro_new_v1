@@ -9,6 +9,8 @@ import Selos from '../components/Selos.astro';
 import ProvaSocial from '../components/ProvaSocial.astro';
 import Fechamento from '../components/Fechamento.astro';
 import BlocoPersonalizador from '../components/BlocoPersonalizador.astro';
+import FundoRotativo from '../components/FundoRotativo.astro';
+import fundos from '../content/fundos.json';
 import { Image } from 'astro:assets';
 import { plataformas, porSlug, wa, PERSONALIZADOR, rodapeFicha } from '../lib/edro.js';
 
@@ -78,11 +80,13 @@ const jsonLd = {
 >
 
 <!-- 1 · BANNER EM CARROSSEL (troca manual: carrossel automático é proibido) -->
-<div class="carrossel" data-carrossel>
+<div class="carrossel carrossel--fotos" data-carrossel>
+  <!-- Fotos de fundo: rodam sozinhas, independentes do slide escolhido -->
+  <FundoRotativo fotos={fundos.home} />
   {slides.map((s, i) => (
     <div class="carrossel__slide" id={`slide-${i}`} role="tabpanel" aria-labelledby={`aba-${i}`} hidden={i !== 0}>
       <Hero eyebrow={s.eyebrow} linhas={s.linhas} verde={s.verde} lead={s.lead} botoes={s.botoes}
-        fundo={s.fundo} brief={s.brief} clipe={s.clipe} imagem={s.imagem} titulo={i === 0 ? 'h1' : 'h2'} esconderBarra={i === 0} />
+        fundo={s.fundo} brief={s.brief} clipe={s.clipe} imagem={s.imagem} sobreFotos titulo={i === 0 ? 'h1' : 'h2'} esconderBarra={i === 0} />
     </div>
   ))}
   <div class="carrossel__abas" role="tablist" aria-label="Destaques">

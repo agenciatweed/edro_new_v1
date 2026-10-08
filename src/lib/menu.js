@@ -1,5 +1,6 @@
 /* Menu principal, um só para o site e para o personalizador FIT4U (/fit4u/pintura/). */
 export const menu = [
+  { rotulo: 'Home',            href: '/' },
   { rotulo: 'Bikes',           href: '/bikes' },
   { rotulo: 'Bikes elétricas', href: '/horizon' },
   { rotulo: 'FIT4U',           href: '/fit4u', sub: [{ rotulo: 'Monte a sua pintura', href: '/fit4u/pintura/' }] },

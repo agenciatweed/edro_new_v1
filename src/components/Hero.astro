@@ -6,6 +6,7 @@
    ============================================================= */
 import { Picture, Image } from 'astro:assets';
 import { img } from '../lib/imagens.js';
+import FundoRotativo from './FundoRotativo.astro';
 
 const {
   eyebrow,
@@ -32,6 +33,10 @@ const {
   clipe,
   /* Imagem lateral (v3.2): captura do personalizador FIT4U, com link opcional. */
   imagem,
+  /* Fotos que se alternam no fundo (FundoRotativo). sobreFotos: o fundo rotativo
+     fica fora do banner (carrossel da home) e o banner só fica transparente. */
+  fotos,
+  sobreFotos = false,
 } = Astro.props;
 
 const Tag = titulo;
@@ -41,7 +46,8 @@ const foto = fundo ? img(fundo.src) : null;
 const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
 ---
 
-<section class:list={['hero3', { 'hero3--curto': curto, 'hero3--clipe': clipe && !imagem, 'hero3--imagem': imagem }, classe]}>
+<section class:list={['hero3', { 'hero3--curto': curto, 'hero3--clipe': clipe && !imagem, 'hero3--imagem': imagem, 'hero3--sobre-fotos': fotos || sobreFotos }, classe]}>
+  {fotos && <FundoRotativo fotos={fotos} />}
   {foto && (
     <div class="hero3__fundo">
       <Picture src={foto} formats={['avif', 'webp']} alt={fundo.alt ?? ''} widths={[640, 960, 1440, 1920]}
