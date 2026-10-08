@@ -1,0 +1,18 @@
+---
+/* =============================================================
+   /fit4u/pintura/ · personalizador de pintura FIT4U com o menu do site.
+   O arquivo da EDRO (src/fit4u/personalizador.html) é servido como está,
+   sem passar pelo pipeline do Astro; só o menu do site entra logo depois
+   do <body>. Imagens, lupa e jsPDF continuam em public/fit4u/pintura/,
+   com os mesmos caminhos relativos. Para atualizar o personalizador,
+   troque o .html e a pasta public/fit4u/pintura/ inteira (INTEGRACAO_FIT4U.md, 12).
+   ============================================================= */
+import html from '../../../fit4u/personalizador.html?raw';
+import MenuPersonalizador from '../../../components/MenuPersonalizador.astro';
+
+const corte = html.indexOf('<body>');
+if (corte < 0) throw new Error('personalizador.html sem <body>');
+const antes = html.slice(0, corte + '<body>'.length);
+const depois = html.slice(corte + '<body>'.length);
+---
+<Fragment set:html={antes} /><MenuPersonalizador /><Fragment set:html={depois} />

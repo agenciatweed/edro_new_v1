@@ -155,6 +155,14 @@ for (const linha of readFileSync(MANIFESTO, 'utf8').split(/\r?\n/).filter(Boolea
 const mapas = existsSync(join(DIST, 'fit4u/pintura/bikes')) ? readdirSync(join(DIST, 'fit4u/pintura/bikes')).length : 0;
 if (mapas !== 84) fit4u.push(`bikes/ com ${mapas} arquivos (esperado 84)`);
 if (!existsSync(join(DIST, 'fit4u/pintura/index.html'))) fit4u.push('falta index.html');
+else {
+  /* O HTML da EDRO sai inteiro, só com o menu do site depois do <body>. */
+  const original = readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'src/fit4u/personalizador.html'), 'utf8').replace(/\r\n/g, '\n');
+  const publicado = readFileSync(join(DIST, 'fit4u/pintura/index.html'), 'utf8').replace(/\r\n/g, '\n');
+  const [cabeca, corpo] = original.split('<body>');
+  if (!publicado.includes(cabeca.trim()) || !publicado.includes(corpo.trim())) fit4u.push('index.html publicado diferente do personalizador original');
+  if (!publicado.includes('class="sm-barra"')) fit4u.push('menu do site ausente no personalizador');
+}
 
 const faltaRedir = REDIRECIONADAS.filter((r) => !existsSync(join(DIST, r, 'index.html')));
 

@@ -1,0 +1,80 @@
+---
+/* =============================================================
+   Menu do site no personalizador FIT4U (/fit4u/pintura/).
+   O personalizador é uma página pronta da EDRO, com CSS próprio
+   (inclusive regras globais para header, footer e button). Por isso
+   este menu usa <div>/<nav>, classes com prefixo "sm-" e estilos
+   inline com todas as propriedades explícitas: nada vaza para a
+   ferramenta e nada da ferramenta muda o menu.
+   A barra não fica fixa: o palco da bike é sticky no topo e não
+   pode ficar escondido atrás dela.
+   ============================================================= */
+import { getImage } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import { menu, LOGO_MENU } from '../lib/menu.js';
+import { wa } from '../lib/edro.js';
+
+const logo = await getImage({ src: img(LOGO_MENU), height: 104 });
+const monte = wa('Olá, EDRO. Quero montar a minha EDRO. (origem: site-personalizador-menu)');
+---
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@500;600&display=swap" />
+<style is:inline>
+.sm-barra{position:relative;z-index:50;background:#0b0d0b;border-bottom:1px solid rgba(255,255,255,.08);font-family:Poppins,system-ui,sans-serif}
+.sm-interno{box-sizing:border-box;display:flex;align-items:center;gap:24px;max-width:1440px;height:84px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.sm-logo{flex:none;display:flex;align-items:center}
+.sm-logo img{display:block;height:48px;width:auto}
+.sm-links{display:flex;align-items:center;gap:clamp(14px,1.6vw,24px);margin:0 auto}
+.sm-links a,.sm-falar{display:inline-flex;align-items:center;min-height:44px;font:500 12px/1 Poppins,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:#b9bdb8;border-bottom:2px solid transparent;white-space:nowrap}
+.sm-links a:hover,.sm-falar:hover{color:#f4f5f2}
+.sm-links a.sm-ativo{color:#f4f5f2;border-bottom-color:#38a936}
+.sm-acoes{flex:none;display:flex;align-items:center;gap:20px}
+.sm-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;background:#38a936;color:#071008;font:600 12px/1 Poppins,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px}
+.sm-btn:hover{background:#43bf41}
+.sm-hamb{display:none;flex-direction:column;justify-content:center;gap:6px;width:44px;height:44px;margin-left:auto;padding:0 11px;background:none;border:0;cursor:pointer}
+.sm-hamb span{display:block;height:1px;background:#f4f5f2;transition:transform .2s ease}
+.sm-hamb[aria-expanded="true"] span:first-child{transform:translateY(3.5px) rotate(45deg)}
+.sm-hamb[aria-expanded="true"] span:last-child{transform:translateY(-3.5px) rotate(-45deg)}
+.sm-painel{background:#0b0d0b;border-bottom:1px solid rgba(255,255,255,.08);padding:8px clamp(20px,4vw,48px) 24px}
+.sm-painel[hidden]{display:none}
+.sm-painel a{display:block;padding:10px 0;font:400 26px/1.1 Anton,Impact,sans-serif;text-transform:uppercase;text-decoration:none;color:#f4f5f2}
+.sm-painel a.sm-sub{padding:0 0 10px 18px;font:500 12px/1.4 Poppins,system-ui,sans-serif;letter-spacing:.1em;color:#38a936}
+.sm-painel a.sm-btn{display:inline-flex;margin-top:16px;padding:0 22px;font:600 12px/1 Poppins,system-ui,sans-serif;letter-spacing:.1em;color:#071008}
+@media (max-width:1100px){.sm-falar{display:none}}
+@media (max-width:899px){.sm-interno{height:64px}.sm-logo img{height:38px}.sm-links,.sm-acoes{display:none}.sm-hamb{display:flex}}
+@media (prefers-reduced-motion:reduce){.sm-hamb span{transition:none}}
+</style>
+<div class="sm-barra" role="banner">
+  <div class="sm-interno">
+    <a class="sm-logo" href="/" aria-label="EDRO Performance Bikes, página inicial">
+      <img src={logo.src} alt="EDRO Performance Bikes" height="48" width={Math.round((logo.attributes.width / logo.attributes.height) * 48)} />
+    </a>
+    <nav class="sm-links" aria-label="Navegação principal">
+      {menu.map((m) => <a href={m.href} class={m.href === '/fit4u' ? 'sm-ativo' : undefined}>{m.rotulo}</a>)}
+    </nav>
+    <div class="sm-acoes">
+      <a class="sm-falar" href="/contato">Falar com a EDRO</a>
+      <a class="sm-btn" href={monte} rel="noopener" data-wa="personalizador-menu">Monte a sua</a>
+    </div>
+    <button class="sm-hamb" type="button" aria-expanded="false" aria-controls="sm-painel" aria-label="Abrir menu">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </button>
+  </div>
+  <nav class="sm-painel" id="sm-painel" aria-label="Navegação mobile" hidden>
+    {menu.map((m) => (
+      <>
+        <a href={m.href}>{m.rotulo}</a>
+        {m.sub?.map((s) => <a class="sm-sub" href={s.href} aria-current={s.href === '/fit4u/pintura/' ? 'page' : undefined}>{s.rotulo}</a>)}
+      </>
+    ))}
+    <a class="sm-btn" href={monte} rel="noopener" data-wa="personalizador-menu-mobile">Monte a sua</a>
+  </nav>
+</div>
+<script is:inline>
+(function(){
+  var b=document.querySelector('.sm-hamb'),p=document.getElementById('sm-painel');
+  if(!b||!p)return;
+  b.addEventListener('click',function(){var abre=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',String(abre));b.setAttribute('aria-label',abre?'Fechar menu':'Abrir menu');p.hidden=!abre;});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&b.getAttribute('aria-expanded')==='true'){b.click();b.focus();}});
+  document.querySelectorAll('[data-wa]').forEach(function(el){el.addEventListener('click',function(){(window.dataLayer=window.dataLayer||[]).push({event:'whatsapp_click',origem:el.getAttribute('data-wa'),pagina:'fit4u-pintura'});});});
+})();
+</script>

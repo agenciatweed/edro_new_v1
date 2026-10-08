@@ -9,6 +9,7 @@
 import { Image } from 'astro:assets';
 import { bikes, wa, comercial, digitos, telefoneBr } from '../lib/edro.js';
 import { img } from '../lib/imagens.js';
+import { menu, LOGO_MENU } from '../lib/menu.js';
 
 import '../styles/tokens.css';
 import '../styles/edro.css';
@@ -27,15 +28,7 @@ const rota = Astro.url.pathname;
 const rotaLimpa = rota.replace(/\/$/, '') || '/';
 const ativoEm = (href) => rotaLimpa === href || rotaLimpa.startsWith(href + '/');
 
-const menu = [
-  { rotulo: 'Bikes',           href: '/bikes' },
-  { rotulo: 'Bikes elétricas', href: '/horizon' },
-  { rotulo: 'FIT4U',           href: '/fit4u', sub: [{ rotulo: 'Monte a sua pintura', href: '/fit4u/pintura/' }] },
-  { rotulo: 'Programas',       href: '/programas' },
-  { rotulo: 'Engenharia',      href: '/engenharia' },
-  { rotulo: 'Parcerias',       href: '/parcerias' },
-  { rotulo: 'A marca',         href: '/a-marca' },
-];
+
 
 const rodape = [
   { titulo: 'Bikes', links: [['SUMMA', '/bikes/summa'], ['RANGE', '/bikes/range'], ['IMPETUS', '/bikes/impetus']] },
@@ -110,7 +103,7 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
 <header class="nav">
   <div class="nav__interno">
     <a class="nav__logo" href="/" aria-label="EDRO Performance Bikes, página inicial">
-      <Image src={img('brand/logo-horizontal-branco.png')} alt="EDRO Performance Bikes" height={46} densities={[1, 2]} loading="eager" />
+      <Image src={img(LOGO_MENU)} alt="EDRO Performance Bikes" height={52} densities={[1, 2]} loading="eager" />
     </a>
 
     <nav class="nav__menu" aria-label="Navegação principal">

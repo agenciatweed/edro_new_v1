@@ -785,3 +785,7 @@ a.selo-card:hover { border-color: var(--edro-line-2); }
   .dev__marcador { width: 26px; height: 26px; margin: -13px 0 0 -13px; font-size: .75rem; }
   .versoes-lista dd { text-align: left; }
 }
+
+/* Logo do menu: símbolo sobre o nome EDRO, maior e mais legível. */
+.nav__logo img { height: 52px; width: auto; }
+@media (max-width: 899px) { .nav__logo img { height: 40px; } }
