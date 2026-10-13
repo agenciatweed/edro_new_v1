@@ -1,0 +1,97 @@
+---
+/* =============================================================
+   Trilha: a página vira um percurso. Na lateral direita, um perfil de
+   altimetria desenhado como as curvas de nível das pinturas EDRO se
+   preenche de verde conforme a pessoa rola; cada seção é um marco do
+   caminho e acende ao ser alcançada. O hodômetro sobe junto: distância
+   e ganho de altitude de uma maratona de XC (42,2 km, 1.850 m).
+   No celular, uma linha de progresso fina embaixo do menu.
+   Decorativo: aria-hidden; sem JavaScript, nada aparece.
+   ============================================================= */
+
+/* Perfil de altimetria: soma de senos fixa, então o desenho é sempre o mesmo. */
+const N = 140;
+const pts = Array.from({ length: N + 1 }, (_, i) => {
+  const t = i / N;
+  const x = 14 + 7 * Math.sin(t * 9.3) + 4.5 * Math.sin(t * 23.7 + 1.2) + 2.2 * Math.sin(t * 51 + 0.4);
+  return [Math.max(2, Math.min(38, x)), t * 1000];
+});
+const d = pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(2)} ${y.toFixed(1)}`).join(' ');
+/* Ganho de altitude acumulado ao longo do perfil, normalizado para 0..1. */
+let acc = 0;
+const ganho = pts.map(([x], i) => (i ? (acc += Math.max(0, x - pts[i - 1][0])) : 0));
+const perfil = ganho.map((g) => +(g / acc).toFixed(4));
+---
+<div class="trilha" data-trilha data-perfil={JSON.stringify(perfil)} aria-hidden="true" hidden>
+  <svg class="trilha__svg" viewBox="0 0 40 1000" preserveAspectRatio="none">
+    <path class="trilha__curva trilha__curva--eco" d={d} transform="translate(-5 0)" vector-effect="non-scaling-stroke" />
+    <path class="trilha__curva trilha__curva--base" d={d} vector-effect="non-scaling-stroke" />
+    <path class="trilha__curva trilha__curva--feito" d={d} pathLength="1" vector-effect="non-scaling-stroke" data-feito />
+  </svg>
+  <div class="trilha__marcos" data-marcos></div>
+  <span class="trilha__ciclista" data-ciclista></span>
+  <div class="trilha__hodometro">
+    <span><b data-km>0,0</b> km</span>
+    <span><b data-alt>0</b> m</span>
+  </div>
+</div>
+<div class="trilha-barra" data-trilha-barra aria-hidden="true"></div>
+
+<script>
+  const trilha = document.querySelector<HTMLElement>('[data-trilha]');
+  const barra = document.querySelector<HTMLElement>('[data-trilha-barra]');
+  if (trilha && barra) {
+    trilha.hidden = false;
+    const feito = trilha.querySelector<SVGPathElement>('[data-feito]')!;
+    const ciclista = trilha.querySelector<HTMLElement>('[data-ciclista]')!;
+    const marcosEl = trilha.querySelector<HTMLElement>('[data-marcos]')!;
+    const km = trilha.querySelector<HTMLElement>('[data-km]')!;
+    const alt = trilha.querySelector<HTMLElement>('[data-alt]')!;
+    const perfil: number[] = JSON.parse(trilha.dataset.perfil || '[]');
+    const svg = trilha.querySelector('svg')!;
+    let marcos: { p: number; el: HTMLElement }[] = [];
+
+    /* Um marco por seção do conteúdo, na altura proporcional da página. */
+    const medir = () => {
+      const total = document.documentElement.scrollHeight - innerHeight;
+      marcosEl.replaceChildren();
+      marcos = [...document.querySelectorAll<HTMLElement>('main > section, main > div > section, main .secao')]
+        .filter((s, i, a) => a.indexOf(s) === i && s.offsetHeight > 200)
+        .map((s) => {
+          const p = Math.min(1, Math.max(0, (s.getBoundingClientRect().top + scrollY - innerHeight * 0.5) / Math.max(1, total)));
+          const el = document.createElement('span');
+          el.className = 'trilha__marco';
+          el.style.top = `${p * 100}%`;
+          marcosEl.append(el);
+          return { p, el };
+        });
+    };
+
+    let ultimo = -1;
+    const pintar = () => {
+      const total = document.documentElement.scrollHeight - innerHeight;
+      const p = total > 0 ? Math.min(1, Math.max(0, scrollY / total)) : 0;
+      barra.style.transform = `scaleX(${p})`;
+      if (Math.abs(p - ultimo) < 0.0005) return;
+      ultimo = p;
+      feito.style.strokeDashoffset = String(1 - p);
+      /* Posição do ciclista: ponto do perfil convertido para a caixa da trilha. */
+      const i = Math.round(p * (perfil.length - 1));
+      const r = svg.getBoundingClientRect();
+      const len = feito.getTotalLength();
+      const pt = feito.getPointAtLength(len * p);
+      ciclista.style.transform = `translate(${(pt.x / 40) * r.width}px, ${(pt.y / 1000) * r.height}px)`;
+      km.textContent = (p * 42.2).toFixed(1).replace('.', ',');
+      alt.textContent = new Intl.NumberFormat('pt-BR').format(Math.round((perfil[i] ?? p) * 1850));
+      marcos.forEach((m) => m.el.classList.toggle('alcancado', p >= m.p - 0.002));
+    };
+
+    let agendado = false;
+    const agendar = () => { if (!agendado) { agendado = true; requestAnimationFrame(() => { agendado = false; pintar(); }); } };
+    addEventListener('scroll', agendar, { passive: true });
+    addEventListener('resize', () => { medir(); ultimo = -1; agendar(); });
+    addEventListener('load', () => { medir(); ultimo = -1; agendar(); });
+    medir();
+    pintar();
+  }
+</script>

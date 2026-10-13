@@ -37,7 +37,11 @@ const {
      fica fora do banner (carrossel da home) e o banner só fica transparente. */
   fotos,
   sobreFotos = false,
+  /* Nome da linha para a View Transition entre páginas: o card da bike vira o banner. */
+  vt,
 } = Astro.props;
+const vtWm = vt ? `view-transition-name: wm-${vt}` : undefined;
+const vtBike = vt ? `view-transition-name: bike-${vt}` : undefined;
 
 const Tag = titulo;
 /* Com título em tipo, o wordmark é marca e não heading: um H1 por página. */
@@ -75,7 +79,7 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
       {wordmark ? (
         <TagWm class:list={['hero3__wordmark', wordmarkClasse, { 'hero3__wordmark--duplo': wordmark2 }]}>
           {h1Oculto && <span class="visualmente-oculto">{h1Oculto}</span>}
-          <Image src={img(wordmark)} alt={wordmarkAlt} width={1280} loading="eager" />
+          <Image src={img(wordmark)} alt={wordmarkAlt} width={1280} loading="eager" style={vtWm} />
           {wordmark2 && <Image src={img(wordmark2)} alt="" width={900} loading="eager" />}
         </TagWm>
       ) : null}
@@ -106,7 +110,7 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
               sizes="(max-width: 1023px) 100vw, 46vw" loading={imagem.eager ? 'eager' : 'lazy'} />
           </a>
         ) : (
-          <span class:list={[imagem.bike ? 'hero3__bike' : 'hero3__captura']}>
+          <span class:list={[imagem.bike ? 'hero3__bike' : 'hero3__captura']} style={imagem.bike ? vtBike : undefined}>
             <Picture src={img(imagem.src)} formats={['avif', 'webp']} alt={imagem.alt} widths={imagem.bike ? [800, 1600] : [640, 960, 1440]}
               sizes="(max-width: 1023px) 100vw, 50vw" loading="eager" fetchpriority={imagem.bike ? 'high' : undefined} />
           </span>
@@ -120,7 +124,7 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
       </div>
     ) : clipe ? (
       <div class="hero3__lado hero3__lado--clipe">
-        <div class="hero3__clipe">
+        <div class="hero3__clipe" style={vtBike}>
           <video muted loop playsinline autoplay={!clipe.adiado} preload={clipe.adiado ? 'none' : 'metadata'}
             poster={clipe.poster} aria-label={clipe.rotulo} data-clipe>
             <source src={clipe.src} type="video/mp4" />

@@ -10,6 +10,7 @@ import { Image } from 'astro:assets';
 import { bikes, wa, comercial, digitos, telefoneBr } from '../lib/edro.js';
 import { img } from '../lib/imagens.js';
 import { menu, LOGO_MENU } from '../lib/menu.js';
+import Trilha from '../components/Trilha.astro';
 
 import '../styles/tokens.css';
 import '../styles/edro.css';
@@ -152,6 +153,8 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
 <main id="conteudo">
   <slot />
 </main>
+
+<Trilha />
 
 <footer class="rodape">
   <div class="container">

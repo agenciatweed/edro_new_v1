@@ -8,6 +8,7 @@ import SeletorVersoes from '../../components/SeletorVersoes.astro';
 import Numeros from '../../components/Numeros.astro';
 import AutonomiaReal from '../../components/AutonomiaReal.astro';
 import Condicoes from '../../components/Condicoes.astro';
+import Anatomia from '../../components/Anatomia.astro';
 import Fechamento from '../../components/Fechamento.astro';
 import dev from '../../content/horizon_desenvolvimento.json';
 import { brl, wa, junto, horizonLinhas, catalogoHz, pesoTexto } from '../../lib/edro.js';
@@ -55,6 +56,7 @@ const pesoRotulo = `<i class="modelo">${l.nome}</i> PRO HORIZON, sem pedais, tam
 
 <Hero
   eyebrow={l.tipo}
+  vt={slug}
   wordmark={`brand/${l.base}.png`}
   wordmark2="brand/horizon.png"
   h1Oculto={`EDRO ${nome}, ${l.tipo.toLowerCase()} de carbono`}
@@ -74,6 +76,8 @@ const pesoRotulo = `<i class="modelo">${l.nome}</i> PRO HORIZON, sem pedais, tam
     </dl>
   </div>
 </section>
+
+<Anatomia linha={l} horizon sistema={catalogoHz.sistema} />
 
 <SeletorVersoes linha={l} wordmark={l.base} horizon
   lead={`Todas partem do mesmo quadro <i class="modelo">${l.nome}</i> HORIZON em carbono, da mesma pintura exclusiva e da mesma garantia vitalícia. O que muda são os componentes.`} />

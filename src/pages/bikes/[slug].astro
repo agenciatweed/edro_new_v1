@@ -10,6 +10,7 @@ import Pilares from '../../components/Pilares.astro';
 import Geometria from '../../components/Geometria.astro';
 import Fechamento from '../../components/Fechamento.astro';
 import Condicoes from '../../components/Condicoes.astro';
+import Anatomia from '../../components/Anatomia.astro';
 import { plataformas, brl, wa, pesoTexto } from '../../lib/edro.js';
 import { videos } from '../../lib/imagens.js';
 
@@ -74,6 +75,7 @@ const tituloVideo = VIDEO.linhas.join('<br />') + (VIDEO.verde.startsWith(' ') ?
 
 <Hero
   eyebrow={p.tipo}
+  vt={p.slug}
   wordmark={`brand/${p.slug}.png`}
   h1Oculto={H1[slug]}
   lead={p.hero_frase}
@@ -84,6 +86,8 @@ const tituloVideo = VIDEO.linhas.join('<br />') + (VIDEO.verde.startsWith(' ') ?
   clipe={{ src: `/videos/${CLIPE[slug]}.mp4`, poster: `/videos/${CLIPE[slug]}.jpg`, rotulo: `EDRO ${p.nome} em ação` }}
   peso={{ valor: pesoTexto(p.pro), rotulo: `<i class="modelo">${p.nome}</i> <span class="verde">${p.pro.nome}</span>, sem pedais<br />Versões a partir de ${brl(menor)}` }}
 />
+
+<Anatomia linha={p} />
 
 <SeletorVersoes linha={p} wordmark={p.slug} />
 

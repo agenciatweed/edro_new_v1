@@ -1,0 +1,38 @@
+{
+  "fonte": "Posição (em % da foto lateral da PRO) de cada componente que acende na seção 'peça por peça'. A ficha de cada passo vem do catálogo 2027.",
+  "summa-pro": {
+    "Transmissão": [18, 63],
+    "Suspensão": [73, 40],
+    "Rodas": [88, 33],
+    "Freios": [79, 58],
+    "Canote": [35, 12]
+  },
+  "range-pro": {
+    "Transmissão": [18, 62],
+    "Suspensão": [46, 49],
+    "Rodas": [88, 33],
+    "Freios": [79, 58],
+    "Canote": [35, 12]
+  },
+  "impetus-pro": {
+    "Transmissão": [19, 63],
+    "Rodas": [78, 40],
+    "Freios": [78, 62],
+    "Cockpit": [76, 9],
+    "Canote": [31, 11]
+  },
+  "summa-pro-hz": {
+    "Motor": [44, 73],
+    "Bateria": [51, 50],
+    "Transmissão": [17, 62],
+    "Suspensão": [73, 42],
+    "Freios": [79, 60]
+  },
+  "range-pro-hz": {
+    "Motor": [45, 74],
+    "Bateria": [55, 52],
+    "Transmissão": [18, 62],
+    "Suspensão": [72, 40],
+    "Freios": [79, 58]
+  }
+}

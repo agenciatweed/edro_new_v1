@@ -144,12 +144,12 @@ const rotulos = ['O desafio', 'O que a EDRO fez', 'O que você sente'];
           <h3 class="card-linha__wordmark">
             <a class="card-linha__link" href={`/horizon/${l.slug}`}>
               <span class="visualmente-oculto">{l.nome} HORIZON</span>
-              <Image src={img(`brand/${l.base}.png`)} alt="" height={60} />
+              <Image src={img(`brand/${l.base}.png`)} alt="" height={60} style={`view-transition-name: wm-${l.slug}`} />
               <Image src={img('brand/horizon.png')} alt="" height={40} />
             </a>
           </h3>
           <span class="card-linha__canto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
-          <span class="card-linha__render">
+          <span class="card-linha__render" style={`view-transition-name: bike-${l.slug}`}>
             <Picture src={img(l.pro.foto)} formats={['avif', 'webp']} alt={`EDRO ${l.nome} PRO HORIZON 2027, vista lateral`} widths={[800, 1600]} sizes="(max-width: 767px) 100vw, 50vw" loading="lazy" />
           </span>
           <p class="card-linha__beneficio" set:html={`${modelo(l.para_quem)}.`} />
