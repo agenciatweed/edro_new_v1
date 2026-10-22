@@ -1,0 +1,27 @@
+{
+  "fonte": "bikes/SUMMA.md, RANGE.md e IMPETUS.md → Construção EDRO (bloco idêntico nas três linhas)",
+  "titulo": "As melhores práticas construtivas mundiais.",
+  "pilares": [
+    [
+      "Geometria atualizada",
+      "Por meio de feedbacks de clientes, de atletas e pesquisas de tendências mundiais, atualizamos nossas geometrias periodicamente, buscando as opções mais atualizadas, com dinâmica otimizada e redução de peso."
+    ],
+    [
+      "Fabricação monocoque",
+      "Fabricação do quadro em molde único, sem pontos de junção, que reduz peso, aumenta a responsividade e mitiga pontos de fragilidade."
+    ],
+    [
+      "Moldagem EPS",
+      "Utilização de espuma EPS no interior dos quadros para o processo de moldagem, em vez do tradicional sistema Bladder, traz uma superfície mais homogênea, sem acúmulos desnecessários de materiais no interior do quadro e garantindo que cada resina e fibra de carbono fique no local correto. A moldagem EPS reduz o peso e aumenta a resistência e a confiabilidade."
+    ],
+    [
+      "Tecnologia em fibra de carbono",
+      "Utilização de fibra de carbono de alto módulo prepreg 40T e 46T, com aplicação de nanotecnologia, para mais resistência e absorção de vibrações, otimizando o conforto."
+    ],
+    [
+      "Pintura personalizada PU Acrílica Carbon Industrial",
+      "Mais uma exclusividade EDRO no Brasil, traz altíssima qualidade e durabilidade com a mínima adição de peso."
+    ]
+  ],
+  "pendencia": "O texto original diz '20% mais resistência'. Sai até a EDRO indicar a fonte do número (regra de claims técnicos)."
+}

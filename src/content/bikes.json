@@ -62,22 +62,18 @@
         "L"
       ],
       "quadro": {
-        "nome": "EDRO HT 29 High Modulus UD Carbon Fiber Monocoque Frame",
-        "tecnologia": [
-          "EPS Technology",
-          "Prepreg 40T e 46T alto módulo",
-          "Monocoque",
-          "Pintura PU Acrílica Carbon Industrial"
+        "titulo": "Quadro EDRO HT 29 High Modulus UD Carbon Fiber Monocoque Frame",
+        "textos": [
+          "Após 2 anos de intenso estudo e desenvolvimento, chegamos até o novo quadro Summa. Com novas características que proporcionarão aos ciclistas ter o máximo desempenho. Subidas muito mais eficientes, descidas mais rápidas e com mais segurança e sprints vigorosos."
         ],
-        "padroes": [
-          "Boost 12x148",
-          "UDH",
-          "Cabos internos integrados",
-          "BSA BB 73 mm"
+        "foto_ambiente": [
+          "fotos/summa-cachoeira.jpg",
+          "EDRO SUMMA diante de uma cachoeira"
         ],
-        "peso_quadro_g_M": 860,
-        "curso_garfo_mm": 110,
-        "texto": "Projetado para o máximo desempenho em XC: subidas mais eficientes, descidas mais rápidas e seguras e sprints vigorosos. Na SUMMA, leveza é decisão de projeto, com quadro pesando aproximadamente 860 g no tamanho M."
+        "fecho": [
+          "Na SUMMA, leveza é mais do que uma característica, é uma promessa de desempenho elevado. Cada detalhe foi pensado para proporcionar uma pedalada mais leve e ágil.",
+          "Tudo isso, com um quadro pesando aproximadamente 860 g no tamanho M."
+        ]
       },
       "geometria": {
         "colunas": [
@@ -560,7 +556,40 @@
             "max": 1.88
           }
         ]
-      }
+      },
+      "hero_texto": "A escolha certa de quem não abre mão de subir mais rápido e sprintar mais forte.",
+      "argumentos": [
+        {
+          "numero": "67°",
+          "titulo": "Desça cada vez mais rápido",
+          "texto": "Caixa de direção de 67°, proporcionando muito mais estabilidade e segurança em descidas <span class=\"verde\">técnicas</span> e em <span class=\"verde\">alta velocidade</span>."
+        },
+        {
+          "numero": "780 mm",
+          "titulo": "A bike muito mais na sua mão",
+          "texto": "<span class=\"verde\">Dirigibilidade aprimorada.</span> Top tube mais alongado, aliado a avanço de guidão mais curto e guidão de até 780 mm de largura, com guidão integrado que alia responsividade e <span class=\"verde\">ganhos</span> aerodinâmicos."
+        },
+        {
+          "numero": "77°",
+          "titulo": "Extraia o máximo da sua potência",
+          "texto": "Seat tube com ângulo de 77°, que deixa o ciclista mais centralizado na bicicleta, distribuindo melhor o peso nas duas rodas, fazendo com que a bike empine menos em subidas muito íngremes. Aliado à utilização de outros grupos musculares que <span class=\"verde\">otimizam a pedalada</span> e minimizam a fadiga."
+        },
+        {
+          "numero": "425 mm",
+          "titulo": "Saia na frente no sprint",
+          "texto": "Triângulo traseiro curto e rígido, com chainstay de 425 mm, aliado ao movimento central BSA, proporciona rigidez torcional aprimorada, fazendo com que toda <span class=\"verde\">potência aplicada</span> nos pedais seja transferida de forma mais <span class=\"verde\">eficiente</span> para a roda traseira."
+        }
+      ],
+      "fotos_argumentos": [
+        [
+          "fotos/summa-macro-cockpit-garfo.jpg",
+          "Cockpit integrado e garfo RockShox SID da SUMMA"
+        ],
+        [
+          "fotos/summa-macro-transmissao.jpg",
+          "Transmissão T-Type da SUMMA com pneu Pirelli"
+        ]
+      ]
     },
     {
       "slug": "range",
@@ -574,25 +603,17 @@
         "XL"
       ],
       "quadro": {
-        "nome": "EDRO FS High Modulus UD Carbon Fiber Monocoque Frame",
-        "tecnologia": [
-          "EPS Technology",
-          "Prepreg 40T e 46T alto módulo",
-          "Monocoque",
-          "Pintura PU Acrílica Carbon Industrial"
+        "titulo": "Quadro EDRO FS High Modulus UD Carbon Fiber Monocoque Frame",
+        "textos": [
+          "Chegou a sua vez de experienciar o que uma mountain bike full suspension é capaz de fazer em termos de conforto e otimização de sua potência."
         ],
-        "padroes": [
-          "Boost 12x148",
-          "UDH",
-          "PressFit 92",
-          "Amortecedor vertical Trunnion 165x40",
-          "Cabos internos"
+        "foto_ambiente": [
+          "fotos/acao-trilha.jpg",
+          "Ciclista pedalando a EDRO RANGE em trilha"
         ],
-        "udh": true,
-        "curso_traseiro_mm": 100,
-        "curso_garfo_mm": 110,
-        "cinematica": "Pivô simples, triângulo traseiro em peça única, anti-squat aprox. 100%, suspensão em três fases (sensível, estável, progressiva)",
-        "texto": "Curso traseiro de 100 mm com amortecedor vertical de 165x40 mm em acoplamento Trunnion, garfo de 110 mm e movimento central PressFit 92. Suspensão em três fases: sensível no início do curso, estável no meio e progressiva no fim."
+        "fecho": [
+          "A sua bike 100% customizada para enfrentar todos os desafios sem medo."
+        ]
       },
       "geometria": {
         "colunas": [
@@ -1104,7 +1125,40 @@
             "max": 2.0
           }
         ]
-      }
+      },
+      "hero_texto": "A sua bike 100% customizada para enfrentar todos os desafios sem medo.",
+      "argumentos": [
+        {
+          "numero": "3 fases",
+          "titulo": "Suspensão em três fases",
+          "texto": "Sensível às pequenas irregularidades do terreno para mais <span class=\"verde\">tração</span>, estável para mais firmeza e responsividade, progressiva para absorver impactos maiores e manter a bike <span class=\"verde\">firme</span> durante a transposição de grandes obstáculos."
+        },
+        {
+          "numero": "100%",
+          "titulo": "Anti-squat de aproximadamente 100%",
+          "texto": "Triângulo traseiro curto, em uma peça única e com o posicionamento do pivô simples, tem como resultado um anti-squat de aproximadamente 100%, anulando o pedal bob. Resulta em uma bicicleta com <span class=\"verde\">alta eficiência da pedalada</span> e uma suspensão ativa para uma tração aprimorada."
+        },
+        {
+          "numero": "Trunnion",
+          "titulo": "Amortecedor vertical e acoplamento Trunnion",
+          "texto": "O amortecedor vertical, junto ao seat tube, e o movimento central com acoplamento Trunnion asseguram <span class=\"verde\">mais rigidez</span> na região do movimento central, além de centro de gravidade mais baixo para melhor <span class=\"verde\">dirigibilidade</span> e responsividade da bike."
+        },
+        {
+          "numero": "67°",
+          "titulo": "Caixa de direção de 67° e top tube alongado",
+          "texto": "Caixa de direção com 67° de inclinação, deixando a bike ainda mais <span class=\"verde\">estável em descidas</span> e em alta velocidade. Com top tube mais alongado, foi possível adequar uma mesa mais curta, o que garante melhor dirigibilidade em trechos de alta exigência técnica."
+        }
+      ],
+      "fotos_argumentos": [
+        [
+          "fotos/range-macro-suspensao.jpg",
+          "Suspensão traseira da RANGE"
+        ],
+        [
+          "fotos/range-macro-cockpit.jpg",
+          "Cockpit da RANGE"
+        ]
+      ]
     },
     {
       "slug": "impetus",
@@ -1119,26 +1173,18 @@
         "XL"
       ],
       "quadro": {
-        "nome": "EDRO RD Disc High Modulus UD Carbon Fiber Monocoque Frame, geração 3.1",
-        "garfo": "EDRO RDF Disc High Modulus UD Carbon Monocoque, thru-axle 12x100, flat mount",
-        "tecnologia": [
-          "EPS Technology",
-          "Alto módulo, nova laminação geração 3.1",
-          "Monocoque",
-          "Design aero",
-          "Pintura PU Acrílica Carbon Industrial"
+        "titulo": "Quadro EDRO RD Disc High Modulus UD Carbon Fiber Monocoque Frame, geração 3.1",
+        "textos": [
+          "Mais responsiva e mais fácil de conduzir. Mais aerodinâmica e mais leve. Com geometria atualizada e cockpit 100% integrado. Quadro 3 em 1, perfeito para altas velocidades, melhor para subidas e com conforto extra para longas distâncias."
         ],
-        "padroes": [
-          "Thru-axle 12x142",
-          "Flat mount",
-          "Cabos totalmente internos (ACR)",
-          "Braze-on"
+        "foto_ambiente": [
+          "lp/bike-impetus.jpg",
+          "EDRO IMPETUS na estrada"
         ],
-        "clearance_pneu": "700x35",
-        "geracao": "3.1",
-        "geracao_texto": "Nesta nova versão do quadro, a EDRO apresenta uma nova laminação e redistribuição das fibras de carbono, resultando em uma estrutura ainda mais leve, rígida e eficiente, reforçando o desempenho sem comprometer o conforto característico da linha IMPETUS. A geometria é a mesma.",
-        "texto": "Geração 3.1: nova laminação e redistribuição das fibras de carbono, resultando em uma estrutura ainda mais leve, rígida e eficiente, reforçando o desempenho sem comprometer o conforto característico da linha. A geometria é a mesma.",
-        "folga_pneu": "700x35 mm"
+        "fecho": [
+          "Melhor capacidade para escaladas, mais estabilidade e eficiência para altas velocidades e alto conforto para longas distâncias.",
+          "Pedalar a IMPETUS é ter a certeza de estar no melhor cenário possível. Domine a estrada."
+        ]
       },
       "geometria": {
         "colunas": [
@@ -1622,7 +1668,31 @@
         "Usar o vídeo \"Impetus, a única bicicleta de estrada que você vai precisar\", já publicado no YouTube (LP), cortado em 12 s, mudo, em loop."
       ],
       "geometria_img": "geometria_impetus.jpg",
-      "review": "PYVEcbt5cyE"
+      "review": "PYVEcbt5cyE",
+      "hero_texto": "Road Bike com freio a disco e quadro de carbono de nova geração, mais leve, mais rígido e mais responsivo.",
+      "argumentos": [
+        {
+          "numero": "3 em 1",
+          "titulo": "Quadro 3 em 1",
+          "texto": "Quadro de geração 3.1, <span class=\"verde\">mais leve</span>, mais rígido, mais responsivo e mais confortável. Perfeito para <span class=\"verde\">altas velocidades</span>, longas distâncias e as mais desafiadoras escaladas."
+        },
+        {
+          "numero": "ACR",
+          "titulo": "Sem fios à vista",
+          "texto": "A caixa de direção ACR traz um <span class=\"verde\">cabeamento totalmente interno</span>, para uma bicicleta mais limpa e um novo nível de desempenho. Com o cockpit integrado, a bike ganhou em <span class=\"verde\">aerodinâmica</span>, reduzindo a resistência do ar principalmente em altas velocidades."
+        },
+        {
+          "numero": "72°",
+          "titulo": "Geometria e conforto",
+          "texto": "Ângulo de caixa de direção mais aberto, 71,2° no XS, 71,5° no S e 72° do M ao XL, projetado para ampliar o <span class=\"verde\">bem-estar</span> e a <span class=\"verde\">segurança</span> em altas velocidades. Triângulo traseiro com seat stay mais confortável, que favorece o desempenho em longas distâncias."
+        },
+        {
+          "numero": "415 mm",
+          "titulo": "Mais versátil",
+          "texto": "Chainstay com 415 mm e possibilidade de utilizar pneus até 700x35 mm, o que aumenta a sua <span class=\"verde\">versatilidade</span>. Com movimento central mais baixo, reduz o centro de gravidade e proporciona <span class=\"verde\">mais segurança</span> nas curvas."
+        }
+      ],
+      "fotos_argumentos": []
     }
   ],
   "programas": [

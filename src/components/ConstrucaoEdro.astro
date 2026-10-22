@@ -1,0 +1,20 @@
+---
+/* "As melhores práticas construtivas mundiais" (v3.3 §8.5): os cinco pilares,
+   idênticos em SUMMA, RANGE e IMPETUS, de um arquivo de dados só.
+   Duas colunas desencontradas ligadas por uma linha fina com ponto. */
+import c from '../content/construcao.json';
+---
+<section class="secao constr">
+  <div class="container">
+    <h2 class="headline constr__titulo">{c.titulo.replace(/\s*\S+\.$/, '')} <span class="verde">{c.titulo.match(/\S+\.$/)?.[0]}</span></h2>
+    <ol class="constr__linha">
+      {c.pilares.map(([t, d]) => (
+        <li class="constr__pilar">
+          <span class="constr__ponto" aria-hidden="true"></span>
+          <h3>{t}</h3>
+          <p>{d}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

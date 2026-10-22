@@ -226,3 +226,78 @@
   .modelo-hero__dados, .modelo-irmas { grid-template-columns: 1fr; }
   .modelo-hero__botoes .btn { flex: 1 1 100%; justify-content: center; }
 }
+
+/* ---------------- 5.6 HERO EM CARROSSEL ---------------- */
+.fundo-rotativo__foto { transition: opacity .8s var(--ease); }
+.fundo-rotativo__foto.ativa img, .fundo-rotativo__foto.saindo img { animation-duration: 7.5s; }
+.fundo-rotativo__controles {
+  position: absolute; z-index: 5; left: 50%; bottom: var(--s-6); transform: translateX(-50%);
+  display: flex; align-items: center; gap: var(--s-3);
+}
+.fundo-rotativo__pontos { display: flex; align-items: center; gap: 2px; }
+.fundo-rotativo__ponto { width: 28px; height: 28px; padding: 0; background: none; border: 0; cursor: pointer; display: grid; place-items: center; }
+.fundo-rotativo__ponto::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: color-mix(in srgb, var(--edro-ink) 45%, transparent); transition: width .3s var(--ease), background-color .3s var(--ease); }
+.fundo-rotativo__ponto[aria-current="true"]::before { width: 22px; border-radius: 4px; background: var(--edro-ink); }
+.fundo-rotativo__seta {
+  width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer; border-radius: 50%;
+  background: color-mix(in srgb, var(--edro-bg) 35%, transparent); border: 1px solid color-mix(in srgb, var(--edro-ink) 35%, transparent); color: var(--edro-ink);
+}
+.fundo-rotativo__seta:hover { border-color: var(--edro-ink); }
+.fundo-rotativo__seta svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.fundo-rotativo__ponto:focus-visible, .fundo-rotativo__seta:focus-visible { outline: 2px solid var(--edro-green); outline-offset: 2px; }
+@media (max-width: 767px) { .fundo-rotativo__seta { display: none; } .fundo-rotativo__controles { bottom: var(--s-4); } }
+
+/* ---------------- 8 PÁGINA DE LINHA ---------------- */
+/* Argumentos de engenharia: texto à esquerda, duas fotos de detalhe empilhadas à direita. */
+.eng-args__grade { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: var(--s-16); align-items: start; }
+.eng-args__lista { display: grid; gap: var(--s-12); }
+.eng-arg { display: grid; grid-template-columns: auto 1fr; gap: var(--s-2) var(--s-6); align-items: baseline; }
+.eng-arg__numero { grid-row: span 2; min-width: 4.5ch; font-family: var(--font-display); font-size: clamp(2rem, 1.6rem + 1.6vw, 3.25rem); line-height: 1; color: var(--edro-green); font-variant-numeric: tabular-nums; }
+.eng-arg__titulo { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.375rem, 1.2rem + .8vw, 1.875rem); line-height: 1.2; text-transform: uppercase; color: var(--edro-ink); }
+.eng-arg__texto { font-size: var(--t-body); line-height: 1.7; color: var(--edro-soft); max-width: 62ch; }
+.eng-arg__texto .verde { color: var(--edro-green); font-weight: 500; }
+.eng-args__fotos { display: grid; gap: var(--s-4); position: sticky; top: calc(var(--nav-h) + var(--s-6)); }
+
+/* O quadro, em fundo branco */
+.quadro__linha { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--s-12); align-items: center; }
+.quadro__linha + .quadro__linha { margin-top: var(--s-16); }
+.quadro__linha--ambiente { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+.quadro__foto { position: relative; margin: 0; }
+.quadro__foto img { display: block; width: 100%; height: auto; }
+.quadro__foto figcaption { margin-top: var(--s-3); font-size: var(--t-caption); font-style: italic; color: var(--edro-paper-soft); }
+.quadro__ambiente { margin: 0; overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 3; }
+.quadro__ambiente picture, .quadro__ambiente img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.quadro__texto .headline { margin-bottom: var(--s-5); }
+.quadro__texto p { font-size: var(--t-body); line-height: 1.7; margin-bottom: var(--s-4); max-width: 56ch; }
+
+/* Construção EDRO: linha do tempo em duas colunas desencontradas */
+.constr__titulo { text-align: center; margin-bottom: var(--s-16); }
+.constr__linha { position: relative; list-style: none; margin: 0 auto; padding: 0; max-width: 1040px; display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--s-20); row-gap: var(--s-6); }
+.constr__linha::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--edro-line-2); }
+.constr__pilar { position: relative; }
+.constr__pilar:nth-child(odd) { grid-column: 1; text-align: right; }
+.constr__pilar:nth-child(even) { grid-column: 2; margin-top: var(--s-16); }
+.constr__ponto { position: absolute; top: .55em; width: 9px; height: 9px; border-radius: 50%; background: var(--edro-green); }
+.constr__pilar:nth-child(odd) .constr__ponto { right: calc(var(--s-20) / -2 - 4.5px); }
+.constr__pilar:nth-child(even) .constr__ponto { left: calc(var(--s-20) / -2 - 4.5px); }
+.constr__pilar h3 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.25rem, 1.1rem + .6vw, 1.625rem); line-height: 1.2; text-transform: uppercase; color: var(--edro-ink); margin-bottom: var(--s-3); }
+.constr__pilar p { font-size: var(--t-body-card); line-height: 1.7; color: var(--edro-soft); }
+
+/* Modelos no fim da página de linha */
+.modelos-linha { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-4); margin: var(--s-10) 0 var(--s-6); }
+
+@media (max-width: 1023px) {
+  .eng-args__grade, .quadro__linha, .quadro__linha--ambiente { grid-template-columns: 1fr; gap: var(--s-8); }
+  .eng-args__fotos { position: static; grid-template-columns: 1fr 1fr; }
+  .modelos-linha { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  .constr__linha { grid-template-columns: 1fr; padding-left: var(--s-8); }
+  .constr__linha::before { left: 4px; }
+  .constr__pilar:nth-child(odd), .constr__pilar:nth-child(even) { grid-column: 1; text-align: left; margin-top: 0; }
+  .constr__pilar:nth-child(odd) .constr__ponto, .constr__pilar:nth-child(even) .constr__ponto { left: calc(var(--s-8) * -1); right: auto; }
+  .eng-arg { grid-template-columns: 1fr; }
+  .eng-arg__numero { grid-row: auto; }
+  .eng-args__fotos { grid-template-columns: 1fr; }
+  .modelos-linha { grid-template-columns: 1fr; }
+}

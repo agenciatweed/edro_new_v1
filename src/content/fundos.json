@@ -1,16 +1,111 @@
 {
   "fonte": "acervo-lp/mosaico-clientes: versão -wide no computador, versão quadrada no celular",
   "home": [
-    { "largo": "fundos/customer-17-wide.jpg", "movel": "fundos/customer-17.jpg", "posicao": "60% center" },
-    { "largo": "fundos/customer-3-wide.jpg", "movel": "fundos/customer-3.jpg", "posicao": "60% center" },
-    { "largo": "fundos/customer-4-wide.jpg", "movel": "fundos/customer-4.jpg", "posicao": "center 60%" },
-    { "largo": "fundos/customer-11-wide.jpg", "movel": "fundos/customer-11.jpg", "posicao": "center 30%" },
-    { "largo": "fundos/customer-2-wide.jpg", "movel": "fundos/customer-2.webp", "posicao": "center 40%" }
+    {
+      "largo": "fundos/customer-17-wide.jpg",
+      "movel": "fundos/customer-17.jpg",
+      "posicao": "60% center"
+    },
+    {
+      "largo": "fundos/customer-3-wide.jpg",
+      "movel": "fundos/customer-3.jpg",
+      "posicao": "60% center"
+    },
+    {
+      "largo": "fundos/customer-4-wide.jpg",
+      "movel": "fundos/customer-4.jpg",
+      "posicao": "center 60%"
+    },
+    {
+      "largo": "fundos/customer-11-wide.jpg",
+      "movel": "fundos/customer-11.jpg",
+      "posicao": "center 30%"
+    },
+    {
+      "largo": "fundos/customer-2-wide.jpg",
+      "movel": "fundos/customer-2.webp",
+      "posicao": "center 40%"
+    }
   ],
   "bikes": [
-    { "largo": "fundos/customer-15-wide.jpg", "movel": "fundos/customer-15.webp", "posicao": "center 35%" },
-    { "largo": "fundos/customer-12-wide.jpg", "movel": "fundos/customer-12.jpg", "posicao": "center 40%" },
-    { "largo": "fundos/customer-19-wide.jpg", "movel": "fundos/customer-19.jpg", "posicao": "center 50%" },
-    { "largo": "fundos/customer-20-wide.jpg", "movel": "fundos/customer-20.jpg", "posicao": "center 45%" }
+    {
+      "largo": "fundos/customer-15-wide.jpg",
+      "movel": "fundos/customer-15.webp",
+      "posicao": "center 35%"
+    },
+    {
+      "largo": "fundos/customer-12-wide.jpg",
+      "movel": "fundos/customer-12.jpg",
+      "posicao": "center 40%"
+    },
+    {
+      "largo": "fundos/customer-19-wide.jpg",
+      "movel": "fundos/customer-19.jpg",
+      "posicao": "center 50%"
+    },
+    {
+      "largo": "fundos/customer-20-wide.jpg",
+      "movel": "fundos/customer-20.jpg",
+      "posicao": "center 45%"
+    }
+  ],
+  "todo": "TODO(EDRO): fotos definitivas dos carrosséis de hero (home, /bikes, uma série por linha e /horizon).",
+  "summa": [
+    {
+      "largo": "lp/bike-summa.jpg",
+      "movel": "lp/bike-summa.jpg",
+      "posicao": "center 55%"
+    },
+    {
+      "largo": "fotos/summa-cachoeira.jpg",
+      "movel": "fotos/summa-cachoeira.jpg",
+      "posicao": "center 50%"
+    },
+    {
+      "largo": "lp/hero-edro-mtb.jpg",
+      "movel": "lp/hero-edro-mtb.jpg",
+      "posicao": "65% center"
+    },
+    {
+      "largo": "fundos/customer-11-wide.jpg",
+      "movel": "fundos/customer-11.jpg",
+      "posicao": "center 30%"
+    }
+  ],
+  "range": [
+    {
+      "largo": "lp/bike-range.jpg",
+      "movel": "lp/bike-range.jpg",
+      "posicao": "center 55%"
+    },
+    {
+      "largo": "fundos/customer-17-wide.jpg",
+      "movel": "fundos/customer-17.jpg",
+      "posicao": "60% center"
+    },
+    {
+      "largo": "fotos/acao-trilha.jpg",
+      "movel": "fotos/acao-trilha.jpg",
+      "posicao": "center 30%"
+    }
+  ],
+  "impetus": [
+    {
+      "largo": "lp/bike-impetus.jpg",
+      "movel": "lp/bike-impetus.jpg",
+      "posicao": "center 55%"
+    },
+    {
+      "largo": "fundos/customer-15-wide.jpg",
+      "movel": "fundos/customer-15.webp",
+      "posicao": "center 35%"
+    }
+  ],
+  "horizon": [
+    {
+      "largo": "fotos/horizon-display.jpg",
+      "movel": "fotos/horizon-display.jpg",
+      "posicao": "center 40%"
+    }
   ]
 }

@@ -1,17 +1,17 @@
 ---
 /* =============================================================
-   Fundo de banner com fotos que se alternam (home e /bikes).
-   Cada foto entra com fade e se move devagar (efeito Ken Burns);
-   a cada 3,5 s passa para a próxima e, depois da última, volta à
-   primeira. No computador usa a versão larga ("-wide"); no celular,
-   a versão quadrada. Uma máscara escura mantém o texto legível.
-   Roda sozinho, independente de qualquer seletor de conteúdo do banner.
-   Quem pede menos movimento vê só a primeira foto, parada.
+   Fundo de hero com fotos que se alternam (v3.3 §5.6).
+   Crossfade de ~800 ms, troca a cada ~6 s, movimento lento (Ken Burns),
+   pontos e setas para navegar, swipe no toque. Pausa com o ponteiro ou o
+   foco no hero e quando o hero sai da tela. Com movimento reduzido: sem
+   troca automática e sem movimento (a navegação manual continua).
+   O escurecimento é do site (overlay em v33.css): as fotos chegam cruas.
+   No computador usa a versão larga ("-wide"); no celular, a outra.
    ============================================================= */
 import { getImage } from 'astro:assets';
 import { img } from '../lib/imagens.js';
 
-const { fotos = [], intervalo = 3500 } = Astro.props;
+const { fotos = [], intervalo = 6000, rotulo = 'Fotos' } = Astro.props;
 
 const versao = async (src, widths) => {
   const [avif, webp] = await Promise.all(['avif', 'webp'].map((format) => getImage({ src: img(src), widths, format })));
@@ -22,8 +22,8 @@ const camadas = await Promise.all(fotos.map(async (f) => ({
   largo: await versao(f.largo, [1280, 1920, 2560]),
   movel: await versao(f.movel, [640, 960]),
 })));
-/* Direções alternadas do movimento, para as fotos não parecerem iguais. */
 const MOV = ['kb-a', 'kb-b', 'kb-c', 'kb-d'];
+const varias = camadas.length > 1;
 ---
 <div class="fundo-rotativo" data-fundo-rotativo data-intervalo={intervalo} aria-hidden="true">
   {camadas.map((c, i) => (
@@ -36,34 +36,76 @@ const MOV = ['kb-a', 'kb-b', 'kb-c', 'kb-d'];
     </picture>
   ))}
 </div>
+{varias && (
+  <div class="fundo-rotativo__controles" data-fundo-controles role="group" aria-label={rotulo}>
+    <button type="button" class="fundo-rotativo__seta" data-fundo-ant aria-label="Foto anterior">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+    </button>
+    <div class="fundo-rotativo__pontos">
+      {camadas.map((_, i) => (
+        <button type="button" class="fundo-rotativo__ponto" data-fundo-ponto={i} aria-label={`Foto ${i + 1} de ${camadas.length}`} aria-current={i === 0 ? 'true' : undefined}></button>
+      ))}
+    </div>
+    <button type="button" class="fundo-rotativo__seta" data-fundo-prox aria-label="Próxima foto">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+    </button>
+  </div>
+)}
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-fundo-rotativo]').forEach((caixa) => {
     const fotos = [...caixa.querySelectorAll<HTMLElement>('.fundo-rotativo__foto')];
-    if (fotos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const passo = Number(caixa.dataset.intervalo) || 3500;
+    const controles = caixa.nextElementSibling?.matches('[data-fundo-controles]') ? caixa.nextElementSibling as HTMLElement : null;
+    if (fotos.length < 2 || !controles) return;
+    const hero = caixa.parentElement!;
+    const pontos = [...controles.querySelectorAll<HTMLButtonElement>('[data-fundo-ponto]')];
+    const calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const passo = Number(caixa.dataset.intervalo) || 6000;
     /* As próximas fotos carregam logo depois da primeira, para o fade não mostrar foto vazia. */
     fotos.slice(1).forEach((f) => f.querySelector('img')?.setAttribute('loading', 'eager'));
+
     let atual = 0;
     let timer: number | undefined;
-    const avancar = () => {
+    const ir = (n: number) => {
+      const proxima = (n + fotos.length) % fotos.length;
+      if (proxima === atual) return;
       const anterior = fotos[atual];
-      atual = (atual + 1) % fotos.length;
-      const proxima = fotos[atual];
-      /* Reinicia o movimento da foto que entra. */
-      proxima.classList.remove('ativa');
-      void proxima.offsetWidth;
-      proxima.classList.add('ativa');
+      atual = proxima;
+      const nova = fotos[atual];
+      nova.classList.remove('ativa');
+      void nova.offsetWidth;
+      nova.classList.add('ativa');
       anterior.classList.add('saindo');
       anterior.classList.remove('ativa');
-      setTimeout(() => anterior.classList.remove('saindo'), 1400);
+      setTimeout(() => anterior.classList.remove('saindo'), 900);
+      pontos.forEach((p, i) => (i === atual ? p.setAttribute('aria-current', 'true') : p.removeAttribute('aria-current')));
     };
-    const tocar = () => { if (!timer) timer = window.setInterval(avancar, passo); };
     const parar = () => { clearInterval(timer); timer = undefined; };
-    /* Só roda com o banner na tela e a aba visível. */
+    let pausado = false;
     let visivel = true;
-    new IntersectionObserver((e) => { visivel = e[0].isIntersecting; visivel && !document.hidden ? tocar() : parar(); }).observe(caixa);
-    document.addEventListener('visibilitychange', () => (document.hidden || !visivel ? parar() : tocar()));
+    const tocar = () => { if (calmo || pausado || !visivel || document.hidden || timer) return; timer = window.setInterval(() => ir(atual + 1), passo); };
+    const reiniciar = () => { parar(); tocar(); };
+
+    controles.querySelector('[data-fundo-ant]')?.addEventListener('click', () => { ir(atual - 1); reiniciar(); });
+    controles.querySelector('[data-fundo-prox]')?.addEventListener('click', () => { ir(atual + 1); reiniciar(); });
+    pontos.forEach((p, i) => p.addEventListener('click', () => { ir(i); reiniciar(); }));
+
+    /* Pausa com o ponteiro ou o foco dentro do hero. */
+    hero.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { pausado = true; parar(); } });
+    hero.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') { pausado = false; tocar(); } });
+    hero.addEventListener('focusin', () => { pausado = true; parar(); });
+    hero.addEventListener('focusout', (e) => { if (!hero.contains(e.relatedTarget as Node)) { pausado = false; tocar(); } });
+
+    /* Swipe horizontal no toque. */
+    let x0 = 0, y0 = 0;
+    hero.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    hero.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) { ir(atual + (dx < 0 ? 1 : -1)); reiniciar(); }
+    }, { passive: true });
+
+    new IntersectionObserver((e) => { visivel = e[0].isIntersecting; visivel ? tocar() : parar(); }).observe(caixa);
+    document.addEventListener('visibilitychange', () => (document.hidden ? parar() : tocar()));
     tocar();
   });
 </script>
