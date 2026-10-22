@@ -1,17 +1,16 @@
 ---
-/* SUMMA HORIZON e RANGE HORIZON v3.2 · telas site_v3_2/17 e 18 e seção 3.4 da atualização.
-   Três versões completas do catálogo 2027; sistema elétrico igual nas seis versões. */
+/* SUMMA HORIZON e RANGE HORIZON v3.3 (§10.3): hero de fotos escurecidas sem vídeo e sem
+   peso, sistema elétrico, desenvolvimento, números, simulador e os modelos em cards brancos
+   no fim. Cada versão tem a sua página (/horizon/<linha>/<versao>). */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
 import Cabecalho from '../../components/Cabecalho.astro';
-import SeletorVersoes from '../../components/SeletorVersoes.astro';
+import CardModelo from '../../components/CardModelo.astro';
+import fundos from '../../content/fundos.json';
 import Numeros from '../../components/Numeros.astro';
 import AutonomiaReal from '../../components/AutonomiaReal.astro';
-import Condicoes from '../../components/Condicoes.astro';
-import Anatomia from '../../components/Anatomia.astro';
-import Fechamento from '../../components/Fechamento.astro';
 import dev from '../../content/horizon_desenvolvimento.json';
-import { brl, wa, junto, horizonLinhas, catalogoHz, pesoTexto } from '../../lib/edro.js';
+import { brl, junto, horizonLinhas, catalogoHz, personalizar, rodapeFicha } from '../../lib/edro.js';
 
 export function getStaticPaths() {
   return horizonLinhas.map((l) => ({ params: { slug: l.slug } }));
@@ -36,14 +35,12 @@ const produto = {
     '@type': 'Product', name: `EDRO ${nome} ${v.nome}`, description: v.resumo, sku: v.chave,
     image: 'https://edrobikes.com.br/og-edro.png',
     weight: { '@type': 'QuantitativeValue', value: v.peso_kg, unitCode: 'KGM' },
-    offers: { '@type': 'Offer', price: v.preco, priceCurrency: 'BRL', availability: 'https://schema.org/PreOrder', url: `https://edrobikes.com.br/horizon/${slug}#${v.slug}` },
+    offers: { '@type': 'Offer', price: v.preco, priceCurrency: 'BRL', availability: 'https://schema.org/PreOrder', url: `https://edrobikes.com.br/horizon/${slug}/${v.slug}` },
   })),
 };
 
-/* Vídeo produzido só para a SUMMA HORIZON (item 41). A RANGE HORIZON abre com a foto lateral da PRO (Drive). */
-const CLIPE = { 'summa-horizon': 'summa-horizon-litoral' };
-const modelo = (s) => s.replace(/\b(SUMMA|RANGE)\b/g, '<i class="modelo">$1</i>');
-const pesoRotulo = `<i class="modelo">${l.nome}</i> PRO HORIZON, sem pedais, tamanho M<br />Versões a partir de ${brl(menor)}`;
+const modelo = (s) => s.replace(/(SUMMA|RANGE)/g, '<i class="modelo">$1</i>');
+const versoesJs = JSON.stringify(l.versoes.map((v) => v.slug));
 ---
 
 <Base
@@ -53,6 +50,11 @@ const pesoRotulo = `<i class="modelo">${l.nome}</i> PRO HORIZON, sem pedais, tam
   pagina={slug}
   jsonLd={produto}
 >
+  {/* Links antigos (/horizon/summa-horizon#xcr) vão para a página do modelo. */}
+  <script slot="head" is:inline define:vars={{ versoes: JSON.parse(versoesJs), linha: slug }}>
+    var h = decodeURIComponent(location.hash.slice(1)).toLowerCase();
+    if (versoes.indexOf(h) !== -1) location.replace('/horizon/' + linha + '/' + h);
+  </script>
 
 <Hero
   eyebrow={l.tipo}
@@ -61,15 +63,13 @@ const pesoRotulo = `<i class="modelo">${l.nome}</i> PRO HORIZON, sem pedais, tam
   wordmark2="brand/horizon.png"
   h1Oculto={`EDRO ${nome}, ${l.tipo.toLowerCase()} de carbono`}
   lead={modelo(`${l.para_quem}.`)}
-  botoes={[{ rotulo: `Monte a sua ${nome}`, href: wa(`Olá, EDRO. Quero montar a minha ${nome}. (origem: site-${slug})`), primario: true, wa: `${slug}-hero` }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }]}
-  peso={{ valor: pesoTexto(l.pro), rotulo: pesoRotulo }}
-  clipe={CLIPE[slug] && { src: `/videos/${CLIPE[slug]}.mp4`, poster: `/videos/${CLIPE[slug]}.jpg`, rotulo: `${nome} em ação` }}
-  imagem={CLIPE[slug] ? undefined : { src: l.pro.foto, alt: `EDRO ${l.nome} PRO HORIZON 2027, vista lateral`, bike: true }}
+  botoes={[{ rotulo: 'Ver modelos', href: '#modelos', primario: true }, { rotulo: 'Pinte a sua', href: personalizar(l.pro.chave) }]}
+  fotos={fundos.horizon}
 />
 
 <section class="secao secao--sem-linha">
   <div class="container">
-    <Cabecalho eyebrow="Sistema elétrico" linhas={['Sistema elétrico.', 'Igual nas']} verde=" três."
+    <Cabecalho eyebrow="Sistema elétrico" linhas={['Mesma engenharia', 'em toda']} verde=" linha."
       lead="Ninguém compra versão reduzida do sistema. Motor, EDRO Power Pack, Modo automático e Find My são os mesmos da PRO à EX, e nas seis HORIZON." />
     <dl class="detalhes-tec">
       {Object.entries(catalogoHz.sistema).map(([k, v]) => (<div><dt>{k}</dt><dd>{junto(v)}</dd></div>))}
@@ -77,17 +77,12 @@ const pesoRotulo = `<i class="modelo">${l.nome}</i> PRO HORIZON, sem pedais, tam
   </div>
 </section>
 
-<Anatomia linha={l} horizon sistema={catalogoHz.sistema} />
-
-<SeletorVersoes linha={l} wordmark={l.base} horizon
-  lead={`Todas partem do mesmo quadro <i class="modelo">${l.nome}</i> HORIZON em carbono, da mesma pintura exclusiva e da mesma garantia vitalícia. O que muda são os componentes.`} />
-
 <!-- Desenvolvida, não adaptada, versão curta (v3.4) -->
 <section class="secao">
   <div class="container bloco2 bloco2--topo">
     <div>
       <p class="eyebrow eyebrow--verde">Desenvolvimento</p>
-      <h2 class="headline" style="margin:var(--s-4) 0 var(--s-6)">Desenvolvida,<br />não <span class="verde">adaptada.</span></h2>
+      <h2 class="headline" style="margin:var(--s-4) 0 var(--s-6)">Estrutura de XC e dinâmica <span class="verde">preservada.</span></h2>
       <p class="lead">Quatro decisões de engenharia e o que cada uma muda no seu pedal.</p>
       <a class="link-seta" href="/horizon#desenvolvimento">Entenda o desenvolvimento</a>
     </div>
@@ -96,7 +91,7 @@ const pesoRotulo = `<i class="modelo">${l.nome}</i> PRO HORIZON, sem pedais, tam
         <article class="dev__curto">
           <p class="eyebrow eyebrow--verde">{i + 1} · {c.rotulo}</p>
           <h3>{c.titulo_curto ?? c.titulo}</h3>
-          <p set:html={modelo(c.sente)} />
+          <p set:html={modelo(c.sente_curto ?? c.sente)} />
         </article>
       ))}
     </div>
@@ -107,13 +102,15 @@ const pesoRotulo = `<i class="modelo">${l.nome}</i> PRO HORIZON, sem pedais, tam
 
 <AutonomiaReal />
 
-<Condicoes />
-
-<Fechamento linhas={['Mais longe.', 'Mais alto.']} verde="Mais rápido."
-  texto="Conte como você pedala hoje e onde quer chegar. Um dos nossos especialistas responde com a simulação do seu treino."
-  botoes={[
-    { rotulo: `Falar sobre a minha ${nome}`, href: wa(`Olá, EDRO. Quero falar sobre a minha ${nome}. (origem: site-${slug}-fechamento)`), primario: true, wa: `${slug}-fechamento` },
-    { rotulo: 'Ver a outra linha HORIZON', href: `/horizon/${outra.slug}` },
-  ]} />
+<!-- Modelos (fim da página, fundo branco) -->
+<section class="secao secao--clara" id="modelos">
+  <div class="container">
+    <h2 class="headline">Escolha a sua <i class="modelo">{l.nome}</i> HORIZON.</h2>
+    <div class="modelos-linha">
+      {l.versoes.map((v) => <CardModelo linha={l} versao={v} />)}
+    </div>
+    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
+  </div>
+</section>
 
 </Base>

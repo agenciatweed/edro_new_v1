@@ -1,0 +1,12 @@
+---
+/* Página de modelo (HORIZON): o conteúdo está em components/PaginaModelo.astro. */
+import PaginaModelo from '../../../components/PaginaModelo.astro';
+import { horizonLinhas } from '../../../lib/edro.js';
+
+export function getStaticPaths() {
+  return horizonLinhas.flatMap((p) => p.versoes.map((v) => ({ params: { linha: p.slug, versao: v.slug }, props: { p, v } })));
+}
+
+const { p, v } = Astro.props;
+---
+<PaginaModelo p={p} v={v} />

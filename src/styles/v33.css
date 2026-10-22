@@ -354,3 +354,39 @@
 
 /* Programas: linha de destaque no lugar da pergunta */
 .selo-card__destaque { margin: var(--s-1) 0 var(--s-3); font-weight: 600; color: var(--edro-ink); }
+
+/* ---------------- 7 /bikes e 10 /horizon ---------------- */
+.tipos-ancora { position: sticky; top: var(--nav-h); z-index: 20; background: var(--edro-white); border-bottom: 1px solid var(--edro-light-line); }
+.tipos-ancora__interno { display: flex; gap: clamp(var(--s-6), 4vw, var(--s-16)); justify-content: center; }
+.tipos-ancora a {
+  display: inline-flex; align-items: center; min-height: 56px; padding: 0 var(--s-2);
+  font: 500 .8125rem/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--edro-paper-soft); text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+.tipos-ancora a:hover { color: var(--edro-paper-ink); border-bottom-color: var(--edro-green); }
+@media (max-width: 899px) { .tipos-ancora { top: var(--nav-h-mobile); } .tipos-ancora__interno { justify-content: flex-start; overflow-x: auto; } }
+.tipo-grupo { scroll-margin-top: calc(var(--nav-h) + 56px); }
+.tipo-grupo__titulo { font-family: var(--font-display); font-weight: 400; font-size: var(--t-headline); line-height: 1.2; text-transform: uppercase; color: var(--edro-paper-ink); margin-bottom: var(--s-12); }
+
+/* Desenvolvimento HORIZON: a bike com os marcadores sobre branco */
+.dev__foto--clara { padding: var(--s-6); background: var(--edro-white); border-radius: var(--radius); }
+.dev__foto--clara .dev__palco { filter: none; }
+.dev__foto--clara figcaption { color: var(--edro-paper-soft); }
+
+/* Simulador: título e texto no topo; números e botão à esquerda, captura à direita */
+.simulador-bloco__corpo { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: var(--s-12); align-items: start; margin-top: var(--s-4); }
+.simulador-bloco__numeros { display: grid; gap: var(--s-6); margin: 0 0 var(--s-8); }
+.simulador-bloco__numeros dt { font-family: var(--font-display); font-size: clamp(2rem, 1.6rem + 1.4vw, 3rem); line-height: 1; color: var(--edro-ink); }
+.simulador-bloco__numeros div:first-child dt { color: var(--edro-green); }
+.simulador-bloco__numeros dd { margin: var(--s-2) 0 0; font-size: var(--t-body-card); line-height: 1.6; color: var(--edro-soft); max-width: 34ch; }
+@media (max-width: 1023px) { .simulador-bloco__corpo { grid-template-columns: 1fr; } }
+
+/* Perfil HORIZON: um box só */
+.perfil-box { padding: clamp(var(--s-8), 4vw, var(--s-16)); background: var(--edro-panel); border: 1px solid var(--edro-green-50); border-radius: var(--radius); }
+.perfil-box__topo { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--s-6) var(--s-12); align-items: end; margin-bottom: var(--s-10); }
+.perfil-box__topo .lead { margin: 0; }
+.perfil-box__itens { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--s-12); margin: 0; }
+.perfil-box__itens > div { padding: var(--s-5) 0; border-top: 1px solid var(--edro-line); }
+.perfil-box__itens dt { font-weight: 600; color: var(--edro-ink); margin-bottom: var(--s-2); }
+.perfil-box__itens dd { margin: 0; font-size: var(--t-body-card); line-height: 1.65; color: var(--edro-soft); }
+@media (max-width: 1023px) { .perfil-box__topo, .perfil-box__itens { grid-template-columns: 1fr; } }

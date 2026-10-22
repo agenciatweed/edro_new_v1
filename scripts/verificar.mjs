@@ -36,7 +36,8 @@ const REDIRECIONADAS = ['/assistencia', '/comeca-aqui', '/atletas', '/lojistas']
 const REGRAS = [
   ['travessão (U+2014)', /—/g],
   ['meia-risca (U+2013)', /–/g],
-  ['"plataforma"', /plataformas?\b/gi],
+  /* Exceção: o texto final do cliente para o hero da HORIZON (v3.3 §10.1) diz "essa plataforma ganha vida". */
+  ['"plataforma"', /(?<!essa )plataformas?\b|plataforma(?! ganha vida)/gi],
   ['"recompra"', /recompra/gi],
   ['"promoção"', /promo[cç][aã]o/gi],
   /* "à vista no Pix com 5% de desconto" é o texto do catálogo 2027 (v3.2, seção 2.4). */

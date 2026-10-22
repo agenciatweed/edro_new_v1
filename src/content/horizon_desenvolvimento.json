@@ -1,46 +1,114 @@
 {
-  "fonte": "Atualização v3.2, seção 3.2 (copy final)",
-  "abertura": "Uma e-bike nasce de uma escolha: pegar um quadro pronto e pendurar um motor, ou projetar a bike inteira em torno do sistema. A EDRO escolheu a segunda. A HORIZON foi desenvolvida com a mesma concepção da <i class=\"modelo\">SUMMA</i> e da <i class=\"modelo\">RANGE</i>, e cada decisão de engenharia tem um benefício que você sente no pedal.",
+  "fonte": "Atualização v3.3, seções 10.2 a 10.7 (texto final do cliente)",
+  "abertura": "Adicionar motor e bateria a um quadro de alta performance sem transformar a bicicleta em um conjunto pesado é um desafio de engenharia. A linha Horizon resolveu isso integrando o sistema elétrico à geometria da <i class=\"modelo\">SUMMA</i> e da <i class=\"modelo\">RANGE</i> desde a primeira linha do projeto. O resultado é o comportamento dinâmico de uma bike de XC com o suporte de uma e-bike full power.",
   "cards": [
     {
       "rotulo": "Integração",
-      "titulo": "Integrar ao quadro sem mudar a bike",
-      "desafio": "Um motor central e uma bateria pedem espaço, fixações e rigidez que um quadro de XC não tem de sobra. O caminho fácil é engordar tubos e alterar a geometria; o resultado é uma bike que não se comporta mais como a original.",
-      "fez": "Desenvolveu o quadro da HORIZON com a mesma geometria e a mesma dinâmica da <i class=\"modelo\">SUMMA</i> e da <i class=\"modelo\">RANGE</i>. Motor e Power Pack entram no projeto do quadro desde o início, e não como acessórios presos depois.",
-      "sente": "A HORIZON vira, desce e sobe como uma bike de XC. Quem já pedala uma EDRO não precisa reaprender nada.",
-      "sente_curto": "A HORIZON vira, desce e sobe como uma bike de XC."
+      "titulo": "Geometria de XC intacta",
+      "desafio": "E-bikes comuns costumam engordar tubos e alterar ângulos para acomodar o motor, comprometendo a agilidade.",
+      "fez": "O motor e a bateria foram desenhados dentro do projeto do quadro. A HORIZON mantém exatamente a mesma posição de pilotagem e o comportamento dinâmico da <i class=\"modelo\">SUMMA</i> e da <i class=\"modelo\">RANGE</i>.",
+      "sente": "Mudar de linha, contornar curvas fechadas e pilotar em trechos técnicos exige a mesma técnica de uma bike tradicional.",
+      "sente_curto": "Pilotar em trechos técnicos exige a mesma técnica de uma bike tradicional."
     },
     {
       "rotulo": "Peso",
       "titulo": "Peso de bike de XC",
-      "desafio": "Cada quilo a mais aparece na curva, na subida e na hora de carregar a bike em um trecho a pé. E-bikes full power costumam passar dos 20 kg.",
-      "fez": "Quadro monocoque de carbono moldado em EPS, motor compacto e um conjunto bateria e fixação enxuto. A <i class=\"modelo\">SUMMA</i> PRO HORIZON pesa {peso_summa}; a <i class=\"modelo\">RANGE</i> PRO HORIZON, {peso_range} (sem pedais, tamanho M).",
-      "sente": "A bike responde ao corpo, não só ao motor. Com a assistência desligada, você segue pedalando sem carregar peso morto.",
-      "sente_curto": "A bike responde ao corpo, não só ao motor."
+      "desafio": "O peso excessivo das e-bikes convencionais (frequentemente acima de 20 kg) prejudica a manobrabilidade e o transporte.",
+      "fez": "Construção em carbono monocoque moldado em EPS combinada a um motor compacto. A <i class=\"modelo\">SUMMA</i> PRO HORIZON pesa <b>{peso_summa}</b> e a <i class=\"modelo\">RANGE</i> PRO HORIZON <b>{peso_range}</b> (tamanho M, sem pedais).",
+      "sente": "A bicicleta reage ao seu corpo. Se a assistência for desligada, você continua pedalando sem a sensação de arrastar peso morto.",
+      "sente_curto": "A bicicleta reage ao seu corpo, não só ao motor."
     },
     {
       "rotulo": "EDRO Power Pack",
-      "titulo": "EDRO Power Pack: uma bateria para este motor e esta bike",
-      "titulo_curto": "Uma bateria para este motor e esta bike",
-      "desafio": "Baterias de prateleira são longas, pesadas na ponta e desenhadas para caber em qualquer quadro, não no quadro certo. Onde elas ficam define onde a massa da bike fica, e a massa define o comportamento.",
-      "fez": "Desenvolveu o EDRO Power Pack exclusivamente para o motor CYC Photon Gen 2 e para esta aplicação. O desenho é exclusivo e posiciona os 540 Wh junto ao motor, na parte baixa do quadro: centralização de massa e centro de gravidade mais baixo. Recarga direto na bike.",
-      "sente": "Uma bicicleta mais ágil, com a dianteira mais leve para levantar a roda e corrigir a linha, e uma sensação de pedalada mais natural, porque o peso está onde o seu corpo espera que ele esteja.",
-      "sente_curto": "Mais ágil, dianteira mais leve e pedalada mais natural.",
+      "titulo": "EDRO Power Pack: bateria desenvolvida sob medida",
+      "titulo_curto": "Bateria desenvolvida sob medida",
+      "desafio": "Baterias genéricas de prateleira são longas, pesadas na ponta e desenhadas para caber em qualquer quadro, desequilibrando a massa da bike.",
+      "fez": "Criamos o EDRO Power Pack (540 Wh) em um desenho exclusivo para o motor CYC Photon Gen 2. Toda a massa da bateria fica posicionada na parte inferior do quadro, junto ao motor, centralizando o centro de gravidade.",
+      "sente": "Dianteira leve e solta para levantar a roda e transpor obstáculos, mantendo a resposta de pilotagem exatamente onde o seu corpo espera.",
+      "sente_curto": "Dianteira leve e solta para levantar a roda e transpor obstáculos.",
       "destaque": true
     },
     {
       "rotulo": "Assistência",
       "titulo": "Sensação natural de pedalada",
-      "desafio": "Assistência que entra com tranco ou que continua depois que você parou de pedalar muda o seu gesto e a sua confiança no terreno técnico.",
-      "fez": "Sensor de torque no motor central, assistência exclusivamente ao pedal (sem acelerador), Modo automático por frequência cardíaca e arrasto zero com o motor desligado.",
-      "sente": "Força na medida da sua pedalada, no instante em que você pede. Em terreno técnico a bike segue o seu ritmo, não o contrário.",
-      "sente_curto": "Força na medida da sua pedalada, no instante em que você pede."
+      "desafio": "Motores com entrega de potência brusca geram perda de tração e insegurança em terrenos técnicos.",
+      "fez": "Sensor de torque de alta precisão com assistência exclusiva ao pedal e arrasto zero com o sistema desligado.",
+      "sente": "A potência entra de forma instantânea e proporcional à força do seu pedal. Em subidas íngremes ou rochosas, a bike obedece ao seu ritmo com precisão absoluta.",
+      "sente_curto": "A potência entra de forma instantânea e proporcional à força do seu pedal."
     }
   ],
-  "fecho": ["O resultado é uma e-bike que não parece e-bike.", "Leveza e dinâmica sempre que quiser, potência de sobra quando precisar."],
+  "fecho": [
+    "O resultado é uma e-bike que não parece e-bike.",
+    "Leveza e dinâmica sempre que quiser, potência de sobra quando precisar."
+  ],
   "marcadores": [
-    { "n": 1, "x": 44, "y": 73, "rotulo": "motor central" },
-    { "n": 2, "x": 63, "y": 19, "rotulo": "quadro com a geometria da SUMMA" },
-    { "n": 3, "x": 51, "y": 50, "rotulo": "EDRO Power Pack, baixo e junto ao motor" }
-  ]
+    {
+      "n": 1,
+      "x": 44,
+      "y": 73,
+      "rotulo": "motor central"
+    },
+    {
+      "n": 2,
+      "x": 63,
+      "y": 19,
+      "rotulo": "quadro com a geometria da SUMMA"
+    },
+    {
+      "n": 3,
+      "x": 51,
+      "y": 50,
+      "rotulo": "EDRO Power Pack, baixo e junto ao motor"
+    }
+  ],
+  "titulo": "Estrutura de XC e dinâmica preservada.",
+  "rotulos": [
+    "O desafio",
+    "Solução EDRO",
+    "Na prática"
+  ],
+  "no_seu_pedal": [
+    {
+      "titulo": "Assistência natural.",
+      "texto": "O sensor de torque entrega força na medida da sua pedalada, sem trancos."
+    },
+    {
+      "titulo": "Arrasto zero.",
+      "texto": "Com o motor desligado, a HORIZON pedala como uma bike convencional."
+    },
+    {
+      "titulo": "Modo automático.",
+      "texto": "A assistência se ajusta pela sua frequência cardíaca e mantém você na zona de treino que escolher."
+    },
+    {
+      "titulo": "Autonomia calculada para o seu percurso.",
+      "texto": "O simulador EDRO mostra a autonomia para a sua rota antes de você iniciar o pedal."
+    },
+    {
+      "titulo": "Sempre com você.",
+      "texto": "Display 2,1\" IP65, app Ride Control e Apple Find My integrado para localizar a bike."
+    }
+  ],
+  "perfil": {
+    "titulo": "Projetada para a sua pilotagem.",
+    "texto": "A HORIZON foi criada para o ciclista que não abre mão da agilidade, da leveza e da precisão técnica do XC. Se você busca ir mais longe, encarar subidas íngremes e manter o ritmo nos trechos mais exigentes, sem perder o controle e a leveza de uma bike convencional, a HORIZON é a sua bike.",
+    "itens": [
+      [
+        "Controle técnico e agilidade.",
+        "Você quer a resposta imediata do quadro ao mudar de linha, encarar curvas fechadas e transpor obstáculos com a leveza de uma bike de XC."
+      ],
+      [
+        "Autonomia extrema e altura de montanha.",
+        "Você busca acumular mais altimetria e explorar trechos mais longos no mesmo tempo de treino, mantendo a intensidade ideal de pedalada."
+      ],
+      [
+        "Integração sem sensação de carga.",
+        "Você valoriza a entrega de torque onde ela é necessária, mantendo uma condução natural e sem a sensação de pilotar um conjunto pesado ou engessado."
+      ],
+      [
+        "Construção exclusiva e sob medida.",
+        "Você exige uma bicicleta configurada para a sua ergonomia e o seu estilo de pilotagem, feita com a precisão artesanal e técnica da EDRO."
+      ]
+    ]
+  }
 }

@@ -1,27 +1,29 @@
 ---
-/* /bikes v3.1 · tela site_v3/02-bikes.png. As linhas não se comparam: sem tabela lado a lado. */
+/* /bikes v3.3 (§7): a linha completa. Hero em carrossel de fotos escurecidas e todos os
+   modelos em cards, fundo branco, agrupados por tipo (#road, #mountain-bike, #eletrica),
+   as mesmas âncoras das abas da home. */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
-import CardLinha from '../../components/CardLinha.astro';
+import CabecalhoLinha from '../../components/CabecalhoLinha.astro';
 import Fechamento from '../../components/Fechamento.astro';
-import NumerosMarca from '../../components/NumerosMarca.astro';
-import condicoes from '../../content/condicoes_2027.json';
 import fundos from '../../content/fundos.json';
-import { Image } from 'astro:assets';
-import { plataformas, wa, rodapeFicha } from '../../lib/edro.js';
-import { img } from '../../lib/imagens.js';
+import { TIPOS, linhaPorId, plataformas, wa, rodapeFicha } from '../../lib/edro.js';
+
+const grupos = TIPOS.map((t) => ({ ...t, linhas: t.linhas.map(linhaPorId) }));
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Linhas de bikes EDRO',
-  itemListElement: plataformas.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://edrobikes.com.br/bikes/${p.slug}`, name: `EDRO ${p.nome}` })),
+  name: 'Bikes EDRO',
+  itemListElement: plataformas.flatMap((p) => p.versoes.map((v) => ({ p, v }))).map(({ p, v }, i) => ({
+    '@type': 'ListItem', position: i + 1, url: `https://edrobikes.com.br/bikes/${p.slug}/${v.slug}`, name: `EDRO ${p.nome} ${v.nome}`,
+  })),
 };
 ---
 
 <Base
-  titulo="Bikes EDRO · SUMMA, RANGE e IMPETUS de carbono sob medida"
-  descricao="Três linhas de bikes de carbono feitas à mão em Tubarão: SUMMA hardtail XC, RANGE full suspension XC e IMPETUS road aero. Cada linha para um propósito. Qual é o seu?"
+  titulo="Bikes EDRO · SUMMA, RANGE, IMPETUS e HORIZON de carbono sob medida"
+  descricao="Todos os modelos EDRO: SUMMA hardtail XC, RANGE full suspension XC, IMPETUS road bike e as elétricas SUMMA HORIZON e RANGE HORIZON. Carbono monocoque, feitas à mão em Tubarão."
   canonica="https://edrobikes.com.br/bikes"
   pagina="bikes"
   jsonLd={jsonLd}
@@ -29,63 +31,34 @@ const jsonLd = {
 
 <Hero
   eyebrow="Bikes EDRO"
-  linhas={['3 linhas de bikes.', 'Nenhuma <span class="verde">bike</span>']}
-  verde="igual."
-  lead="Cada linha foi projetada para um propósito específico. Qual é o seu? Todas nascem de um molde exclusivo EDRO em carbono monocoque, com modelagem EPS e prepreg de alto módulo, e chegam únicas."
-  botoes={[
-    { rotulo: 'Falar com um especialista', href: wa('Olá, EDRO. Quero ajuda para escolher a minha linha. (origem: site-bikes)'), primario: true, wa: 'bikes-hero' },
-    { rotulo: 'Ver a HORIZON', href: '/horizon' },
-  ]}
+  linhas={['Diferentes propostas,', 'mas o mesmo <span class="verde">DNA</span> de performance.']}
+  lead="Cada linha nasce de um molde exclusivo EDRO, construída em carbono monocoque, com modelagem EPS e prepreg de alto módulo. Cada bike é feita à mão, com pintura personalizada e exclusiva."
   fotos={fundos.bikes}
-  clipe={{ src: '/videos/bikes-montagem.mp4', poster: '/videos/bikes-montagem.jpg', rotulo: 'SUMMA, RANGE e IMPETUS em trilha e estrada' }}
 />
 
-<section class="secao secao--sem-linha">
-  <div class="container">
-    <h2 class="visualmente-oculto">As três linhas</h2>
-    <div class="linhas__coluna">
-      {plataformas.map((p) => <CardLinha p={p} larga />)}
-    </div>
-    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
+<nav class="tipos-ancora" aria-label="Tipos de bicicleta">
+  <div class="container tipos-ancora__interno">
+    {grupos.map((g) => <a href={`#${g.id}`}>{g.rotulo}</a>)}
   </div>
-</section>
+</nav>
 
-<NumerosMarca />
-
-<!-- Como o catálogo 2027 orienta a escolha (v3.2, seção 2.2) -->
-<section class="secao secao--sem-linha">
-  <div class="container">
-    <p class="eyebrow eyebrow--verde">Como escolher</p>
-    <h2 class="headline" style="margin:var(--s-4) 0 var(--s-8)">Como escolher<br />a <span class="verde">sua.</span></h2>
-    <dl class="escolher">
-      {condicoes.como_escolher.map(([uso, linha, href]) => (
-        <div>
-          <dt>{uso}</dt>
-          <dd><a href={href} set:html={linha.replace(/(SUMMA|RANGE|IMPETUS)/g, '<i class="modelo">$1</i>')} /></dd>
-        </div>
+{grupos.map((g) => (
+  <section class="secao secao--clara tipo-grupo" id={g.id} aria-labelledby={`tipo-${g.id}`}>
+    <div class="container">
+      <h2 class="tipo-grupo__titulo" id={`tipo-${g.id}`}>{g.rotulo}</h2>
+      {g.linhas.map((l) => (
+        <CabecalhoLinha linha={l} h="h3" conheca={g.id === 'eletrica' ? 'Conheça a HORIZON' : undefined} conhecaHref={g.id === 'eletrica' ? '/horizon' : undefined} />
       ))}
-    </dl>
-  </div>
-</section>
-
-<section class="secao">
-  <div class="container">
-    <div class="card-horizon" style="margin-top:0">
-      <div>
-        <p class="eyebrow eyebrow--verde">Bikes elétricas</p>
-        <Image src={img('brand/horizon.png')} alt="HORIZON" height={68} />
-        <p>As mesmas linhas SUMMA e RANGE, com motor central e bateria integrada. Cara, peso e dinâmica de MTB, potência de e-bike full power.</p>
-      </div>
-      <a class="btn btn--secundario" href="/horizon">Conhecer a HORIZON</a>
+      <p class="nota-peso">{rodapeFicha.join(' ')}</p>
     </div>
-  </div>
-</section>
+  </section>
+))}
 
 <Fechamento linhas={['Fuja do']} verde="comum."
-  texto="Não sabe por qual linha começar? Fale com um dos nossos especialistas."
+  texto="Fale diretamente com os especialistas que desenvolvem a sua bike."
   botoes={[
-    { rotulo: 'Falar com um especialista', href: wa('Olá, EDRO. Não sei por qual linha começar. (origem: site-bikes-fechamento)'), primario: true, wa: 'bikes-fechamento' },
-    { rotulo: 'Ver o FIT4U', href: '/fit4u' },
+    { rotulo: 'Falar com um especialista', href: wa('Olá, EDRO. Quero ajuda para escolher a minha bike. (origem: site-bikes-fechamento)'), primario: true, wa: 'bikes-fechamento' },
+    { rotulo: 'Conheça o FIT4U', href: '/fit4u' },
   ]} />
 
 </Base>

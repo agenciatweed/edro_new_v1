@@ -1,28 +1,31 @@
 ---
-/* "Autonomia real, não de tabela": a autonomia da HORIZON é comunicada pelo simulador, nunca por tabela (v3.1, capítulo 2). */
+/* Simulador de autonomia (v3.3 §10.6): título à esquerda e texto à direita no topo;
+   embaixo, os números e o botão à esquerda e a captura do simulador à direita.
+   A autonomia da HORIZON é comunicada pelo simulador, nunca por tabela. */
 import Cabecalho from './Cabecalho.astro';
 import Midia from './Midia.astro';
 import hz from '../content/horizon.json';
-import cat from '../content/horizon_2027.json';
 const s = hz.sistema.simulador;
-const sim = cat.simulador;
+const numeros = [
+  [`${s.erro_pct}%`, 'Margem de erro do simulador contra pedais reais medidos.'],
+  ['GPX', 'Aceita GPX, TCX e FIT: a rota do seu Strava ou do seu Garmin.'],
+  ['15+', 'Pedais instrumentados para calibrar o modelo.'],
+  ['Vento', 'Previsão de vento e temperatura do local, por trecho, na data do seu pedal.'],
+];
 ---
-<section class="secao">
+<section class="secao simulador-bloco">
   <div class="container">
-    <Cabecalho linhas={['Autonomia real,', 'não de']} verde=" tabela."
-      lead={sim.texto} />
-    <div class="autonomia">
-      <div class="autonomia__cards">
-        <div class="tec tec--destaque"><p class="numero-card__topo"><span class="numero-card__num">{s.erro_pct}</span><span class="numero-card__leg">%</span></p><p>Margem de erro do simulador contra pedais reais medidos.</p></div>
-        <div class="tec"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">15+</span></p><p>Pedais instrumentados para calibrar o modelo, com máxima confiabilidade nas informações.</p></div>
-        <div class="tec"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">GPX</span></p><p>Aceita GPX, TCX e FIT: a rota do seu Strava ou do seu Garmin.</p></div>
-        <div class="tec"><p class="numero-card__topo"><span class="numero-card__num numero-card__num--branco">Vento</span></p><p>Previsão de vento e temperatura do local, por trecho, na data do seu pedal.</p></div>
-      </div>
+    <Cabecalho linhas={['Simulador de']} verde="autonomia."
+      lead="Esqueça estimativas genéricas. Desenvolvemos um simulador de precisão que calcula a autonomia real da sua e-bike com base no seu trajeto, altimetria, peso, cadência, vento e temperatura. O resultado reflete a realidade do seu terreno.*" />
+    <div class="simulador-bloco__corpo">
       <div>
-        <Midia tipo="IMAGEM" titulo="Tela do simulador" descricao="Captura real do simulador (aba Rota Real) com um resultado, como convite para a página do simulador." proporcao="4x3" />
-        <p class="nota-peso" style="margin-top:0;margin-bottom:var(--s-5)">{sim.aviso}</p>
+        <dl class="simulador-bloco__numeros">
+          {numeros.map(([n, t]) => (<div><dt>{n}</dt><dd>{t}</dd></div>))}
+        </dl>
         <a class="btn btn--primario" href="/horizon/simulador">Simular a minha autonomia<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
+        <p class="nota-peso">*Margem de erro de apenas {s.erro_pct}%.</p>
       </div>
+      <Midia tipo="IMAGEM" titulo="Tela do simulador" descricao="Captura real do simulador (aba Rota Real) com um resultado, como convite para a página do simulador." proporcao="4x3" />
     </div>
   </div>
 </section>

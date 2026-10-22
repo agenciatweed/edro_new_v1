@@ -164,7 +164,7 @@ export const TIPOS = [
 export const ehHorizon = (l) => Boolean(l.base);
 export const linhaPorId = (id) => plataformas.find((p) => p.slug === id) ?? horizonLinhas.find((l) => l.slug === id);
 export const urlLinha = (l) => (ehHorizon(l) ? `/horizon/${l.slug}` : `/bikes/${l.slug}`);
-/* Página de modelo: as convencionais têm página própria; as HORIZON abrem a linha na versão. */
-export const urlModelo = (l, v) => (ehHorizon(l) ? `/horizon/${l.slug}#${v.slug}` : `/bikes/${l.slug}/${v.slug}`);
+/* Página de modelo de cada versão (as HORIZON também, §15.6). */
+export const urlModelo = (l, v) => `${urlLinha(l)}/${v.slug}`;
 /* Nome completo para texto: "SUMMA PRO", "SUMMA HORIZON PRO". */
 export const nomeLinha = (l) => (ehHorizon(l) ? `${l.nome} HORIZON` : l.nome);
