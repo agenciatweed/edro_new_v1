@@ -1,0 +1,59 @@
+/* =============================================================
+   EDRO · v3.3 (ajustes do cliente, outubro de 2026)
+   Fundo branco onde a bike aparece, cabeçalho branco, cards de
+   modelo, geometria em grade. Cores só pelos tokens.
+   ============================================================= */
+
+/* ---------------- 2.1 SEÇÃO CLARA ----------------
+   Toda seção cuja estrela é a foto de produto. Corte seco com o escuro. */
+.secao--clara {
+  background: var(--edro-white);
+  color: var(--edro-paper-ink);
+  border-top: 0;
+}
+.secao--clara + .secao--clara { padding-top: 0; }
+.secao--clara .headline,
+.secao--clara .display,
+.secao--clara .card-title,
+.secao--clara h2, .secao--clara h3 { color: var(--edro-paper-ink); }
+.secao--clara .lead,
+.secao--clara p { color: var(--edro-paper-soft); }
+.secao--clara .eyebrow { color: var(--edro-paper-soft); }
+.secao--clara .eyebrow--verde { color: var(--edro-paper-ink); }
+.secao--clara .caption,
+.secao--clara .nota-peso { color: var(--edro-paper-soft); }
+/* Verde sobre branco não passa AA em texto pequeno: a palavra verde vira tinta e só os títulos grandes mantêm o verde. */
+.secao--clara .headline .verde, .secao--clara .display .verde { color: var(--edro-green); }
+.secao--clara a:not(.btn) { color: var(--edro-paper-ink); }
+.secao--clara .btn--secundario { color: var(--edro-paper-ink); border-color: var(--edro-paper-soft); background: transparent; }
+.secao--clara .btn--secundario:hover { border-color: var(--edro-paper-ink); background: var(--edro-light-panel); }
+.secao--clara ::selection { background: var(--edro-green); color: var(--edro-green-ink); }
+.secao--clara :focus-visible { outline-color: var(--edro-paper-ink); }
+
+/* Wordmarks brancos em fundo claro viram tinta preta, até chegarem os arquivos escuros.
+   TODO(EDRO): trocar pelos nomes em versão para fundo claro (src/assets/nomes/). */
+.wordmark--escuro { filter: brightness(0); }
+
+/* ---------------- 2.2 FOTO ESCURECIDA ----------------
+   As fotos chegam sem tratamento; o escurecimento é do site. */
+.foto-escurecida { position: relative; }
+.foto-escurecida::after,
+.hero3__fundo::after,
+.fundo-rotativo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--edro-bg) 84%, transparent) 0%, color-mix(in srgb, var(--edro-bg) 58%, transparent) 45%, color-mix(in srgb, var(--edro-bg) 28%, transparent) 100%),
+    linear-gradient(0deg, color-mix(in srgb, var(--edro-bg) 65%, transparent) 0%, transparent 38%);
+}
+@media (max-width: 767px) {
+  .foto-escurecida::after,
+  .hero3__fundo::after,
+  .fundo-rotativo::after {
+    background: linear-gradient(0deg, color-mix(in srgb, var(--edro-bg) 92%, transparent) 0%, color-mix(in srgb, var(--edro-bg) 70%, transparent) 55%, color-mix(in srgb, var(--edro-bg) 55%, transparent) 100%);
+  }
+}
+
+/* ---------------- 3 CABEÇALHO ----------------
+   O cabeçalho é o MenuSite (estilos próprios, inline). Aqui só a costura com o site. */
+.sm-barra { view-transition-name: site-nav; }
+@media (max-width: 899px) { body { padding-bottom: 56px; } }

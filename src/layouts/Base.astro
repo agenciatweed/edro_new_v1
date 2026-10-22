@@ -9,12 +9,12 @@
 import { Image } from 'astro:assets';
 import { bikes, wa, comercial, digitos, telefoneBr } from '../lib/edro.js';
 import { img } from '../lib/imagens.js';
-import { menu, LOGO_MENU } from '../lib/menu.js';
-import Trilha from '../components/Trilha.astro';
+import MenuSite from '../components/MenuSite.astro';
 
 import '../styles/tokens.css';
 import '../styles/edro.css';
 import '../styles/v3.css';
+import '../styles/v33.css';
 
 const {
   titulo: tituloPagina,
@@ -101,60 +101,11 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
 
 <a class="pular" href="#conteudo">Pular para o conteúdo</a>
 
-<header class="nav">
-  <div class="nav__interno">
-    <a class="nav__logo" href="/" aria-label="EDRO Performance Bikes, página inicial">
-      <Image src={img(LOGO_MENU)} alt="EDRO Performance Bikes" height={52} densities={[1, 2]} loading="eager" />
-    </a>
-
-    <nav class="nav__menu" aria-label="Navegação principal">
-      {menu.map((m) => m.sub ? (
-        <div class="nav__item">
-          <a class:list={['nav__link', { ativo: ativoEm(m.href) }]} href={m.href} aria-current={ativoEm(m.href) ? 'page' : undefined}>{m.rotulo}</a>
-          <div class="nav__sub">
-            {m.sub.map((s) => <a href={s.href}>{s.rotulo}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>)}
-          </div>
-        </div>
-      ) : (
-        <a class:list={['nav__link', { ativo: ativoEm(m.href) }]} href={m.href} aria-current={ativoEm(m.href) ? 'page' : undefined}>{m.rotulo}</a>
-      ))}
-    </nav>
-
-    <div class="nav__acoes">
-      <a class="nav__falar" href="/contato">Falar com a EDRO</a>
-      <a class="btn btn--primario nav__btn" href={wa('Olá, EDRO. Quero montar a minha EDRO. (origem: site-nav)')} rel="noopener" data-wa="nav">Monte a sua</a>
-    </div>
-
-    <button class="nav__hamburguer" type="button" aria-expanded="false" aria-controls="menu-mobile" aria-label="Abrir menu">
-      <span class="nav__barra" aria-hidden="true"></span>
-      <span class="nav__barra" aria-hidden="true"></span>
-    </button>
-  </div>
-</header>
-
-<div class="menu-mobile" id="menu-mobile" hidden>
-  <nav class="menu-mobile__lista" aria-label="Navegação mobile">
-    {menu.map((m) => m.sub ? (
-      <>
-        <a href={m.href}>{m.rotulo}</a>
-        {m.sub.map((s) => <a class="menu-mobile__sub" href={s.href}>{s.rotulo}</a>)}
-      </>
-    ) : <a href={m.href}>{m.rotulo}</a>)}
-    <span class="menu-mobile__divisor" aria-hidden="true"></span>
-    <div class="menu-mobile__rodape">
-      <a href={`https://wa.me/${comercial}`} rel="noopener">Comercial {telefoneBr(ct.whatsapp_comercial)}</a>
-      <a href={`https://wa.me/${digitos(ct.whatsapp_suporte)}`} rel="noopener">Suporte {telefoneBr(ct.whatsapp_suporte)}</a>
-      <a href={`mailto:${ct.email}`}>{ct.email}</a>
-      <p>{ct.horario}</p>
-    </div>
-  </nav>
-</div>
+<MenuSite atual={rotaLimpa} />
 
 <main id="conteudo">
   <slot />
 </main>
-
-<Trilha />
 
 <footer class="rodape">
   <div class="container">

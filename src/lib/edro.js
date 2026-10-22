@@ -143,3 +143,28 @@ export const rodapeFicha = [catalogo.nota_peso, catalogo.vigencia, 'Imagem ilust
 
 /* Nome de plataforma em caixa de titulo, para links e listas. */
 export const titulo = (nome) => nome.charAt(0) + nome.slice(1).toLowerCase();
+
+/* ---- v3.3: frases de resumo de linha, tipos de bike e endereços de modelo ---- */
+
+/* Parcelamento: um campo só no catálogo, repetido em todas as versões. */
+export const PARCELAMENTO = catalogo.linhas[0].versoes[0].parcelamento;
+
+const menorPor = (l, campo) => l.versoes.reduce((a, v) => (v[campo] < a[campo] ? v : a));
+/* "a partir de 8,47 kg na versão PRO" e "a partir de R$ 23.990 na versão EX": sempre do dado. */
+export const pesoAPartir = (l) => { const v = menorPor(l, 'peso_kg'); return `a partir de ${v.peso_texto} na versão ${v.nome}`; };
+export const precoAPartir = (l) => { const v = menorPor(l, 'preco'); return `a partir de ${brl(v.preco)} na versão ${v.nome}`; };
+
+/* Tipos de bicicleta do seletor da home e das âncoras de /bikes. */
+export const TIPOS = [
+  { id: 'road', rotulo: 'Road', linhas: ['impetus'] },
+  { id: 'mountain-bike', rotulo: 'Mountain Bike', linhas: ['summa', 'range'] },
+  { id: 'eletrica', rotulo: 'Elétrica', linhas: ['summa-horizon', 'range-horizon'] },
+];
+
+export const ehHorizon = (l) => Boolean(l.base);
+export const linhaPorId = (id) => plataformas.find((p) => p.slug === id) ?? horizonLinhas.find((l) => l.slug === id);
+export const urlLinha = (l) => (ehHorizon(l) ? `/horizon/${l.slug}` : `/bikes/${l.slug}`);
+/* Página de modelo: as convencionais têm página própria; as HORIZON abrem a linha na versão. */
+export const urlModelo = (l, v) => (ehHorizon(l) ? `/horizon/${l.slug}#${v.slug}` : `/bikes/${l.slug}/${v.slug}`);
+/* Nome completo para texto: "SUMMA PRO", "SUMMA HORIZON PRO". */
+export const nomeLinha = (l) => (ehHorizon(l) ? `${l.nome} HORIZON` : l.nome);

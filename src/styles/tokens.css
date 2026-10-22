@@ -27,6 +27,11 @@
   --edro-error:      #E0533A;
   --edro-warn:       #E3B341;
 
+  /* v3.3: seções claras, onde a bike aparece */
+  --edro-white:       #FFFFFF;
+  --edro-light-line:  #E4E7E3;   /* borda dos cards em fundo branco */
+  --edro-light-panel: #F6F7F5;   /* hover e áreas secundárias no claro */
+
   /* Verde a 50%, unico uso de borda colorida do sistema */
   --edro-green-50:   rgba(56, 169, 54, .5);
 
@@ -60,7 +65,8 @@
 
   /* ---- Layout ---- */
   --container:    1240px;
-  --gutter:       20px;
+  /* v3.3: respiro lateral fluido (16 px no celular, pela media query abaixo) */
+  --gutter:       clamp(20px, 1rem + 3vw, 72px);
   --radius:       2px;
   --nav-h:        92px;
   --nav-h-mobile: 64px;
