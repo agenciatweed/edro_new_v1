@@ -1,5 +1,6 @@
 ---
-/* Quatro programas com os selos oficiais, frase e pergunta. Cada selo leva à página do programa. */
+/* Quatro programas com os selos oficiais (v3.3 §6.8): nome, linha de destaque e texto.
+   Cada selo leva à seção do programa na página única /programas. */
 import { Image } from 'astro:assets';
 import { img } from '../lib/imagens.js';
 import conteudo from '../content/programas.json';
@@ -11,11 +12,11 @@ const lista = conteudo.ordem.map((slug) => ({ slug, ...conteudo.programas[slug] 
   {lista.map((p) => {
     const Tag = links ? 'a' : 'article';
     return (
-      <Tag class="selo-card" href={links ? `/programas/${p.slug}` : undefined}>
+      <Tag class="selo-card" href={links ? `/programas#${p.slug}` : undefined}>
         <span class="selo-card__selo"><Image src={img(`brand/${p.selo}`)} alt={p.selo_alt} height={208} /></span>
         <h3 class="card-title">{p.nome}</h3>
+        <p class="selo-card__destaque">{p.destaque}</p>
         <p>{p.card}</p>
-        <p class="selo-card__pergunta">{p.pergunta}</p>
       </Tag>
     );
   })}

@@ -1,0 +1,33 @@
+---
+/* Card de linha em fundo branco (v3.3 §6.4, box de apresentação): foto da PRO,
+   tipo, nome, frase, e na base comum entre os cards o peso e o preço "a partir de",
+   o parcelamento e "Conheça a …". */
+import { Picture, Image } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import { pesoAPartir, precoAPartir, PARCELAMENTO, urlLinha, nomeLinha, ehHorizon } from '../lib/edro.js';
+
+const { linha } = Astro.props;
+const horizon = ehHorizon(linha);
+const nome = nomeLinha(linha);
+const modelo = (s) => s.replace(/\b(SUMMA|RANGE|IMPETUS)\b/g, '<i class="modelo">$1</i>');
+---
+<article class="card-linha-clara">
+  <a class="card-linha-clara__foto" href={urlLinha(linha)} tabindex="-1" aria-hidden="true" style={`view-transition-name: bike-${linha.slug}`}>
+    <Picture src={img(linha.pro.foto)} formats={['avif', 'webp']} alt="" widths={[640, 1000]} sizes="(max-width: 767px) 90vw, 45vw" loading="lazy" />
+  </a>
+  <p class="eyebrow">{linha.tipo}</p>
+  <h3 class="card-linha-clara__nome">
+    <a href={urlLinha(linha)}>
+      <span class="visualmente-oculto">{nome}</span>
+      <Image class="wordmark--escuro" src={img(`brand/${horizon ? linha.base : linha.slug}.png`)} alt="" height={52} />
+      {horizon && <Image src={img('brand/horizon.png')} alt="" height={40} />}
+    </a>
+  </h3>
+  <p class="card-linha-clara__frase" set:html={`${modelo(linha.para_quem)}.`} />
+  <div class="card-linha-clara__base">
+    <p>{pesoAPartir(linha)}</p>
+    <p>{precoAPartir(linha)}</p>
+    <p class="card-linha-clara__parcela">{PARCELAMENTO}</p>
+    <a class="link-seta link-seta--escuro" href={urlLinha(linha)} set:html={`Conheça a ${modelo(nome)}`} />
+  </div>
+</article>

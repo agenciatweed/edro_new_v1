@@ -79,6 +79,8 @@ const varias = camadas.length > 1;
       anterior.classList.remove('ativa');
       setTimeout(() => anterior.classList.remove('saindo'), 900);
       pontos.forEach((p, i) => (i === atual ? p.setAttribute('aria-current', 'true') : p.removeAttribute('aria-current')));
+      /* Quem estiver em volta (o carrossel de conteúdo da home) acompanha a foto. */
+      caixa.dispatchEvent(new CustomEvent('fundo-troca', { detail: atual, bubbles: true }));
     };
     const parar = () => { clearInterval(timer); timer = undefined; };
     let pausado = false;

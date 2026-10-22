@@ -301,3 +301,56 @@
   .eng-args__fotos { grid-template-columns: 1fr; }
   .modelos-linha { grid-template-columns: 1fr; }
 }
+
+/* ---------------- 6 HOME ---------------- */
+.carrossel__slide:not([hidden]) .hero3__texto { animation: slide-entra .7s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes slide-entra { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { .carrossel__slide:not([hidden]) .hero3__texto { animation: none; } }
+
+.home-modelos__topo { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s-6) var(--s-12); align-items: end; margin-bottom: var(--s-12); }
+.home-modelos__topo .lead { margin: 0; }
+@media (max-width: 1023px) { .home-modelos__topo { grid-template-columns: 1fr; } }
+
+/* Barra de benefícios: ícone + título forte + subtítulo, lado a lado, fundo branco */
+.beneficios { background: var(--edro-white); border-top: 1px solid var(--edro-light-line); border-bottom: 1px solid var(--edro-light-line); }
+.beneficios__interno { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-6); padding-block: var(--s-8); }
+.beneficio { display: flex; align-items: center; gap: var(--s-4); justify-content: center; }
+.beneficio__icone { flex: none; width: 36px; height: 36px; fill: none; stroke: var(--edro-green); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.beneficio p { display: grid; gap: 2px; margin: 0; }
+.beneficio b { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; line-height: 1.15; text-transform: uppercase; color: var(--edro-paper-ink); }
+.beneficio span { font-size: var(--t-caption); line-height: 1.45; color: var(--edro-paper-soft); }
+@media (max-width: 767px) {
+  .beneficios__interno { grid-template-columns: 1fr; gap: var(--s-5); padding-block: var(--s-6); }
+  .beneficio { justify-content: flex-start; }
+}
+
+/* Cards de linha no claro (E-Bikes da home) */
+.linhas-claras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5); }
+.card-linha-clara {
+  display: flex; flex-direction: column; padding: var(--s-8) var(--s-8) var(--s-10);
+  border: 1px solid var(--edro-light-line); border-radius: var(--radius); background: var(--edro-white);
+  transition: border-color var(--dur-base) var(--ease);
+}
+.card-linha-clara:hover { border-color: var(--edro-paper-soft); }
+.card-linha-clara__foto { display: block; aspect-ratio: 16 / 9; margin-bottom: var(--s-6); }
+.card-linha-clara__foto picture, .card-linha-clara__foto img { display: block; width: 100%; height: 100%; object-fit: contain; transition: transform .5s var(--ease); }
+.card-linha-clara:hover .card-linha-clara__foto img { transform: scale(1.03); }
+.card-linha-clara__nome { margin: var(--s-3) 0 var(--s-4); }
+.card-linha-clara__nome a { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--s-2) var(--s-3); text-decoration: none; }
+.card-linha-clara__nome img { height: clamp(22px, 2.2vw, 32px); width: auto; max-width: 100%; }
+.card-linha-clara__nome img + img { height: clamp(18px, 1.8vw, 26px); }
+.card-linha-clara__frase { font-size: var(--t-body); line-height: 1.6; margin-bottom: var(--s-8); max-width: 48ch; }
+.card-linha-clara__base { margin-top: auto; padding-top: var(--s-5); border-top: 1px solid var(--edro-light-line); display: grid; gap: var(--s-1); }
+.secao--clara .card-linha-clara__base p { margin: 0; font-size: var(--t-body-card); color: var(--edro-paper-ink); font-weight: 500; }
+.secao--clara .card-linha-clara__base .card-linha-clara__parcela { font-weight: 400; color: var(--edro-paper-soft); font-size: var(--t-caption); }
+.card-linha-clara__base .link-seta { margin-top: var(--s-3); justify-self: start; }
+@media (max-width: 767px) { .linhas-claras { grid-template-columns: 1fr; } .card-linha-clara { padding: var(--s-5) var(--s-5) var(--s-8); } }
+
+/* Engenharia: galeria mais perto do texto */
+.home-eng__galeria { margin-top: var(--s-12); }
+
+/* Manifesto: mesma entrelinha das headlines */
+.manifesto-h2 { line-height: 1.12; }
+
+/* Programas: linha de destaque no lugar da pergunta */
+.selo-card__destaque { margin: var(--s-1) 0 var(--s-3); font-weight: 600; color: var(--edro-ink); }

@@ -1,55 +1,61 @@
 ---
-/* Home v3.1 · tela site_v3/01-home.png e capítulo 4.01 da especificação. */
+/* Home v3.3 (§6): hero em carrossel de fotos escurecidas, seletor de modelos por tipo
+   (fundo branco), barra de benefícios, E-Bikes (fundo branco), engenharia, sob medida,
+   personalizador, programas, manifesto, prova social e fechamento. */
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Cabecalho from '../components/Cabecalho.astro';
 import Midia from '../components/Midia.astro';
-import CardLinha from '../components/CardLinha.astro';
 import Selos from '../components/Selos.astro';
 import ProvaSocial from '../components/ProvaSocial.astro';
 import Fechamento from '../components/Fechamento.astro';
 import BlocoPersonalizador from '../components/BlocoPersonalizador.astro';
 import FundoRotativo from '../components/FundoRotativo.astro';
+import AbasTipo from '../components/AbasTipo.astro';
+import CardLinhaClara from '../components/CardLinhaClara.astro';
 import fundos from '../content/fundos.json';
-import { Image } from 'astro:assets';
-import { plataformas, porSlug, wa, PERSONALIZADOR, rodapeFicha } from '../lib/edro.js';
+import { horizonLinhas, porSlug, wa, PERSONALIZADOR, rodapeFicha } from '../lib/edro.js';
 
 const rangePro = porSlug('range').pro;
 const summaPro = porSlug('summa').pro;
-import { img, videos } from '../lib/imagens.js';
-
 const especialista = wa('Olá, EDRO. Quero falar com um dos especialistas sobre a minha EDRO. (origem: site-home)');
 
+/* Os três conteúdos do hero seguem o carrossel de fotos (pontos, setas, swipe). */
 const slides = [
   {
-    aba: 'HORIZON: além do horizonte',
     eyebrow: 'Bikes elétricas EDRO',
     linhas: ['Você, além do'], verde: 'horizonte.',
     lead: 'Cara, peso e dinâmica de MTB normal, com potência e autonomia de uma e-bike full power. Conheça a HORIZON.',
-    botoes: [{ rotulo: 'Conhecer a HORIZON', href: '/horizon', primario: true }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }],
-    clipe: { src: '/videos/horizon-banner.mp4', poster: '/videos/horizon-banner.jpg', rotulo: 'SUMMA HORIZON pedalando em estrada à beira-mar' },
+    botoes: [{ rotulo: 'Conheça a HORIZON', href: '/horizon', primario: true }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }],
   },
   {
-    aba: 'FIT4U: feita para você',
     eyebrow: 'FIT4U',
     linhas: ['Feita para'], verde: 'você.',
     lead: 'Sob medida no tamanho. Pintada do seu jeito. Monte a pintura e veja a sua EDRO antes de ela existir.',
-    botoes: [{ rotulo: 'Monte a sua pintura', href: PERSONALIZADOR, primario: true }, { rotulo: 'Conhecer o FIT4U', href: '/fit4u' }],
-    /* v3.2, seção 5.1: até o vídeo da FIT4U ficar pronto, a captura do personalizador. */
-    imagem: { src: 'fit4u/fit4u-desktop.png', alt: 'Personalizador de pintura FIT4U com a SUMMA HORIZON PRO verde em foto no local', href: PERSONALIZADOR, rotuloLink: 'Abrir o personalizador de pintura FIT4U' },
+    botoes: [{ rotulo: 'Monte a sua pintura', href: PERSONALIZADOR, primario: true }, { rotulo: 'Conheça o FIT4U', href: '/fit4u' }],
   },
   {
-    aba: `RANGE: full de ${rangePro.peso_texto}`,
     eyebrow: 'Full suspension XC, 100 mm',
     linhas: ['Full de'], verde: `${rangePro.peso_texto}.`,
     lead: 'Tração de full com pedalada de hardtail: a suspensão trabalha no terreno e fica firme quando você acelera. Peso da RANGE PRO, sem pedais, no tamanho M.',
-    botoes: [{ rotulo: 'Conhecer a RANGE', href: '/bikes/range', primario: true }, { rotulo: 'Ver as bikes', href: '/bikes' }],
-    clipe: { src: '/videos/range-trilha.mp4', poster: '/videos/range-trilha.jpg', rotulo: 'EDRO em trilha técnica', adiado: true },
+    botoes: [{ rotulo: 'Conheça a RANGE', href: '/bikes/range', primario: true }, { rotulo: 'Ver as bikes', href: '/bikes' }],
   },
 ];
 
+/* Ícones de linha, desenhados no traço do sistema (§6.3). */
+const ICONES = {
+  escudo: '<path d="M12 3 4 6v6c0 4.6 3.4 8.1 8 9 4.6-.9 8-4.4 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
+  cartao: '<rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="M3 10h18M7 15h4"/>',
+  caminhao: '<path d="M3 6.5h11v9H3zM14 9.5h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/>',
+};
+const beneficios = [
+  ['escudo', 'Garantia vitalícia', 'para quadros, garfos e componentes EDRO'],
+  ['cartao', `${summaPro.parcelamento.replace('em até ', '')}`, 'no cartão, ou 5% de desconto no Pix'],
+  ['caminhao', 'Frete grátis', 'entrega em até 30 dias, para todo o Brasil'],
+];
+
 const tec = [
-  { t: 'Monocoque', d: 'Quadro em peça única, sem juntas: menos peso, mais rigidez e nenhum ponto fraco onde um tubo encontra o outro.', destaque: true },
+  { t: 'Monocoque', d: 'Quadro em peça única, sem juntas: menos peso, mais rigidez e nenhum ponto fraco onde um tubo encontra o outro.' },
   { t: 'EPS', d: 'Núcleo expandido no lugar da bexiga: parede interna homogênea, sem excesso de resina. Mais leve e mais confiável.' },
   { t: 'Fibra 46T', d: 'Carbono de alto módulo, 40T e 46T por região: rigidez onde você pedala, conforto onde você senta.' },
   { t: 'Pintura', d: 'PU Acrílica Carbon Industrial, feita à mão: exclusiva, durável e tão leve que não pesa na balança.' },
@@ -58,7 +64,7 @@ const tec = [
 const passos = [
   ['Você escolhe a bike', 'Linha e versão, com um especialista EDRO ao lado para orientar.'],
   ['Projeto de pintura exclusivo', 'Montado no personalizador e aprovado com o design da EDRO: cores do quadro, cores das logos, personalização e acabamento.'],
-  ['Bike fit ou medidas', 'Você envia o relatório do seu bike fit ou as suas medidas, conforme o manual da EDRO.'],
+  ['Bike fit ou medidas', 'Você envia o relatório do seu bike fit ou as suas medidas, conforme orientação da EDRO.'],
   ['Pintura exclusiva à mão', 'Executada por artistas brasileiros, com cura em ambiente controlado.'],
   ['Montagem, inspeção e entrega', 'Montada à mão, inspecionada ponto a ponto e entregue em até 30 dias, com frete grátis.'],
 ];
@@ -79,109 +85,74 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
 
-<!-- 1 · BANNER EM CARROSSEL (troca manual: carrossel automático é proibido) -->
-<div class="carrossel carrossel--fotos" data-carrossel>
-  <!-- Fotos de fundo: rodam sozinhas, independentes do slide escolhido -->
-  <FundoRotativo fotos={fundos.home} />
+<!-- 1 · HERO EM CARROSSEL DE FOTOS -->
+<div class="carrossel carrossel--fotos" data-carrossel aria-roledescription="carrossel" aria-label="Destaques">
+  <FundoRotativo fotos={fundos.home} rotulo="Fotos e destaques" />
   {slides.map((s, i) => (
-    <div class="carrossel__slide" id={`slide-${i}`} role="tabpanel" aria-labelledby={`aba-${i}`} hidden={i !== 0}>
+    <div class="carrossel__slide" id={`slide-${i}`} hidden={i !== 0} aria-roledescription="slide" aria-label={`${i + 1} de ${slides.length}`}>
       <Hero eyebrow={s.eyebrow} linhas={s.linhas} verde={s.verde} lead={s.lead} botoes={s.botoes}
-        fundo={s.fundo} brief={s.brief} clipe={s.clipe} imagem={s.imagem} sobreFotos titulo={i === 0 ? 'h1' : 'h2'} esconderBarra={i === 0} />
+        sobreFotos titulo={i === 0 ? 'h1' : 'h2'} esconderBarra={i === 0} />
     </div>
   ))}
-  <div class="carrossel__abas" role="tablist" aria-label="Destaques">
-    {slides.map((s, i) => (
-      <button class="carrossel__aba" type="button" role="tab" id={`aba-${i}`} aria-controls={`slide-${i}`}
-        aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{s.aba}</button>
-    ))}
-  </div>
 </div>
 
-<!-- 2 · BARRA DE CONFIANÇA -->
-<div class="confianca">
-  <div class="container confianca__interno">
-    <span class="confianca__item"><b>Garantia vitalícia</b> para quadros, garfos e componentes EDRO</span>
-    <span class="confianca__item"><b>12x</b> sem juros no cartão, ou 5% de desconto no Pix</span>
-    <span class="confianca__item"><b>30 dias</b> para receber a sua, sob medida e com pintura exclusiva</span>
-    <span class="confianca__item"><b>Frete grátis</b> para todo o Brasil</span>
-    <span class="confianca__item confianca__item--verde"><b>Tubarão, SC</b> #DeSCParaOMundo</span>
-  </div>
-</div>
-
-<!-- 3 · PARA QUEM É -->
-<section class="secao secao--sem-linha">
-  <div class="container filtro3">
-    <div>
-      <p class="eyebrow eyebrow--verde">Para quem é</p>
-      <h2 class="headline">A EDRO não é<br />para <span class="verde">qualquer um.</span></h2>
-      <p class="lead">Não fazemos bike de entrada, não fazemos volume e não vendemos por preço. Fazemos poucas por mês, para quem valoriza qualidade de ponta a ponta: do molde ao último parafuso, da laminação à entrega.</p>
-      <div class="caixa caixa--sim">
-        <span class="eyebrow eyebrow--verde">É para você se</span>
-        <ul class="lista-sinal lista-sinal--mais">
-          <li>Você já pedala, amador ou atleta, e a próxima bike precisa ser um salto, não uma troca.</li>
-          <li>Você quer uma bike feita à mão, com a sua pintura, única no mundo.</li>
-          <li>Você entende que peso, rigidez e componente certo são decisões de engenharia, não de catálogo.</li>
-        </ul>
-      </div>
-      <div class="caixa">
-        <span class="eyebrow">Provavelmente não é se</span>
-        <ul class="lista-sinal lista-sinal--menos">
-          <li>Esta vai ser a sua primeira bike.</li>
-          <li>A decisão vai ser fechada na planilha, pelo menor preço.</li>
-          <li>Para você, uma bike de prateleira resolve.</li>
-        </ul>
-        <p class="filtro__conciliador">Sem problema. Existem ótimas bikes para isso. A EDRO só não é uma delas.</p>
-      </div>
-    </div>
-    <div class="filtro3__foto">
-      <Midia src="fotos/para-quem-e.jpg" proporcao="4x5" alt="Ciclista pedalando a sua EDRO em uma trilha ao lado da linha do trem"
-        sizes="(max-width: 1023px) 100vw, 50vw" posicao="center 35%" />
-    </div>
-  </div>
-</section>
-
-<!-- 4 · TRÊS LINHAS -->
-<section class="secao" id="linhas">
+<!-- 2 · SELETOR DE MODELOS POR TIPO (branco) -->
+<section class="secao secao--clara" id="modelos">
   <div class="container">
-    <Cabecalho linhas={['3 linhas de bikes.', 'Nenhuma']} verde=" bike igual."
-      lead="Cada linha nasce de um molde exclusivo EDRO em carbono monocoque, com modelagem EPS e prepreg de alto módulo. Cada bike é feita à mão, com a pintura que você escolheu, e chega única." />
-    <div class="linhas__grade">
-      {plataformas.map((p) => <CardLinha p={p} />)}
+    <div class="home-modelos__topo">
+      <h2 class="headline">Diferentes propostas, mas o mesmo <span class="verde">DNA</span> de performance.</h2>
+      <p class="lead">Cada linha nasce de um molde exclusivo EDRO, construída em carbono monocoque, com modelagem EPS e prepreg de alto módulo. Cada bike é feita à mão, com pintura personalizada e exclusiva.</p>
     </div>
-    <div class="card-horizon">
-      <div>
-        <p class="eyebrow eyebrow--verde">Bikes elétricas</p>
-        <Image src={img('brand/horizon.png')} alt="HORIZON" height={68} />
-        <p>Cara, peso e dinâmica de MTB. Potência e autonomia de e-bike full power. Sobre as linhas SUMMA e RANGE.</p>
-      </div>
-      <a class="btn btn--secundario" href="/horizon">Conhecer a HORIZON</a>
-    </div>
+    <AbasTipo />
     <p class="nota-peso">{rodapeFicha.join(' ')}</p>
   </div>
 </section>
 
+<!-- 3 · BARRA DE BENEFÍCIOS (branco) -->
+<div class="beneficios">
+  <div class="container beneficios__interno">
+    {beneficios.map(([icone, t, d]) => (
+      <div class="beneficio">
+        <svg class="beneficio__icone" viewBox="0 0 24 24" aria-hidden="true" set:html={ICONES[icone]} />
+        <p><b>{t}</b><span>{d}</span></p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<!-- 4 · E-BIKES (branco) -->
+<section class="secao secao--clara" id="e-bikes">
+  <div class="container">
+    <div class="home-modelos__topo">
+      <h2 class="headline">Um novo conceito em <span class="verde">E-Bikes.</span></h2>
+      <p class="lead">A linha Horizon une a leveza, o peso e a dinâmica de uma bike normal à potência e autonomia de uma e-bike full power. Desenvolvida em carbono monocoque EDRO, ela entrega agilidade máxima e pilotagem precisa sempre que você quiser, com força e torque de sobra para quando você precisar.</p>
+    </div>
+    <div class="linhas-claras">
+      {horizonLinhas.map((l) => <CardLinhaClara linha={l} />)}
+    </div>
+    <p class="nota-peso">Pesos sem pedais, aferidos no tamanho M, podendo variar até 5% conforme o tamanho da bicicleta, os componentes e a pintura escolhida.</p>
+  </div>
+</section>
+
 <!-- 5 · ENGENHARIA -->
-<section class="secao">
+<section class="secao secao--sem-linha home-eng">
   <div class="container bloco2">
     <div>
       <p class="eyebrow eyebrow--verde">Engenharia de carbono</p>
-      <h2 class="headline" style="margin-top:var(--s-4)">Leve porque foi<br /><span class="verde">decidido assim.</span></h2>
+      <h2 class="headline" style="margin-top:var(--s-4)">Leve porque foi<br /><span class="verde">desenvolvido</span> para ser.</h2>
       <p class="lead">Um quadro EDRO não é leve por acaso. Cada lâmina de carbono tem orientação, módulo e posição definidos em projeto. O resultado você sente na primeira subida.</p>
       <a class="btn btn--secundario" href="/engenharia">Ver como uma EDRO nasce</a>
     </div>
     <div class="tec4">
       {tec.map((c) => (
-        <div class:list={['tec', { 'tec--destaque': c.destaque }]}>
+        <div class="tec">
           <h3 class="card-title">{c.t}</h3>
           <p>{c.d}</p>
         </div>
       ))}
     </div>
   </div>
-</section>
-
-<section class="secao secao--sem-linha" style="padding-top:0">
-  <div class="container galeria3">
+  <div class="container galeria3 home-eng__galeria">
     <Midia titulo="Macro da laminação" descricao="Mãos posicionando a lâmina de carbono no molde. Luz dura lateral, fundo escuro." />
     <Midia titulo="Cura e desmolde" descricao="Quadro saindo do molde, brilho da resina. Contraluz." />
     <Midia tipo="VÍDEO" titulo="Balança" descricao={`Bike completa pendurada na balança, display legível: ${summaPro.peso_texto}, sem pedais. 8 s, loop.`} />
@@ -194,7 +165,7 @@ const jsonLd = {
     <div>
       <p class="eyebrow eyebrow--verde">O sob medida</p>
       <h2 class="headline" style="margin-top:var(--s-4)">Nenhuma EDRO<br />nasce <span class="verde">igual.</span></h2>
-      <p class="lead" style="margin-bottom:var(--s-8)">Cada EDRO é feita à mão, ajustada às suas medidas e pintada com o projeto que você aprovou. Quando ela chega, não existe outra igual no mundo.</p>
+      <p class="lead" style="margin-bottom:var(--s-8)">Cada EDRO é construída à mão, ajustada às suas medidas e finalizada com a pintura que você escolheu. O resultado é uma bicicleta genuinamente única.</p>
       <Midia src="fotos/pintura-cabine.jpg" alt="Artista EDRO pintando à mão um quadro na cabine de pintura" posicao="center 35%" />
     </div>
     <ol class="passos3">
@@ -203,35 +174,34 @@ const jsonLd = {
   </div>
 </section>
 
-<!-- 6b · PERSONALIZADOR FIT4U (v3.2, seção 5.2) -->
+<!-- 7 · PERSONALIZADOR FIT4U -->
 <BlocoPersonalizador variante="home" />
 
-<!-- 7 · PROGRAMAS -->
+<!-- 8 · PROGRAMAS -->
 <section class="secao">
   <div class="container">
     <Cabecalho linhas={['O que só a', 'EDRO garante.']}
-      lead="Quatro programas que existem para tirar o risco da decisão. Cada um responde a uma pergunta que você faria antes de investir em uma bike sob medida." />
+      lead="Quatro programas que existem para tirar o risco da decisão de investir em uma bike sob medida." />
     <Selos />
   </div>
 </section>
 
-<!-- 8 · MANIFESTO -->
+<!-- 9 · MANIFESTO -->
 <section class="manifesto">
   <div class="container manifesto__interno">
     <h2 class="manifesto-h2">Menos<br />marketing.<br /><span class="verde">Mais</span><br />performance.</h2>
     <div class="manifesto__texto">
-      <p class="lead">A EDRO não compete por preço nem por volume. Não coloca um componente na bike sem ganho real de performance e sem assistência no Brasil.</p>
-      <p class="manifesto__tese">Cada real que a gente não gasta te convencendo, a gente gasta na tua bike.</p>
+      <p class="lead">Escolhemos o rigor técnico e a exclusividade. Cada componente cumpre uma função clara de desempenho, com suporte dedicado e assistência técnica completa no Brasil. Direcionamos todos os nossos recursos para a engenharia e para o que realmente importa: a sua experiência ao pedalar.</p>
       <p class="manifesto__desde">EDRO Performance Bikes <span class="verde">desde 2017</span></p>
     </div>
   </div>
 </section>
 
-<!-- 9 · FEITA PARA QUEM JÁ PEDALA -->
+<!-- 10 · PROVA SOCIAL -->
 <section class="secao secao--sem-linha">
   <div class="container">
-    <Cabecalho linhas={['Feita para quem']} verde="já pedala."
-      lead="Milhares de ciclistas já escolheram a alta performance brasileira. Na lama, na pedra e no asfalto, com uma EDRO." />
+    <Cabecalho linhas={['Construída para']} verde="quem pedala."
+      lead="Uma comunidade de ciclistas que escolheu o rigor da alta performance nacional. Da terra ao asfalto, a EDRO acompanha ciclistas que exigem o máximo em qualquer terreno." />
     <div class="galeria3" style="margin-bottom:var(--s-5)">
       <Midia src="lp/customer-16.webp" alt="Ciclista EDRO em trilha fechada com lama, em prova" posicao="center 40%" />
       <Midia src="lp/customer-17.jpg" alt="Dois ciclistas EDRO em descida técnica de pedras" />
@@ -241,40 +211,18 @@ const jsonLd = {
   </div>
 </section>
 
-<!-- 10 · POR QUE A EDRO -->
-<section class="secao">
-  <div class="container bloco2">
-    <div>
-      <h2 class="headline">Por que a EDRO é a<br />alta performance<br /><span class="verde">brasileira.</span></h2>
-      <p class="lead">Em vez de explicar, a gente mostra. Vídeo real, sem roteiro de publicidade.</p>
-    </div>
-    <Midia video={videos.porque} proporcao="16x9" sizes="(max-width: 1023px) 100vw, 50vw" />
-  </div>
-</section>
-
 <Fechamento linhas={['Fuja do']} verde="comum."
-  texto="Fale com um dos nossos especialistas. Quem responde é quem projeta e monta a sua bike."
+  texto="Fale diretamente com os especialistas que desenvolvem a sua bike."
   botoes={[{ rotulo: 'Falar com um especialista', href: especialista, primario: true, wa: 'home-fechamento' }, { rotulo: 'Ver as bikes', href: '/bikes' }]} />
 
 <script>
-  const c = document.querySelector('[data-carrossel]');
+  /* Os conteúdos do hero acompanham a foto da vez (o carrossel de fotos emite "fundo-troca"). */
+  const c = document.querySelector<HTMLElement>('[data-carrossel]');
   if (c) {
-    const abas = [...c.querySelectorAll('[role="tab"]')];
-    const slides = abas.map((a) => document.getElementById(a.getAttribute('aria-controls') || ''));
-    const ir = (i, focar = false) => {
-      abas.forEach((a, j) => { a.setAttribute('aria-selected', String(i === j)); a.tabIndex = i === j ? 0 : -1; if (slides[j]) slides[j].hidden = i !== j; });
-      /* Só o vídeo do slide visível carrega e roda. */
-      slides.forEach((sl, j) => sl?.querySelectorAll('video').forEach((v) => {
-        if (j === i && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
-      }));
-      if (focar) abas[i].focus();
-    };
-    abas.forEach((a, i) => {
-      a.addEventListener('click', () => ir(i));
-      a.addEventListener('keydown', (e) => {
-        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-        if (d) { e.preventDefault(); ir((i + d + abas.length) % abas.length, true); }
-      });
+    const slides = [...c.querySelectorAll<HTMLElement>('.carrossel__slide')];
+    c.addEventListener('fundo-troca', (e) => {
+      const i = (e as CustomEvent<number>).detail % slides.length;
+      slides.forEach((s, j) => { s.hidden = i !== j; });
     });
   }
 </script>
