@@ -33,9 +33,9 @@ const ativoEm = (href) => rotaLimpa === href || rotaLimpa.startsWith(href + '/')
 
 const rodape = [
   { titulo: 'Bikes', links: [['SUMMA', '/bikes/summa'], ['RANGE', '/bikes/range'], ['IMPETUS', '/bikes/impetus']] },
-  { titulo: 'Bikes elétricas', links: [['HORIZON', '/horizon'], ['SUMMA HORIZON', '/horizon/summa-horizon'], ['RANGE HORIZON', '/horizon/range-horizon'], ['Simulador de autonomia', '/horizon/simulador']] },
+  { titulo: 'E-Bikes', links: [['HORIZON', '/horizon'], ['SUMMA HORIZON', '/horizon/summa-horizon'], ['RANGE HORIZON', '/horizon/range-horizon'], ['Simulador de autonomia', '/horizon/simulador']] },
   { titulo: 'FIT4U', links: [['Como funciona', '/fit4u'], ['Personalizador de pintura', '/fit4u/pintura/'], ['Guia FIT4U', '/guias#fit4u']] },
-  { titulo: 'Programas', links: [['Compra Certa', '/programas/compra-certa'], ['Ciclo EDRO', '/programas/ciclo-edro'], ['Carbon Assist', '/programas/carbon-assist'], ['Garantia Vitalícia', '/programas/garantia']] },
+  { titulo: 'Programas', links: [['Compra Certa', '/programas#compra-certa'], ['Ciclo EDRO', '/programas#ciclo-edro'], ['Carbon Assist', '/programas#carbon-assist'], ['Garantia Vitalícia', '/programas#garantia']] },
   { titulo: 'EDRO', links: [['A marca', '/a-marca'], ['Engenharia', '/engenharia'], ['Parcerias', '/parcerias'], ['Guias', '/guias'], ['Dúvidas frequentes', '/faq'], ['Contato', '/contato']] },
 ];
 
@@ -54,7 +54,7 @@ const org = {
 };
 
 /* BreadcrumbList a partir da rota */
-const NOMES = { bikes: 'Bikes', horizon: 'Bikes elétricas', programas: 'Programas', summa: 'SUMMA', range: 'RANGE', impetus: 'IMPETUS',
+const NOMES = { bikes: 'Bikes', horizon: 'E-Bikes', programas: 'Programas', summa: 'SUMMA', range: 'RANGE', impetus: 'IMPETUS',
   'summa-horizon': 'SUMMA HORIZON', 'range-horizon': 'RANGE HORIZON', simulador: 'Simulador de autonomia', 'compra-certa': 'Compra Certa',
   'ciclo-edro': 'Ciclo EDRO', 'carbon-assist': 'Carbon Assist', garantia: 'Garantia Vitalícia', fit4u: 'FIT4U', engenharia: 'Engenharia',
   'a-marca': 'A marca', pro: 'PRO', xcr: 'XCR', ex: 'EX', ssr: 'SSR', ss: 'SS', parcerias: 'Parcerias', contato: 'Contato', faq: 'Dúvidas frequentes', guias: 'Guias', politicas: 'Políticas' };

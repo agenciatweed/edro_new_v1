@@ -51,26 +51,6 @@
       "permanent": true
     },
     {
-      "source": "/compra-certa",
-      "destination": "/programas/compra-certa",
-      "permanent": true
-    },
-    {
-      "source": "/ciclo-edro",
-      "destination": "/programas/ciclo-edro",
-      "permanent": true
-    },
-    {
-      "source": "/edro-carbon-assist",
-      "destination": "/programas/carbon-assist",
-      "permanent": true
-    },
-    {
-      "source": "/garantia",
-      "destination": "/programas/garantia",
-      "permanent": true
-    },
-    {
       "source": "/minha-conta",
       "destination": "/contato",
       "permanent": true
@@ -78,6 +58,46 @@
     {
       "source": "/fit4u/pintura",
       "destination": "/fit4u/pintura/",
+      "permanent": true
+    },
+    {
+      "source": "/compra-certa",
+      "destination": "/programas#compra-certa",
+      "permanent": true
+    },
+    {
+      "source": "/programas/compra-certa",
+      "destination": "/programas#compra-certa",
+      "permanent": true
+    },
+    {
+      "source": "/ciclo-edro",
+      "destination": "/programas#ciclo-edro",
+      "permanent": true
+    },
+    {
+      "source": "/programas/ciclo-edro",
+      "destination": "/programas#ciclo-edro",
+      "permanent": true
+    },
+    {
+      "source": "/programas/carbon-assist",
+      "destination": "/programas#carbon-assist",
+      "permanent": true
+    },
+    {
+      "source": "/garantia",
+      "destination": "/programas#garantia",
+      "permanent": true
+    },
+    {
+      "source": "/programas/garantia",
+      "destination": "/programas#garantia",
+      "permanent": true
+    },
+    {
+      "source": "/edro-carbon-assist",
+      "destination": "/programas#carbon-assist",
       "permanent": true
     }
   ],

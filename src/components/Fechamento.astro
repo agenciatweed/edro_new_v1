@@ -1,14 +1,15 @@
 ---
 /* Fechamento das páginas: closer em tipo gigante e a chamada para falar com um especialista.
    Nunca promete tempo de resposta (v3.1, capítulo 2). */
-const { linhas = [], verde, texto, botoes = [] } = Astro.props;
+/* menor: título no tamanho display em vez do closer (v3.3 §11.6). */
+const { linhas = [], verde, texto, botoes = [], menor = false } = Astro.props;
 const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
 const html = linhas.join('<br />') + (verde ? `<br /><span class="verde">${verde}</span>` : '');
 ---
 <section class="secao fechamento">
   <span class="fechamento__brilho" aria-hidden="true"></span>
   <div class="container fechamento__interno">
-    <h2 class="closer" set:html={html} />
+    <h2 class:list={['closer', { 'closer--menor': menor }]} set:html={html} />
     <div class="fechamento__acao">
       {texto && <p class="lead" set:html={texto} />}
       {botoes.map((b) => (

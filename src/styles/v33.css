@@ -60,6 +60,7 @@
 
 /* ---------------- 5.1 CARD DE MODELO ---------------- */
 .card-modelo {
+  position: relative;
   display: flex; flex-direction: column; height: 100%;
   padding: var(--s-5) var(--s-5) var(--s-6);
   background: var(--edro-white); border: 1px solid var(--edro-light-line); border-radius: var(--radius);
@@ -92,7 +93,7 @@
 }
 .carrossel-m__trilho::-webkit-scrollbar { display: none; }
 .carrossel-m__trilho:focus-visible { outline: 2px solid var(--edro-paper-ink); outline-offset: 4px; }
-.carrossel-m__item { scroll-snap-align: start; min-width: 0; }
+.carrossel-m__item { position: relative; scroll-snap-align: start; min-width: 0; }
 .carrossel-m__seta {
   position: absolute; top: 30%; z-index: 2; width: 44px; height: 44px; display: grid; place-items: center;
   background: var(--edro-white); border: 1px solid var(--edro-light-line); border-radius: 50%; cursor: pointer; color: var(--edro-paper-ink);
@@ -390,3 +391,32 @@
 .perfil-box__itens dt { font-weight: 600; color: var(--edro-ink); margin-bottom: var(--s-2); }
 .perfil-box__itens dd { margin: 0; font-size: var(--t-body-card); line-height: 1.65; color: var(--edro-soft); }
 @media (max-width: 1023px) { .perfil-box__topo, .perfil-box__itens { grid-template-columns: 1fr; } }
+
+/* ---------------- 11 FIT4U ---------------- */
+.closer--menor { font-size: var(--t-display); line-height: 1.12; }
+.hero3__nota { margin-top: var(--s-5); color: var(--edro-soft); }
+
+/* ---------------- 12 PROGRAMAS ---------------- */
+[id="embaixadores"], [id="treinadores"], [id="lojistas"], .programa { scroll-margin-top: calc(var(--nav-h) + var(--s-6)); }
+.programas-nav { background: var(--edro-white); border-bottom: 1px solid var(--edro-light-line); }
+.programas-nav__grade { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.programas-nav__item {
+  display: grid; justify-items: center; gap: var(--s-3); padding: var(--s-8) var(--s-4);
+  border-left: 1px solid var(--edro-light-line); text-decoration: none; transition: background-color var(--dur-base) var(--ease);
+}
+.programas-nav__item:first-child { border-left: 0; }
+.programas-nav__item:hover { background: var(--edro-light-panel); }
+.programas-nav__item img { height: clamp(80px, 9vw, 120px); width: auto; filter: brightness(0); }
+.programas-nav__item span { font: 600 .75rem/1.2 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--edro-paper-ink); text-align: center; }
+.programa__topo { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-12); align-items: center; margin-bottom: var(--s-16); }
+.programa__selo img { height: clamp(140px, 14vw, 200px); width: auto; }
+.programa__destaque { margin: var(--s-3) 0 var(--s-4); font-family: var(--font-display); font-size: 1.375rem; line-height: 1.2; text-transform: uppercase; color: var(--edro-green); }
+.programa__topo .lead { max-width: 70ch; }
+.programa__corpo + .programa__corpo { margin-top: var(--s-16); }
+.programa__sub { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; text-transform: uppercase; color: var(--edro-ink); margin-bottom: var(--s-6); }
+@media (max-width: 767px) {
+  .programas-nav__grade { grid-template-columns: 1fr 1fr; }
+  .programas-nav__item:nth-child(3) { border-left: 0; }
+  .programas-nav__item { border-top: 1px solid var(--edro-light-line); }
+  .programa__topo { grid-template-columns: 1fr; gap: var(--s-6); }
+}

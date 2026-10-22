@@ -1,10 +1,13 @@
-/* Sitemap v3.1: todas as rotas do mapa do capítulo 1, geradas no build. */
+/* Sitemap v3.3: rotas do mapa e as páginas de modelo, geradas do catálogo no build. */
+import { plataformas, horizonLinhas, urlModelo } from '../lib/edro.js';
+
 const ROTAS = [
   '/', '/bikes', '/bikes/summa', '/bikes/range', '/bikes/impetus', '/fit4u', '/fit4u/pintura/',
-  '/programas', '/programas/compra-certa', '/programas/ciclo-edro', '/programas/carbon-assist', '/programas/garantia',
+  '/programas',
   '/engenharia', '/a-marca', '/parcerias', '/contato',
   '/horizon', '/horizon/summa-horizon', '/horizon/range-horizon', '/horizon/simulador',
   '/faq', '/guias', '/politicas',
+  ...[...plataformas, ...horizonLinhas].flatMap((l) => l.versoes.map((v) => urlModelo(l, v))),
 ];
 
 /* O personalizador FIT4U entra com prioridade 0.8 (v3.2, seção 4.8). */

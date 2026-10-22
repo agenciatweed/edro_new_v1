@@ -1,43 +1,99 @@
 ---
-/* /programas v3.1 · tela site_v3/07-programas.png: visão geral da Jornada EDRO. */
+/* /programas v3.3 (§12.1): os quatro programas numa página só, cada um na sua seção
+   (#compra-certa, #ciclo-edro, #carbon-assist, #garantia), com o texto novo e as regras
+   completas. Os selos no topo levam às seções. As antigas /programas/<slug> viram 301. */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
-import Selos from '../../components/Selos.astro';
-import ProvaSocial from '../../components/ProvaSocial.astro';
-import { wa } from '../../lib/edro.js';
+import Midia from '../../components/Midia.astro';
+import Fechamento from '../../components/Fechamento.astro';
+import { Image } from 'astro:assets';
+import conteudo from '../../content/programas.json';
+import { img } from '../../lib/imagens.js';
+import { wa, suporte } from '../../lib/edro.js';
+
+const lista = conteudo.ordem.map((slug) => ({ slug, ...conteudo.programas[slug] }));
+/* Fotos produzidas (v3.1). Programa sem foto mostra a orientação de produção. */
+const FOTO = { 'compra-certa': 'fotos/compra-certa-embalagem.jpg' };
+
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: lista.flatMap((p) => p.nao_cobre.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))),
+};
 ---
 
 <Base
-  titulo="Jornada EDRO · Compra Certa, Ciclo EDRO, Carbon Assist e Garantia Vitalícia"
-  descricao="Mais do que uma bicicleta, uma experiência completa de suporte e valorização: Compra Certa de 10 dias, Ciclo EDRO, Carbon Assist e garantia vitalícia no quadro."
+  titulo="Diferenciais EDRO · Compra Certa, Ciclo EDRO, Carbon Assist e Garantia Vitalícia"
+  descricao="Mais do que uma bicicleta, uma experiência completa de suporte e valorização: Compra Certa, Ciclo EDRO, Carbon Assist e garantia vitalícia, com as regras completas."
   canonica="https://edrobikes.com.br/programas"
   pagina="programas"
+  jsonLd={faq}
 >
 
 <Hero
   eyebrow="Jornada EDRO"
   linhas={['Um ecossistema']}
   verde="de benefícios."
-  lead="Mais do que uma bicicleta, você adquire uma experiência completa de suporte e valorização. Cada programa EDRO responde a uma dúvida real de quem já pedala. Clique em cada um para ver as regras completas."
-  botoes={[
-    { rotulo: 'Falar com um especialista', href: wa('Olá, EDRO. Quero entender os programas da EDRO. (origem: site-programas)'), primario: true, wa: 'programas-hero' },
-    { rotulo: 'Ver as bikes', href: '/bikes' },
-  ]}
+  lead="Mais do que uma bicicleta, você adquire uma experiência completa de suporte e valorização. Cada programa EDRO responde a uma dúvida real de quem já pedala."
   fundo={{ src: 'fotos/programas-entrega.jpg', alt: 'Cliente recebendo a sua EDRO nova na fábrica, ao lado da equipe EDRO', posicao: 'top center' }}
 />
 
-<section class="secao secao--sem-linha">
-  <div class="container">
-    <h2 class="visualmente-oculto">Os quatro programas</h2>
-    <Selos />
-    <div class="condicoes">
-      <div><b>Frete grátis</b> para todo o Brasil</div>
-      <div><b>12x</b> sem juros ou 5% no Pix</div>
-      <div><b>30 dias</b> da confirmação do pedido à entrega</div>
-      <div><b>Suporte</b> direto com a fábrica</div>
-    </div>
-    <div style="margin-top:var(--s-10)"><ProvaSocial /></div>
+<nav class="programas-nav" aria-label="Programas">
+  <div class="container programas-nav__grade">
+    {lista.map((p) => (
+      <a class="programas-nav__item" href={`#${p.slug}`}>
+        <Image src={img(`brand/${p.selo}`)} alt="" height={140} />
+        <span>{p.nome}</span>
+      </a>
+    ))}
   </div>
-</section>
+</nav>
+
+{lista.map((p, i) => (
+  <section class:list={['secao', 'programa', { 'secao--sem-linha': i === 0 }]} id={p.slug} aria-labelledby={`${p.slug}-titulo`}>
+    <div class="container">
+      <div class="programa__topo">
+        <span class="programa__selo"><Image src={img(`brand/${p.selo}`)} alt={p.selo_alt} height={220} /></span>
+        <div>
+          <h2 class="headline" id={`${p.slug}-titulo`}>{p.nome}</h2>
+          <p class="programa__destaque">{p.destaque}</p>
+          <p class="lead">{p.card}</p>
+        </div>
+      </div>
+
+      <div class="bloco2 bloco2--topo programa__corpo">
+        <div>
+          <h3 class="programa__sub">Como funciona</h3>
+          <ol class="passos3">
+            {p.passos.map(([t, d], j) => (<li><span class="passos3__num">{j + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
+          </ol>
+        </div>
+        <Midia titulo={p.midia[0]} descricao={p.midia[1]} proporcao="4x3" src={FOTO[p.slug]} alt={p.midia[1]} />
+      </div>
+
+      <div class="bloco2 bloco2--topo programa__corpo">
+        <div>
+          <h3 class="programa__sub">Regras completas</h3>
+          <div class="lista-regras">
+            {p.regras.map(([t, d]) => (<details class="regra3" open><summary>{t}</summary><p>{d}</p></details>))}
+          </div>
+        </div>
+        <div>
+          <h3 class="programa__sub">O que não cobre</h3>
+          <dl class="qa">
+            {p.nao_cobre.map(([q, a]) => (<div><dt>{q}</dt><dd>{a}</dd></div>))}
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+))}
+
+<Fechamento linhas={['Fale com']} verde="quem faz."
+  texto="Dúvida sobre algum programa? O suporte da EDRO responde direto da fábrica."
+  botoes={[
+    { rotulo: 'Falar com o suporte', href: wa('Olá, suporte EDRO. Tenho uma dúvida sobre os programas EDRO. (origem: site-programas-suporte)', suporte), primario: true, wa: 'programas-suporte' },
+    { rotulo: 'Ver as bikes', href: '/bikes' },
+  ]} />
 
 </Base>
