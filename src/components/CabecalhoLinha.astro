@@ -1,0 +1,41 @@
+---
+/* =============================================================
+   Bloco de uma linha em fundo branco (v3.3, §5.4): tipo, nome da linha,
+   frase curta, "a partir de" de peso e preço (do dado) e "Conheça a …",
+   com os cards de modelo da linha embaixo.
+   ============================================================= */
+import { Image } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import { pesoAPartir, precoAPartir, PARCELAMENTO, urlLinha, nomeLinha, ehHorizon } from '../lib/edro.js';
+import CarrosselModelos from './CarrosselModelos.astro';
+
+const { linha, conheca, conhecaHref, h = 'h3' } = Astro.props;
+const Tag = h;
+const horizon = ehHorizon(linha);
+const nome = nomeLinha(linha);
+const destino = conhecaHref ?? urlLinha(linha);
+const rotuloConheca = conheca ?? `Conheça a ${nome}`;
+const modelo = (s) => s.replace(/\b(SUMMA|RANGE|IMPETUS)\b/g, '<i class="modelo">$1</i>');
+---
+<div class="linha-clara" id={`linha-${linha.slug}`}>
+  <div class="linha-clara__topo">
+    <div>
+      <p class="eyebrow">{linha.tipo}</p>
+      <Tag class="linha-clara__nome">
+        <span class="visualmente-oculto">{nome}</span>
+        <Image class="wordmark--escuro" src={img(`brand/${horizon ? linha.base : linha.slug}.png`)} alt="" height={60} />
+        {horizon && <Image src={img('brand/horizon.png')} alt="" height={44} />}
+      </Tag>
+    </div>
+    <div class="linha-clara__texto">
+      <p set:html={`${modelo(linha.para_quem)}.`} />
+      <p class="linha-clara__dados">
+        <span>{pesoAPartir(linha)}</span>
+        <span>{precoAPartir(linha)}</span>
+        <span>{PARCELAMENTO}</span>
+      </p>
+      <a class="link-seta link-seta--escuro" href={destino} set:html={modelo(rotuloConheca)} />
+    </div>
+  </div>
+  <CarrosselModelos itens={linha.versoes.map((v) => ({ linha, versao: v }))} rotulo={`Modelos da ${nome}`} />
+</div>

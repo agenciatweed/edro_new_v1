@@ -1,0 +1,44 @@
+---
+/* =============================================================
+   Trilho horizontal de cards de modelo, v3.3 (§5.2).
+   scroll-snap nativo, swipe no toque, setas que rolam um card por vez
+   e somem no início e no fim. 4 cards em 1280+, 3 em 1024+, 2 em 768+,
+   ~1,2 no celular. Com 3 cards ou menos, no desktop vira grade sem setas.
+   Sem rolagem automática.
+   ============================================================= */
+import CardModelo from './CardModelo.astro';
+
+const { itens = [], rotulo = 'Modelos' } = Astro.props;
+const poucos = itens.length <= 3;
+const seta = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" /></svg>`;
+---
+<div class:list={['carrossel-m', { 'carrossel-m--poucos': poucos }]} data-carrossel-m>
+  <button class="carrossel-m__seta carrossel-m__seta--ant" type="button" aria-label="Modelo anterior" data-ant hidden set:html={seta('M15 5l-7 7 7 7')} />
+  <ul class="carrossel-m__trilho" aria-label={rotulo} tabindex="0">
+    {itens.map(({ linha, versao }) => (
+      <li class="carrossel-m__item"><CardModelo linha={linha} versao={versao} /></li>
+    ))}
+  </ul>
+  <button class="carrossel-m__seta carrossel-m__seta--prox" type="button" aria-label="Próximo modelo" data-prox hidden set:html={seta('M9 5l7 7-7 7')} />
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carrossel-m]').forEach((c) => {
+    const trilho = c.querySelector<HTMLElement>('.carrossel-m__trilho')!;
+    const ant = c.querySelector<HTMLButtonElement>('[data-ant]')!;
+    const prox = c.querySelector<HTMLButtonElement>('[data-prox]')!;
+    const passo = () => (trilho.querySelector<HTMLElement>('.carrossel-m__item')?.offsetWidth ?? 300) + parseFloat(getComputedStyle(trilho).columnGap || '0');
+    const atualizar = () => {
+      const max = trilho.scrollWidth - trilho.clientWidth;
+      const sobra = max > 4;
+      ant.hidden = !sobra || trilho.scrollLeft <= 4;
+      prox.hidden = !sobra || trilho.scrollLeft >= max - 4;
+    };
+    const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    ant.addEventListener('click', () => trilho.scrollBy({ left: -passo(), behavior: calmo ? 'auto' : 'smooth' }));
+    prox.addEventListener('click', () => trilho.scrollBy({ left: passo(), behavior: calmo ? 'auto' : 'smooth' }));
+    trilho.addEventListener('scroll', atualizar, { passive: true });
+    new ResizeObserver(atualizar).observe(trilho);
+    atualizar();
+  });
+</script>

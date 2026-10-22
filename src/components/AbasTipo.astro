@@ -1,0 +1,62 @@
+---
+/* =============================================================
+   Seletor de modelos por tipo (home, v3.3 §5.3): abas Road, Mountain Bike
+   e Elétrica, cada uma com o trilho de cards dos seus modelos, e o botão
+   "Ver linha completa" que acompanha a aba ativa (/bikes#<tipo>).
+   Tabs com ARIA, setas do teclado, Home/End. Aba inicial: Mountain Bike.
+   ============================================================= */
+import CarrosselModelos from './CarrosselModelos.astro';
+import { TIPOS, linhaPorId } from '../lib/edro.js';
+
+const { inicial = 'mountain-bike' } = Astro.props;
+const abas = TIPOS.map((t) => ({
+  ...t,
+  itens: t.linhas.flatMap((id) => { const l = linhaPorId(id); return l.versoes.map((v) => ({ linha: l, versao: v })); }),
+}));
+const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
+---
+<div class="abas-tipo" data-abas-tipo>
+  <div class="abas-tipo__lista" role="tablist" aria-label="Tipos de bicicleta">
+    {abas.map((t) => (
+      <button class="abas-tipo__aba" role="tab" type="button" id={`aba-tipo-${t.id}`} aria-controls={`painel-tipo-${t.id}`}
+        aria-selected={t.id === inicial ? 'true' : 'false'} tabindex={t.id === inicial ? 0 : -1} data-tipo={t.id}>{t.rotulo}</button>
+    ))}
+  </div>
+  {abas.map((t) => (
+    <div class="abas-tipo__painel" role="tabpanel" id={`painel-tipo-${t.id}`} aria-labelledby={`aba-tipo-${t.id}`} hidden={t.id !== inicial} tabindex="-1">
+      <CarrosselModelos itens={t.itens} rotulo={`Modelos ${t.rotulo}`} />
+    </div>
+  ))}
+  <div class="abas-tipo__rodape">
+    <a class="btn btn--primario" href={`/bikes#${inicial}`} data-ver-linha>Ver linha completa<Fragment set:html={seta} /></a>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-abas-tipo]').forEach((caixa) => {
+    const abas = [...caixa.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const verLinha = caixa.querySelector<HTMLAnchorElement>('[data-ver-linha]');
+    const mostrar = (i: number, focar = true) => {
+      abas.forEach((a, j) => {
+        const ativo = i === j;
+        a.setAttribute('aria-selected', String(ativo));
+        a.tabIndex = ativo ? 0 : -1;
+        const p = document.getElementById(a.getAttribute('aria-controls') || '');
+        if (p) p.hidden = !ativo;
+      });
+      if (verLinha) verLinha.href = `/bikes#${abas[i].dataset.tipo}`;
+      if (focar) abas[i].focus();
+      /* O trilho recém-mostrado mede as setas de novo. */
+      window.dispatchEvent(new Event('resize'));
+    };
+    abas.forEach((a, i) => {
+      a.addEventListener('click', () => mostrar(i, false));
+      a.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (d) { e.preventDefault(); mostrar((i + d + abas.length) % abas.length); }
+        if (e.key === 'Home') { e.preventDefault(); mostrar(0); }
+        if (e.key === 'End') { e.preventDefault(); mostrar(abas.length - 1); }
+      });
+    });
+  });
+</script>

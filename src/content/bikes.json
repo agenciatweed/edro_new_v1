@@ -534,7 +534,33 @@
         "SUMMA em subida técnica de XCM, pó levantando, câmera baixa acompanhando. 12 s, sem som, loop."
       ],
       "geometria_img": "geometria_summa.png",
-      "review": "GcsUWDhHNkk"
+      "review": "GcsUWDhHNkk",
+      "alturaCiclista": {
+        "fonte": "bikes/GRAFICO-ALTURA.md [CONFIRMAR com a EDRO]",
+        "eixo": {
+          "min": 1.6,
+          "max": 2.0,
+          "passo": 0.1,
+          "unidade": "m"
+        },
+        "faixas": [
+          {
+            "tamanho": "S",
+            "min": 1.6,
+            "max": 1.73
+          },
+          {
+            "tamanho": "M",
+            "min": 1.68,
+            "max": 1.8
+          },
+          {
+            "tamanho": "L",
+            "min": 1.75,
+            "max": 1.88
+          }
+        ]
+      }
     },
     {
       "slug": "range",
@@ -1047,7 +1073,38 @@
         "Usar o vídeo \"Range, uma MTB full suspension pensada para transformar terreno difícil em desempenho real\", já publicado no YouTube (LP), cortado em 12 s, mudo, em loop."
       ],
       "geometria_img": "geometria_range.jpg",
-      "review": "o0wQDjuSDzg"
+      "review": "o0wQDjuSDzg",
+      "alturaCiclista": {
+        "fonte": "bikes/GRAFICO-ALTURA.md [CONFIRMAR com a EDRO]",
+        "eixo": {
+          "min": 1.6,
+          "max": 2.0,
+          "passo": 0.1,
+          "unidade": "m"
+        },
+        "faixas": [
+          {
+            "tamanho": "S",
+            "min": 1.6,
+            "max": 1.73
+          },
+          {
+            "tamanho": "M",
+            "min": 1.68,
+            "max": 1.8
+          },
+          {
+            "tamanho": "L",
+            "min": 1.75,
+            "max": 1.88
+          },
+          {
+            "tamanho": "XL",
+            "min": 1.85,
+            "max": 2.0
+          }
+        ]
+      }
     },
     {
       "slug": "impetus",
