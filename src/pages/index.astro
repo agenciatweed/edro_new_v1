@@ -1,7 +1,8 @@
 ---
-/* Home v3.3 (§6): hero em carrossel de fotos escurecidas, seletor de modelos por tipo
-   (fundo branco), barra de benefícios, E-Bikes (fundo branco), engenharia, sob medida,
-   personalizador, programas, manifesto, prova social e fechamento. */
+/* Home v4: hero em carrossel (HORIZON, SUMMA, RANGE, IMPETUS e FIT4U, com a foto e o texto
+   de cada página), seletor de modelos por tipo (fundo branco), E-Bikes (fundo branco),
+   engenharia, sob medida, personalizador, programas, manifesto, prova social, fechamento
+   e a barra de benefícios na base da página. */
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Cabecalho from '../components/Cabecalho.astro';
@@ -14,31 +15,38 @@ import FundoRotativo from '../components/FundoRotativo.astro';
 import AbasTipo from '../components/AbasTipo.astro';
 import CardLinhaClara from '../components/CardLinhaClara.astro';
 import fundos from '../content/fundos.json';
-import { horizonLinhas, porSlug, wa, PERSONALIZADOR, rodapeFicha } from '../lib/edro.js';
+import { horizonLinhas, porSlug, wa, PERSONALIZADOR, personalizar } from '../lib/edro.js';
 
-const rangePro = porSlug('range').pro;
 const summaPro = porSlug('summa').pro;
 const especialista = wa('Olá, EDRO. Quero falar com um dos especialistas sobre a minha EDRO. (origem: site-home)');
 
-/* Os três conteúdos do hero seguem o carrossel de fotos (pontos, setas, swipe). */
+/* Os cinco conteúdos do hero, na ordem do cliente (v4), cada um com a foto e o texto da sua página.
+   O carrossel de fotos emite "fundo-troca" e o conteúdo da vez acompanha. */
+const linhaHero = (slug) => {
+  const p = porSlug(slug);
+  return {
+    eyebrow: p.tipo, logo: { linha: p }, h1Oculto: `EDRO ${p.nome}`, lead: p.hero_texto,
+    botoes: [{ rotulo: `Conheça a ${p.nome}`, href: `/bikes/${slug}`, primario: true }, { rotulo: 'Personalize', href: personalizar(p.pro.chave) }],
+    foto: fundos[slug][0],
+  };
+};
 const slides = [
   {
-    eyebrow: 'Bikes elétricas EDRO',
-    linhas: ['Você, além do'], verde: 'horizonte.',
-    lead: 'Cara, peso e dinâmica de MTB normal, com potência e autonomia de uma e-bike full power. Conheça a HORIZON.',
+    eyebrow: 'E-Bikes EDRO', logo: { soHorizon: true, alt: 'HORIZON' },
+    linhas: ['Uma nova era em'], verde: 'E-Bikes.',
+    lead: 'Redefinimos o ciclismo elétrico de alta performance. A linha Horizon materializa a união entre a agilidade de uma bike tradicional e a força de uma e-bike full power. Construída em carbono monocoque EDRO, essa plataforma ganha vida na eficiência da hardtail Summa e no controle total da full suspension Range. Escolha a sua versão e domine qualquer terreno.',
     botoes: [{ rotulo: 'Conheça a HORIZON', href: '/horizon', primario: true }, { rotulo: 'Simular autonomia', href: '/horizon/simulador' }],
+    foto: fundos.horizon[0],
   },
+  linhaHero('summa'),
+  linhaHero('range'),
+  linhaHero('impetus'),
   {
     eyebrow: 'FIT4U',
-    linhas: ['Feita para'], verde: 'você.',
-    lead: 'Sob medida no tamanho. Pintada do seu jeito. Monte a pintura e veja a sua EDRO antes de ela existir.',
-    botoes: [{ rotulo: 'Monte a sua pintura', href: PERSONALIZADOR, primario: true }, { rotulo: 'Conheça o FIT4U', href: '/fit4u' }],
-  },
-  {
-    eyebrow: 'Full suspension XC, 100 mm',
-    linhas: ['Full de'], verde: `${rangePro.peso_texto}.`,
-    lead: 'Tração de full com pedalada de hardtail: a suspensão trabalha no terreno e fica firme quando você acelera. Peso da RANGE PRO, sem pedais, no tamanho M.',
-    botoes: [{ rotulo: 'Conheça a RANGE', href: '/bikes/range', primario: true }, { rotulo: 'Ver as bikes', href: '/bikes' }],
+    linhas: ['A sua bike com'], verde: 'pintura personalizada.',
+    lead: 'Na EDRO, você cria a pintura da sua bike ao seu gosto, sem qualquer custo adicional. Desenvolvemos o projeto visual com você e orientamos a escolha exata do tamanho do quadro e componentes, garantindo o ajuste ergonômico perfeito.',
+    botoes: [{ rotulo: 'Simule a sua pintura', href: PERSONALIZADOR, primario: true }, { rotulo: 'Conheça o FIT4U', href: '/fit4u' }],
+    foto: { largo: 'fotos/fit4u-pintura-1.jpg', movel: 'fotos/fit4u-pintura-1.jpg', posicao: 'center 45%' },
   },
 ];
 
@@ -87,10 +95,10 @@ const jsonLd = {
 
 <!-- 1 · HERO EM CARROSSEL DE FOTOS -->
 <div class="carrossel carrossel--fotos" data-carrossel aria-roledescription="carrossel" aria-label="Destaques">
-  <FundoRotativo fotos={fundos.home} rotulo="Fotos e destaques" />
+  <FundoRotativo fotos={slides.map((s) => s.foto)} rotulo="Fotos e destaques" />
   {slides.map((s, i) => (
     <div class="carrossel__slide" id={`slide-${i}`} hidden={i !== 0} aria-roledescription="slide" aria-label={`${i + 1} de ${slides.length}`}>
-      <Hero eyebrow={s.eyebrow} linhas={s.linhas} verde={s.verde} lead={s.lead} botoes={s.botoes}
+      <Hero eyebrow={s.eyebrow} logo={s.logo} h1Oculto={s.h1Oculto} linhas={s.linhas} verde={s.verde} lead={s.lead} botoes={s.botoes}
         sobreFotos titulo={i === 0 ? 'h1' : 'h2'} esconderBarra={i === 0} />
     </div>
   ))}
@@ -104,21 +112,8 @@ const jsonLd = {
       <p class="lead">Cada linha nasce de um molde exclusivo EDRO, construída em carbono monocoque, com modelagem EPS e prepreg de alto módulo. Cada bike é feita à mão, com pintura personalizada e exclusiva.</p>
     </div>
     <AbasTipo />
-    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
   </div>
 </section>
-
-<!-- 3 · BARRA DE BENEFÍCIOS (branco) -->
-<div class="beneficios">
-  <div class="container beneficios__interno">
-    {beneficios.map(([icone, t, d]) => (
-      <div class="beneficio">
-        <svg class="beneficio__icone" viewBox="0 0 24 24" aria-hidden="true" set:html={ICONES[icone]} />
-        <p><b>{t}</b><span>{d}</span></p>
-      </div>
-    ))}
-  </div>
-</div>
 
 <!-- 4 · E-BIKES (branco) -->
 <section class="secao secao--clara" id="e-bikes">
@@ -128,9 +123,8 @@ const jsonLd = {
       <p class="lead">A linha Horizon une a leveza, o peso e a dinâmica de uma bike normal à potência e autonomia de uma e-bike full power. Desenvolvida em carbono monocoque EDRO, ela entrega agilidade máxima e pilotagem precisa sempre que você quiser, com força e torque de sobra para quando você precisar.</p>
     </div>
     <div class="linhas-claras">
-      {horizonLinhas.map((l) => <CardLinhaClara linha={l} />)}
+      {horizonLinhas.map((l) => <CardLinhaClara linha={l} versao={l.slug === 'summa-horizon' ? 'ex' : 'pro'} />)}
     </div>
-    <p class="nota-peso">Pesos sem pedais, aferidos no tamanho M, podendo variar até 5% conforme o tamanho da bicicleta, os componentes e a pintura escolhida.</p>
   </div>
 </section>
 
@@ -141,7 +135,7 @@ const jsonLd = {
       <p class="eyebrow eyebrow--verde">Engenharia de carbono</p>
       <h2 class="headline" style="margin-top:var(--s-4)">Leve porque foi<br /><span class="verde">desenvolvido</span> para ser.</h2>
       <p class="lead">Um quadro EDRO não é leve por acaso. Cada lâmina de carbono tem orientação, módulo e posição definidos em projeto. O resultado você sente na primeira subida.</p>
-      <a class="btn btn--secundario" href="/engenharia">Ver como uma EDRO nasce</a>
+      <a class="btn btn--secundario" href="/engenharia">Veja como nasce uma EDRO</a>
     </div>
     <div class="tec4">
       {tec.map((c) => (
@@ -161,16 +155,15 @@ const jsonLd = {
 
 <!-- 6 · O SOB MEDIDA -->
 <section class="secao">
-  <div class="container bloco2 bloco2--topo">
-    <div>
-      <p class="eyebrow eyebrow--verde">O sob medida</p>
-      <h2 class="headline" style="margin-top:var(--s-4)">Nenhuma EDRO<br />nasce <span class="verde">igual.</span></h2>
-      <p class="lead" style="margin-bottom:var(--s-8)">Cada EDRO é construída à mão, ajustada às suas medidas e finalizada com a pintura que você escolheu. O resultado é uma bicicleta genuinamente única.</p>
+  <div class="container">
+    <Cabecalho eyebrow="O sob medida" linhas={['Nenhuma EDRO', 'nasce']} verde=" igual."
+      lead="Cada EDRO é construída à mão, ajustada às suas medidas e finalizada com a pintura que você escolheu. O resultado é uma bicicleta genuinamente única." />
+    <div class="bloco2 sob-medida">
       <Midia src="fotos/pintura-cabine.jpg" alt="Artista EDRO pintando à mão um quadro na cabine de pintura" posicao="center 35%" />
+      <ol class="passos3">
+        {passos.map(([t, d], i) => (<li><span class="passos3__num">{i + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
+      </ol>
     </div>
-    <ol class="passos3">
-      {passos.map(([t, d], i) => (<li><span class="passos3__num">{i + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
-    </ol>
   </div>
 </section>
 
@@ -214,6 +207,18 @@ const jsonLd = {
 <Fechamento linhas={['Fuja do']} verde="comum."
   texto="Fale diretamente com os especialistas que desenvolvem a sua bike."
   botoes={[{ rotulo: 'Falar com um especialista', href: especialista, primario: true, wa: 'home-fechamento' }, { rotulo: 'Ver as bikes', href: '/bikes' }]} />
+
+<!-- BARRA DE BENEFÍCIOS (v4: na base da página) -->
+<div class="beneficios">
+  <div class="container beneficios__interno">
+    {beneficios.map(([icone, t, d]) => (
+      <div class="beneficio">
+        <svg class="beneficio__icone" viewBox="0 0 24 24" aria-hidden="true" set:html={ICONES[icone]} />
+        <p><b>{t}</b><span>{d}</span></p>
+      </div>
+    ))}
+  </div>
+</div>
 
 <script>
   /* Os conteúdos do hero acompanham a foto da vez (o carrossel de fotos emite "fundo-troca"). */

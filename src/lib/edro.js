@@ -104,7 +104,8 @@ const macroSpecs = (versoes) => MACRO.map((item) => {
 }).filter(Boolean);
 
 const linhaDoCatalogo = (c) => {
-  const versoes = c.versoes.map(versaoDoCatalogo);
+  /* v4: sempre da entrada à PRO (EX, XCR, PRO; SS, SSR, PRO). O catálogo vem da PRO para a entrada. */
+  const versoes = c.versoes.map(versaoDoCatalogo).reverse();
   return {
     para_quem: c.para_quem,
     tipo: c.tipo,
@@ -112,8 +113,8 @@ const linhaDoCatalogo = (c) => {
     tamanhos_texto: c.tamanhos,
     versoes,
     macro_specs: macroSpecs(versoes),
-    pro: versoes[0],
-    entrada: versoes[versoes.length - 1],
+    pro: versoes.find((v) => v.slug === 'pro'),
+    entrada: versoes[0],
   };
 };
 
@@ -151,7 +152,7 @@ export const PARCELAMENTO = catalogo.linhas[0].versoes[0].parcelamento;
 
 const menorPor = (l, campo) => l.versoes.reduce((a, v) => (v[campo] < a[campo] ? v : a));
 /* "a partir de 8,47 kg na versão PRO" e "a partir de R$ 23.990 na versão EX": sempre do dado. */
-export const pesoAPartir = (l) => { const v = menorPor(l, 'peso_kg'); return `a partir de ${v.peso_texto} na versão ${v.nome}`; };
+export const pesoAPartir = (l) => { const v = menorPor(l, 'peso_kg'); return `a partir de ${v.peso_texto} sem pedais, na versão ${v.nome}`; };
 export const precoAPartir = (l) => { const v = menorPor(l, 'preco'); return `a partir de ${brl(v.preco)} na versão ${v.nome}`; };
 
 /* Tipos de bicicleta do seletor da home e das âncoras de /bikes. */

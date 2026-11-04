@@ -38,7 +38,7 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
           {frases.map((t) => <li>{t}</li>)}
         </ul>
       ) : (
-        <p class="lead">Escolha entre diversos modelos com visualização real do quadro e combine paletas de cores, grafismos exclusivos e diferentes acabamentos até adicionar a sua assinatura. Ao finalizar, você receberá o projeto em PDF com uma imagem em alta resolução, enquanto a nossa equipe de design revisa e valida cada detalhe diretamente com você.</p>
+        <p class="lead">Combine paletas de cores, grafismos exclusivos e diferentes acabamentos com a sua assinatura. Receba o PDF em alta resolução enquanto nossa equipe revisa cada detalhe com você.</p>
       )}
       <div class="personalizador__acoes">
         <a class="btn btn--primario" href={PERSONALIZADOR} data-personalizar={`bloco-${variante}`}>{home ? 'Personalize a sua EDRO' : 'Simule a sua pintura'}<Fragment set:html={seta} /></a>

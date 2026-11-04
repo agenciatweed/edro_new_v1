@@ -1,12 +1,14 @@
 ---
 /* =============================================================
    Card de um modelo (uma versão), v3.3 · referencias/ref-cards-modelos.png.
+   v4: logo da versão na fonte EDRO, centralizada; botão "Personalize".
    Foto sobre branco, nome da linha + versão, peso e preço exatos, e dois
    botões: "Saiba mais" (página do modelo) e "Pinte a sua" (personalizador
    já na linha e na versão). A IMPETUS SS ainda não está no personalizador:
    "Pinte a sua" abre o WhatsApp de pintura.
    ============================================================= */
-import { Picture, Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
+import LogoBike from './LogoBike.astro';
 import { img } from '../lib/imagens.js';
 import { brl, wa, pesoTexto, urlModelo, nomeLinha, ehHorizon } from '../lib/edro.js';
 
@@ -15,7 +17,6 @@ const Tag = titulo;
 const horizon = ehHorizon(linha);
 const nome = `${nomeLinha(linha)} ${v.nome}`;
 const saibaMais = urlModelo(linha, v);
-const wordmark = horizon ? linha.base : linha.slug;
 const pintar = v.personalizar
   ?? wa(`Olá, EDRO. Quero falar sobre a pintura da minha ${nome}. (origem: site-${linha.slug}-${v.slug}-pintura)`);
 ---
@@ -27,19 +28,17 @@ const pintar = v.personalizar
   <Tag class="card-modelo__nome">
     <a href={saibaMais}>
       <span class="visualmente-oculto">{nome}</span>
-      <Image class="wordmark--escuro" src={img(`brand/${wordmark}.png`)} alt="" height={44} />
-      {horizon && <Image src={img('brand/horizon.png')} alt="" height={34} />}
-      <Image src={img(`brand/${v.slug}.png`)} alt="" height={40} />
+      <LogoBike linha={linha} versao={v} />
     </a>
   </Tag>
   <p class="card-modelo__dados">
-    <span>{pesoTexto(v)}&nbsp;kg · {brl(v.preco)}</span>
+    <span>{pesoTexto(v)}&nbsp;kg <small class="card-modelo__sp">sem pedais</small> · {brl(v.preco)}</span>
     <span class="card-modelo__parcela">{v.parcelamento}</span>
   </p>
   <div class="card-modelo__botoes">
     <a class="btn btn--secundario" href={saibaMais} aria-label={`Saiba mais sobre a ${nome}`}>Saiba mais</a>
     <a class="btn btn--primario" href={pintar} rel={v.personalizar ? undefined : 'noopener'}
        data-personalizar={v.personalizar ? v.chave : undefined} data-wa={v.personalizar ? undefined : `pintura-${linha.slug}-${v.slug}`}
-       aria-label={`Pinte a sua ${nome}`}>Pinte a sua</a>
+       aria-label={`Personalize a sua ${nome}`}>Personalize</a>
   </div>
 </article>

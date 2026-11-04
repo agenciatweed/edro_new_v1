@@ -7,6 +7,7 @@
 import { Picture, Image } from 'astro:assets';
 import { img } from '../lib/imagens.js';
 import FundoRotativo from './FundoRotativo.astro';
+import LogoBike from './LogoBike.astro';
 
 const {
   eyebrow,
@@ -18,6 +19,8 @@ const {
   fundo,
   brief,
   wordmark,
+  /* v4: logo na fonte EDRO no lugar do wordmark em imagem ({ linha } ou { soHorizon: true }). */
+  logo,
   wordmark2,
   wordmarkAlt = '',
   wordmarkClasse = '',
@@ -76,7 +79,13 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
   <div class="hero3__interno">
     <div class="hero3__texto">
       {eyebrow && <p class="eyebrow eyebrow--verde">{eyebrow}</p>}
-      {wordmark ? (
+      {logo ? (
+        <TagWm class:list={['hero3__wordmark', 'hero3__logo', { 'hero3__logo--hz': logo.soHorizon }]} style={vtWm}>
+          {h1Oculto && <span class="visualmente-oculto">{h1Oculto}</span>}
+          {!h1Oculto && logo.alt && <span class="visualmente-oculto">{logo.alt}</span>}
+          <LogoBike linha={logo.linha} soHorizon={logo.soHorizon} />
+        </TagWm>
+      ) : wordmark ? (
         <TagWm class:list={['hero3__wordmark', wordmarkClasse, { 'hero3__wordmark--duplo': wordmark2 }]}>
           {h1Oculto && <span class="visualmente-oculto">{h1Oculto}</span>}
           <Image src={img(wordmark)} alt={wordmarkAlt} width={1280} loading="eager" style={vtWm} />

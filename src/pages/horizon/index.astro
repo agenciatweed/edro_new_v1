@@ -31,9 +31,7 @@ const pesos = (s) => s.replace('{peso_summa}', summaH.pro.peso_texto).replace('{
 
 <Hero
   eyebrow="E-Bikes EDRO"
-  wordmark="brand/horizon.png"
-  wordmarkAlt="HORIZON"
-  wordmarkClasse="hero3__wordmark--horizon"
+  logo={{ soHorizon: true, alt: 'HORIZON' }}
   linhas={['Uma nova era em']}
   verde="E-Bikes."
   lead="Redefinimos o ciclismo elétrico de alta performance. A linha Horizon materializa a união entre a agilidade de uma bike tradicional e a força de uma e-bike full power. Construída em carbono monocoque EDRO, essa plataforma ganha vida na eficiência da hardtail Summa e no controle total da full suspension Range. Escolha a sua versão e domine qualquer terreno."
@@ -44,7 +42,6 @@ const pesos = (s) => s.replace('{peso_summa}', summaH.pro.peso_texto).replace('{
 <section class="secao secao--clara" id="modelos">
   <div class="container">
     {horizonLinhas.map((l) => <CabecalhoLinha linha={l} h="h2" />)}
-    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
   </div>
 </section>
 

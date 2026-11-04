@@ -1,0 +1,83 @@
+/* =============================================================
+   EDRO · v4 (AJUSTES SITE V4, novembro de 2026)
+   Logos das bikes na fonte EDRO, cabeçalho preto de novo, blocos
+   de texto alinhados ao centro na vertical, brilho verde atrás dos
+   títulos em fundo preto, botões "Personalize".
+   ============================================================= */
+
+/* ---------------- LOGOS DAS BIKES (fonte EDRO) ----------------
+   Proporções medidas nos PNGs oficiais: capitular do nome = 0,449em;
+   a linha de baixo tem 0,467 da altura do nome e fica a 0,262 dela. */
+@font-face {
+  font-family: "EDRO";
+  src: url("/fonts/edro.ttf") format("truetype");
+  font-display: block;
+}
+.logo-bike {
+  display: inline-flex; flex-direction: column; align-items: center;
+  font-family: "EDRO", var(--font-display), sans-serif; font-weight: 400; font-style: normal;
+  letter-spacing: 0; text-transform: uppercase; white-space: nowrap;
+  font-size: var(--lb, 2.6rem); vertical-align: top;
+}
+.logo-bike__nome, .logo-bike__sub { display: block; line-height: .521em; margin-bottom: -.072em; }
+.logo-bike__sub { font-size: .467em; margin-top: .252em; }
+.logo-bike__hz { color: #33CC33; }
+.logo-bike__v { color: #33CC33; }
+.logo-bike__v--hz { color: #808080; }
+.logo-bike--so-hz .logo-bike__nome { color: #33CC33; }
+/* Fundo claro: o nome em tinta (no PNG, preto). */
+.secao--clara .logo-bike, .card-modelo .logo-bike { color: #000; }
+
+/* Logos nos lugares onde aparecem: sempre centralizadas nos cards (v4). */
+.card-modelo__nome a { justify-content: center; align-items: center; }
+.card-modelo__nome .logo-bike { --lb: clamp(1.9rem, 1.4rem + 1vw, 2.35rem); max-width: 100%; }
+.card-modelo__sp { font-size: var(--t-caption); font-weight: 400; color: var(--edro-paper-soft); }
+.card-linha-clara__nome a { justify-content: center; }
+.card-linha-clara__nome .logo-bike { --lb: clamp(2.2rem, 1.6rem + 1.6vw, 3.2rem); }
+.linha-clara__nome .logo-bike { --lb: clamp(2.4rem, 1.6rem + 2.4vw, 4rem); }
+.modelo-hero__nome .logo-bike { --lb: clamp(2.6rem, 1.6rem + 3vw, 4.6rem); }
+.hero3__logo { margin-bottom: var(--s-6); }
+.hero3__logo .logo-bike { --lb: clamp(3rem, 1.6rem + 5.6vw, 7rem); color: var(--edro-ink); }
+.hero3__logo--hz .logo-bike { --lb: clamp(2.4rem, 1.4rem + 3.6vw, 4.6rem); }
+@media (max-width: 479px) {
+  .hero3__logo .logo-bike { --lb: 2.6rem; }
+  .card-modelo__nome .logo-bike { --lb: 1.8rem; }
+}
+
+/* Links "Conheça a …" e "Ver toda a linha …" sem sublinhado (v4). */
+.link-seta--limpo, .secao--clara .link-seta--limpo { text-decoration: none; }
+.geo-grade__tabela-link { text-decoration: none; }
+.geo-grade .headline { margin-bottom: var(--s-10); }
+
+/* ---------------- BLOCOS DE TEXTO ALINHADOS (v4) ----------------
+   Título à esquerda e texto à direita ficam centralizados na vertical, em todas as páginas. */
+.cabecalho, .home-modelos__topo, .linha-clara__topo, .manifesto__interno, .perfil-box__topo, .dev__topo { align-items: center; }
+
+/* Trilho de modelos: no máximo três bikes por vez (v4). */
+@media (min-width: 1280px) { .carrossel-m { --colunas: 3; } }
+
+/* Sob medida da home: título e texto em cima, foto e passos embaixo (v4). */
+.sob-medida { align-items: start; }
+
+/* ---------------- BRILHO VERDE NOS TÍTULOS EM FUNDO PRETO (v4) ----------------
+   O mesmo halo do fechamento ("Fuja do comum"), atrás de todo título de seção escura. */
+.secao:not(.secao--clara) { overflow-x: clip; }
+.secao:not(.secao--clara) .headline { position: relative; isolation: isolate; }
+.secao:not(.secao--clara) .headline::before {
+  content: ""; position: absolute; z-index: -1; left: 35%; top: 50%;
+  width: min(1100px, 220%); height: 340%; transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(56, 169, 54, .16), rgba(56, 169, 54, .05) 34%, rgba(11, 13, 11, 0) 62%);
+  pointer-events: none;
+}
+
+/* Argumentos de engenharia (v4, "organizar dessa forma"): números numa coluna só,
+   alinhados à direita, e todos os títulos e textos começando na mesma linha vertical. */
+@media (min-width: 768px) {
+  .eng-args__lista { grid-template-columns: max-content minmax(0, 1fr); column-gap: var(--s-6); }
+  .eng-arg { grid-column: 1 / -1; grid-template-columns: subgrid; }
+  .eng-arg__numero { min-width: 0; text-align: right; }
+}
+.card-modelo__nome { margin-bottom: var(--s-4); }
+/* Ficha nova (textos longos): cada tabela na sua altura, rótulo e valor na mesma linha de topo. */
+.modelo-ficha { align-items: start; }
+.modelo-ficha__tabela th, .modelo-ficha__tabela td { vertical-align: top; }

@@ -1,0 +1,26 @@
+---
+/* =============================================================
+   Logo de linha/versão (v4), na fonte EDRO (public/fonts/edro.ttf),
+   na mesma composição dos PNGs oficiais (Edro V4/*.png):
+   nome da linha em cima; embaixo, centralizado, "HORIZON" em verde e a
+   versão em cinza (HORIZON) ou só a versão em verde (linhas convencionais).
+   Em texto, a cor do nome segue o fundo: tinta no branco, branco no escuro.
+   Tamanho pela font-size do pai (ou --lb); a altura de capitular é 0,45em.
+   ============================================================= */
+const { linha, versao, nome, horizon, soHorizon = false, classe } = Astro.props;
+const nomeL = nome ?? (linha ? (linha.base ? linha.nome : linha.nome) : '');
+const hz = horizon ?? Boolean(linha?.base);
+const v = typeof versao === 'string' ? versao : versao?.nome;
+---
+<span class:list={['logo-bike', { 'logo-bike--so-hz': soHorizon }, classe]} aria-hidden="true">
+  {soHorizon ? (
+    <span class="logo-bike__nome logo-bike__hz">HORIZON</span>
+  ) : (
+    <>
+      <span class="logo-bike__nome">{nomeL}</span>
+      {(hz || v) && (
+        <span class="logo-bike__sub">{hz && <span class="logo-bike__hz">HORIZON</span>}{v && <span class:list={['logo-bike__v', { 'logo-bike__v--hz': hz }]}>{v}</span>}</span>
+      )}
+    </>
+  )}
+</span>

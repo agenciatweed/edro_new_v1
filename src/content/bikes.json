@@ -1126,7 +1126,7 @@
           }
         ]
       },
-      "hero_texto": "A sua bike 100% customizada para enfrentar todos os desafios sem medo.",
+      "hero_texto": "Para quem não abre mão do ápice da performance aliado ao conforto.",
       "argumentos": [
         {
           "numero": "3 fases",
@@ -1169,8 +1169,7 @@
         "XS",
         "S",
         "M",
-        "L",
-        "XL"
+        "L"
       ],
       "quadro": {
         "titulo": "Quadro EDRO RD Disc High Modulus UD Carbon Fiber Monocoque Frame, geração 3.1",
@@ -1274,21 +1273,6 @@
           72,
           399,
           577.4
-        ],
-        "XL": [
-          534,
-          585,
-          "73,5°",
-          190,
-          "72°",
-          375,
-          45,
-          1034.8,
-          630.2,
-          415,
-          72,
-          408.4,
-          596.4
         ]
       },
       "versoes": [
@@ -1669,7 +1653,7 @@
       ],
       "geometria_img": "geometria_impetus.jpg",
       "review": "PYVEcbt5cyE",
-      "hero_texto": "Road Bike com freio a disco e quadro de carbono de nova geração, mais leve, mais rígido e mais responsivo.",
+      "hero_texto": "Uma road bike mais responsiva, aerodinâmica e mais leve. Com geometria atualizada e cockpit 100% integrado. Quadro 3 em 1 perfeito para altas velocidades, melhor para subidas e conforto extra para percorrer longas distâncias.",
       "argumentos": [
         {
           "numero": "3 em 1",
@@ -1692,7 +1676,17 @@
           "texto": "Chainstay com 415 mm e possibilidade de utilizar pneus até 700x35 mm, o que aumenta a sua <span class=\"verde\">versatilidade</span>. Com movimento central mais baixo, reduz o centro de gravidade e proporciona <span class=\"verde\">mais segurança</span> nas curvas."
         }
       ],
-      "fotos_argumentos": []
+      "fotos_argumentos": [],
+      "alturaCiclista": {
+        "fonte": "AJUSTES SITE V4 (cliente): só a faixa do M",
+        "faixas": [
+          {
+            "tamanho": "M",
+            "min": 1.68,
+            "max": 1.8
+          }
+        ]
+      }
     }
   ],
   "programas": [

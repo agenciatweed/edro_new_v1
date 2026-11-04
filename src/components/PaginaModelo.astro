@@ -7,9 +7,13 @@
    Hero branco com a bike; destaques, ficha completa, critérios de
    escolha dos componentes, geometria e condições no escuro; outras
    versões da linha no branco; fechamento.
+   v4: logo na fonte EDRO, "Quero a minha" antes de "Personalize", sem o
+   bloco de destaques, ficha nova do cliente (sem o "A ficha da …"),
+   "O que só a EDRO entrega" e outras versões sem a nota de rodapé.
    ============================================================= */
 import Base from '../layouts/Base.astro';
-import { Picture, Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
+import LogoBike from '../components/LogoBike.astro';
 import Cabecalho from '../components/Cabecalho.astro';
 import Pilares from '../components/Pilares.astro';
 import GeometriaGrade from '../components/GeometriaGrade.astro';
@@ -31,14 +35,9 @@ const pintar = v.personalizar ?? wa(`Olá, EDRO. Quero falar sobre a pintura da 
 const quero = wa(`Olá, EDRO. Tenho interesse na ${nome}. Minha bike atual é: ___ (origem: site-${p.slug}-${v.slug})`);
 const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
 
-/* "8,47 kg" vira número grande + unidade; "XX SL AXS" vira "XX" + "SL AXS"; texto puro fica inteiro. */
-const destaque = (d) => {
-  const n = d.valor.match(/^([\d.,]+)\s*(.*)$/);
-  if (n) return { num: n[1], uni: n[2] };
-  const t = d.valor.match(/^(\S{1,3})\s+(.+)$/);
-  return t ? { num: t[1], uni: t[2] } : { num: d.valor, uni: '', texto: true };
-};
-const ficha = [...v.ficha.map(([k, val]) => [k, k === 'Peso' ? `${val}, sem pedais, tamanho M` : val]), ['Preço', `${brl(v.preco)}, ${v.parcelamento}`]];
+/* Ficha do cliente (v4), na ordem e com os textos dele. */
+const ficha = v.ficha;
+const temAutonomia = ficha.some(([k]) => k === 'Autonomia');
 const metade = Math.ceil(ficha.length / 2);
 
 const jsonLd = [
@@ -79,9 +78,7 @@ const jsonLd = [
         <p class="eyebrow">{p.tipo}</p>
         <h1 class="modelo-hero__nome">
           <span class="visualmente-oculto">EDRO {nome}</span>
-          <Image class="wordmark--escuro" src={img(`brand/${horizon ? p.base : p.slug}.png`)} alt="" height={60} loading="eager" />
-          {horizon && <Image src={img('brand/horizon.png')} alt="" height={46} loading="eager" />}
-          <Image src={img(`brand/${v.slug}.png`)} alt="" height={52} loading="eager" />
+          <LogoBike linha={p} versao={v} />
         </h1>
         <p class="modelo-hero__resumo">{junto(v.resumo)}</p>
         <dl class="modelo-hero__dados">
@@ -89,8 +86,8 @@ const jsonLd = [
           <div><dt>Preço</dt><dd><b>{brl(v.preco)}</b><span>{v.parcelamento} no cartão, ou 5% de desconto no Pix</span></dd></div>
         </dl>
         <div class="modelo-hero__botoes">
-          <a class="btn btn--primario" href={pintar} rel={v.personalizar ? undefined : 'noopener'} data-wa={v.personalizar ? undefined : `pintura-${p.slug}-${v.slug}`}>Pinte a sua<Fragment set:html={seta} /></a>
           <a class="btn btn--secundario" href={quero} rel="noopener" data-wa={`modelo-${p.slug}-${v.slug}`}>Quero a minha</a>
+          <a class="btn btn--primario" href={pintar} rel={v.personalizar ? undefined : 'noopener'} data-wa={v.personalizar ? undefined : `pintura-${p.slug}-${v.slug}`}>Personalize<Fragment set:html={seta} /></a>
         </div>
         <nav class="modelo-hero__versoes" aria-label={`Versões da ${nomeL}`}>
           {p.versoes.map((x) => (
@@ -102,27 +99,9 @@ const jsonLd = [
   </div>
 </section>
 
-<section class="secao secao--sem-linha">
-  <div class="container">
-    <h2 class="visualmente-oculto">Destaques da {nome}</h2>
-    <div class:list={['modelo-destaques', { 'modelo-destaques--quatro': v.destaques.length > 3 }]}>
-      {v.destaques.map((d) => {
-        const x = destaque(d);
-        return (
-          <div class="modelo-destaque">
-            <p class:list={['modelo-destaque__valor', { 'modelo-destaque__valor--texto': x.texto }]}>{x.num}{x.uni && <span>{x.uni}</span>}</p>
-            <p class="modelo-destaque__legenda">{junto(d.legenda)}</p>
-          </div>
-        );
-      })}
-    </div>
-    <p class="nota-peso">{rodapeFicha[0]}</p>
-  </div>
-</section>
-
 <section class="secao" id="especificacoes">
   <div class="container">
-    <Cabecalho linhas={['Especificações']} verde="completas." lead={`A ficha da ${nome} no catálogo 2027.`} />
+    <Cabecalho linhas={['Especificações']} verde="completas." />
     <div class="modelo-ficha">
       {[ficha.slice(0, metade), ficha.slice(metade)].map((parte, i) => (
         <table class="tabela modelo-ficha__tabela">
@@ -133,7 +112,8 @@ const jsonLd = [
         </table>
       ))}
     </div>
-    {rodapeFicha.map((t) => <p class="nota-peso" style="margin-top:var(--s-3)">{t}</p>)}
+    {temAutonomia && <p class="nota-peso" style="margin-top:var(--s-3)">*A autonomia varia de acordo com o terreno, peso e pilotagem. Consulte o <a href="/horizon/simulador">Simulador EDRO</a>.</p>}
+    {rodapeFicha.slice(0, 2).map((t) => <p class="nota-peso" style="margin-top:var(--s-3)">{t}</p>)}
   </div>
 </section>
 
@@ -141,7 +121,7 @@ const jsonLd = [
 
 <GeometriaGrade p={geoP} />
 
-<Condicoes />
+<Condicoes linhas={['O que só a EDRO']} verde="entrega." />
 
 <section class="secao secao--clara" id="outras-versoes">
   <div class="container">
@@ -149,8 +129,7 @@ const jsonLd = [
     <div class="modelo-irmas">
       {irmas.map((x) => <CardModelo linha={p} versao={x} />)}
     </div>
-    <a class="link-seta" href={urlLinha(p)}>Ver toda a linha <i class="modelo">{p.nome}</i>{horizon && ' HORIZON'}</a>
-    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
+    <a class="link-seta link-seta--limpo" href={urlLinha(p)}>Ver toda a linha <i class="modelo">{p.nome}</i>{horizon && ' HORIZON'}</a>
   </div>
 </section>
 

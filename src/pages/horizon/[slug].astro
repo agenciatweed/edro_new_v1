@@ -59,11 +59,10 @@ const versoesJs = JSON.stringify(l.versoes.map((v) => v.slug));
 <Hero
   eyebrow={l.tipo}
   vt={slug}
-  wordmark={`brand/${l.base}.png`}
-  wordmark2="brand/horizon.png"
+  logo={{ linha: l }}
   h1Oculto={`EDRO ${nome}, ${l.tipo.toLowerCase()} de carbono`}
   lead={modelo(`${l.para_quem}.`)}
-  botoes={[{ rotulo: 'Ver modelos', href: '#modelos', primario: true }, { rotulo: 'Pinte a sua', href: personalizar(l.pro.chave) }]}
+  botoes={[{ rotulo: 'Ver modelos', href: '#modelos' }, { rotulo: 'Personalize', href: personalizar(l.pro.chave), primario: true }]}
   fotos={fundos.horizon}
 />
 
@@ -109,7 +108,6 @@ const versoesJs = JSON.stringify(l.versoes.map((v) => v.slug));
     <div class="modelos-linha">
       {l.versoes.map((v) => <CardModelo linha={l} versao={v} />)}
     </div>
-    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
   </div>
 </section>
 

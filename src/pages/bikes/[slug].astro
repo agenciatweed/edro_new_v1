@@ -29,7 +29,7 @@ const modelo = (s) => s.replace(/\b(SUMMA|RANGE|IMPETUS)\b/g, '<i class="modelo"
 const VIDEO = {
   summa: { titulo: ['A SUMMA vista por', 'quem'], verde: ' compete.', texto: 'Matheus Miranda, atleta patrocinado pela EDRO, sobre a nova SUMMA. Sem roteiro.', video: videos.review },
   range: { titulo: ['Terreno difícil,'], verde: 'desempenho real.', texto: 'A RANGE onde ela foi pensada para estar: trilha técnica, raiz, pedra e subida com o grupo.', video: videos.range },
-  impetus: { titulo: ['A única bike de', 'estrada que você', 'vai'], verde: ' precisar.', texto: 'Plano, serra e longa distância com o mesmo quadro.', video: videos.impetus },
+  impetus: { titulo: ['A única bike de', 'estrada que você', 'vai'], verde: ' precisar.', texto: '', video: videos.impetus },
 }[slug];
 const tituloVideo = VIDEO.titulo.join('<br />') + (VIDEO.verde.startsWith(' ') ? ' ' : '<br />') + `<span class="verde">${VIDEO.verde.trim()}</span>`;
 
@@ -85,12 +85,12 @@ const versoesJs = JSON.stringify(p.versoes.map((v) => v.slug));
 <Hero
   eyebrow={p.tipo}
   vt={p.slug}
-  wordmark={`brand/${p.slug}.png`}
+  logo={{ linha: p }}
   h1Oculto={H1[slug]}
   lead={p.hero_texto}
   botoes={[
-    { rotulo: 'Ver modelos', href: '#modelos', primario: true },
-    { rotulo: 'Pinte a sua', href: personalizar(p.pro.chave) },
+    { rotulo: 'Ver modelos', href: '#modelos' },
+    { rotulo: 'Personalize', href: personalizar(p.pro.chave), primario: true },
   ]}
   fotos={fundos[slug]}
 />
@@ -144,7 +144,7 @@ const versoesJs = JSON.stringify(p.versoes.map((v) => v.slug));
   <div class="container bloco2">
     <div>
       <h2 class="headline" set:html={tituloVideo} />
-      <p class="lead" set:html={modelo(VIDEO.texto)} />
+      {VIDEO.texto && <p class="lead" set:html={modelo(VIDEO.texto)} />}
     </div>
     <Midia video={VIDEO.video} proporcao="16x9" sizes="(max-width: 1023px) 100vw, 50vw" />
   </div>
@@ -159,7 +159,6 @@ const versoesJs = JSON.stringify(p.versoes.map((v) => v.slug));
     <div class="modelos-linha">
       {p.versoes.map((v) => <CardModelo linha={p} versao={v} />)}
     </div>
-    <p class="nota-peso">{rodapeFicha.join(' ')}</p>
   </div>
 </section>
 

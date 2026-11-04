@@ -40,7 +40,6 @@ const dados = colunas.map((c) => Object.fromEntries(tamanhos.map((t) => [t, valo
 <section class="secao geo-grade" id={id} data-geo-grade>
   <div class="container">
     <h2 class="headline">Geometria.</h2>
-    <p class="lead geo-grade__lead">O FIT4U define o tamanho certo para você e ajusta avanço, largura de guidão e alturas dentro dele.</p>
     <div class="geo-grade__corpo">
       <figure class="geo-grade__desenho">
         <Image src={img(`geometria/geo-${p.slug}-escuro.png`)} alt={`Desenho cotado do quadro EDRO ${p.nome} com os códigos das medidas`} width={1100} loading="lazy" />
@@ -62,7 +61,7 @@ const dados = colunas.map((c) => Object.fromEntries(tamanhos.map((t) => [t, valo
             </div>
           ))}
         </dl>
-        <p class="caption geo-grade__nota">Tamanho <b data-tamanho-atual>{inicial}</b>{altura[inicial] ? ', ' : ''}<span data-altura-atual>{altura[inicial] ? `para ciclistas de ${faixa(inicial)}` : ''}</span>. Faixas de altura indicativas; o FIT4U confirma o tamanho pelas suas medidas.</p>
+        <p class="caption geo-grade__nota">Tamanho <b data-tamanho-atual>{inicial}</b>{altura[inicial] ? ', ' : ''}<span data-altura-atual>{altura[inicial] ? `para ciclistas de ${faixa(inicial)}` : ''}</span>. Faixas de altura indicativas.</p>
         <button type="button" class="geo-grade__tabela-link" data-abre-ficha={`${id}-tabela`}>Ver tabela completa de geometria</button>
       </div>
     </div>
