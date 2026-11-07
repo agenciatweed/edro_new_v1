@@ -2,10 +2,12 @@
 /assistencia/ /contato 301
 /comeca-aqui / 301
 /comeca-aqui/ / 301
-/atletas /parcerias 301
-/atletas/ /parcerias 301
-/lojistas /parcerias 301
-/lojistas/ /parcerias 301
+/atletas /contato 301
+/atletas/ /contato 301
+/lojistas /contato 301
+/lojistas/ /contato 301
+/parcerias /contato 301
+/parcerias/ /contato 301
 /bicicletas /bikes 301
 /bicicletas/ /bikes 301
 /summa /bikes/summa 301

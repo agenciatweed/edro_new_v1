@@ -12,12 +12,17 @@
     },
     {
       "source": "/atletas",
-      "destination": "/parcerias",
+      "destination": "/contato",
       "permanent": true
     },
     {
       "source": "/lojistas",
-      "destination": "/parcerias",
+      "destination": "/contato",
+      "permanent": true
+    },
+    {
+      "source": "/parcerias",
+      "destination": "/contato",
       "permanent": true
     },
     {

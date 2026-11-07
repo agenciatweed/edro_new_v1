@@ -4,7 +4,7 @@ import { plataformas, horizonLinhas, urlModelo } from '../lib/edro.js';
 const ROTAS = [
   '/', '/bikes', '/bikes/summa', '/bikes/range', '/bikes/impetus', '/fit4u', '/fit4u/pintura/',
   '/programas',
-  '/engenharia', '/a-marca', '/parcerias', '/contato',
+  '/engenharia', '/a-marca', '/contato',
   '/horizon', '/horizon/summa-horizon', '/horizon/range-horizon', '/horizon/simulador',
   '/faq', '/guias', '/politicas',
   ...[...plataformas, ...horizonLinhas].flatMap((l) => l.versoes.map((v) => urlModelo(l, v))),

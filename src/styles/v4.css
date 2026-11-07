@@ -81,3 +81,67 @@
 /* Ficha nova (textos longos): cada tabela na sua altura, rótulo e valor na mesma linha de topo. */
 .modelo-ficha { align-items: start; }
 .modelo-ficha__tabela th, .modelo-ficha__tabela td { vertical-align: top; }
+
+/* =============================================================
+   AJUSTE 3 (novembro de 2026)
+   ============================================================= */
+
+/* Versão da bike (EX, XCR, PRO, SS, SSR) em cinza, na fonte EDRO, no canto superior direito. */
+.logo-versao {
+  position: absolute; z-index: 2; pointer-events: none;
+  font-family: "EDRO", var(--font-display), sans-serif; font-weight: 400; line-height: .521em;
+  letter-spacing: 0; text-transform: uppercase; color: #808080; white-space: nowrap;
+}
+.card-modelo__versao { top: var(--s-4); right: var(--s-4); font-size: clamp(1.5rem, 1.1rem + .7vw, 1.9rem); }
+.modelo-hero__foto { position: relative; }
+.modelo-hero__versao { top: 2%; right: 6%; font-size: clamp(2.2rem, 1.2rem + 2.4vw, 3.6rem); }
+
+/* Logos maiores, na proporção dos prints do cliente (cerca de metade da largura do card). */
+.card-modelo__nome .logo-bike { --lb: clamp(2.3rem, 1rem + 2.3vw, 3.3rem); }
+.card-linha-clara__nome .logo-bike { --lb: clamp(2.6rem, 1.2rem + 3.2vw, 4.6rem); }
+@media (max-width: 479px) { .card-modelo__nome .logo-bike { --lb: 2.5rem; } }
+
+/* Home: Mountain Bike e E-Bike com as seis bikes de uma vez (três por linha no computador). */
+@media (min-width: 768px) {
+  .carrossel-m--grade .carrossel-m__trilho { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; scroll-snap-type: none; }
+  .carrossel-m--grade .carrossel-m__seta { display: none !important; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .carrossel-m--grade .carrossel-m__trilho { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Vídeo curto em loop dentro da caixa de mídia. */
+.midia > video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Brilho verde centralizado no título (o halo seguia a largura da coluna, não a palavra). */
+.secao:not(.secao--clara) .headline { width: fit-content; max-width: 100%; }
+.secao:not(.secao--clara) .headline::before { left: 50%; width: max(140%, 520px); max-width: 1100px; }
+
+/* Quadro avulso (fotos verticais do cliente) e foto de ambiente, recortadas para a caixa. */
+.quadro__foto picture { display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius); }
+.quadro__foto img { height: 100%; object-fit: cover; object-position: center 45%; }
+.quadro__ambiente { aspect-ratio: 4 / 5; }
+
+/* Home: programas com os selos ao lado do título e os cards só com texto. */
+.programas-home__topo { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--s-8) var(--s-12); align-items: center; margin-bottom: var(--s-12); }
+.programas-home__selos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-6); align-items: center; margin-bottom: var(--s-6); }
+.programas-home__selos a { display: flex; justify-content: center; }
+.programas-home__selos img { width: auto; max-width: 100%; max-height: 104px; }
+.programas-home__topo .lead { margin: 0; }
+.selos--sem-selo .selo-card h3 { margin-top: 0; }
+@media (max-width: 1023px) { .programas-home__topo { grid-template-columns: 1fr; } }
+@media (max-width: 479px) { .programas-home__selos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.manifesto__tese { font-weight: 700; }
+
+/* Simulador: o texto do topo começa na mesma coluna da imagem e alinha no topo do título (ajuste 3). */
+@media (min-width: 1024px) {
+  .simulador-bloco .cabecalho { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: var(--s-12); align-items: start; margin-bottom: var(--s-8); }
+  .simulador-bloco .cabecalho .lead { justify-self: start; max-width: 62ch; margin: 0; }
+}
+
+/* /programas: título e linha verde à esquerda, texto à direita, sem o selo (ajuste 3). */
+.programa__topo--sem-selo { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.programa__topo--sem-selo .programa__destaque { margin-bottom: 0; }
+/* Engenharia: o quadro 3D vem em fundo branco; sem a inclinação das capturas. */
+.pagina-engenharia .hero3__captura, [data-pagina="engenharia"] .hero3__captura { transform: none; border-radius: var(--radius); overflow: hidden; }
+.manifesto__texto .lead + .lead { margin-top: var(--s-4); }

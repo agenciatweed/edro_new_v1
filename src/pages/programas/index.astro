@@ -35,7 +35,7 @@ const faq = {
   linhas={['Um ecossistema']}
   verde="de benefícios."
   lead="Mais do que uma bicicleta, você adquire uma experiência completa de suporte e valorização. Cada programa EDRO responde a uma dúvida real de quem já pedala."
-  fundo={{ src: 'fotos/programas-entrega.jpg', alt: 'Cliente recebendo a sua EDRO nova na fábrica, ao lado da equipe EDRO', posicao: 'top center' }}
+  fundo={{ src: 'aj3/diferenciais-01.jpg', alt: 'Ciclista EDRO pedalando a sua mountain bike numa trilha entre bambus', posicao: 'center 40%' }}
 />
 
 <nav class="programas-nav" aria-label="Programas">
@@ -52,13 +52,12 @@ const faq = {
 {lista.map((p, i) => (
   <section class:list={['secao', 'programa', { 'secao--sem-linha': i === 0 }]} id={p.slug} aria-labelledby={`${p.slug}-titulo`}>
     <div class="container">
-      <div class="programa__topo">
-        <span class="programa__selo"><Image src={img(`brand/${p.selo}`)} alt={p.selo_alt} height={220} /></span>
+      <div class="programa__topo programa__topo--sem-selo">
         <div>
           <h2 class="headline" id={`${p.slug}-titulo`}>{p.nome}</h2>
           <p class="programa__destaque">{p.destaque}</p>
-          <p class="lead">{p.card}</p>
         </div>
+        <p class="lead">{p.card}</p>
       </div>
 
       <div class="bloco2 bloco2--topo programa__corpo">

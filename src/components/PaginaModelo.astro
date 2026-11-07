@@ -71,6 +71,7 @@ const jsonLd = [
     </nav>
     <div class="modelo-hero__grade">
       <div class="modelo-hero__foto">
+        <span class="logo-versao modelo-hero__versao" aria-hidden="true">{v.nome}</span>
         <Picture src={img(v.foto)} formats={['avif', 'webp']} alt={`EDRO ${nome} 2027, vista lateral`}
           widths={[800, 1200, 1600]} sizes="(max-width: 1023px) 100vw, 58vw" loading="eager" fetchpriority="high" />
       </div>
@@ -78,7 +79,7 @@ const jsonLd = [
         <p class="eyebrow">{p.tipo}</p>
         <h1 class="modelo-hero__nome">
           <span class="visualmente-oculto">EDRO {nome}</span>
-          <LogoBike linha={p} versao={v} />
+          <LogoBike linha={p} />
         </h1>
         <p class="modelo-hero__resumo">{junto(v.resumo)}</p>
         <dl class="modelo-hero__dados">

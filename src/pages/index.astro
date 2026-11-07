@@ -14,6 +14,9 @@ import BlocoPersonalizador from '../components/BlocoPersonalizador.astro';
 import FundoRotativo from '../components/FundoRotativo.astro';
 import AbasTipo from '../components/AbasTipo.astro';
 import CardLinhaClara from '../components/CardLinhaClara.astro';
+import { Image } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import programas from '../content/programas.json';
 import fundos from '../content/fundos.json';
 import { horizonLinhas, porSlug, wa, PERSONALIZADOR, personalizar } from '../lib/edro.js';
 
@@ -46,7 +49,7 @@ const slides = [
     linhas: ['A sua bike com'], verde: 'pintura personalizada.',
     lead: 'Na EDRO, você cria a pintura da sua bike ao seu gosto, sem qualquer custo adicional. Desenvolvemos o projeto visual com você e orientamos a escolha exata do tamanho do quadro e componentes, garantindo o ajuste ergonômico perfeito.',
     botoes: [{ rotulo: 'Simule a sua pintura', href: PERSONALIZADOR, primario: true }, { rotulo: 'Conheça o FIT4U', href: '/fit4u' }],
-    foto: { largo: 'fotos/fit4u-pintura-1.jpg', movel: 'fotos/fit4u-pintura-1.jpg', posicao: 'center 45%' },
+    foto: fundos.fit4u[0],
   },
 ];
 
@@ -133,7 +136,7 @@ const jsonLd = {
   <div class="container bloco2">
     <div>
       <p class="eyebrow eyebrow--verde">Engenharia de carbono</p>
-      <h2 class="headline" style="margin-top:var(--s-4)">Leve porque foi<br /><span class="verde">desenvolvido</span> para ser.</h2>
+      <h2 class="headline" style="margin-top:var(--s-4)">Leve porque foi<br /><span class="verde">desenvolvido</span><br />para ser.</h2>
       <p class="lead">Um quadro EDRO não é leve por acaso. Cada lâmina de carbono tem orientação, módulo e posição definidos em projeto. O resultado você sente na primeira subida.</p>
       <a class="btn btn--secundario" href="/engenharia">Veja como nasce uma EDRO</a>
     </div>
@@ -147,9 +150,9 @@ const jsonLd = {
     </div>
   </div>
   <div class="container galeria3 home-eng__galeria">
-    <Midia titulo="Macro da laminação" descricao="Mãos posicionando a lâmina de carbono no molde. Luz dura lateral, fundo escuro." />
-    <Midia titulo="Cura e desmolde" descricao="Quadro saindo do molde, brilho da resina. Contraluz." />
-    <Midia tipo="VÍDEO" titulo="Balança" descricao={`Bike completa pendurada na balança, display legível: ${summaPro.peso_texto}, sem pedais. 8 s, loop.`} />
+    <Midia src="aj3/laminacao-01.jpg" alt="Quadro de carbono EDRO recém-laminado, ainda sem pintura, na mão de quem fabrica" proporcao="3x4" />
+    <Midia clipe={{ src: '/videos/cura-desmolde.mp4', poster: '/videos/cura-desmolde.jpg', rotulo: 'Cura e desmolde de um quadro EDRO na fábrica' }} proporcao="3x4" />
+    <Midia clipe={{ src: '/videos/balanca.mp4', poster: '/videos/balanca.jpg', rotulo: 'Quadro EDRO pesado na balança da fábrica' }} proporcao="3x4" />
   </div>
 </section>
 
@@ -173,9 +176,18 @@ const jsonLd = {
 <!-- 8 · PROGRAMAS -->
 <section class="secao">
   <div class="container">
-    <Cabecalho linhas={['O que só a', 'EDRO garante.']}
-      lead="Quatro programas que existem para tirar o risco da decisão de investir em uma bike sob medida." />
-    <Selos />
+    <div class="programas-home__topo">
+      <h2 class="headline">O que só a<br />EDRO <span class="verde">garante.</span></h2>
+      <div>
+        <div class="programas-home__selos">
+          {programas.ordem.map((slug) => (
+            <a href={`/programas#${slug}`}><Image src={img(`brand/${programas.programas[slug].selo}`)} alt={programas.programas[slug].selo_alt} height={180} /></a>
+          ))}
+        </div>
+        <p class="lead">Quatro programas que existem para tirar o risco da decisão de investir em uma bike sob medida.</p>
+      </div>
+    </div>
+    <Selos semSelo />
   </div>
 </section>
 
@@ -184,7 +196,9 @@ const jsonLd = {
   <div class="container manifesto__interno">
     <h2 class="manifesto-h2">Menos<br />marketing.<br /><span class="verde">Mais</span><br />performance.</h2>
     <div class="manifesto__texto">
-      <p class="lead">Escolhemos o rigor técnico e a exclusividade. Cada componente cumpre uma função clara de desempenho, com suporte dedicado e assistência técnica completa no Brasil. Direcionamos todos os nossos recursos para a engenharia e para o que realmente importa: a sua experiência ao pedalar.</p>
+      <p class="lead">Escolhemos o rigor técnico e a exclusividade. Cada componente cumpre uma função clara de desempenho, com suporte dedicado e assistência técnica completa no Brasil.</p>
+      <p class="lead">Direcionamos todos os nossos recursos para a engenharia e para o que realmente importa: a sua experiência ao pedalar.</p>
+      <p class="manifesto__tese">Cada real que não gastamos te convencendo, a gente investe na sua bike.</p>
       <p class="manifesto__desde">EDRO Performance Bikes <span class="verde">desde 2017</span></p>
     </div>
   </div>
@@ -196,9 +210,9 @@ const jsonLd = {
     <Cabecalho linhas={['Construída para']} verde="quem pedala."
       lead="Uma comunidade de ciclistas que escolheu o rigor da alta performance nacional. Da terra ao asfalto, a EDRO acompanha ciclistas que exigem o máximo em qualquer terreno." />
     <div class="galeria3" style="margin-bottom:var(--s-5)">
-      <Midia src="lp/customer-16.webp" alt="Ciclista EDRO em trilha fechada com lama, em prova" posicao="center 40%" />
-      <Midia src="lp/customer-17.jpg" alt="Dois ciclistas EDRO em descida técnica de pedras" />
-      <Midia src="lp/customer-18.jpg" alt="Ciclista com a EDRO IMPETUS azul e branca na estrada" posicao="center 60%" />
+      <Midia src="aj3/quem-pedala-01.jpg" alt="Ciclista EDRO pedalando a sua mountain bike em estrada de terra na serra" posicao="center 45%" />
+      <Midia src="aj3/quem-pedala-02.jpg" alt="Ciclista EDRO com número de prova em trilha de mountain bike" posicao="center 40%" />
+      <Midia src="aj3/quem-pedala-03.jpg" alt="Ciclista EDRO em descida técnica de prova de mountain bike" posicao="center 50%" />
     </div>
     <ProvaSocial />
   </div>

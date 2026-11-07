@@ -5,15 +5,16 @@ import { Image } from 'astro:assets';
 import { img } from '../lib/imagens.js';
 import conteudo from '../content/programas.json';
 
-const { links = true } = Astro.props;
+/* semSelo (ajuste 3): os selos ficam no topo da seção, ao lado do título, e os cards só com o texto. */
+const { links = true, semSelo = false } = Astro.props;
 const lista = conteudo.ordem.map((slug) => ({ slug, ...conteudo.programas[slug] }));
 ---
-<div class="selos">
+<div class:list={['selos', { 'selos--sem-selo': semSelo }]}>
   {lista.map((p) => {
     const Tag = links ? 'a' : 'article';
     return (
       <Tag class="selo-card" href={links ? `/programas#${p.slug}` : undefined}>
-        <span class="selo-card__selo"><Image src={img(`brand/${p.selo}`)} alt={p.selo_alt} height={208} /></span>
+        {!semSelo && <span class="selo-card__selo"><Image src={img(`brand/${p.selo}`)} alt={p.selo_alt} height={208} /></span>}
         <h3 class="card-title">{p.nome}</h3>
         <p class="selo-card__destaque">{p.destaque}</p>
         <p>{p.card}</p>

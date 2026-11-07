@@ -12,8 +12,9 @@ export default defineConfig({
   redirects: {
     '/assistencia': { status: 301, destination: '/contato' },
     '/comeca-aqui': { status: 301, destination: '/' },
-    '/atletas': { status: 301, destination: '/parcerias' },
-    '/lojistas': { status: 301, destination: '/parcerias' },
+    '/atletas': { status: 301, destination: '/contato' },
+    '/lojistas': { status: 301, destination: '/contato' },
+    '/parcerias': { status: 301, destination: '/contato' },
     '/bicicletas': { status: 301, destination: '/bikes' },
     '/summa': { status: 301, destination: '/bikes/summa' },
     '/range': { status: 301, destination: '/bikes/range' },

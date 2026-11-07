@@ -37,7 +37,7 @@ const camadas = [['Camada 1', '46T unidirecional, 0°'], ['Camada 2', '46T, ±45
   linhas={['A ciência por trás da']}
   verde="performance."
   lead="A performance de uma EDRO é pura engenharia. Cada ângulo do quadro e cada lâmina de carbono de alto módulo são calculados milimetricamente após anos de estudo, simulação e validação estrutural própria."
-  brief={{ tipo: 'IMAGEM', titulo: 'Quadro EDRO em 3D', descricao: 'Imagem 3D de um quadro EDRO isolado, sem componentes, sobre fundo escuro. TODO(EDRO): arquivo a enviar.' }}
+  imagem={{ src: 'aj3/quadro-3d.jpg', alt: 'Quadro EDRO em 3D, isolado, sem componentes', eager: true }}
 />
 
 <section class="secao secao--sem-linha">
@@ -47,9 +47,9 @@ const camadas = [['Camada 1', '46T unidirecional, 0°'], ['Camada 2', '46T, ±45
       {processo.map(([t, d]) => (<li><h3>{t}</h3><p>{d}</p></li>))}
     </ol>
     <div class="galeria3" style="margin-top:var(--s-10)">
-      <Midia titulo="Molde aberto" descricao="O molde exclusivo aberto com o quadro dentro. Plano fechado." />
+      <Midia src="aj3/molde-aberto-01.jpg" alt="Molde exclusivo EDRO aberto na bancada da fábrica" posicao="center 50%" />
       <Midia src="fotos/pintura-cabine.jpg" alt="Artista EDRO pintando à mão um quadro na cabine, com máscara e pistola" posicao="center 35%" />
-      <Midia titulo="Bancada de montagem" descricao="Mecânico com chave de torque no cockpit, bike em suporte." />
+      <Midia src="aj3/montagem-01.jpg" alt="Mecânico EDRO montando o cockpit de uma bike no suporte da bancada" posicao="center 35%" />
     </div>
   </div>
 </section>

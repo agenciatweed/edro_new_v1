@@ -5,6 +5,7 @@
    Três estados:
    - src: foto real do acervo, em AVIF/WebP com srcset.
    - video: lite embed do YouTube (miniatura própria, player só no clique).
+   - clipe: vídeo curto da EDRO em loop, mudo, sem controles ({ src, poster, rotulo }).
    - nenhum dos dois: placeholder com a orientação de produção das telas
      site_v3 (FOTO, VÍDEO, IMAGEM). data-midia-pendente permite ao
      verificar.mjs listar o que falta produzir antes do lançamento.
@@ -19,6 +20,7 @@ const {
   src,
   alt = '',
   video,
+  clipe,
   proporcao = '4x3',
   legenda,
   sizes = '(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw',
@@ -31,7 +33,11 @@ const foto = src ? img(src) : null;
 const poster = video ? img(`youtube/${video.id}.jpg`) : null;
 ---
 
-{foto ? (
+{clipe ? (
+  <figure class:list={['midia', 'midia--clipe', `midia--${proporcao}`, classe]}>
+    <video src={clipe.src} poster={clipe.poster} autoplay muted loop playsinline preload="metadata" aria-label={clipe.rotulo} style={`object-position:${posicao}`}></video>
+  </figure>
+) : foto ? (
   <figure class:list={['midia', `midia--${proporcao}`, classe]}>
     <Picture src={foto} formats={['avif', 'webp']} alt={alt} widths={[480, 960, 1440]} sizes={sizes}
       loading={eager ? 'eager' : 'lazy'} style={`object-position:${posicao}`} />

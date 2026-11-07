@@ -1,7 +1,9 @@
 ---
 /* =============================================================
    Card de um modelo (uma versão), v3.3 · referencias/ref-cards-modelos.png.
-   v4: logo da versão na fonte EDRO, centralizada; botão "Personalize".
+   v4: logo na fonte EDRO, centralizada; botão "Personalize".
+   Ajuste 3: embaixo da foto só a logo da linha (com HORIZON nas elétricas) e a
+   versão (EX, XCR, PRO…) em cinza no canto superior direito do card.
    Foto sobre branco, nome da linha + versão, peso e preço exatos, e dois
    botões: "Saiba mais" (página do modelo) e "Pinte a sua" (personalizador
    já na linha e na versão). A IMPETUS SS ainda não está no personalizador:
@@ -21,6 +23,7 @@ const pintar = v.personalizar
   ?? wa(`Olá, EDRO. Quero falar sobre a pintura da minha ${nome}. (origem: site-${linha.slug}-${v.slug}-pintura)`);
 ---
 <article class:list={['card-modelo', { 'card-modelo--compacto': compacto }]}>
+  <span class="logo-versao card-modelo__versao" aria-hidden="true">{v.nome}</span>
   <a class="card-modelo__foto" href={saibaMais} tabindex="-1" aria-hidden="true">
     <Picture src={img(v.foto)} formats={['avif', 'webp']} alt="" widths={[480, 800]}
       sizes="(max-width: 767px) 80vw, (max-width: 1279px) 34vw, 300px" loading="lazy" />
@@ -28,7 +31,7 @@ const pintar = v.personalizar
   <Tag class="card-modelo__nome">
     <a href={saibaMais}>
       <span class="visualmente-oculto">{nome}</span>
-      <LogoBike linha={linha} versao={v} />
+      <LogoBike linha={linha} />
     </a>
   </Tag>
   <p class="card-modelo__dados">

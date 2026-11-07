@@ -157,9 +157,9 @@ export const precoAPartir = (l) => { const v = menorPor(l, 'preco'); return `a p
 
 /* Tipos de bicicleta do seletor da home e das âncoras de /bikes. */
 export const TIPOS = [
-  { id: 'road', rotulo: 'Road', linhas: ['impetus'] },
+  { id: 'road', rotulo: 'Road Bike', linhas: ['impetus'] },
   { id: 'mountain-bike', rotulo: 'Mountain Bike', linhas: ['summa', 'range'] },
-  { id: 'eletrica', rotulo: 'Elétrica', linhas: ['summa-horizon', 'range-horizon'] },
+  { id: 'eletrica', rotulo: 'E-Bike', linhas: ['summa-horizon', 'range-horizon'] },
 ];
 
 export const ehHorizon = (l) => Boolean(l.base);

@@ -1,10 +1,11 @@
+import { wa } from './edro.js';
+
 /* Menu principal (v4), um só para o site e para o personalizador FIT4U (/fit4u/pintura/).
    "linhas" monta o painel com a foto, o tipo, a logo e as versões de cada linha
    ([id, versão da foto]: SUMMA EX azul, RANGE XCR vermelha, IMPETUS PRO verde,
    SUMMA HORIZON EX e RANGE HORIZON PRO); "grupos" monta colunas de links.
-   "Home" voltou como primeiro item (v4). */
+   Ajuste 3: sem o item "Home" (a home é pelo logo). */
 export const menu = [
-  { id: 'home', rotulo: 'Home', href: '/' },
   { id: 'bikes', rotulo: 'Bikes', href: '/bikes', linhas: [['summa', 'ex'], ['range', 'xcr'], ['impetus', 'pro']] },
   { id: 'ebikes', rotulo: 'E-Bikes', href: '/horizon', linhas: [['summa-horizon', 'ex'], ['range-horizon', 'pro']] },
   {
@@ -23,7 +24,8 @@ export const menu = [
   },
 ];
 
-export const LOJISTA = { rotulo: 'Quero ser lojista', href: '/parcerias#lojistas' };
+/* Ajuste 3: a página Parcerias saiu; quem quer ser lojista fala direto com o comercial. */
+export const LOJISTA = { rotulo: 'Quero ser lojista', href: wa('Olá, EDRO. Quero ser lojista EDRO. (origem: site-menu-lojista)') };
 
 /* Logo do cabeçalho (barra preta, v4): só a tipografia EDRO, em branco. */
 export const LOGO_MENU = 'brand/logo-edro-texto-branco.png';

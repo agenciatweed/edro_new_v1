@@ -67,12 +67,16 @@
           "Após 2 anos de intenso estudo e desenvolvimento, chegamos até o novo quadro Summa. Com novas características que proporcionarão aos ciclistas ter o máximo desempenho. Subidas muito mais eficientes, descidas mais rápidas e com mais segurança e sprints vigorosos."
         ],
         "foto_ambiente": [
-          "fotos/summa-cachoeira.jpg",
-          "EDRO SUMMA diante de uma cachoeira"
+          "aj3/summa-quadro-02.jpg",
+          "Quadro da SUMMA pesado na balança da fábrica EDRO"
         ],
         "fecho": [
           "Na SUMMA, leveza é mais do que uma característica, é uma promessa de desempenho elevado. Cada detalhe foi pensado para proporcionar uma pedalada mais leve e ágil.",
           "Tudo isso, com um quadro pesando aproximadamente 860 g no tamanho M."
+        ],
+        "foto_quadro": [
+          "aj3/summa-quadro-01.jpg",
+          "Quadro EDRO HT 29 de carbono da SUMMA, sem componentes"
         ]
       },
       "geometria": {
@@ -608,11 +612,15 @@
           "Chegou a sua vez de experienciar o que uma mountain bike full suspension é capaz de fazer em termos de conforto e otimização de sua potência."
         ],
         "foto_ambiente": [
-          "fotos/acao-trilha.jpg",
-          "Ciclista pedalando a EDRO RANGE em trilha"
+          "aj3/range-05.jpg",
+          "RANGE montada, pronta para a trilha"
         ],
         "fecho": [
           "A sua bike 100% customizada para enfrentar todos os desafios sem medo."
+        ],
+        "foto_quadro": [
+          "aj3/quadro-range.jpg",
+          "Quadro EDRO FS de carbono da RANGE, sem componentes"
         ]
       },
       "geometria": {
@@ -1177,12 +1185,16 @@
           "Mais responsiva e mais fácil de conduzir. Mais aerodinâmica e mais leve. Com geometria atualizada e cockpit 100% integrado. Quadro 3 em 1, perfeito para altas velocidades, melhor para subidas e com conforto extra para longas distâncias."
         ],
         "foto_ambiente": [
-          "lp/bike-impetus.jpg",
-          "EDRO IMPETUS na estrada"
+          "aj3/impetus-03.jpg",
+          "IMPETUS na estrada, encostada na grade de uma ciclovia"
         ],
         "fecho": [
           "Melhor capacidade para escaladas, mais estabilidade e eficiência para altas velocidades e alto conforto para longas distâncias.",
           "Pedalar a IMPETUS é ter a certeza de estar no melhor cenário possível. Domine a estrada."
+        ],
+        "foto_quadro": [
+          "aj3/quadro-impetus.jpg",
+          "Quadro EDRO RD Disc de carbono da IMPETUS, geração 3.1, sem componentes"
         ]
       },
       "geometria": {
@@ -1676,7 +1688,16 @@
           "texto": "Chainstay com 415 mm e possibilidade de utilizar pneus até 700x35 mm, o que aumenta a sua <span class=\"verde\">versatilidade</span>. Com movimento central mais baixo, reduz o centro de gravidade e proporciona <span class=\"verde\">mais segurança</span> nas curvas."
         }
       ],
-      "fotos_argumentos": [],
+      "fotos_argumentos": [
+        [
+          "aj3/cockpit-impetus-01.jpg",
+          "Cockpit integrado Vultro Proton R-SL da IMPETUS, visto de cima"
+        ],
+        [
+          "aj3/quadro-geometria-impetus-01.jpg",
+          "IMPETUS branca com a caixa de direção ACR e o cabeamento interno"
+        ]
+      ],
       "alturaCiclista": {
         "fonte": "AJUSTES SITE V4 (cliente): só a faixa do M",
         "faixas": [

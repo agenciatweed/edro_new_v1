@@ -49,51 +49,56 @@
       "posicao": "center 45%"
     }
   ],
-  "todo": "TODO(EDRO): fotos definitivas dos carrosséis de hero (home, /bikes, uma série por linha e /horizon).",
+  "todo": "TODO(EDRO): FOTO SUMMA 04 (o ajuste 3 pede 01 a 04; vieram 01 a 03, a quarta é a do acervo).",
   "summa": [
+    {
+      "largo": "aj3/summa-01.jpg",
+      "movel": "aj3/summa-01.jpg",
+      "posicao": "center 62%"
+    },
+    {
+      "largo": "aj3/summa-02.jpg",
+      "movel": "aj3/summa-02.jpg",
+      "posicao": "center 55%"
+    },
+    {
+      "largo": "aj3/summa-03.jpg",
+      "movel": "aj3/summa-03.jpg",
+      "posicao": "center 62%"
+    },
     {
       "largo": "lp/bike-summa.jpg",
       "movel": "lp/bike-summa.jpg",
       "posicao": "center 55%"
-    },
-    {
-      "largo": "fotos/summa-cachoeira.jpg",
-      "movel": "fotos/summa-cachoeira.jpg",
-      "posicao": "center 50%"
-    },
-    {
-      "largo": "lp/hero-edro-mtb.jpg",
-      "movel": "lp/hero-edro-mtb.jpg",
-      "posicao": "65% center"
-    },
-    {
-      "largo": "fundos/customer-11-wide.jpg",
-      "movel": "fundos/customer-11.jpg",
-      "posicao": "center 30%"
     }
   ],
   "range": [
     {
-      "largo": "lp/bike-range.jpg",
-      "movel": "lp/bike-range.jpg",
-      "posicao": "center 55%"
+      "largo": "aj3/range-01.jpg",
+      "movel": "aj3/range-01.jpg",
+      "posicao": "center 62%"
     },
     {
-      "largo": "fundos/customer-17-wide.jpg",
-      "movel": "fundos/customer-17.jpg",
-      "posicao": "60% center"
+      "largo": "aj3/range-02.jpg",
+      "movel": "aj3/range-02.jpg",
+      "posicao": "center 50%"
     },
     {
-      "largo": "fotos/acao-trilha.jpg",
-      "movel": "fotos/acao-trilha.jpg",
-      "posicao": "center 30%"
+      "largo": "aj3/range-03.jpg",
+      "movel": "aj3/range-03.jpg",
+      "posicao": "center 62%"
     }
   ],
   "impetus": [
     {
-      "largo": "lp/bike-impetus.jpg",
-      "movel": "lp/bike-impetus.jpg",
-      "posicao": "center 55%"
+      "largo": "aj3/impetus-01.jpg",
+      "movel": "aj3/impetus-01.jpg",
+      "posicao": "center 62%"
+    },
+    {
+      "largo": "aj3/impetus-02.jpg",
+      "movel": "aj3/impetus-02.jpg",
+      "posicao": "center 35%"
     },
     {
       "largo": "fundos/customer-15-wide.jpg",
@@ -103,9 +108,16 @@
   ],
   "horizon": [
     {
-      "largo": "fotos/horizon-display.jpg",
-      "movel": "fotos/horizon-display.jpg",
-      "posicao": "center 40%"
+      "largo": "aj3/horizon-01.jpg",
+      "movel": "aj3/horizon-01.jpg",
+      "posicao": "center 60%"
+    }
+  ],
+  "fit4u": [
+    {
+      "largo": "aj3/personalizacao-01.jpg",
+      "movel": "aj3/personalizacao-01.jpg",
+      "posicao": "center 45%"
     }
   ]
 }

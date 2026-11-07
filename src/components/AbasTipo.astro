@@ -24,7 +24,7 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
   </div>
   {abas.map((t) => (
     <div class="abas-tipo__painel" role="tabpanel" id={`painel-tipo-${t.id}`} aria-labelledby={`aba-tipo-${t.id}`} hidden={t.id !== inicial} tabindex="-1">
-      <CarrosselModelos itens={t.itens} rotulo={`Modelos ${t.rotulo}`} />
+      <CarrosselModelos itens={t.itens} rotulo={`Modelos ${t.rotulo}`} grade />
     </div>
   ))}
   <div class="abas-tipo__rodape">

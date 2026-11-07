@@ -118,7 +118,7 @@ const versoesJs = JSON.stringify(p.versoes.map((v) => v.slug));
   <div class="container">
     <div class="quadro__linha">
       <figure class="quadro__foto">
-        <Picture src={img(p.pro.foto)} formats={['avif', 'webp']} alt={`EDRO ${p.nome} PRO 2027, vista lateral`} widths={[800, 1400]} sizes="(max-width: 1023px) 100vw, 55vw" loading="lazy" />
+        <Picture src={img(p.quadro.foto_quadro[0])} formats={['avif', 'webp']} alt={p.quadro.foto_quadro[1]} widths={[800, 1400]} sizes="(max-width: 1023px) 100vw, 55vw" loading="lazy" />
         <figcaption>{p.quadro.titulo}</figcaption>
       </figure>
       <div class="quadro__texto">

@@ -8,11 +8,12 @@
    ============================================================= */
 import CardModelo from './CardModelo.astro';
 
-const { itens = [], rotulo = 'Modelos' } = Astro.props;
+/* grade (ajuste 3): no computador todos os cards de uma vez, em linhas de três; no celular continua o trilho. */
+const { itens = [], rotulo = 'Modelos', grade = false } = Astro.props;
 const poucos = itens.length <= 3;
 const seta = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" /></svg>`;
 ---
-<div class:list={['carrossel-m', { 'carrossel-m--poucos': poucos }]} data-carrossel-m>
+<div class:list={['carrossel-m', { 'carrossel-m--poucos': poucos, 'carrossel-m--grade': grade }]} data-carrossel-m>
   <button class="carrossel-m__seta carrossel-m__seta--ant" type="button" aria-label="Modelo anterior" data-ant hidden set:html={seta('M15 5l-7 7 7 7')} />
   <ul class="carrossel-m__trilho" aria-label={rotulo} tabindex="0">
     {itens.map(({ linha, versao }) => (
