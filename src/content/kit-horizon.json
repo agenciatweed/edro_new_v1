@@ -1,0 +1,14 @@
+{
+  "nome": "Kit HORIZON",
+  "rota": "/horizon/kit-horizon",
+  "preco": 23990,
+  "preco_texto": "R$ 23.990",
+  "pagamento": [
+    { "valor": "12x", "legenda": "sem juros no cartão" },
+    { "valor": "5%", "legenda": "de desconto à vista no Pix" }
+  ],
+  "vigencia": "out/2026",
+  "compativeis": ["SUMMA geração 3: PRO, XCR, EX", "RANGE geração 3: PRO, XCR, EX"],
+  "whatsapp_origem": "KIT-HZ",
+  "itens": ["Unidade de tração CYC Photon Gen 2", "EDRO Power Pack 540 Wh", "Carenagem HORIZON", "Eletrônica de controle e interface"]
+}

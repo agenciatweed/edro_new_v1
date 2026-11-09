@@ -99,14 +99,14 @@
         "legenda": {
           "CF": "tubo de selim",
           "L": "top tube efetivo",
-          "I": "não publicar",
+          "I": "recuo do tubo de selim",
           "A": "ângulo do tubo de selim",
           "B": "ângulo da caixa",
           "F": "front center",
           "P": "chainstay",
           "T": "comprimento da caixa",
           "D": "BB drop",
-          "R": "não publicar",
+          "R": "offset do garfo",
           "G": "comprimento do garfo"
         },
         "S": [
@@ -648,7 +648,7 @@
           "WB": "entre-eixos",
           "FC": "front center",
           "RC": "chainstay",
-          "G": "não publicar"
+          "G": "BB drop"
         },
         "S": [
           410,
@@ -1699,12 +1699,27 @@
         ]
       ],
       "alturaCiclista": {
-        "fonte": "AJUSTES SITE V4 (cliente): só a faixa do M",
+        "fonte": "SITE AJUSTE 4 (cliente)",
         "faixas": [
           {
-            "tamanho": "M",
+            "tamanho": "XS",
+            "min": 1.6,
+            "max": 1.73
+          },
+          {
+            "tamanho": "S",
             "min": 1.68,
             "max": 1.8
+          },
+          {
+            "tamanho": "M",
+            "min": 1.75,
+            "max": 1.88
+          },
+          {
+            "tamanho": "L",
+            "min": 1.85,
+            "max": 2.0
           }
         ]
       }

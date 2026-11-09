@@ -5,13 +5,13 @@ const ROTAS = [
   '/', '/bikes', '/bikes/summa', '/bikes/range', '/bikes/impetus', '/fit4u', '/fit4u/pintura/',
   '/programas',
   '/engenharia', '/a-marca', '/contato',
-  '/horizon', '/horizon/summa-horizon', '/horizon/range-horizon', '/horizon/simulador',
+  '/horizon', '/horizon/summa-horizon', '/horizon/range-horizon', '/horizon/simulador', '/horizon/kit-horizon',
   '/faq', '/guias', '/politicas',
   ...[...plataformas, ...horizonLinhas].flatMap((l) => l.versoes.map((v) => urlModelo(l, v))),
 ];
 
 /* O personalizador FIT4U entra com prioridade 0.8 (v3.2, seção 4.8). */
-const PRIORIDADE = { '/fit4u/pintura/': '0.8' };
+const PRIORIDADE = { '/fit4u/pintura/': '0.8', '/horizon/kit-horizon': '0.3' };
 
 export function GET() {
   const corpo = ROTAS.map((r) => `  <url><loc>https://edrobikes.com.br${r}</loc>${PRIORIDADE[r] ? `<priority>${PRIORIDADE[r]}</priority>` : ''}</url>`).join('\n');

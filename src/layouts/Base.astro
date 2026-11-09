@@ -24,6 +24,8 @@ const {
   jsonLd,
   pagina = 'home',
   noindex = false,
+  /* Imagem do Open Graph (URL absoluta); padrão: og-edro.png. */
+  ogImagem = 'https://edrobikes.com.br/og-edro.png',
 } = Astro.props;
 
 const rota = Astro.url.pathname;
@@ -34,8 +36,8 @@ const ativoEm = (href) => rotaLimpa === href || rotaLimpa.startsWith(href + '/')
 
 const rodape = [
   { titulo: 'Bikes', links: [['SUMMA', '/bikes/summa'], ['RANGE', '/bikes/range'], ['IMPETUS', '/bikes/impetus']] },
-  { titulo: 'E-Bikes', links: [['HORIZON', '/horizon'], ['SUMMA HORIZON', '/horizon/summa-horizon'], ['RANGE HORIZON', '/horizon/range-horizon'], ['Simulador de autonomia', '/horizon/simulador']] },
-  { titulo: 'FIT4U', links: [['Como funciona', '/fit4u'], ['Personalizador de pintura', '/fit4u/pintura/'], ['Guia FIT4U', '/guias#fit4u']] },
+  { titulo: 'E-Bikes', links: [['HORIZON', '/horizon'], ['SUMMA HORIZON', '/horizon/summa-horizon'], ['RANGE HORIZON', '/horizon/range-horizon'], ['Simulador de autonomia', '/horizon/simulador'], ['Kit HORIZON', '/horizon/kit-horizon', 'discreto']] },
+  { titulo: 'FIT4U', links: [['Como funciona', '/fit4u'], ['Personalizador de pintura', '/fit4u/pintura/']] },
   { titulo: 'Programas', links: [['Compra Certa', '/programas#compra-certa'], ['Ciclo EDRO', '/programas#ciclo-edro'], ['Carbon Assist', '/programas#carbon-assist'], ['Garantia Vitalícia', '/programas#garantia']] },
   { titulo: 'EDRO', links: [['A marca', '/a-marca'], ['Engenharia', '/engenharia'], ['Guias', '/guias'], ['Dúvidas frequentes', '/faq'], ['Contato', '/contato']] },
 ];
@@ -56,7 +58,7 @@ const org = {
 
 /* BreadcrumbList a partir da rota */
 const NOMES = { bikes: 'Bikes', horizon: 'E-Bikes', programas: 'Programas', summa: 'SUMMA', range: 'RANGE', impetus: 'IMPETUS',
-  'summa-horizon': 'SUMMA HORIZON', 'range-horizon': 'RANGE HORIZON', simulador: 'Simulador de autonomia', 'compra-certa': 'Compra Certa',
+  'summa-horizon': 'SUMMA HORIZON', 'range-horizon': 'RANGE HORIZON', simulador: 'Simulador de autonomia', 'kit-horizon': 'Kit HORIZON', 'compra-certa': 'Compra Certa',
   'ciclo-edro': 'Ciclo EDRO', 'carbon-assist': 'Carbon Assist', garantia: 'Garantia Vitalícia', fit4u: 'FIT4U', engenharia: 'Engenharia',
   'a-marca': 'A marca', pro: 'PRO', xcr: 'XCR', ex: 'EX', ssr: 'SSR', ss: 'SS', contato: 'Contato', faq: 'Dúvidas frequentes', guias: 'Guias', politicas: 'Políticas' };
 const partes = rotaLimpa.split('/').filter(Boolean);
@@ -86,7 +88,7 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
   <meta property="og:title" content={tituloPagina} />
   <meta property="og:description" content={descricao} />
   <meta property="og:locale" content="pt_BR" />
-  <meta property="og:image" content="https://edrobikes.com.br/og-edro.png" />
+  <meta property="og:image" content={ogImagem} />
 
   <link rel="preload" href="/fonts/edro.ttf" as="font" type="font/ttf" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -122,7 +124,7 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
       {rodape.map((c) => (
         <nav class="rodape__coluna" aria-label={c.titulo}>
           <h2 class="eyebrow">{c.titulo}</h2>
-          {c.links.map(([t, h]) => <a href={h}>{t}</a>)}
+          {c.links.map(([t, h, cls]) => <a href={h} class={cls ? `rodape__${cls}` : undefined}>{t}</a>)}
         </nav>
       ))}
     </div>

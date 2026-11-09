@@ -4,6 +4,7 @@
    no fim. Cada versão tem a sua página (/horizon/<linha>/<versao>). */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
+import SubAbasHorizon from '../../components/SubAbasHorizon.astro';
 import Cabecalho from '../../components/Cabecalho.astro';
 import CardModelo from '../../components/CardModelo.astro';
 import fundos from '../../content/fundos.json';
@@ -55,6 +56,8 @@ const versoesJs = JSON.stringify(l.versoes.map((v) => v.slug));
     var h = decodeURIComponent(location.hash.slice(1)).toLowerCase();
     if (versoes.indexOf(h) !== -1) location.replace('/horizon/' + linha + '/' + h);
   </script>
+
+<SubAbasHorizon />
 
 <Hero
   eyebrow={l.tipo}

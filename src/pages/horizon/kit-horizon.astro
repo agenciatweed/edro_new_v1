@@ -1,0 +1,439 @@
+---
+/* =============================================================
+   /horizon/kit-horizon · Kit HORIZON (v3.4, EDRO_Site_v3_4_Kit_HORIZON.md)
+   Página discreta: só a sub-aba de E-Bikes, o rodapé (cinza) e o FAQ levam
+   até aqui. Nada na home, no menu, nos banners ou nas páginas de linha.
+
+   As duas linhas convivem: o banner abre na SUMMA, o antes e depois na RANGE,
+   a vista com marcadores na SUMMA; cada bloco tem o seu seletor SUMMA | RANGE.
+   Preço e pagamento: content/kit-horizon.json. Números do sistema:
+   horizon_2027.json (sistema). Linguagem de engenharia (§6): sem "adaptação",
+   "ajuste", "case", "preparado" e afins em nenhum texto do kit.
+   ============================================================= */
+import Base from '../../layouts/Base.astro';
+import SubAbasHorizon from '../../components/SubAbasHorizon.astro';
+import LogoBike from '../../components/LogoBike.astro';
+import { Picture, getImage } from 'astro:assets';
+import { img } from '../../lib/imagens.js';
+import kit from '../../content/kit-horizon.json';
+import { wa, brl, catalogoHz, horizonLinhas, porSlug } from '../../lib/edro.js';
+
+/* ---- Números do sistema, sempre do catálogo HORIZON ---- */
+const sis = catalogoHz.sistema;
+const pega = (txt, re) => (txt.match(re) ?? [])[1];
+const N = {
+  pico: pega(sis.Motor, /([\d.]+) W de pico/),
+  nominal: pega(sis.Motor, /(\d+) W nominal/),
+  torque: pega(sis.Motor, /([\d,]+) N\.m/),
+  wh: pega(sis.Bateria, /(\d+) Wh/),
+  eco: pega(sis.Autonomia, /Eco \d+ a (\d+) km/),
+  fabrica: pega(sis['Velocidade assistida'], /(\d+) km\/h de fábrica/),
+  circuito: pega(sis['Velocidade assistida'], /para (\d+) km\/h/),
+};
+if (Object.values(N).some((v) => !v)) throw new Error('[kit-horizon] número do sistema não encontrado em horizon_2027.json');
+const pesoSummaHz = horizonLinhas.find((l) => l.slug === 'summa-horizon').pro.peso_texto;
+const pesoRangeHz = horizonLinhas.find((l) => l.slug === 'range-horizon').pro.peso_texto;
+const erroSimulador = '2%';
+
+/* ---- WhatsApp com origem KIT-HZ (§2.2 e §2.10) ---- */
+const origem = `(origem: ${kit.whatsapp_origem})`;
+const waEspecialista = wa(`Olá, EDRO. Quero falar com um especialista sobre o Kit HORIZON. ${origem}`);
+const waConfirmar = wa(`Olá, EDRO. Tenho uma SUMMA/RANGE geração 3 e quero confirmar se ela pode receber o Kit HORIZON. Segue a foto da bike e o número de série. ${origem}`);
+const waQuero = wa(`Olá, EDRO. Quero a minha HORIZON com o Kit HORIZON. ${origem}`);
+
+const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
+const m = (s) => s.replace(/\b(SUMMA|RANGE|IMPETUS)\b/g, '<i class="modelo">$1</i>');
+
+const numeros = [
+  [N.pico, 'W', `de pico; potência nominal limitada a ${N.nominal} W`],
+  [N.torque, 'N.m', 'de torque, para subir no seu ritmo'],
+  [N.wh, 'Wh', `EDRO Power Pack; até ${N.eco} km no modo Eco`],
+  [N.fabrica, 'km/h', `de fábrica; configurável para ${N.circuito} km/h em circuito fechado, respeitando a legislação`],
+  ['Auto', '', 'Modo automático pela sua frequência cardíaca'],
+];
+
+const novaVersao = [
+  ['01 · Arquitetura integrada', 'Projetado no quadro, não sobre ele.', 'Interface do motor, rota interna do chicote e ancoragem do Power Pack definidas no projeto do quadro geração 3. A estrutura de carbono recebe o sistema exatamente como foi concebida.'],
+  ['02 · Paridade de sistema', 'O mesmo conjunto das HORIZON de fábrica.', 'Mesma unidade de tração CYC Photon Gen 2, mesmo EDRO Power Pack e a mesma eletrônica de controle das seis HORIZON, com app Ride Control, Apple Find My e Modo automático.'],
+  ['03 · Dinâmica preservada', 'Geometria e cinemática intactas.', 'Ângulos, reach, stack e, na RANGE, a cinemática da suspensão permanecem os mesmos. Com o motor desligado, arrasto zero: ela pedala como uma bike comum.'],
+];
+
+/* Marcadores (centro do círculo, em % da imagem), §2.7. */
+const MARCAS = {
+  summa: [[41, 69], [49, 58], [54.5, 44], [66, 4]],
+  range: [[41, 69], [50, 59], [54, 43], [68, 4]],
+};
+const ROTULOS = ['Unidade de tração', 'EDRO Power Pack', 'Carenagem', 'Controle'];
+
+const cards = [
+  { foto: 'kit-horizon/det-motor-range.jpg', etiqueta: 'RANGE PRO HORIZON', titulo: 'Unidade de tração CYC Photon Gen 2',
+    texto: 'Motor central com sensor de torque: a assistência responde à força aplicada no pedal, em tempo real e sem tranco.',
+    lista: [`${N.pico} W de pico, ${N.nominal} W nominal`, `${N.torque} N.m de torque`, 'Pedivela integrado e coroa de 36 dentes', 'Assistência exclusiva ao pedal, sem acelerador'] },
+  { foto: 'kit-horizon/det-powerpack.jpg', etiqueta: 'SUMMA PRO HORIZON', titulo: `EDRO Power Pack ${N.wh} Wh`, destaque: true,
+    texto: 'Sistema de energia de íons de lítio desenvolvido exclusivamente para este motor e esta aplicação, com gerenciamento eletrônico próprio (BMS). Posicionado baixo e junto ao motor: centralização de massa, centro de gravidade mais baixo e dianteira mais leve.',
+    lista: [`Até ${N.eco} km no modo Eco, testada e validada`, 'Recarga direto na bike', 'Carregador incluso'] },
+  { foto: 'kit-horizon/det-carenagem.jpg', posicao: '50% 60%', etiqueta: 'SUMMA PRO HORIZON', titulo: 'Carenagem HORIZON',
+    texto: 'Carenagem de proteção do Power Pack com geometria exclusiva, que acompanha as linhas do tubo inferior. Pintada na cor do quadro, faz o sistema desaparecer no desenho da bike.',
+    lista: ['Pintura na cor do tubo inferior', 'Geometria exclusiva EDRO', 'Assinatura HORIZON'] },
+  { foto: 'kit-horizon/det-cockpit-range.jpg', etiqueta: 'RANGE PRO HORIZON', titulo: 'Eletrônica de controle e interface',
+    texto: 'Controlador, chicote dedicado e sensores que integram motor, Power Pack e ciclista em um único sistema.',
+    lista: ['Display 2,1" IP65 e comando no guidão', 'Chicote dedicado com roteamento interno', 'App Ride Control e Apple Find My', 'Modo automático por frequência cardíaca'] },
+];
+
+const galeria = [
+  { linha: 'SUMMA', sub: 'Hardtail de cross country · geração 3', itens: [
+    ['kit-horizon/amb-summa-pro-hz.jpg', 'PRO', 'Flight Attendant e SRAM XX SL AXS'],
+    ['kit-horizon/amb-summa-xcr-hz.jpg', 'XCR', 'Rodas de carbono e SRAM GX AXS'],
+    ['kit-horizon/amb-summa-ex-hz.jpg', 'EX', 'RockShox SID SL e SRAM Eagle 90'],
+  ] },
+  { linha: 'RANGE', sub: 'Full suspension de cross country · geração 3', itens: [
+    ['kit-horizon/amb-range-pro-hz.jpg', 'PRO', 'Flight Attendant na frente e atrás, SRAM XX SL AXS'],
+    ['kit-horizon/amb-range-xcr-hz.jpg', 'XCR', 'Rodas de carbono, SIDLuxe Select+ e SRAM GX AXS'],
+    ['kit-horizon/amb-range-ex-hz.jpg', 'EX', 'RockShox SID SL, SIDLuxe Select+ e SRAM Eagle 90'],
+  ] },
+];
+
+const passos = [
+  ['Validação do quadro', 'Envie uma foto da bike e o número de série. A engenharia EDRO valida a compatibilidade do seu quadro.'],
+  ['Carenagem na cor da sua bike', 'A carenagem do Power Pack recebe a pintura do seu quadro antes da instalação.'],
+  ['Instalação e comissionamento', 'Pela EDRO, em Tubarão, ou por oficina credenciada, com diagnóstico eletrônico do sistema e teste de rodagem.'],
+  ['Calibração e entrega', 'App configurado, Modo automático calibrado para a sua zona de treino e o simulador pronto para as suas rotas.'],
+];
+
+const faq = [
+  ['A garantia do quadro continua?', 'Sim. A garantia vitalícia do quadro EDRO continua valendo. O sistema elétrico tem garantia e revisão pela EDRO ou por oficina credenciada indicada por ela.'],
+  ['Quanto a bike vai pesar?', `Ela recebe o mesmo sistema das HORIZON de fábrica. Como referência, a SUMMA PRO HORIZON pesa ${pesoSummaHz} e a RANGE PRO HORIZON, ${pesoRangeHz} (sem pedais, tamanho M). O peso final depende da versão e dos componentes da sua bike.`],
+  ['Quanto ela vai rodar?', `Até ${N.eco} km no modo Eco. Para a sua rota, use o <a href="/horizon/simulador">simulador</a>: ele considera trajeto, elevação, peso, potência e vento, com margem de erro de ${erroSimulador}.`],
+  ['A minha bike é de outra geração. E agora?', 'A estrutura desses quadros não incorpora a interface do sistema HORIZON, então o kit não se aplica. O especialista apresenta as opções para você chegar a uma HORIZON de fábrica.'],
+];
+
+const og = await getImage({ src: img('kit-horizon/amb-summa-pro-hz.jpg'), width: 1200, format: 'jpg' });
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, '') } })),
+};
+---
+
+<Base
+  titulo="Kit HORIZON · Para SUMMA e RANGE geração 3 · EDRO"
+  descricao="Donos de SUMMA e RANGE geração 3: o quadro já carrega a arquitetura do sistema HORIZON. Unidade de tração CYC Photon Gen 2, EDRO Power Pack 540 Wh, carenagem e eletrônica de controle."
+  canonica="https://edrobikes.com.br/horizon/kit-horizon"
+  pagina="kit-horizon"
+  jsonLd={jsonLd}
+  ogImagem={`https://edrobikes.com.br${og.src}`}
+>
+
+<SubAbasHorizon />
+
+<!-- 2.2 · BANNER -->
+<section class="secao secao--sem-linha kit-banner">
+  <div class="container">
+    <nav class="trilha-pao trilha-pao--escura" aria-label="Você está em"><a href="/horizon">Bikes elétricas</a><span aria-hidden="true">/</span><span aria-current="page">Kit HORIZON</span></nav>
+    <div class="kit-banner__grade">
+      <div>
+        <p class="eyebrow eyebrow--verde">Para quem já tem uma EDRO</p>
+        <h1 class="display kit-banner__titulo">A sua EDRO já nasceu pronta para ser <span class="verde">HORIZON.</span></h1>
+        <p class="lead" set:html={m('Se você tem uma SUMMA ou uma RANGE geração 3, o quadro já carrega a arquitetura do sistema HORIZON: interface do motor, rota interna do chicote e ancoragem do Power Pack definidas no projeto estrutural. Mesmo quadro, mesma pintura. Agora, numa nova versão.')} />
+        <div class="kit-banner__botoes">
+          <a class="btn btn--primario" href={waEspecialista} rel="noopener" data-wa="kit-hz-banner" data-kit-botao="banner">Falar com um especialista<Fragment set:html={seta} /></a>
+          <a class="btn btn--secundario" href={waConfirmar} rel="noopener" data-wa="kit-hz-confirmar" data-kit-botao="confirmar">Confirmar a minha bike</a>
+        </div>
+      </div>
+      <div class="kit-alterna" data-linha-toggle data-inicial="summa">
+        <div class="kit-seletor" role="tablist" aria-label="Linha da bike no banner">
+          <button type="button" role="tab" data-linha="summa">SUMMA</button>
+          <button type="button" role="tab" data-linha="range">RANGE</button>
+        </div>
+        <div class="kit-pilha">
+          {['summa', 'range'].map((l) => {
+            const nome = l.toUpperCase();
+            return (
+              <div class="kit-antes-depois" data-painel={l}>
+                <figure class="kit-ad__antes">
+                  <Picture src={img(`kit-horizon/${l}-pro.png`)} formats={['avif', 'webp']} widths={[480, 800]} sizes="(max-width: 1023px) 40vw, 20vw" alt={`EDRO ${nome} PRO geração 3, vista lateral`} loading="eager" />
+                  <figcaption>A sua <i class="modelo">{nome}</i> PRO</figcaption>
+                </figure>
+                <span class="kit-ad__seta" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+                <figure class="kit-ad__depois">
+                  <Picture src={img(`kit-horizon/${l}-pro-hz.png`)} formats={['avif', 'webp']} widths={[800, 1600]} sizes="(max-width: 1023px) 60vw, 34vw" alt={`EDRO ${nome} PRO HORIZON, vista lateral`} loading="eager" fetchpriority={l === 'summa' ? 'high' : undefined} />
+                  <figcaption class="verde"><i class="modelo">{nome}</i> PRO HORIZON</figcaption>
+                </figure>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2.3 · FAIXA DE NÚMEROS -->
+<section class="kit-numeros" aria-label="Números do sistema HORIZON">
+  <div class="container kit-numeros__grade">
+    {numeros.map(([v, u, t]) => (
+      <div class="kit-numero"><p class="kit-numero__valor">{v}{u && <span>{u}</span>}</p><p class="kit-numero__texto">{t}</p></div>
+    ))}
+  </div>
+</section>
+
+<!-- 2.4 · ANTES E DEPOIS -->
+<section class="secao kit-mesma" data-linha-toggle data-inicial="range">
+  <div class="container">
+    <div class="kit-topo">
+      <div>
+        <p class="eyebrow eyebrow--verde">Mesma trilha</p>
+        <h2 class="headline">Mesma bike.<br />Outra <span class="verde">capacidade.</span></h2>
+      </div>
+      <div>
+        <div class="kit-seletor" role="tablist" aria-label="Linha da bike no antes e depois">
+          <button type="button" role="tab" data-linha="summa">SUMMA</button>
+          <button type="button" role="tab" data-linha="range">RANGE</button>
+        </div>
+        <p class="lead">O quadro, a pintura e a geometria que você escolheu continuam lá. O que muda é o alcance: mais subida, mais quilômetros, o grupo mais forte ao alcance, com a sensação de bike de cross country que você já conhece.</p>
+      </div>
+    </div>
+    <div class="kit-pilha">
+      {['summa', 'range'].map((l) => {
+        const nome = l.toUpperCase();
+        return (
+          <div class="kit-ad-fotos" data-painel={l}>
+            <figure class="kit-ad-foto">
+              <Picture src={img(`kit-horizon/amb-${l}-pro.jpg`)} formats={['avif', 'webp']} widths={[800, 1600]} sizes="(max-width: 767px) 100vw, 50vw" alt={`EDRO ${nome} PRO geração 3 na trilha, vista lateral`} loading="lazy" />
+              <span class="kit-selo">Antes</span>
+              <figcaption><span>Hoje</span><i class="modelo">{nome}</i> PRO geração 3</figcaption>
+            </figure>
+            <figure class="kit-ad-foto kit-ad-foto--depois">
+              <Picture src={img(`kit-horizon/amb-${l}-pro-hz.jpg`)} formats={['avif', 'webp']} widths={[800, 1600]} sizes="(max-width: 767px) 100vw, 50vw" alt={`EDRO ${nome} PRO HORIZON na mesma trilha, vista lateral`} loading="lazy" />
+              <span class="kit-selo kit-selo--verde">Depois</span>
+              <figcaption><span>Com o Kit HORIZON</span><b class="verde"><i class="modelo">{nome}</i> PRO HORIZON</b></figcaption>
+            </figure>
+          </div>
+        );
+      })}
+    </div>
+    <p class="nota-peso">Imagens ilustrativas, com pintura aplicada digitalmente no personalizador FIT4U.</p>
+  </div>
+</section>
+
+<!-- 2.5 · NOVA VERSÃO -->
+<section class="secao kit-versao">
+  <div class="container kit-versao__grade">
+    <div>
+      <p class="eyebrow eyebrow--verde">Nova versão</p>
+      <h2 class="headline">Não é um acessório.<br />É uma <span class="verde">nova versão.</span></h2>
+      <p class="lead" set:html={m('A HORIZON não é um motor somado a uma bike pronta. É uma arquitetura elétrica integrada ao quadro geração 3 da SUMMA e da RANGE desde o projeto estrutural. Com o sistema instalado, a sua EDRO passa a operar com o mesmo conjunto das HORIZON que saem da fábrica.')} />
+      <figure class="kit-foto-etiqueta">
+        <Picture src={img('kit-horizon/det-carenagem-range.jpg')} formats={['avif', 'webp']} widths={[600]} sizes="(max-width: 1023px) 100vw, 45vw" alt="Carenagem do Power Pack e amortecedor da EDRO RANGE PRO HORIZON" loading="lazy" />
+        <span class="kit-etiqueta"><i class="modelo">RANGE</i> PRO HORIZON</span>
+      </figure>
+    </div>
+    <div class="kit-versao__cards">
+      {novaVersao.map(([rot, tit, txt]) => (
+        <article class="kit-card">
+          <p class="eyebrow eyebrow--verde">{rot}</p>
+          <h3>{tit}</h3>
+          <p set:html={m(txt)} />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- 2.6 · COMPATIBILIDADE -->
+<section class="secao kit-compat">
+  <div class="container">
+    <p class="eyebrow eyebrow--verde">Compatibilidade</p>
+    <h2 class="headline">Quais EDRO podem <span class="verde">virar HORIZON.</span></h2>
+    <p class="lead kit-compat__lead" set:html={m('Todas as versões da SUMMA e da RANGE geração 3. A validação é feita pelo número de série do quadro: envie ao especialista uma foto da bike e o número.')} />
+    <div class="kit-compat__grade">
+      {['summa', 'range'].map((l) => {
+        const nome = l.toUpperCase();
+        return (
+          <article class="kit-compat__card">
+            <span class="kit-compat__marca kit-compat__marca--sim" aria-label="Compatível">✓</span>
+            <p class="kit-compat__logo"><span class="visualmente-oculto">{nome}</span><LogoBike nome={nome} /></p>
+            <Picture src={img(`kit-horizon/${l}-pro-hz.png`)} formats={['avif', 'webp']} widths={[480]} sizes="220px" alt={`EDRO ${nome} PRO HORIZON`} loading="lazy" />
+            <h3>Geração 3</h3>
+            <p>PRO, XCR e EX. Vira <i class="modelo">{nome}</i> HORIZON.</p>
+          </article>
+        );
+      })}
+      <article class="kit-compat__card kit-compat__card--nao">
+        <span class="kit-compat__marca" aria-label="Não compatível">×</span>
+        <h3>Gerações anteriores</h3>
+        <p>A estrutura não incorpora a interface do sistema HORIZON. O especialista apresenta o caminho até uma HORIZON de fábrica.</p>
+      </article>
+      <article class="kit-compat__card kit-compat__card--nao">
+        <span class="kit-compat__marca" aria-label="Não compatível">×</span>
+        <p class="kit-compat__logo"><span class="visualmente-oculto">IMPETUS</span><LogoBike nome="IMPETUS" /></p>
+        <h3>Estrada</h3>
+        <p>A HORIZON é exclusiva das linhas de cross country.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 2.7 · O QUE VEM NO KIT -->
+<section class="secao kit-sub" data-linha-toggle data-inicial="summa">
+  <div class="container">
+    <p class="eyebrow eyebrow--verde">O que vem no kit</p>
+    <h2 class="headline">Quatro subsistemas.<br />Um só <span class="verde">projeto.</span></h2>
+    <p class="lead kit-compat__lead" set:html={m('Tração, energia, carenagem e controle, desenvolvidos e validados em conjunto para os quadros geração 3 da SUMMA e da RANGE.')} />
+    <div class="kit-seletor kit-seletor--centro" role="tablist" aria-label="Linha da bike na vista do kit">
+      <button type="button" role="tab" data-linha="summa">SUMMA</button>
+      <button type="button" role="tab" data-linha="range">RANGE</button>
+    </div>
+    <div class="kit-pilha kit-vista">
+      {['summa', 'range'].map((l) => {
+        const nome = l.toUpperCase();
+        const src = l === 'summa' ? 'kit-horizon/summa-pro-hz.png' : 'kit-horizon/kit-horizon-range.png';
+        return (
+          <div class="kit-vista__palco" data-painel={l}>
+            <Picture src={img(src)} formats={['avif', 'webp']} widths={[800, 1600]} sizes="(max-width: 1023px) 100vw, 82vw"
+              alt={`EDRO ${nome} PRO HORIZON com os quatro subsistemas do Kit HORIZON marcados: unidade de tração, EDRO Power Pack, carenagem e controle`} loading="lazy" />
+            {MARCAS[l].map(([x, y], i) => (
+              <a class="kit-marcador" href={`#kit-sub-${i + 1}`} style={`left:${x}%;top:${y}%`} aria-label={`${i + 1}: ${ROTULOS[i]}`}>{i + 1}</a>
+            ))}
+          </div>
+        );
+      })}
+    </div>
+    <ol class="kit-vista__legendas">
+      {ROTULOS.map((r, i) => <li><span class="verde">0{i + 1}</span> {r}</li>)}
+    </ol>
+
+    <div class="kit-cards-foto">
+      {cards.map((c, i) => (
+        <article class:list={['kit-card-foto', { 'kit-card-foto--destaque': c.destaque }]} id={`kit-sub-${i + 1}`}>
+          <figure>
+            <Picture src={img(c.foto)} formats={['avif', 'webp']} widths={[640]} sizes="(max-width: 767px) 100vw, 45vw" alt={`Detalhe do subsistema ${c.titulo} na EDRO ${c.etiqueta}`} loading="lazy" style={c.posicao ? `object-position:${c.posicao}` : undefined} />
+            <span class="kit-etiqueta" set:html={m(c.etiqueta)} />
+          </figure>
+          <div class="kit-card-foto__corpo">
+            <p class="kit-card-foto__num">{i + 1}</p>
+            <div>
+              <h3>{c.titulo}</h3>
+              <p>{c.texto}</p>
+              <ul>{c.lista.map((x) => <li>{x}</li>)}</ul>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- 2.8 · GALERIA -->
+<section class="secao kit-galeria">
+  <div class="container">
+    <div class="kit-topo">
+      <div>
+        <p class="eyebrow eyebrow--verde">Cada versão</p>
+        <h2 class="headline">A sua EDRO,<br />em versão <span class="verde">HORIZON.</span></h2>
+      </div>
+      <p class="lead">PRO, XCR ou EX: cada versão mantém os componentes que você escolheu e recebe o mesmo sistema HORIZON, na hardtail ou na full suspension.</p>
+    </div>
+    {galeria.map((g) => (
+      <div class="kit-galeria__fileira">
+        <p class="kit-galeria__cab"><LogoBike nome={g.linha} /><span>{g.sub}</span></p>
+        <div class="kit-galeria__trilho">
+          {g.itens.map(([src, v, txt]) => (
+            <figure class="kit-galeria__item">
+              <Picture src={img(src)} formats={['avif', 'webp']} widths={[640, 1000]} sizes="(max-width: 767px) 80vw, 33vw" alt={`EDRO ${g.linha} ${v} HORIZON na trilha, vista lateral`} loading="lazy" />
+              <figcaption><b><i class="modelo">{g.linha}</i> <span class="verde">{v}</span> HORIZON</b><span>{txt}</span></figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    ))}
+    <p class="nota-peso">Imagens ilustrativas, com pintura aplicada digitalmente. Os componentes variam conforme a versão.</p>
+  </div>
+</section>
+
+<!-- 2.9 · COMO FUNCIONA -->
+<section class="secao kit-passos">
+  <div class="container">
+    <p class="eyebrow eyebrow--verde">Como funciona</p>
+    <h2 class="headline">Do quadro à <span class="verde">nova versão.</span></h2>
+    <ol class="kit-passos__grade">
+      {passos.map(([t, d], i) => (<li class="kit-card"><p class="kit-passos__num">{i + 1}</p><h3>{t}</h3><p>{d}</p></li>))}
+    </ol>
+  </div>
+</section>
+
+<!-- 2.10 · INVESTIMENTO -->
+<section class="secao kit-invest" id="investimento">
+  <div class="container">
+    <div class="kit-preco">
+      <div>
+        <p class="eyebrow eyebrow--verde">Investimento</p>
+        <h2 class="kit-preco__nome">{kit.nome}</h2>
+        <p class="kit-preco__para" set:html={m('Para SUMMA e RANGE geração 3, em todas as versões.<br />Unidade de tração, EDRO Power Pack, carenagem e eletrônica de controle.')} />
+        <p class="kit-preco__valor">{brl(kit.preco)}</p>
+        <div class="kit-preco__pagamento">
+          {kit.pagamento.map((p) => (<div><b>{p.valor}</b><span>{p.legenda}</span></div>))}
+        </div>
+      </div>
+      <div>
+        <p class="lead">O quadro, a pintura e os componentes da sua bike continuam os mesmos, com a garantia vitalícia do quadro preservada. A instalação e a logística são combinadas com o seu especialista.</p>
+        <div class="kit-banner__botoes">
+          <a class="btn btn--primario" href={waQuero} rel="noopener" data-wa="kit-hz-investimento" data-kit-botao="investimento">Quero a minha HORIZON<Fragment set:html={seta} /></a>
+          <a class="btn btn--secundario" href="/horizon/simulador">Simular autonomia</a>
+        </div>
+        <p class="nota-peso">Valor do kit vigente em {kit.vigencia}, sujeito a alteração. Instalação, frete e eventuais serviços adicionais são informados pelo especialista. O pedivela e o movimento central originais saem da bike e ficam com você.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2.11 · FAQ -->
+<section class="secao kit-faq">
+  <div class="container kit-versao__grade">
+    <div>
+      <p class="eyebrow eyebrow--verde">Dúvidas</p>
+      <h2 class="headline">Antes de <span class="verde">decidir.</span></h2>
+    </div>
+    <dl class="kit-faq__lista">
+      {faq.map(([q, a]) => (<div><dt>{q}</dt><dd set:html={m(a)} /></div>))}
+    </dl>
+  </div>
+</section>
+
+<script>
+  /* Seletor SUMMA | RANGE: cada bloco guarda o próprio estado (tablist com setas do teclado). */
+  document.querySelectorAll<HTMLElement>('[data-linha-toggle]').forEach((bloco) => {
+    const abas = [...bloco.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const paineis = [...bloco.querySelectorAll<HTMLElement>('[data-painel]')];
+    const mostrar = (linha: string, focar = false) => {
+      abas.forEach((a) => {
+        const ativo = a.dataset.linha === linha;
+        a.setAttribute('aria-selected', String(ativo));
+        a.tabIndex = ativo ? 0 : -1;
+        if (ativo && focar) a.focus();
+      });
+      paineis.forEach((p) => {
+        const ativo = p.dataset.painel === linha;
+        p.classList.toggle('is-ativo', ativo);
+        p.setAttribute('aria-hidden', String(!ativo));
+        p.querySelectorAll<HTMLElement>('a').forEach((x) => { x.tabIndex = ativo ? 0 : -1; });
+      });
+    };
+    abas.forEach((a, i) => {
+      a.addEventListener('click', () => mostrar(a.dataset.linha!));
+      a.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (d) { e.preventDefault(); mostrar(abas[(i + d + abas.length) % abas.length].dataset.linha!, true); }
+      });
+    });
+    mostrar(bloco.dataset.inicial || 'summa');
+  });
+
+  /* GTM: evento kit_horizon_whatsapp nos três botões de WhatsApp (§6). */
+  document.querySelectorAll<HTMLAnchorElement>('[data-kit-botao]').forEach((b) => b.addEventListener('click', () => {
+    const w = window as unknown as { dataLayer?: object[] };
+    (w.dataLayer = w.dataLayer || []).push({ event: 'kit_horizon_whatsapp', botao: b.dataset.kitBotao });
+  }));
+</script>
+
+</Base>

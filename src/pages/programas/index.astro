@@ -4,7 +4,6 @@
    completas. Os selos no topo levam às seções. As antigas /programas/<slug> viram 301. */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
-import Midia from '../../components/Midia.astro';
 import Fechamento from '../../components/Fechamento.astro';
 import { Image } from 'astro:assets';
 import conteudo from '../../content/programas.json';
@@ -12,8 +11,6 @@ import { img } from '../../lib/imagens.js';
 import { wa, suporte } from '../../lib/edro.js';
 
 const lista = conteudo.ordem.map((slug) => ({ slug, ...conteudo.programas[slug] }));
-/* Fotos produzidas (v3.1). Programa sem foto mostra a orientação de produção. */
-const FOTO = { 'compra-certa': 'fotos/compra-certa-embalagem.jpg' };
 
 const faq = {
   '@context': 'https://schema.org',
@@ -35,7 +32,7 @@ const faq = {
   linhas={['Um ecossistema']}
   verde="de benefícios."
   lead="Mais do que uma bicicleta, você adquire uma experiência completa de suporte e valorização. Cada programa EDRO responde a uma dúvida real de quem já pedala."
-  fundo={{ src: 'aj3/diferenciais-01.jpg', alt: 'Ciclista EDRO pedalando a sua mountain bike numa trilha entre bambus', posicao: 'center 40%' }}
+  fundo={{ src: 'aj3/beneficio.jpg', alt: 'Ciclistas EDRO com as suas bikes', posicao: 'center 40%' }}
 />
 
 <nav class="programas-nav" aria-label="Programas">
@@ -60,14 +57,11 @@ const faq = {
         <p class="lead">{p.card}</p>
       </div>
 
-      <div class="bloco2 bloco2--topo programa__corpo">
-        <div>
-          <h3 class="programa__sub">Como funciona</h3>
-          <ol class="passos3">
-            {p.passos.map(([t, d], j) => (<li><span class="passos3__num">{j + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
-          </ol>
-        </div>
-        <Midia titulo={p.midia[0]} descricao={p.midia[1]} proporcao="4x3" src={FOTO[p.slug]} alt={p.midia[1]} />
+      <div class="programa__corpo">
+        <h3 class="programa__sub">Como funciona</h3>
+        <ol class="passos3 passos3--duas">
+          {p.passos.map(([t, d], j) => (<li><span class="passos3__num">{j + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>))}
+        </ol>
       </div>
 
       <div class="bloco2 bloco2--topo programa__corpo">

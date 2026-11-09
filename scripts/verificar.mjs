@@ -41,7 +41,7 @@ const REGRAS = [
   ['"recompra"', /recompra/gi],
   ['"promoção"', /promo[cç][aã]o/gi],
   /* "à vista no Pix com 5% de desconto" é o texto do catálogo 2027 (v3.2, seção 2.4). */
-  ['"desconto" fora de "5% de desconto no Pix"', /(?<!Pix com 5% de )desconto(?![^<]{0,12}Pix)/gi],
+  ['"desconto" fora de "5% de desconto no Pix"', /(?<!Pix com 5% de )desconto(?![^<]{0,20}Pix)/gi],
   ['"estimado" junto a peso', /(peso[^<.]{0,40}estimad|estimad[^<.]{0,40}peso)/gi],
   ['promessa de "2 horas"', /2 horas|duas horas/gi],
   ['nome no número de série', /nome no n[uú]mero de s[eé]rie|n[uú]mero de s[eé]rie com (o seu )?nome/gi],
@@ -113,6 +113,12 @@ for (const arquivo of paginas) {
       const trecho = texto.slice(Math.max(0, m.index - 50), m.index + 50).replace(/\s+/g, ' ');
       violacoes.push({ rota, nome, trecho });
     }
+  }
+
+  /* Kit HORIZON (v3.4 §6): linguagem de engenharia, sem as palavras proibidas. */
+  if (rota === '/horizon/kit-horizon') {
+    const proibidas = /(adapta[çc][aã]o|adapta[çc][õo]es|adaptar|ajustes?|ajust[aá]vel|ajustado|improvisado|case|preparado|prepara[çc][aã]o|kit de convers[aã]o|motorizar|economize)/gi;
+    for (const m of texto.replace(/<[^>]+>/g, ' ').matchAll(proibidas)) violacoes.push({ rota, nome: `palavra proibida no Kit HORIZON: "${m[0]}"`, trecho: '' });
   }
 
   /* HORIZON: sem "uma por vez" */

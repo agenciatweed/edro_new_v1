@@ -6,6 +6,7 @@
    legislação; sem menção às células da bateria. Pesos e sistema elétrico do catálogo 2027. */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
+import SubAbasHorizon from '../../components/SubAbasHorizon.astro';
 import Midia from '../../components/Midia.astro';
 import AutonomiaReal from '../../components/AutonomiaReal.astro';
 import CabecalhoLinha from '../../components/CabecalhoLinha.astro';
@@ -28,6 +29,8 @@ const pesos = (s) => s.replace('{peso_summa}', summaH.pro.peso_texto).replace('{
   canonica="https://edrobikes.com.br/horizon"
   pagina="horizon"
 >
+
+<SubAbasHorizon />
 
 <Hero
   eyebrow="E-Bikes EDRO"
@@ -114,9 +117,9 @@ const pesos = (s) => s.replace('{peso_summa}', summaH.pro.peso_texto).replace('{
       </div>
     </div>
     <div class="galeria3" style="margin-top:var(--s-12)">
-      <Midia src="fotos/horizon-display.jpg" alt="Display da HORIZON no guidão, com a mão do ciclista" legenda="<strong>Display e app</strong>Display 2,1&quot; IP65 e app Ride Control." />
+      <Midia src="fotos/horizon-display.jpg" alt="Display da HORIZON no guidão, com a mão do ciclista" />
       <Midia src="aj3/horizon-02.jpg" alt="Motor CYC Photon Gen 2 e EDRO Power Pack integrados ao quadro de carbono da HORIZON" posicao="center 60%" />
-      <Midia titulo="Recarga na bike" descricao="EDRO Power Pack sendo recarregado na própria bike, na garagem." />
+      <Midia src="aj3/recarga.jpg" alt="EDRO Power Pack da HORIZON sendo recarregado na própria bike" />
     </div>
   </div>
 </section>

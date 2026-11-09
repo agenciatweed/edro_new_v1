@@ -49,7 +49,6 @@
       "posicao": "center 45%"
     }
   ],
-  "todo": "TODO(EDRO): FOTO SUMMA 04 (o ajuste 3 pede 01 a 04; vieram 01 a 03, a quarta é a do acervo).",
   "summa": [
     {
       "largo": "aj3/summa-01.jpg",
@@ -65,11 +64,6 @@
       "largo": "aj3/summa-03.jpg",
       "movel": "aj3/summa-03.jpg",
       "posicao": "center 62%"
-    },
-    {
-      "largo": "lp/bike-summa.jpg",
-      "movel": "lp/bike-summa.jpg",
-      "posicao": "center 55%"
     }
   ],
   "range": [

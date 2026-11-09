@@ -6,9 +6,9 @@ import Midia from '../components/Midia.astro';
 import { wa } from '../lib/edro.js';
 
 const guias = [
-  { id: 'fit4u', eyebrow: 'Guia FIT4U', titulo: 'Não erre na próxima bike', texto: 'O que a tabela de tamanhos não conta sobre o seu corpo, as medidas que decidem uma bike e como o FIT4U funciona.',
-    capa: null, brief: ['Capa do Guia FIT4U', 'Capa do PDF "Não erre na próxima bike", em fundo escuro.'],
-    arquivo: null, pedido: wa('Olá, EDRO. Quero receber o Guia FIT4U "Não erre na próxima bike". (origem: site-guias-fit4u)'), primario: true },
+  { id: 'estrada', eyebrow: 'Treino', titulo: 'Performance na estrada', texto: 'Planilhas de treino, aerodinâmica e técnicas de pelotão para o ciclismo de estrada.',
+    capa: 'ebooks/capa-guia-estrada.png',
+    arquivo: null, pedido: wa('Olá, EDRO. Quero receber o guia "Performance na estrada". (origem: site-guias-estrada)'), primario: true },
   { id: 'treino', eyebrow: 'Treino', titulo: 'Técnicas de MTB XC', texto: 'Planilhas de treino, controle de subidas e técnica de pilotagem para XC e maratona.',
     capa: 'ebooks/capa-tecnicas-mtb.png', arquivo: '/ebooks/EDRO_Tecnicas_MTB_XC.pdf' },
   { id: 'nutricao', eyebrow: 'Nutrição', titulo: 'Nutrição no ciclismo', texto: 'O que comer antes, durante e depois do treino para adiar a fadiga e ganhar resistência.',
@@ -17,8 +17,8 @@ const guias = [
 ---
 
 <Base
-  titulo="Guias EDRO · FIT4U, técnicas de MTB XC e nutrição no ciclismo"
-  descricao="Três guias gratuitos escritos pela equipe da EDRO para quem já pedala: como escolher o tamanho certo com o FIT4U, técnicas de MTB XC e nutrição no ciclismo."
+  titulo="Guias EDRO · Performance na estrada, MTB XC e nutrição"
+  descricao="Três guias gratuitos escritos pela equipe da EDRO para quem já pedala: performance na estrada, técnicas de MTB XC e nutrição no ciclismo."
   canonica="https://edrobikes.com.br/guias"
   pagina="guias"
 >
