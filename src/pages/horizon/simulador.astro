@@ -3,7 +3,6 @@
    EDRO_Simulador_Site.html servido de /public/simulador, em iframe, sem restilizar. */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
-import SubAbasHorizon from '../../components/SubAbasHorizon.astro';
 import Cabecalho from '../../components/Cabecalho.astro';
 import FormularioWhatsapp from '../../components/FormularioWhatsapp.astro';
 import { comercial } from '../../lib/edro.js';
@@ -26,8 +25,6 @@ const campos = [
   canonica="https://edrobikes.com.br/horizon/simulador"
   pagina="simulador"
 >
-
-<SubAbasHorizon />
 
 <Hero curto eyebrow="Simulador HORIZON" linhas={['Autonomia', 'calculada', 'com o']} verde=" seu treino." marcaDagua="HORIZON"
   lead="Nenhum número de catálogo. Você envia um arquivo do seu pedal e o simulador calcula, com o seu peso, o seu relevo, o vento previsto e o seu ritmo, quanto cada modo entrega. Calibrado com mais de 15 pedais instrumentados, margem de erro de 2%. O seu arquivo não sai do seu navegador." />

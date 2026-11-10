@@ -6,9 +6,9 @@
    legislação; sem menção às células da bateria. Pesos e sistema elétrico do catálogo 2027. */
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
-import SubAbasHorizon from '../../components/SubAbasHorizon.astro';
 import Midia from '../../components/Midia.astro';
 import AutonomiaReal from '../../components/AutonomiaReal.astro';
+import KitBanner from '../../components/KitBanner.astro';
 import CabecalhoLinha from '../../components/CabecalhoLinha.astro';
 import Fechamento from '../../components/Fechamento.astro';
 import { Picture } from 'astro:assets';
@@ -29,8 +29,6 @@ const pesos = (s) => s.replace('{peso_summa}', summaH.pro.peso_texto).replace('{
   canonica="https://edrobikes.com.br/horizon"
   pagina="horizon"
 >
-
-<SubAbasHorizon />
 
 <Hero
   eyebrow="E-Bikes EDRO"
@@ -124,8 +122,6 @@ const pesos = (s) => s.replace('{peso_summa}', summaH.pro.peso_texto).replace('{
   </div>
 </section>
 
-<AutonomiaReal />
-
 <!-- Perfil HORIZON: um box só -->
 <section class="secao">
   <div class="container">
@@ -143,6 +139,11 @@ const pesos = (s) => s.replace('{peso_summa}', summaH.pro.peso_texto).replace('{
     </div>
   </div>
 </section>
+
+<AutonomiaReal />
+
+<!-- Kit HORIZON (ajuste 5): entre o simulador e o fechamento -->
+<KitBanner />
 
 <Fechamento linhas={['Monte a sua']} verde="HORIZON."
   texto="Escolha o modelo, a configuração e os componentes ideais para o seu estilo de pilotagem."

@@ -31,7 +31,7 @@ const jsonLd = {
 
 <Hero
   eyebrow="Bikes EDRO"
-  linhas={['Diferentes propostas,', 'mas o mesmo <span class="verde">DNA</span> de performance.']}
+  linhas={['Diferentes propostas,', 'mas o mesmo <span class="verde">DNA</span>', 'de performance.']}
   lead="Cada linha nasce de um molde exclusivo EDRO, construída em carbono monocoque, com modelagem EPS e prepreg de alto módulo. Cada bike é feita à mão, com pintura personalizada e exclusiva."
   fotos={fundos.bikes}
 />
@@ -45,7 +45,7 @@ const jsonLd = {
 {grupos.map((g) => (
   <section class="secao secao--clara tipo-grupo" id={g.id} aria-labelledby={`tipo-${g.id}`}>
     <div class="container">
-      <h2 class="tipo-grupo__titulo" id={`tipo-${g.id}`}>{g.rotulo}</h2>
+      <h2 class="visualmente-oculto" id={`tipo-${g.id}`}>{g.rotulo}</h2>
       {g.linhas.map((l) => (
         <CabecalhoLinha linha={l} h="h3" conheca={g.id === 'eletrica' ? 'Conheça a HORIZON' : undefined} conhecaHref={g.id === 'eletrica' ? '/horizon' : undefined} />
       ))}

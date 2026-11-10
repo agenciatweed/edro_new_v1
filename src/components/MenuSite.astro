@@ -37,6 +37,11 @@ const itens = await Promise.all(menu.map(async (m) => ({
       versoes: l.versoes.map((x) => ({ nome: x.nome, href: urlModelo(l, x) })),
     };
   })),
+  extra: m.extra && {
+    ...m.extra,
+    foto: (await getImage({ src: img(m.extra.foto), width: 360, format: 'webp' })).src,
+    logo: await getImage({ src: img(m.extra.logo), height: 56 }),
+  },
 })));
 ---
 <style is:inline>
@@ -71,6 +76,8 @@ const itens = await Promise.all(menu.map(async (m) => ({
 .sm-linha .logo-bike__v--hz{color:#808080}
 .sm-linha__tipo{text-align:center}
 .sm-chips{justify-content:center}
+.sm-linha__nome--img img{display:block;height:28px;width:auto}
+.sm-linha--extra .sm-linha__foto img{opacity:1}
 .sm-chips{display:flex;flex-wrap:wrap;gap:6px}
 .sm-chips a{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border:1px solid #D4D8D3;border-radius:2px;font:600 11px/1 Poppins,system-ui,sans-serif;letter-spacing:.1em;color:#0B0D0B;text-decoration:none}
 .sm-chips a:hover{border-color:#0B0D0B;background:#F6F7F5}
@@ -141,6 +148,13 @@ const itens = await Promise.all(menu.map(async (m) => ({
                     </div>
                   </div>
                 ))}
+                {m.extra && (
+                  <div class="sm-linha sm-linha--extra">
+                    <a class="sm-linha__foto" href={m.extra.href} tabindex="-1" aria-hidden="true"><img src={m.extra.foto} alt="" loading="lazy" decoding="async" /></a>
+                    <p class="sm-linha__tipo">{m.extra.texto}</p>
+                    <a class="sm-linha__nome sm-linha__nome--img" href={m.extra.href}><img src={m.extra.logo.src} alt={m.extra.nome} height="28" width={Math.round(m.extra.logo.attributes.width / m.extra.logo.attributes.height * 28)} /></a>
+                  </div>
+                )}
                 {m.grupos?.map((g) => (
                   <div class="sm-grupo">
                     {g.titulo && <p class="sm-grupo__titulo">{g.titulo}</p>}
@@ -190,6 +204,13 @@ const itens = await Promise.all(menu.map(async (m) => ({
               <div class="sm-chips">{l.versoes.map((v) => <a href={v.href} aria-label={`${l.nome} ${v.nome}`}>{v.nome}</a>)}</div>
             </div>
           ))}
+          {m.extra && (
+            <div class="sm-linha sm-linha--extra">
+              <a class="sm-linha__foto" href={m.extra.href} tabindex="-1" aria-hidden="true"><img src={m.extra.foto} alt="" loading="lazy" decoding="async" /></a>
+              <p class="sm-linha__tipo">{m.extra.texto}</p>
+              <a class="sm-linha__nome sm-linha__nome--img" href={m.extra.href}><img src={m.extra.logo.src} alt={m.extra.nome} height="28" width={Math.round(m.extra.logo.attributes.width / m.extra.logo.attributes.height * 28)} /></a>
+            </div>
+          )}
           {m.grupos?.map((g) => (
             <div class="sm-grupo">
               {g.titulo && <p class="sm-grupo__titulo">{g.titulo}</p>}

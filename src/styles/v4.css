@@ -305,3 +305,50 @@
 }
 @media (prefers-reduced-motion: reduce) { .kit-pilha > [data-painel] { transition: none; } }
 .kit-card-foto .kit-card-foto__num, .kit-card .kit-passos__num { font-family: var(--font-display); font-size: 2.6rem; line-height: 1; color: var(--edro-green); }
+
+/* =============================================================
+   AJUSTE 5 (novembro de 2026): Kit HORIZON em fundo branco onde a bike aparece
+   ============================================================= */
+.kit-banner { background: var(--edro-white); }
+.kit-banner--pagina { padding-top: calc(var(--nav-h) + var(--s-10)); }
+@media (max-width: 899px) { .kit-banner--pagina { padding-top: calc(var(--nav-h-mobile) + var(--s-8)); } }
+.kit-banner__grade { align-items: center; }
+.kit-alterna { align-self: center; }
+.secao--clara .kit-seletor { background: var(--edro-light-panel); border-color: var(--edro-light-line); }
+.secao--clara .kit-seletor button { color: var(--edro-paper-soft); }
+.secao--clara .kit-seletor button[aria-selected="true"] { background: var(--edro-green); color: var(--edro-green-ink); }
+.secao--clara .kit-seletor button:focus-visible { outline-color: var(--edro-paper-ink); }
+.secao--clara .kit-antes-depois figcaption { color: var(--edro-paper-soft); }
+.secao--clara .kit-ad__depois figcaption { color: #2B8A29; }
+.kit-ad__antes img { opacity: .6; }
+
+/* Antes e depois: título e texto alinhados ao centro; caixas brancas com a bike recortada. */
+.kit-mesma .kit-topo { align-items: center; }
+.kit-mesma .kit-topo .kit-seletor { margin-bottom: var(--s-4); }
+.secao--clara .kit-ad-foto { background: var(--edro-white); border-color: var(--edro-light-line); aspect-ratio: 16 / 10; }
+.secao--clara .kit-ad-foto--depois { border-color: var(--edro-green); }
+.secao--clara .kit-ad-foto picture { display: flex; align-items: center; justify-content: center; height: 100%; padding: var(--s-12) var(--s-6) var(--s-16); box-sizing: border-box; }
+.secao--clara .kit-ad-foto img { width: 100%; height: 100%; object-fit: contain; }
+.secao--clara .kit-selo, .secao--clara .kit-selo--verde { color: var(--edro-paper-ink); text-shadow: none; }
+.secao--clara .kit-ad-foto figcaption { background: var(--edro-light-panel); border: 1px solid var(--edro-light-line); color: var(--edro-paper-ink); }
+.secao--clara .kit-ad-foto figcaption > span { color: var(--edro-paper-soft); }
+.secao--clara .kit-ad-foto figcaption .verde { color: #2B8A29; }
+
+/* Compatibilidade: só SUMMA e RANGE, caixas brancas, logos em preto. */
+.kit-compat__grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.secao--clara .kit-compat__card { background: var(--edro-white); border-color: var(--edro-light-line); }
+.secao--clara .kit-compat__card h3 { color: var(--edro-paper-ink); }
+.secao--clara .kit-compat__card p { color: var(--edro-paper-soft); }
+.secao--clara .kit-compat__logo { color: #000; --lb: 2.2rem; }
+.kit-compat__foto { display: block; margin: var(--s-4) 0; }
+.kit-compat__foto img { display: block; width: 100%; max-width: 520px; height: auto; margin: 0 auto; }
+
+/* Quatro subsistemas em branco; os cards com foto continuam escuros. */
+.secao--clara .kit-vista__legendas { color: var(--edro-paper-ink); }
+.secao--clara .kit-vista__legendas .verde { color: #2B8A29; }
+.secao--clara .kit-card-foto h3 { color: var(--edro-ink); }
+.secao--clara .kit-card-foto p, .secao--clara .kit-card-foto li { color: var(--edro-soft); }
+
+/* FAQ do kit: perguntas em duas colunas abaixo do título. */
+.kit-faq__lista--duas { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--s-12); margin-top: var(--s-10); }
+@media (max-width: 767px) { .kit-faq__lista--duas { grid-template-columns: 1fr; } }

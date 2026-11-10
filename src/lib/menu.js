@@ -7,7 +7,11 @@ import { wa } from './edro.js';
    Ajuste 3: sem o item "Home" (a home é pelo logo). */
 export const menu = [
   { id: 'bikes', rotulo: 'Bikes', href: '/bikes', linhas: [['summa', 'ex'], ['range', 'xcr'], ['impetus', 'pro']] },
-  { id: 'ebikes', rotulo: 'E-Bikes', href: '/horizon', linhas: [['summa-horizon', 'ex'], ['range-horizon', 'pro']] },
+  {
+    id: 'ebikes', rotulo: 'E-Bikes', href: '/horizon', linhas: [['summa-horizon', 'ex'], ['range-horizon', 'pro']],
+    /* Ajuste 5: o Kit HORIZON entra no painel de E-Bikes, depois das duas linhas. */
+    extra: { foto: 'kit-horizon/kit-horizon-range.png', texto: 'Kit conversão EDRO SUMMA e RANGE para pedal assistido', logo: 'brand/kit-horizon-logo.png', href: '/horizon/kit-horizon', nome: 'Kit HORIZON' },
+  },
   {
     id: 'monte', rotulo: 'Monte a sua', href: '/fit4u', semRodape: true,
     grupos: [{ links: [['Conheça o FIT4U', '/fit4u'], ['Personalizador', '/fit4u/pintura/']] }],

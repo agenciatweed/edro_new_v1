@@ -1,0 +1,101 @@
+---
+/* =============================================================
+   Banner do Kit HORIZON (v3.4 §2.2, ajuste 5): fundo branco, texto à esquerda,
+   bike atual e bike HORIZON à direita, centralizadas na altura do texto, com
+   o seletor SUMMA | RANGE. Usado no topo da página /horizon/kit-horizon (h1) e
+   na /horizon, entre o simulador e o fechamento, levando à página do kit.
+   ============================================================= */
+import { Picture } from 'astro:assets';
+import { img } from '../lib/imagens.js';
+import { wa } from '../lib/edro.js';
+import kit from '../content/kit-horizon.json';
+
+const { pagina = false } = Astro.props;
+const Tag = pagina ? 'h1' : 'h2';
+const origem = `(origem: ${kit.whatsapp_origem})`;
+const waEspecialista = wa(`Olá, EDRO. Quero falar com um especialista sobre o Kit HORIZON. ${origem}`);
+const waConfirmar = wa(`Olá, EDRO. Tenho uma SUMMA/RANGE geração 3 e quero confirmar se ela pode receber o Kit HORIZON. Segue a foto da bike e o número de série. ${origem}`);
+const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>';
+const texto = 'Se você tem uma <i class="modelo">SUMMA</i> ou uma <i class="modelo">RANGE</i> geração 3, o quadro já carrega a arquitetura do sistema HORIZON: interface do motor, rota interna do chicote e ancoragem do Power Pack definidas no projeto estrutural. Mesmo quadro, mesma pintura. Agora, numa nova versão.';
+---
+<section class:list={['secao', 'secao--clara', 'kit-banner', { 'kit-banner--pagina': pagina }]} id={pagina ? undefined : 'kit-horizon'}>
+  <div class="container">
+    {pagina && <nav class="trilha-pao" aria-label="Você está em"><a href="/horizon">Bikes elétricas</a><span aria-hidden="true">/</span><span aria-current="page">Kit HORIZON</span></nav>}
+    <div class="kit-banner__grade">
+      <div>
+        <p class="eyebrow eyebrow--verde">Para quem já tem uma EDRO</p>
+        <Tag class="display kit-banner__titulo">A sua EDRO já nasceu pronta para ser <span class="verde">HORIZON.</span></Tag>
+        <p class="lead" set:html={texto} />
+        <div class="kit-banner__botoes">
+          {pagina ? (
+            <a class="btn btn--primario" href={waEspecialista} rel="noopener" data-wa="kit-hz-banner" data-kit-botao="banner">Falar com um especialista<Fragment set:html={seta} /></a>
+          ) : (
+            <a class="btn btn--primario" href="/horizon/kit-horizon">Conheça o Kit HORIZON<Fragment set:html={seta} /></a>
+          )}
+          <a class="btn btn--secundario" href={waConfirmar} rel="noopener" data-wa="kit-hz-confirmar" data-kit-botao="confirmar">Confirmar a minha bike</a>
+        </div>
+      </div>
+      <div class="kit-alterna" data-linha-toggle data-inicial="summa">
+        <div class="kit-seletor" role="tablist" aria-label="Linha da bike">
+          <button type="button" role="tab" data-linha="summa">SUMMA</button>
+          <button type="button" role="tab" data-linha="range">RANGE</button>
+        </div>
+        <div class="kit-pilha">
+          {['summa', 'range'].map((l) => {
+            const nome = l.toUpperCase();
+            return (
+              <div class="kit-antes-depois" data-painel={l}>
+                <figure class="kit-ad__antes">
+                  <Picture src={img(`kit-horizon/v5-${l}-pro.png`)} formats={['avif', 'webp']} widths={[480, 800]} sizes="(max-width: 1023px) 40vw, 20vw" alt={`EDRO ${nome} PRO geração 3, vista lateral`} loading={pagina ? 'eager' : 'lazy'} />
+                  <figcaption>A sua <i class="modelo">{nome}</i> PRO</figcaption>
+                </figure>
+                <span class="kit-ad__seta" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+                <figure class="kit-ad__depois">
+                  <Picture src={img(`kit-horizon/v5-${l}-pro-hz.png`)} formats={['avif', 'webp']} widths={[800, 1600]} sizes="(max-width: 1023px) 60vw, 34vw" alt={`EDRO ${nome} PRO HORIZON, vista lateral`} loading={pagina ? 'eager' : 'lazy'} fetchpriority={pagina && l === 'summa' ? 'high' : undefined} />
+                  <figcaption class="verde"><i class="modelo">{nome}</i> PRO HORIZON</figcaption>
+                </figure>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* Seletor SUMMA | RANGE: cada bloco da página (banner, antes e depois, vista do kit) guarda o próprio estado (tablist com setas do teclado). */
+  document.querySelectorAll<HTMLElement>('[data-linha-toggle]').forEach((bloco) => {
+    const abas = [...bloco.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const paineis = [...bloco.querySelectorAll<HTMLElement>('[data-painel]')];
+    const mostrar = (linha: string, focar = false) => {
+      abas.forEach((a) => {
+        const ativo = a.dataset.linha === linha;
+        a.setAttribute('aria-selected', String(ativo));
+        a.tabIndex = ativo ? 0 : -1;
+        if (ativo && focar) a.focus();
+      });
+      paineis.forEach((p) => {
+        const ativo = p.dataset.painel === linha;
+        p.classList.toggle('is-ativo', ativo);
+        p.setAttribute('aria-hidden', String(!ativo));
+        p.querySelectorAll<HTMLElement>('a').forEach((x) => { x.tabIndex = ativo ? 0 : -1; });
+      });
+    };
+    abas.forEach((a, i) => {
+      a.addEventListener('click', () => mostrar(a.dataset.linha!));
+      a.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (d) { e.preventDefault(); mostrar(abas[(i + d + abas.length) % abas.length].dataset.linha!, true); }
+      });
+    });
+    mostrar(bloco.dataset.inicial || 'summa');
+  });
+
+
+  /* GTM: evento kit_horizon_whatsapp nos três botões de WhatsApp (§6). */
+  document.querySelectorAll<HTMLAnchorElement>('[data-kit-botao]').forEach((b) => b.addEventListener('click', () => {
+    const w = window as unknown as { dataLayer?: object[] };
+    (w.dataLayer = w.dataLayer || []).push({ event: 'kit_horizon_whatsapp', botao: b.dataset.kitBotao });
+  }));
+</script>
