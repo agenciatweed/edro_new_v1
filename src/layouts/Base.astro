@@ -10,6 +10,9 @@ import { Image } from 'astro:assets';
 import { bikes, wa, comercial, digitos, telefoneBr } from '../lib/edro.js';
 import { img } from '../lib/imagens.js';
 import MenuSite from '../components/MenuSite.astro';
+/* Google tag (GT-MQJ4WL9H) e Microsoft Clarity, enviados pela EDRO (scripts google.txt): entram como estão. */
+import googleHead from '../head/google.html?raw';
+import { faqDaRota } from '../lib/faqs.js';
 
 import '../styles/tokens.css';
 import '../styles/edro.css';
@@ -61,6 +64,8 @@ const NOMES = { bikes: 'Bikes', horizon: 'E-Bikes', programas: 'Programas', summ
   'summa-horizon': 'SUMMA HORIZON', 'range-horizon': 'RANGE HORIZON', simulador: 'Simulador de autonomia', 'kit-horizon': 'Kit HORIZON', 'compra-certa': 'Compra Certa',
   'ciclo-edro': 'Ciclo EDRO', 'carbon-assist': 'Carbon Assist', garantia: 'Garantia Vitalícia', fit4u: 'FIT4U', engenharia: 'Engenharia',
   'a-marca': 'A marca', pro: 'PRO', xcr: 'XCR', ex: 'EX', ssr: 'SSR', ss: 'SS', contato: 'Contato', faq: 'Dúvidas frequentes', guias: 'Guias', politicas: 'Políticas' };
+/* FAQPage para buscadores e IA nas páginas que não têm FAQ nem produto próprio (lib/faqs.js). */
+const faqPagina = noindex ? null : faqDaRota(rotaLimpa);
 const partes = rotaLimpa.split('/').filter(Boolean);
 const trilha = partes.length ? {
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -90,6 +95,7 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:image" content={ogImagem} />
 
+  <Fragment set:html={googleHead} />
   <link rel="preload" href="/fonts/edro.ttf" as="font" type="font/ttf" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -98,6 +104,7 @@ const msgPadrao = 'Olá, EDRO. Quero falar com um dos especialistas. (origem: si
   <script type="application/ld+json" set:html={JSON.stringify(org)} />
   {trilha && <script type="application/ld+json" set:html={JSON.stringify(trilha)} />}
   {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  {faqPagina && <script type="application/ld+json" set:html={JSON.stringify(faqPagina)} />}
   <slot name="head" />
 </head>
 

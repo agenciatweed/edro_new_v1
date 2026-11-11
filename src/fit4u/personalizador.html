@@ -15,11 +15,12 @@
 <link rel="icon" type="image/png" href="fit4u-marca.png">
 <script>
 /* ===== Configuração do FIT4U no site da EDRO =====
-   leadWebhook: endereço que recebe cada cadastro do personalizador (JSON via POST). Padrão: a função
-   /api/fit4u-lead que acompanha este pacote (mesmo domínio, sem CORS). Vazio = cadastros não saem do navegador.
+   leadWebhook: endereço que recebe cada cadastro do personalizador (JSON via POST). Desde 11/11/2026 é o
+   CRM da EDRO (EDRO OS), que aceita envios de edrobikes.com.br, www.edrobikes.com.br e edro-new-v1.vercel.app
+   (briefing EDRO_FIT4U_CRM_Briefing_Agencia.pdf). Vazio = cadastros não saem do navegador.
    onEvent: opcional, função (nome, dados) chamada a cada evento (modelo, lead, whatsapp). Os eventos também
    vão para window.dataLayer como "fit4u_<nome>". Detalhes em INTEGRACAO_FIT4U.md. */
-window.FIT4U_CONFIG={ leadWebhook:"/api/fit4u-lead", onEvent:null };
+window.FIT4U_CONFIG={ leadWebhook:"https://os.edrobikes.com.br/webhooks/fit4u-lead", onEvent:null };
 </script>
 <!-- GTM do site (GTM-W37WCWC) com Consent Mode v2: tudo negado por padrão. O banner de cookies do site
      não aparece aqui; o consentimento vem do mesmo cookie que o site grava (edro_consent, JSON com
@@ -34,6 +35,33 @@ gtag("consent","update",{analytics_storage:a,ad_storage:d,ad_user_data:d,ad_pers
 j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,"script","dataLayer","GTM-W37WCWC");
 </script>
+<!-- FAQPage para buscadores e assistentes de IA -->
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Como funciona o personalizador de pintura FIT4U?", "acceptedAnswer": {"@type": "Answer", "text": "Você escolhe o modelo e a versão da sua EDRO e monta a pintura sobre a foto real da bike: cores, degradês, grafismos, filetes, respingos, acabamentos e a sua assinatura no quadro. No fim, gera a imagem em alta e o projeto em PDF."}}, {"@type": "Question", "name": "A pintura personalizada tem custo adicional?", "acceptedAnswer": {"@type": "Answer", "text": "Não. A pintura personalizada não tem custo adicional em nenhuma bike EDRO."}}, {"@type": "Question", "name": "A cor que aparece na tela é a cor final?", "acceptedAnswer": {"@type": "Answer", "text": "Telas apresentam cores de formas diferentes. A cor final é confirmada com a amostra física de tinta."}}, {"@type": "Question", "name": "O que acontece depois que eu gero o projeto?", "acceptedAnswer": {"@type": "Answer", "text": "Um especialista EDRO entra em contato com o seu projeto em mãos, a equipe de design revisa e valida cada detalhe com você e, só depois da sua aprovação final, a bike entra na linha de produção."}}]}</script>
+<!-- Google tag (GT-MQJ4WL9H) e Microsoft Clarity, os mesmos de todas as páginas do site -->
+<script id="google_gtagjs-js" src="https://www.googletagmanager.com/gtag/js?id=GT-MQJ4WL9H" async></script>
+<script id="google_gtagjs-js-after">
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag("set","linker",{"domains":["edrobikes.com.br"]});
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-MQJ4WL9H");
+ window._googlesitekit = window._googlesitekit || {}; window._googlesitekit.throttledEvents = []; window._googlesitekit.gtagEvent = (name, data) => { var key = JSON.stringify( { name, data } ); if ( !! window._googlesitekit.throttledEvents[ key ] ) { return; } window._googlesitekit.throttledEvents[ key ] = true; setTimeout( () => { delete window._googlesitekit.throttledEvents[ key ]; }, 5 ); gtag( "event", name, { ...data, event_source: "site-kit" } ); } 
+//# sourceURL=google_gtagjs-js-after
+</script>
+
+<meta name="generator" content="Site Kit by Google 1.146.0" />
+<script type="text/javascript">
+			(function(c, l, a, r, i, t, y) {
+				c[a] = c[a] || function() {
+					(c[a].q = c[a].q || []).push(arguments)
+				};
+				t = l.createElement(r);
+				t.async = 1;
+				t.src = "https://www.clarity.ms/tag/" + i + "?ref=wordpress";
+				y = l.getElementsByTagName(r)[0];
+				y.parentNode.insertBefore(t, y);
+			})(window, document, "clarity", "script", "v7o30mhomd");
+		</script>
 </head>
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">

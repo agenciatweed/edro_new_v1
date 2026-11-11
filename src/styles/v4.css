@@ -394,3 +394,8 @@
 .kit-versao__foto img { display: block; width: 100%; height: auto; }
 .kit-versao .kit-versao__cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 1023px) { .kit-versao__topo, .kit-versao .kit-versao__cards { grid-template-columns: 1fr; } }
+
+/* AJUSTE 7: quatro subsistemas em fundo branco; a vista da bike e os textos dos cards seguem brancos, com contorno. */
+.secao--clara.kit-caixas-brancas .kit-vista { border: 1px solid var(--edro-light-line); }
+.secao--clara.kit-caixas-brancas .kit-card-foto { border: 1px solid var(--edro-light-line); }
+.secao--clara.kit-caixas-brancas .kit-card-foto--destaque { border: 2px solid var(--edro-green); }
