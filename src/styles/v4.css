@@ -352,3 +352,45 @@
 /* FAQ do kit: perguntas em duas colunas abaixo do título. */
 .kit-faq__lista--duas { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--s-12); margin-top: var(--s-10); }
 @media (max-width: 767px) { .kit-faq__lista--duas { grid-template-columns: 1fr; } }
+
+/* =============================================================
+   AJUSTE 6 (novembro de 2026): Kit HORIZON com fundo preto e branco só
+   dentro dos retângulos das bikes; nova versão com foto ao lado do texto
+   ============================================================= */
+/* Banner: seletor alinhado ao topo do título e as bikes logo abaixo. */
+.kit-banner .kit-alterna { align-self: start; padding-top: var(--s-8); }
+@media (max-width: 1023px) { .kit-banner .kit-alterna { padding-top: 0; } }
+
+/* Caixas brancas em seção preta (antes e depois, compatibilidade, vista do kit). */
+.kit-caixas-brancas .kit-ad-foto { background: var(--edro-white); border-color: var(--edro-white); aspect-ratio: 16 / 10; }
+.kit-caixas-brancas .kit-ad-foto--depois { border: 2px solid var(--edro-green); }
+.kit-caixas-brancas .kit-ad-foto picture { display: flex; align-items: center; justify-content: center; height: 100%; padding: var(--s-12) var(--s-6) var(--s-16); box-sizing: border-box; }
+.kit-caixas-brancas .kit-ad-foto img { width: 100%; height: 100%; object-fit: contain; }
+.kit-caixas-brancas .kit-selo, .kit-caixas-brancas .kit-selo--verde { color: var(--edro-paper-ink); text-shadow: none; }
+.kit-caixas-brancas .kit-ad-foto figcaption { background: var(--edro-light-panel); border: 1px solid var(--edro-light-line); color: var(--edro-paper-ink); }
+.kit-caixas-brancas .kit-ad-foto figcaption > span { color: var(--edro-paper-soft); }
+.kit-caixas-brancas .kit-ad-foto figcaption .verde { color: #2B8A29; }
+
+.kit-caixas-brancas .kit-compat__card { background: var(--edro-white); border-color: var(--edro-white); }
+.kit-caixas-brancas .kit-compat__card h3 { color: var(--edro-paper-ink); }
+.kit-caixas-brancas .kit-compat__card p { color: var(--edro-paper-soft); }
+.kit-caixas-brancas .kit-compat__logo { color: #000; --lb: 2.2rem; }
+
+.kit-caixas-brancas .kit-vista { padding: var(--s-6) var(--s-8); background: var(--edro-white); border-radius: var(--radius); box-sizing: border-box; }
+@media (max-width: 767px) { .kit-caixas-brancas .kit-vista { padding: var(--s-4); } }
+
+/* Cards dos quatro subsistemas: fotos reais no topo e o retângulo do texto em cores invertidas. */
+.kit-caixas-brancas .kit-card-foto { background: var(--edro-white); border-color: var(--edro-white); }
+.kit-caixas-brancas .kit-card-foto--destaque { border: 2px solid var(--edro-green); }
+.kit-caixas-brancas .kit-card-foto h3 { color: var(--edro-paper-ink); }
+.kit-caixas-brancas .kit-card-foto p, .kit-caixas-brancas .kit-card-foto li { color: var(--edro-paper-soft); }
+.kit-caixas-brancas .kit-card-foto li { border-top-color: var(--edro-light-line); }
+.kit-caixas-brancas .kit-card-foto .kit-card-foto__num { color: #2B8A29; }
+.kit-card-foto figure { height: auto; aspect-ratio: 5000 / 1886; }
+
+/* Nova versão: título e texto à esquerda, foto HORIZON 3 à direita, três cards em linha. */
+.kit-versao__topo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-12); align-items: center; margin-bottom: var(--s-10); }
+.kit-versao__foto { margin: 0; overflow: hidden; border-radius: var(--radius); }
+.kit-versao__foto img { display: block; width: 100%; height: auto; }
+.kit-versao .kit-versao__cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1023px) { .kit-versao__topo, .kit-versao .kit-versao__cards { grid-template-columns: 1fr; } }

@@ -64,16 +64,16 @@ const MARCAS = {
 const ROTULOS = ['Unidade de tração', 'EDRO Power Pack', 'Carenagem', 'Controle'];
 
 const cards = [
-  { foto: 'kit-horizon/det-motor-range.jpg', etiqueta: 'RANGE PRO HORIZON', titulo: 'Unidade de tração CYC Photon Gen 2',
+  { foto: 'kit-horizon/v6-iten-1.jpg', etiqueta: 'SUMMA HORIZON', titulo: 'Unidade de tração CYC Photon Gen 2',
     texto: 'Motor central com sensor de torque: a assistência responde à força aplicada no pedal, em tempo real e sem tranco.',
     lista: [`${N.pico} W de pico, ${N.nominal} W nominal`, `${N.torque} N.m de torque`, 'Pedivela integrado e coroa de 36 dentes', 'Assistência exclusiva ao pedal, sem acelerador'] },
-  { foto: 'kit-horizon/det-powerpack.jpg', etiqueta: 'SUMMA PRO HORIZON', titulo: `EDRO Power Pack ${N.wh} Wh`, destaque: true,
+  { foto: 'kit-horizon/v6-iten-2.jpg', etiqueta: 'SUMMA HORIZON', titulo: `EDRO Power Pack ${N.wh} Wh`, destaque: true,
     texto: 'Sistema de energia de íons de lítio desenvolvido exclusivamente para este motor e esta aplicação, com gerenciamento eletrônico próprio (BMS). Posicionado baixo e junto ao motor: centralização de massa, centro de gravidade mais baixo e dianteira mais leve.',
     lista: [`Até ${N.eco} km no modo Eco, testada e validada`, 'Recarga direto na bike', 'Carregador incluso'] },
-  { foto: 'kit-horizon/det-carenagem.jpg', posicao: '50% 60%', etiqueta: 'SUMMA PRO HORIZON', titulo: 'Carenagem HORIZON',
+  { foto: 'kit-horizon/v6-iten-3.jpg', etiqueta: 'SUMMA HORIZON', titulo: 'Carenagem HORIZON',
     texto: 'Carenagem de proteção do Power Pack com geometria exclusiva, que acompanha as linhas do tubo inferior. Pintada na cor do quadro, faz o sistema desaparecer no desenho da bike.',
     lista: ['Pintura na cor do tubo inferior', 'Geometria exclusiva EDRO', 'Assinatura HORIZON'] },
-  { foto: 'kit-horizon/det-cockpit-range.jpg', etiqueta: 'RANGE PRO HORIZON', titulo: 'Eletrônica de controle e interface',
+  { foto: 'kit-horizon/v6-iten-4.jpg', etiqueta: 'SUMMA HORIZON', titulo: 'Eletrônica de controle e interface',
     texto: 'Controlador, chicote dedicado e sensores que integram motor, Power Pack e ciclista em um único sistema.',
     lista: ['Display 2,1" IP65 e comando no guidão', 'Chicote dedicado com roteamento interno', 'App Ride Control e Apple Find My', 'Modo automático por frequência cardíaca'] },
 ];
@@ -123,7 +123,7 @@ const jsonLd = {
 </section>
 
 <!-- 2.4 · ANTES E DEPOIS -->
-<section class="secao secao--clara kit-mesma" data-linha-toggle data-inicial="range">
+<section class="secao kit-mesma kit-caixas-brancas" data-linha-toggle data-inicial="range">
   <div class="container">
     <div class="kit-topo">
       <div>
@@ -161,16 +161,17 @@ const jsonLd = {
   </div>
 </section>
 
-<!-- 2.5 · NOVA VERSÃO -->
+<!-- 2.5 · NOVA VERSÃO (ajuste 6: texto e foto lado a lado, três cards em linha) -->
 <section class="secao kit-versao">
-  <div class="container kit-versao__grade">
-    <div>
-      <p class="eyebrow eyebrow--verde">Nova versão</p>
-      <h2 class="headline">Não é um acessório.<br />É uma <span class="verde">nova versão.</span></h2>
-      <p class="lead" set:html={m('A HORIZON não é um motor somado a uma bike pronta. É uma arquitetura elétrica integrada ao quadro geração 3 da SUMMA e da RANGE desde o projeto estrutural. Com o sistema instalado, a sua EDRO passa a operar com o mesmo conjunto das HORIZON que saem da fábrica.')} />
-      <figure class="kit-foto-etiqueta">
-        <Picture src={img('kit-horizon/det-carenagem-range.jpg')} formats={['avif', 'webp']} widths={[600]} sizes="(max-width: 1023px) 100vw, 45vw" alt="Carenagem do Power Pack e amortecedor da EDRO RANGE PRO HORIZON" loading="lazy" />
-        <span class="kit-etiqueta"><i class="modelo">RANGE</i> PRO HORIZON</span>
+  <div class="container">
+    <div class="kit-versao__topo">
+      <div>
+        <p class="eyebrow eyebrow--verde">Nova versão</p>
+        <h2 class="headline">Não é um acessório.<br />É uma <span class="verde">nova versão.</span></h2>
+        <p class="lead" set:html={m('A HORIZON não é um motor somado a uma bike pronta. É uma arquitetura elétrica integrada ao quadro geração 3 da SUMMA e da RANGE desde o projeto estrutural. Com o sistema instalado, a sua EDRO passa a operar com o mesmo conjunto das HORIZON que saem da fábrica.')} />
+      </div>
+      <figure class="kit-versao__foto">
+        <Picture src={img('kit-horizon/v6-horizon-3.jpg')} formats={['avif', 'webp']} widths={[800, 1400]} sizes="(max-width: 1023px) 100vw, 50vw" alt="EDRO SUMMA HORIZON com o motor e o EDRO Power Pack integrados ao quadro de carbono" loading="lazy" />
       </figure>
     </div>
     <div class="kit-versao__cards">
@@ -186,7 +187,7 @@ const jsonLd = {
 </section>
 
 <!-- 2.6 · COMPATIBILIDADE -->
-<section class="secao secao--clara kit-compat">
+<section class="secao kit-compat kit-caixas-brancas">
   <div class="container">
     <p class="eyebrow eyebrow--verde">Compatibilidade</p>
     <h2 class="headline">Quais bikes da EDRO podem<br />se tornar uma <span class="verde">HORIZON.</span></h2>
@@ -209,7 +210,7 @@ const jsonLd = {
 </section>
 
 <!-- 2.7 · O QUE VEM NO KIT -->
-<section class="secao secao--clara kit-sub" data-linha-toggle data-inicial="summa">
+<section class="secao kit-sub kit-caixas-brancas" data-linha-toggle data-inicial="summa">
   <div class="container">
     <p class="eyebrow eyebrow--verde">O que vem no kit</p>
     <h2 class="headline">Quatro subsistemas.<br />Um só <span class="verde">projeto.</span></h2>
@@ -241,7 +242,7 @@ const jsonLd = {
       {cards.map((c, i) => (
         <article class:list={['kit-card-foto', { 'kit-card-foto--destaque': c.destaque }]} id={`kit-sub-${i + 1}`}>
           <figure>
-            <Picture src={img(c.foto)} formats={['avif', 'webp']} widths={[640]} sizes="(max-width: 767px) 100vw, 45vw" alt={`Detalhe do subsistema ${c.titulo} na EDRO ${c.etiqueta}`} loading="lazy" style={c.posicao ? `object-position:${c.posicao}` : undefined} />
+            <Picture src={img(c.foto)} formats={['avif', 'webp']} widths={[640, 1200]} sizes="(max-width: 767px) 100vw, 45vw" alt={`Detalhe do subsistema ${c.titulo} na EDRO ${c.etiqueta}`} loading="lazy" style={c.posicao ? `object-position:${c.posicao}` : undefined} />
             <span class="kit-etiqueta" set:html={m(c.etiqueta)} />
           </figure>
           <div class="kit-card-foto__corpo">
