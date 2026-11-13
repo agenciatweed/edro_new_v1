@@ -2,12 +2,13 @@
 /* /contato v3.1 · tela site_v3/15-contato.png. Dois números oficiais, três finalidades, sem promessa de tempo. */
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import Midia from '../components/Midia.astro';
 import FormularioWhatsapp from '../components/FormularioWhatsapp.astro';
 import { bikes, wa, comercial, suporte, telefoneBr } from '../lib/edro.js';
 
 const ct = bikes.contato;
-/* Link para o Google Maps em vez de mapa embutido: o iframe grava cookies antes do consentimento (LGPD). */
+/* Mapa embutido com a API do Google Maps (estilo do site) e link para abrir no Google Maps.
+   A chave é de navegador (vai no HTML de qualquer jeito); restrinja por referenciador no Google Cloud. */
+const MAPS_KEY = 'AIzaSyCG4Rexmus6M5GXm8B5LyZKWr8M74OIXhI';
 const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Rua Rubens Faraco, 274, Tubarão, SC, 88708-270')}`;
 
 const caminhos = [
@@ -83,14 +84,64 @@ const seta = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="
 </section>
 
 <section class="secao">
-  <div class="container mapa-foto">
-    <a class="mapa-link" href={mapa} target="_blank" rel="noopener">
-      <p class="eyebrow eyebrow--verde">Mapa</p>
-      <h3 class="card-title">Rua Rubens Faraco, 274</h3>
-      <p>Tubarão, SC, CEP 88708-270. Abrir no Google Maps.</p>
-    </a>
-    <Midia titulo="Fachada da fábrica" descricao="Foto da fachada da fábrica EDRO em Tubarão, ao lado do mapa. 16:9." proporcao="16x9" />
+  <div class="container">
+    <div class="mapa-card">
+      <div class="mapa-card__mapa" data-mapa-edro data-lat="-28.4665123" data-lng="-49.0139877" role="region" aria-label="Mapa com a localização da fábrica EDRO em Tubarão, SC"></div>
+      <a class="mapa-card__info" href={mapa} target="_blank" rel="noopener">
+        <p class="eyebrow eyebrow--verde">Mapa</p>
+        <h3 class="card-title">Rua Rubens Faraco, 274</h3>
+        <p>Tubarão, SC, CEP 88708-270. Abrir no Google Maps.</p>
+      </a>
+    </div>
   </div>
 </section>
+
+<script is:inline define:vars={{ chave: MAPS_KEY }}>
+  /* Google Maps com o estilo do site (escuro, verde EDRO), carregado só quando o mapa entra na tela. */
+  (function () {
+    var caixa = document.querySelector('[data-mapa-edro]');
+    if (!caixa) return;
+    var ESTILO = [
+      { elementType: 'geometry', stylers: [{ color: '#121512' }] },
+      { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+      { elementType: 'labels.text.fill', stylers: [{ color: '#8A918A' }] },
+      { elementType: 'labels.text.stroke', stylers: [{ color: '#0C0E0C' }] },
+      { featureType: 'administrative', elementType: 'geometry', stylers: [{ color: '#2A2F2A' }] },
+      { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#C3C8C2' }] },
+      { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+      { featureType: 'poi.park', elementType: 'geometry', stylers: [{ visibility: 'on' }, { color: '#152015' }] },
+      { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#232823' }] },
+      { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#0C0E0C' }] },
+      { featureType: 'road.arterial', elementType: 'geometry', stylers: [{ color: '#2C322C' }] },
+      { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#1F4A1F' }] },
+      { featureType: 'road.highway', elementType: 'geometry.stroke', stylers: [{ color: '#143014' }] },
+      { featureType: 'road.highway', elementType: 'labels.text.fill', stylers: [{ color: '#9FD59E' }] },
+      { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+      { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#070907' }] },
+      { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#4A524A' }] },
+    ];
+    window.iniciaMapaEdro = function () {
+      var pos = { lat: parseFloat(caixa.dataset.lat), lng: parseFloat(caixa.dataset.lng) };
+      var mapa = new google.maps.Map(caixa, {
+        center: pos, zoom: 15, styles: ESTILO, backgroundColor: '#0C0E0C',
+        disableDefaultUI: true, zoomControl: true, gestureHandling: 'cooperative', clickableIcons: false,
+      });
+      new google.maps.Marker({
+        position: pos, map: mapa, title: 'EDRO Performance Bikes',
+        icon: { path: google.maps.SymbolPath.CIRCLE, scale: 11, fillColor: '#38A936', fillOpacity: 1, strokeColor: '#F2F4F0', strokeWeight: 3 },
+      });
+    };
+    var carrega = function () {
+      var s = document.createElement('script');
+      s.src = 'https://maps.googleapis.com/maps/api/js?key=' + chave + '&callback=iniciaMapaEdro&loading=async';
+      s.async = true;
+      document.head.appendChild(s);
+    };
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { io.disconnect(); carrega(); } }, { rootMargin: '300px' });
+      io.observe(caixa);
+    } else { carrega(); }
+  })();
+</script>
 
 </Base>
